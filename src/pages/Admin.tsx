@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
 import { Icons } from '@/components/icons/IconSelector';
 
@@ -15,6 +14,7 @@ const Admin = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // Check if already authenticated
   useEffect(() => {
     const authStatus = localStorage.getItem('fastingApp_auth');
     if (authStatus === 'true') {
@@ -22,11 +22,11 @@ const Admin = () => {
     }
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  // Simple login handling
+  const handleLogin = (e) => {
     e.preventDefault();
     
-    // Simple authentication for now
-    if ((username === 'admin' && password === 'admin')) {
+    if (username === 'admin' && password === 'admin') {
       localStorage.setItem('fastingApp_auth', 'true');
       setIsAuthenticated(true);
       toast.success("Logged in successfully");
@@ -41,6 +41,7 @@ const Admin = () => {
     toast.success("Logged out successfully");
   };
 
+  // Simple login form
   const LoginForm = () => (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="w-full max-w-md">
@@ -51,10 +52,10 @@ const Admin = () => {
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
-              <Input 
+              <input 
                 id="username"
                 type="text" 
-                placeholder="Username" 
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -62,10 +63,10 @@ const Admin = () => {
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input 
+              <input 
                 id="password"
                 type="password" 
-                placeholder="Password" 
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -82,10 +83,12 @@ const Admin = () => {
     </div>
   );
 
+  // Return login form if not authenticated
   if (!isAuthenticated) {
     return <LoginForm />;
   }
 
+  // Return admin dashboard if authenticated
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
@@ -531,8 +534,8 @@ const SeoSettings = () => {
   );
 };
 
-const PagesSettings = ({ navigate }: { navigate: (path: string) => void }) => {
-  const handleNavigate = (path: string) => {
+const PagesSettings = ({ navigate }) => {
+  const handleNavigate = (path) => {
     navigate(path);
   };
   
