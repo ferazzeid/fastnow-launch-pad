@@ -1,3 +1,9 @@
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin
+
 User-agent: Googlebot
 Allow: /
 
@@ -10,5 +16,5 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
+Sitemap: https://fastnow.app/sitemap.xml
+

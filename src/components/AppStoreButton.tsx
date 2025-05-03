@@ -14,7 +14,7 @@ export const AppStoreButton: React.FC<AppStoreButtonProps> = ({ className, href 
       className={`h-14 px-6 bg-black hover:bg-black/80 text-white ${className}`}
       asChild
     >
-      <a href={href} target="_blank" rel="noreferrer">
+      <a href={href} target="_blank" rel="nofollow noreferrer">
         <div className="flex items-center">
           <AppleIcon className="w-8 h-8 mr-2" />
           <div className="flex flex-col items-start">

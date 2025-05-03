@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -98,10 +97,11 @@ const Admin = () => {
       
       <main className="container py-8">
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-4 mb-4">
+          <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-5 mb-4">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="content">Content</TabsTrigger>
             <TabsTrigger value="features">Features</TabsTrigger>
+            <TabsTrigger value="seo">SEO</TabsTrigger>
             <TabsTrigger value="pages">Pages</TabsTrigger>
           </TabsList>
           
@@ -115,6 +115,10 @@ const Admin = () => {
           
           <TabsContent value="features">
             <FeaturesSettings />
+          </TabsContent>
+          
+          <TabsContent value="seo">
+            <SeoSettings />
           </TabsContent>
           
           <TabsContent value="pages">
@@ -136,6 +140,9 @@ const GeneralSettings = () => {
   const [mockupPreview, setMockupPreview] = useState(localStorage.getItem('fastingApp_mockupUrl') || '');
   const [imageSize, setImageSize] = useState<number>(
     parseInt(localStorage.getItem('fastingApp_imageSize') || '300')
+  );
+  const [imageAlt, setImageAlt] = useState(
+    localStorage.getItem('fastingApp_imageAlt') || 'Fasting app interface preview'
   );
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -167,6 +174,11 @@ const GeneralSettings = () => {
     setImageSize(newSize);
     localStorage.setItem('fastingApp_imageSize', newSize.toString());
     toast.success("Image size updated");
+  };
+  
+  const handleAltTextUpdate = () => {
+    localStorage.setItem('fastingApp_imageAlt', imageAlt);
+    toast.success("Alt text updated successfully");
   };
 
   return (
@@ -252,6 +264,20 @@ const GeneralSettings = () => {
               <span className="w-12 text-center">{imageSize}</span>
             </div>
           </div>
+          
+          <div className="space-y-2 pt-4">
+            <Label htmlFor="image-alt">App Image Alt Text</Label>
+            <Input
+              id="image-alt"
+              value={imageAlt}
+              onChange={(e) => setImageAlt(e.target.value)}
+              placeholder="Descriptive alt text for the app image"
+            />
+            <p className="text-xs text-muted-foreground">
+              Important for accessibility and SEO
+            </p>
+            <Button onClick={handleAltTextUpdate} className="mt-2">Save Alt Text</Button>
+          </div>
         </CardContent>
       </Card>
 
@@ -308,7 +334,7 @@ const ContentSettings = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="hero-title">Hero Title</Label>
+          <Label htmlFor="hero-title">Hero Title (H1)</Label>
           <Input 
             id="hero-title" 
             value={heroTitle} 
@@ -318,7 +344,7 @@ const ContentSettings = () => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="hero-subtitle">Hero Subtitle</Label>
+          <Label htmlFor="hero-subtitle">Hero Subtitle (H2)</Label>
           <Input 
             id="hero-subtitle" 
             value={heroSubtitle} 
@@ -327,7 +353,7 @@ const ContentSettings = () => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="cta-title">CTA Section Title</Label>
+          <Label htmlFor="cta-title">CTA Section Title (H3)</Label>
           <Input 
             id="cta-title" 
             value={ctaTitle} 
@@ -395,7 +421,7 @@ const FeaturesSettings = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="features-title">Features Section Title</Label>
+          <Label htmlFor="features-title">Features Section Title (H3)</Label>
           <Input 
             id="features-title" 
             value={featuresTitle} 
@@ -445,6 +471,61 @@ const FeaturesSettings = () => {
         </div>
 
         <Button onClick={handleFeaturesUpdate}>Save Features</Button>
+      </CardContent>
+    </Card>
+  );
+};
+
+// New SEO Settings Component
+const SeoSettings = () => {
+  const [metaTitle, setMetaTitle] = useState(
+    localStorage.getItem('fastingApp_metaTitle') || 'fastnow.app - Intermittent Fasting Made Simple'
+  );
+  const [metaDescription, setMetaDescription] = useState(
+    localStorage.getItem('fastingApp_metaDescription') || 'Track your fasting periods with our minimalist, intuitive app. Download fastnow.app today and transform your health through fasting.'
+  );
+  
+  const handleSeoUpdate = () => {
+    localStorage.setItem('fastingApp_metaTitle', metaTitle);
+    localStorage.setItem('fastingApp_metaDescription', metaDescription);
+    toast.success("SEO settings updated successfully");
+  };
+  
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>SEO Settings</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="space-y-2">
+          <Label htmlFor="meta-title">Meta Title</Label>
+          <Input 
+            id="meta-title" 
+            value={metaTitle} 
+            onChange={(e) => setMetaTitle(e.target.value)} 
+            placeholder="fastnow.app - Intermittent Fasting Made Simple"
+          />
+          <p className="text-xs text-muted-foreground">
+            Recommended length: 50-60 characters
+          </p>
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="meta-description">Meta Description</Label>
+          <Input 
+            id="meta-description" 
+            value={metaDescription} 
+            onChange={(e) => setMetaDescription(e.target.value)} 
+            placeholder="Track your fasting periods with our minimalist app..."
+          />
+          <p className="text-xs text-muted-foreground">
+            Recommended length: 150-160 characters
+          </p>
+        </div>
+        
+        <div className="pt-2">
+          <Button onClick={handleSeoUpdate}>Save SEO Settings</Button>
+        </div>
       </CardContent>
     </Card>
   );

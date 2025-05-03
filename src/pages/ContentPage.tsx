@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import { Helmet } from 'react-helmet-async';
 
 const ContentPage = () => {
   const { pageType } = useParams<{ pageType: string }>();
@@ -37,6 +38,11 @@ const ContentPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>{title} | fastnow.app</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
+      
       {/* Header */}
       <header className="py-6 border-b">
         <div className="container flex justify-between items-center">

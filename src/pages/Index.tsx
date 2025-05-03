@@ -7,17 +7,21 @@ import { FeatureItem } from '@/components/FeatureItem';
 import { SpeedIcon, SecurityIcon, IntuitiveIcon } from '@/components/icons/FeatureIcons';
 import { AppMockup } from '@/components/AppMockup';
 import { Icons } from '@/components/icons/IconSelector';
+import { Helmet } from 'react-helmet-async';
 
 const Index = () => {
   // State for dynamic content
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<number>(300);
+  const [imageAlt, setImageAlt] = useState<string>('Fasting app interface preview');
   const [heroTitle, setHeroTitle] = useState('Get things done,\nfaster than ever.');
   const [heroSubtitle, setHeroSubtitle] = useState('The minimalist fasting app designed to streamline your fasting journey and boost your health in days.');
   const [ctaTitle, setCtaTitle] = useState('Ready to start your fasting journey?');
   const [ctaSubtitle, setCtaSubtitle] = useState('Download fastnow.app today and transform your health through fasting.');
   const [featuresTitle, setFeaturesTitle] = useState('Why choose fastnow.app?');
+  const [metaTitle, setMetaTitle] = useState('fastnow.app - Intermittent Fasting Made Simple');
+  const [metaDescription, setMetaDescription] = useState('Track your fasting periods with our minimalist, intuitive app. Download fastnow.app today and transform your health through fasting.');
   const [features, setFeatures] = useState([
     {
       title: "Intermittent Fasting", 
@@ -53,6 +57,10 @@ const Index = () => {
     const savedImageSize = localStorage.getItem('fastingApp_imageSize');
     if (savedImageSize) setImageSize(parseInt(savedImageSize));
     
+    // Image Alt Text
+    const savedImageAlt = localStorage.getItem('fastingApp_imageAlt');
+    if (savedImageAlt) setImageAlt(savedImageAlt);
+    
     // Hero content
     const savedHeroTitle = localStorage.getItem('fastingApp_heroTitle');
     if (savedHeroTitle) setHeroTitle(savedHeroTitle);
@@ -82,10 +90,26 @@ const Index = () => {
     
     const savedGooglePlayLink = localStorage.getItem('fastingApp_googlePlayLink');
     if (savedGooglePlayLink) setGooglePlayLink(savedGooglePlayLink);
+    
+    // SEO Settings
+    const savedMetaTitle = localStorage.getItem('fastingApp_metaTitle');
+    if (savedMetaTitle) setMetaTitle(savedMetaTitle);
+    
+    const savedMetaDescription = localStorage.getItem('fastingApp_metaDescription');
+    if (savedMetaDescription) setMetaDescription(savedMetaDescription);
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>{metaTitle}</title>
+        <meta name="description" content={metaDescription} />
+        <meta property="og:title" content={metaTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta name="twitter:title" content={metaTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+      </Helmet>
+      
       {/* Header */}
       <header className="py-6">
         <div className="container flex justify-between items-center">
@@ -113,9 +137,9 @@ const Index = () => {
                 ))}
                 <span className="text-primary"></span>
               </h1>
-              <p className="text-xl text-muted-foreground mb-8 max-w-md">
+              <h2 className="text-xl text-muted-foreground mb-8 max-w-md">
                 {heroSubtitle}
-              </p>
+              </h2>
               <div className="flex flex-col sm:flex-row gap-4">
                 <AppStoreButton {...(appStoreLink ? { href: appStoreLink } : {})} />
                 <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} />
@@ -125,7 +149,7 @@ const Index = () => {
               {mockupUrl ? (
                 <img 
                   src={mockupUrl} 
-                  alt="App Image" 
+                  alt={imageAlt} 
                   className="max-w-full" 
                   style={{ maxWidth: `${imageSize}px` }}
                 />
@@ -140,7 +164,7 @@ const Index = () => {
       {/* Features Section */}
       <section className="py-20 bg-secondary">
         <div className="container">
-          <h2 className="text-3xl font-bold text-center mb-16">{featuresTitle}</h2>
+          <h3 className="text-3xl font-bold text-center mb-16">{featuresTitle}</h3>
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <FeatureItem 
@@ -157,7 +181,7 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-20">
         <div className="container text-center">
-          <h2 className="text-3xl font-bold mb-4">{ctaTitle}</h2>
+          <h3 className="text-3xl font-bold mb-4">{ctaTitle}</h3>
           <p className="text-xl text-muted-foreground mb-8 max-w-md mx-auto">
             {ctaSubtitle}
           </p>
