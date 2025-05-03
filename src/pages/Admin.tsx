@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -135,20 +136,20 @@ const Admin = () => {
 
 // Admin Tab Components
 const GeneralSettings = () => {
-  const [logo, setLogo] = useState<File | null>(null);
-  const [appImage, setAppImage] = useState<File | null>(null);
+  const [logo, setLogo] = useState(null);
+  const [appImage, setAppImage] = useState(null);
   const [appStoreLink, setAppStoreLink] = useState(localStorage.getItem('fastingApp_appStoreLink') || 'https://apps.apple.com');
   const [googlePlayLink, setGooglePlayLink] = useState(localStorage.getItem('fastingApp_googlePlayLink') || 'https://play.google.com');
   const [logoPreview, setLogoPreview] = useState(localStorage.getItem('fastingApp_logoUrl') || '');
   const [mockupPreview, setMockupPreview] = useState(localStorage.getItem('fastingApp_mockupUrl') || '');
-  const [imageSize, setImageSize] = useState<number>(
+  const [imageSize, setImageSize] = useState(
     parseInt(localStorage.getItem('fastingApp_imageSize') || '300')
   );
   const [imageAlt, setImageAlt] = useState(
     localStorage.getItem('fastingApp_imageAlt') || 'Fasting app interface preview'
   );
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogoChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setLogo(e.target.files[0]);
       const imageUrl = URL.createObjectURL(e.target.files[0]);
@@ -157,7 +158,7 @@ const GeneralSettings = () => {
     }
   };
 
-  const handleAppImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAppImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setAppImage(e.target.files[0]);
       const imageUrl = URL.createObjectURL(e.target.files[0]);
@@ -172,7 +173,7 @@ const GeneralSettings = () => {
     toast.success("Links updated successfully");
   };
 
-  const handleImageSizeChange = (value: number[]) => {
+  const handleImageSizeChange = (value) => {
     const newSize = value[0];
     setImageSize(newSize);
     localStorage.setItem('fastingApp_imageSize', newSize.toString());
@@ -194,12 +195,12 @@ const GeneralSettings = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <Label htmlFor="logo-upload">Upload Logo</Label>
-              <Input 
+              <input 
                 id="logo-upload" 
                 type="file" 
                 accept="image/*" 
                 onChange={handleLogoChange} 
-                className="mt-1"
+                className="mt-1 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
               />
               <p className="text-sm text-muted-foreground mt-1">
                 This will replace "fastnow.app" in the header
@@ -228,12 +229,12 @@ const GeneralSettings = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <Label htmlFor="mockup-upload">Upload App Image</Label>
-              <Input 
+              <input 
                 id="mockup-upload" 
                 type="file" 
                 accept="image/*" 
                 onChange={handleAppImageChange}
-                className="mt-1" 
+                className="mt-1 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
               />
               <p className="text-sm text-muted-foreground mt-1">
                 This will replace the phone image on the landing page
@@ -270,11 +271,12 @@ const GeneralSettings = () => {
           
           <div className="space-y-2 pt-4">
             <Label htmlFor="image-alt">App Image Alt Text</Label>
-            <Input
+            <input
               id="image-alt"
               value={imageAlt}
               onChange={(e) => setImageAlt(e.target.value)}
               placeholder="Descriptive alt text for the app image"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
             />
             <p className="text-xs text-muted-foreground">
               Important for accessibility and SEO
@@ -292,20 +294,22 @@ const GeneralSettings = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="app-store">App Store Link</Label>
-              <Input 
+              <input 
                 id="app-store" 
                 value={appStoreLink} 
                 onChange={(e) => setAppStoreLink(e.target.value)} 
                 placeholder="https://apps.apple.com/..."
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="google-play">Google Play Link</Label>
-              <Input 
+              <input 
                 id="google-play" 
                 value={googlePlayLink} 
                 onChange={(e) => setGooglePlayLink(e.target.value)} 
                 placeholder="https://play.google.com/..."
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
               />
             </div>
           </div>
@@ -338,38 +342,42 @@ const ContentSettings = () => {
       <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="hero-title">Hero Title (H1)</Label>
-          <Input 
+          <input 
             id="hero-title" 
             value={heroTitle} 
-            onChange={(e) => setHeroTitle(e.target.value)} 
+            onChange={(e) => setHeroTitle(e.target.value)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
           />
           <p className="text-xs text-muted-foreground">Use \n for line breaks</p>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="hero-subtitle">Hero Subtitle (H2)</Label>
-          <Input 
+          <input 
             id="hero-subtitle" 
             value={heroSubtitle} 
-            onChange={(e) => setHeroSubtitle(e.target.value)} 
+            onChange={(e) => setHeroSubtitle(e.target.value)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
           />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="cta-title">CTA Section Title (H3)</Label>
-          <Input 
+          <input 
             id="cta-title" 
             value={ctaTitle} 
-            onChange={(e) => setCtaTitle(e.target.value)} 
+            onChange={(e) => setCtaTitle(e.target.value)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
           />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="cta-subtitle">CTA Section Subtitle</Label>
-          <Input 
+          <input 
             id="cta-subtitle" 
             value={ctaSubtitle} 
-            onChange={(e) => setCtaSubtitle(e.target.value)} 
+            onChange={(e) => setCtaSubtitle(e.target.value)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
           />
         </div>
 
@@ -400,11 +408,11 @@ const FeaturesSettings = () => {
   ];
 
   const [featuresTitle, setFeaturesTitle] = useState(localStorage.getItem('fastingApp_featuresTitle') || 'Why choose fastnow.app?');
-  const [features, setFeatures] = useState<Array<{title: string, description: string, iconName: string}>>(
+  const [features, setFeatures] = useState(
     JSON.parse(localStorage.getItem('fastingApp_features') || JSON.stringify(defaultFeatures))
   );
 
-  const updateFeature = (index: number, field: 'title' | 'description' | 'iconName', value: string) => {
+  const updateFeature = (index, field, value) => {
     const updatedFeatures = features.map((feature, i) => 
       i === index ? { ...feature, [field]: value } : feature
     );
@@ -425,10 +433,11 @@ const FeaturesSettings = () => {
       <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="features-title">Features Section Title (H3)</Label>
-          <Input 
+          <input 
             id="features-title" 
             value={featuresTitle} 
-            onChange={(e) => setFeaturesTitle(e.target.value)} 
+            onChange={(e) => setFeaturesTitle(e.target.value)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
           />
         </div>
 
@@ -437,18 +446,20 @@ const FeaturesSettings = () => {
             <div key={index} className="p-4 border rounded-md space-y-3">
               <div className="space-y-2">
                 <Label htmlFor={`feature-${index}-title`}>Feature {index + 1} Title</Label>
-                <Input 
+                <input 
                   id={`feature-${index}-title`}
                   value={feature.title} 
-                  onChange={(e) => updateFeature(index, 'title', e.target.value)} 
+                  onChange={(e) => updateFeature(index, 'title', e.target.value)}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor={`feature-${index}-desc`}>Feature {index + 1} Description</Label>
-                <Input 
+                <input 
                   id={`feature-${index}-desc`}
                   value={feature.description} 
-                  onChange={(e) => updateFeature(index, 'description', e.target.value)} 
+                  onChange={(e) => updateFeature(index, 'description', e.target.value)}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
                 />
               </div>
               <div className="space-y-2">
@@ -466,7 +477,7 @@ const FeaturesSettings = () => {
                   ))}
                 </select>
                 <div className="mt-2 p-2 border rounded flex justify-center">
-                  {Icons[feature.iconName as keyof typeof Icons]?.({ className: "w-8 h-8" })}
+                  {Icons[feature.iconName]?.({ className: "w-8 h-8" })}
                 </div>
               </div>
             </div>
@@ -479,7 +490,7 @@ const FeaturesSettings = () => {
   );
 };
 
-// New SEO Settings Component
+// SEO Settings Component
 const SeoSettings = () => {
   const [metaTitle, setMetaTitle] = useState(
     localStorage.getItem('fastingApp_metaTitle') || 'fastnow.app - Intermittent Fasting Made Simple'
@@ -502,11 +513,12 @@ const SeoSettings = () => {
       <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="meta-title">Meta Title</Label>
-          <Input 
+          <input 
             id="meta-title" 
             value={metaTitle} 
             onChange={(e) => setMetaTitle(e.target.value)} 
             placeholder="fastnow.app - Intermittent Fasting Made Simple"
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
           />
           <p className="text-xs text-muted-foreground">
             Recommended length: 50-60 characters
@@ -515,11 +527,12 @@ const SeoSettings = () => {
         
         <div className="space-y-2">
           <Label htmlFor="meta-description">Meta Description</Label>
-          <Input 
+          <input 
             id="meta-description" 
             value={metaDescription} 
             onChange={(e) => setMetaDescription(e.target.value)} 
             placeholder="Track your fasting periods with our minimalist app..."
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
           />
           <p className="text-xs text-muted-foreground">
             Recommended length: 150-160 characters
