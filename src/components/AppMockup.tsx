@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react';
 
 interface AppMockupProps {
   customImageUrl?: string;
+  customSize?: number;
 }
 
-export const AppMockup: React.FC<AppMockupProps> = ({ customImageUrl }) => {
+export const AppMockup: React.FC<AppMockupProps> = ({ customImageUrl, customSize }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [size, setSize] = useState<number>(300);
   
   useEffect(() => {
+    // Handle custom image URL
     if (customImageUrl) {
       setImageUrl(customImageUrl);
     } else {
@@ -17,11 +20,21 @@ export const AppMockup: React.FC<AppMockupProps> = ({ customImageUrl }) => {
         setImageUrl(savedMockupUrl);
       }
     }
-  }, [customImageUrl]);
+
+    // Handle custom size
+    if (customSize) {
+      setSize(customSize);
+    } else {
+      const savedSize = localStorage.getItem('fastingApp_imageSize');
+      if (savedSize) {
+        setSize(parseInt(savedSize));
+      }
+    }
+  }, [customImageUrl, customSize]);
 
   if (imageUrl) {
     return (
-      <div className="relative mx-auto max-w-[300px]">
+      <div className="relative mx-auto" style={{ maxWidth: `${size}px` }}>
         <div className="relative overflow-hidden border-8 border-black rounded-[40px] shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-b from-gray-100 to-gray-300 z-0" />
           <div className="relative z-10 aspect-[9/19.5] flex items-center justify-center bg-white">
@@ -37,7 +50,7 @@ export const AppMockup: React.FC<AppMockupProps> = ({ customImageUrl }) => {
   }
 
   return (
-    <div className="relative mx-auto max-w-[300px]">
+    <div className="relative mx-auto" style={{ maxWidth: `${size}px` }}>
       <div className="relative overflow-hidden border-8 border-black rounded-[40px] shadow-2xl">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-100 to-gray-300 z-0" />
         <div className="relative z-10 aspect-[9/19.5] bg-white">

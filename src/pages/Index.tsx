@@ -6,11 +6,13 @@ import { GooglePlayButton } from '@/components/GooglePlayButton';
 import { FeatureItem } from '@/components/FeatureItem';
 import { SpeedIcon, SecurityIcon, IntuitiveIcon } from '@/components/icons/FeatureIcons';
 import { AppMockup } from '@/components/AppMockup';
+import { Icons } from '@/components/icons/IconSelector';
 
 const Index = () => {
   // State for dynamic content
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
+  const [imageSize, setImageSize] = useState<number>(300);
   const [heroTitle, setHeroTitle] = useState('Get things done,\nfaster than ever.');
   const [heroSubtitle, setHeroSubtitle] = useState('The minimalist fasting app designed to streamline your fasting journey and boost your health in days.');
   const [ctaTitle, setCtaTitle] = useState('Ready to start your fasting journey?');
@@ -20,17 +22,17 @@ const Index = () => {
     {
       title: "Intermittent Fasting", 
       description: "Easily track your fasting periods with our intuitive timer interface.",
-      icon: <SpeedIcon className="w-8 h-8" />
+      iconName: "SpeedIcon"
     },
     {
       title: "Private & Secure", 
       description: "Your health data is encrypted and never shared with third parties.",
-      icon: <SecurityIcon className="w-8 h-8" />
+      iconName: "SecurityIcon"
     },
     {
       title: "Simple Design", 
       description: "Minimal learning curve with our clean, user-friendly design.",
-      icon: <IntuitiveIcon className="w-8 h-8" />
+      iconName: "IntuitiveIcon"
     }
   ]);
   
@@ -43,9 +45,13 @@ const Index = () => {
     const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
     if (savedLogoUrl) setLogoUrl(savedLogoUrl);
     
-    // App Mockup
+    // App Image
     const savedMockupUrl = localStorage.getItem('fastingApp_mockupUrl');
     if (savedMockupUrl) setMockupUrl(savedMockupUrl);
+
+    // Image Size
+    const savedImageSize = localStorage.getItem('fastingApp_imageSize');
+    if (savedImageSize) setImageSize(parseInt(savedImageSize));
     
     // Hero content
     const savedHeroTitle = localStorage.getItem('fastingApp_heroTitle');
@@ -67,26 +73,7 @@ const Index = () => {
     
     const savedFeatures = localStorage.getItem('fastingApp_features');
     if (savedFeatures) {
-      const parsedFeatures = JSON.parse(savedFeatures);
-      // Combine saved features with icons
-      const featuresWithIcons = parsedFeatures.map((feature: any, index: number) => {
-        let icon;
-        switch (index) {
-          case 0:
-            icon = <SpeedIcon className="w-8 h-8" />;
-            break;
-          case 1:
-            icon = <SecurityIcon className="w-8 h-8" />;
-            break;
-          case 2:
-            icon = <IntuitiveIcon className="w-8 h-8" />;
-            break;
-          default:
-            icon = <SpeedIcon className="w-8 h-8" />;
-        }
-        return { ...feature, icon };
-      });
-      setFeatures(featuresWithIcons);
+      setFeatures(JSON.parse(savedFeatures));
     }
     
     // App store links
@@ -136,9 +123,14 @@ const Index = () => {
             </div>
             <div className="lg:w-1/2 flex justify-center">
               {mockupUrl ? (
-                <img src={mockupUrl} alt="App Mockup" className="max-w-[300px]" />
+                <img 
+                  src={mockupUrl} 
+                  alt="App Image" 
+                  className="max-w-full" 
+                  style={{ maxWidth: `${imageSize}px` }}
+                />
               ) : (
-                <AppMockup />
+                <AppMockup customSize={imageSize} />
               )}
             </div>
           </div>
@@ -155,7 +147,7 @@ const Index = () => {
                 key={index}
                 title={feature.title} 
                 description={feature.description}
-                icon={feature.icon} 
+                icon={Icons[feature.iconName as keyof typeof Icons]?.({ className: "w-8 h-8" })} 
               />
             ))}
           </div>

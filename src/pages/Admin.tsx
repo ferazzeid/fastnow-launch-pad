@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/sonner";
+import { Slider } from "@/components/ui/slider";
+import { Icons } from '@/components/icons/IconSelector';
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -127,11 +129,14 @@ const Admin = () => {
 // Admin Tab Components
 const GeneralSettings = () => {
   const [logo, setLogo] = useState<File | null>(null);
-  const [appMockup, setAppMockup] = useState<File | null>(null);
+  const [appImage, setAppImage] = useState<File | null>(null);
   const [appStoreLink, setAppStoreLink] = useState(localStorage.getItem('fastingApp_appStoreLink') || 'https://apps.apple.com');
   const [googlePlayLink, setGooglePlayLink] = useState(localStorage.getItem('fastingApp_googlePlayLink') || 'https://play.google.com');
   const [logoPreview, setLogoPreview] = useState(localStorage.getItem('fastingApp_logoUrl') || '');
   const [mockupPreview, setMockupPreview] = useState(localStorage.getItem('fastingApp_mockupUrl') || '');
+  const [imageSize, setImageSize] = useState<number>(
+    parseInt(localStorage.getItem('fastingApp_imageSize') || '300')
+  );
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -142,9 +147,9 @@ const GeneralSettings = () => {
     }
   };
 
-  const handleMockupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAppImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setAppMockup(e.target.files[0]);
+      setAppImage(e.target.files[0]);
       const imageUrl = URL.createObjectURL(e.target.files[0]);
       setMockupPreview(imageUrl);
       localStorage.setItem('fastingApp_mockupUrl', imageUrl);
@@ -155,6 +160,13 @@ const GeneralSettings = () => {
     localStorage.setItem('fastingApp_appStoreLink', appStoreLink);
     localStorage.setItem('fastingApp_googlePlayLink', googlePlayLink);
     toast.success("Links updated successfully");
+  };
+
+  const handleImageSizeChange = (value: number[]) => {
+    const newSize = value[0];
+    setImageSize(newSize);
+    localStorage.setItem('fastingApp_imageSize', newSize.toString());
+    toast.success("Image size updated");
   };
 
   return (
@@ -195,21 +207,21 @@ const GeneralSettings = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>App Mockup Image</CardTitle>
+          <CardTitle>App Image</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <Label htmlFor="mockup-upload">Upload App Mockup</Label>
+              <Label htmlFor="mockup-upload">Upload App Image</Label>
               <Input 
                 id="mockup-upload" 
                 type="file" 
                 accept="image/*" 
-                onChange={handleMockupChange}
+                onChange={handleAppImageChange}
                 className="mt-1" 
               />
               <p className="text-sm text-muted-foreground mt-1">
-                This will replace the phone mockup on the landing page
+                This will replace the phone image on the landing page
               </p>
             </div>
             <div>
@@ -217,11 +229,27 @@ const GeneralSettings = () => {
                 <div className="border rounded p-4 flex justify-center">
                   <img 
                     src={mockupPreview} 
-                    alt="App mockup preview" 
+                    alt="App image preview" 
                     className="max-h-40" 
                   />
                 </div>
               )}
+            </div>
+          </div>
+          
+          <div className="space-y-2 pt-4">
+            <Label htmlFor="image-size">App Image Size (px)</Label>
+            <div className="flex items-center gap-4">
+              <Slider
+                id="image-size"
+                defaultValue={[imageSize]}
+                min={200}
+                max={600}
+                step={10}
+                onValueChange={handleImageSizeChange}
+                className="flex-1"
+              />
+              <span className="w-12 text-center">{imageSize}</span>
             </div>
           </div>
         </CardContent>
@@ -323,27 +351,31 @@ const ContentSettings = () => {
 };
 
 const FeaturesSettings = () => {
+  const availableIcons = Object.keys(Icons);
   const defaultFeatures = [
     {
       title: "Intermittent Fasting",
-      description: "Easily track your fasting periods with our intuitive timer interface."
+      description: "Easily track your fasting periods with our intuitive timer interface.",
+      iconName: "SpeedIcon"
     },
     {
       title: "Private & Secure",
-      description: "Your health data is encrypted and never shared with third parties."
+      description: "Your health data is encrypted and never shared with third parties.",
+      iconName: "SecurityIcon"
     },
     {
       title: "Simple Design",
-      description: "Minimal learning curve with our clean, user-friendly design."
+      description: "Minimal learning curve with our clean, user-friendly design.",
+      iconName: "IntuitiveIcon"
     }
   ];
 
   const [featuresTitle, setFeaturesTitle] = useState(localStorage.getItem('fastingApp_featuresTitle') || 'Why choose fastnow.app?');
-  const [features, setFeatures] = useState<Array<{title: string, description: string}>>(
+  const [features, setFeatures] = useState<Array<{title: string, description: string, iconName: string}>>(
     JSON.parse(localStorage.getItem('fastingApp_features') || JSON.stringify(defaultFeatures))
   );
 
-  const updateFeature = (index: number, field: 'title' | 'description', value: string) => {
+  const updateFeature = (index: number, field: 'title' | 'description' | 'iconName', value: string) => {
     const updatedFeatures = features.map((feature, i) => 
       i === index ? { ...feature, [field]: value } : feature
     );
@@ -389,6 +421,24 @@ const FeaturesSettings = () => {
                   value={feature.description} 
                   onChange={(e) => updateFeature(index, 'description', e.target.value)} 
                 />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor={`feature-${index}-icon`}>Feature {index + 1} Icon</Label>
+                <select 
+                  id={`feature-${index}-icon`}
+                  value={feature.iconName}
+                  onChange={(e) => updateFeature(index, 'iconName', e.target.value)}
+                  className="w-full p-2 rounded-md border border-input bg-background"
+                >
+                  {availableIcons.map(iconName => (
+                    <option key={iconName} value={iconName}>
+                      {iconName.replace(/Icon$/, '')}
+                    </option>
+                  ))}
+                </select>
+                <div className="mt-2 p-2 border rounded flex justify-center">
+                  {Icons[feature.iconName as keyof typeof Icons]?.({ className: "w-8 h-8" })}
+                </div>
               </div>
             </div>
           ))}
