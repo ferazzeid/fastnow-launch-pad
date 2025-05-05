@@ -25,11 +25,6 @@ const FeaturesSettings: React.FC = () => {
       title: "Private & Secure",
       description: "Your health data is encrypted and never shared with third parties.",
       iconName: "SecurityIcon"
-    },
-    {
-      title: "Simple Design",
-      description: "Minimal learning curve with our clean, user-friendly design.",
-      iconName: "IntuitiveIcon"
     }
   ];
 

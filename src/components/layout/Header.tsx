@@ -5,14 +5,30 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
   const [logoSize, setLogoSize] = React.useState<number>(32);
+  const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
 
-  // Load logo from localStorage on mount
+  // Load logo and favicon from localStorage on mount
   React.useEffect(() => {
     const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
     if (savedLogoUrl) setLogoUrl(savedLogoUrl);
     
     const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
     if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
+
+    const savedFaviconUrl = localStorage.getItem('fastingApp_faviconUrl');
+    if (savedFaviconUrl) {
+      setFaviconUrl(savedFaviconUrl);
+      // Update favicon in the document
+      const linkElement = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+      if (linkElement) {
+        linkElement.href = savedFaviconUrl;
+      } else {
+        const newLink = document.createElement('link');
+        newLink.rel = 'icon';
+        newLink.href = savedFaviconUrl;
+        document.head.appendChild(newLink);
+      }
+    }
   }, []);
 
   return (

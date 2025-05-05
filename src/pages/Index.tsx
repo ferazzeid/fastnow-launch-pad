@@ -48,11 +48,6 @@ const Index = () => {
       title: "Private & Secure", 
       description: "Your health data is encrypted and never shared with third parties.",
       iconName: "SecurityIcon"
-    },
-    {
-      title: "Simple Design", 
-      description: "Minimal learning curve with our clean, user-friendly design.",
-      iconName: "IntuitiveIcon"
     }
   ]);
   
@@ -211,18 +206,18 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section - Updated to show only two features */}
       <section className="py-20 bg-cream-50">
         <div className="container">
           <h3 className="text-3xl font-bold text-center mb-16 text-mint-600">{featuresTitle}</h3>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
             {features.map((feature, index) => (
-              <div key={index} className="bg-cream-100 p-8 rounded-3xl shadow-soft">
-                <div className="feature-icon mb-6">
-                  {Icons[feature.iconName as keyof typeof Icons]?.({ className: "w-8 h-8" })}
+              <div key={index} className="bg-cream-100 p-10 rounded-3xl shadow-soft h-full">
+                <div className="feature-icon mb-8 flex justify-center">
+                  {Icons[feature.iconName as keyof typeof Icons]?.({ className: "w-12 h-12" })}
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-mint-600">{feature.title}</h3>
-                <p className="text-mint-500">{feature.description}</p>
+                <h3 className="text-2xl font-semibold mb-4 text-mint-600 text-center">{feature.title}</h3>
+                <p className="text-mint-500 text-center text-lg">{feature.description}</p>
               </div>
             ))}
           </div>
