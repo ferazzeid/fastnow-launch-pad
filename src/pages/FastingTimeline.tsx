@@ -1,8 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { toast } from "@/components/ui/use-toast";
 import EditableTimelineSection from '@/components/fasting/EditableTimelineSection';
 import PageLayout from '@/components/layout/PageLayout';
+import { Button } from "@/components/ui/button";
+import { Calendar } from "lucide-react";
 
 export interface TimelineEntry {
   hour: number;
@@ -23,6 +26,57 @@ const FastingTimeline = () => {
   const [metaDescription, setMetaDescription] = useState(
     localStorage.getItem('fastingApp_fastingTimelineDescription') || 'Discover what happens in your body hour by hour during fasting, from 0 to 72 hours.'
   );
+  
+  const importTimelineData = async () => {
+    try {
+      // Fetch the CSV file
+      const response = await fetch('/fasting-timeline-template.csv');
+      const csvText = await response.text();
+      
+      // Parse the CSV data (skipping the header row)
+      const rows = csvText.split('\n').slice(1).filter(row => row.trim() !== '');
+      
+      // Create timeline entries from CSV data
+      const importedData = rows.map(row => {
+        // Split by comma but respect quotes
+        const match = row.match(/(\d+),("([^"]*)"|(.*?)),("([^"]*)"|(.*?)),("([^"]*)"|(.*?))(,|$)/);
+        
+        if (!match) {
+          console.error('Could not parse row:', row);
+          return null;
+        }
+        
+        const hour = parseInt(match[1]);
+        const whatsHappening = match[3] || match[4];
+        const howYoureFeeling = match[6] || match[7];
+        const hourTitle = match[9] || match[10]; // Tagline becomes the hourTitle
+        
+        return {
+          hour,
+          content: whatsHappening, // For backward compatibility
+          whatsHappening,
+          howYoureFeeling,
+          hourTitle
+        };
+      }).filter(entry => entry !== null) as TimelineEntry[];
+      
+      // Update state and save to localStorage
+      setTimelineData(importedData);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(importedData));
+      
+      toast({
+        title: "Timeline Data Imported",
+        description: `Successfully imported ${importedData.length} hours of timeline data.`
+      });
+    } catch (error) {
+      console.error('Error importing timeline data:', error);
+      toast({
+        title: "Import Failed",
+        description: "There was an error importing the timeline data.",
+        variant: "destructive"
+      });
+    }
+  };
   
   // Check if user is authenticated as admin on mount
   useEffect(() => {
@@ -49,9 +103,9 @@ const FastingTimeline = () => {
         console.error('Failed to parse saved timeline data:', error);
       }
     } else {
-      // Initialize empty data for all 72 hours
-      const initialData = Array.from({ length: 72 }, (_, i) => ({
-        hour: i + 1,
+      // Initialize empty data for all 73 hours (including hour 0)
+      const initialData = Array.from({ length: 73 }, (_, i) => ({
+        hour: i,
         content: '',
         whatsHappening: '',
         howYoureFeeling: '',
@@ -80,12 +134,14 @@ const FastingTimeline = () => {
     });
   };
 
-  // Group data by days (24-hour sections)
-  const groupedData = Array.from({ length: 3 }, (_, dayIndex) => {
+  // Group data by days (24-hour sections), now including hour 0
+  const groupedData = Array.from({ length: 4 }, (_, dayIndex) => {
     return {
-      day: dayIndex + 1,
+      day: dayIndex + (dayIndex === 0 ? 0 : 1), // First group is "Hour 0", others are Day 1, 2, 3
       entries: timelineData.filter(entry => 
-        entry.hour > dayIndex * 24 && entry.hour <= (dayIndex + 1) * 24
+        dayIndex === 0 
+          ? entry.hour === 0 
+          : (entry.hour > (dayIndex - 1) * 24 && entry.hour <= dayIndex * 24)
       ).sort((a, b) => a.hour - b.hour)
     };
   });
@@ -103,12 +159,25 @@ const FastingTimeline = () => {
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Discover what happens in your body during each hour of fasting, from the first hour to a complete 72-hour fast.
           </p>
+          
+          {isAdmin && (
+            <div className="mt-8">
+              <Button 
+                variant="outline" 
+                onClick={importTimelineData} 
+                className="gap-2"
+              >
+                <Calendar className="h-4 w-4" />
+                Import Timeline Data from CSV
+              </Button>
+            </div>
+          )}
         </div>
         
         <div className="fasting-timeline space-y-8">
           {groupedData.map(({ day, entries }) => (
             <EditableTimelineSection 
-              key={day}
+              key={day === 0 ? 'hour-0' : `day-${day}`}
               dayNumber={day} 
               entries={entries}
               isAdmin={isAdmin}

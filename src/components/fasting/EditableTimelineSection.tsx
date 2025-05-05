@@ -41,16 +41,32 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
     }
   };
 
+  // Special title for hour 0
+  const getSectionTitle = () => {
+    if (dayNumber === 0) {
+      return "Starting Point";
+    }
+    return `Fasting Day ${dayNumber}`;
+  };
+
+  // Special hours description
+  const getHoursDescription = () => {
+    if (dayNumber === 0) {
+      return "Hour 0";
+    }
+    return `Hours ${(dayNumber - 1) * 24 + 1}-${dayNumber * 24}`;
+  };
+
   return (
     <section className="timeline-day mb-20">
       <div className="sticky top-0 z-10 bg-background pt-6 pb-4">
         <div className="flex items-center">
           <div>
             <h2 className="text-2xl font-bold text-[#6A8D74]">
-              Fasting Day
+              {getSectionTitle()}
             </h2>
             <p className="text-sm text-muted-foreground">
-              Hours {(dayNumber - 1) * 24 + 1}-{dayNumber * 24}
+              {getHoursDescription()}
             </p>
           </div>
         </div>
@@ -64,7 +80,7 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
               <CardContent className="pt-6">
                 <div className="flex justify-between items-start">
                   <h3 className="text-lg font-medium mb-2 text-[#6A8D74]">
-                    Fasting Hour {entry.hour}
+                    {entry.hour === 0 ? "Starting Point" : `Fasting Hour ${entry.hour}`}
                   </h3>
                   {isAdmin && (
                     <Button 
@@ -80,7 +96,7 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
                 </div>
                 
                 {entry.hourTitle && (
-                  <p className="mb-4 font-medium">
+                  <p className="mb-4 font-medium text-mint-600">
                     {entry.hourTitle}
                   </p>
                 )}
@@ -118,16 +134,20 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
       <Dialog open={editingHour !== null} onOpenChange={(open) => !open && setEditingHour(null)}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Edit Fasting Hour {editingHour}</DialogTitle>
+            <DialogTitle>
+              {editingHour === 0 
+                ? "Edit Starting Point" 
+                : `Edit Fasting Hour ${editingHour}`}
+            </DialogTitle>
           </DialogHeader>
           <div className="py-4 space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="hour-title">Hour Title:</Label>
+              <Label htmlFor="hour-title">Tagline:</Label>
               <Textarea
                 id="hour-title"
                 value={hourTitle}
                 onChange={(e) => setHourTitle(e.target.value)}
-                placeholder="Add a title or short summary for this fasting hour..."
+                placeholder="Add a tagline or short summary for this fasting hour..."
                 className="min-h-[80px]"
               />
             </div>
