@@ -14,14 +14,14 @@ const MainNavigation = () => {
     <NavigationMenu className="fixed top-4 right-4 z-50">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link to="/" legacyBehavior passHref>
+          <Link to="/">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Home
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/fasting-timeline" legacyBehavior passHref>
+          <Link to="/fasting-timeline">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Fasting Timeline
             </NavigationMenuLink>
