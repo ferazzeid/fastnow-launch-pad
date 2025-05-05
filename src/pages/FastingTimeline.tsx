@@ -1,16 +1,15 @@
-
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { toast } from "@/components/ui/use-toast";
-import MainNavigation from '@/components/MainNavigation';
 import EditableTimelineSection from '@/components/fasting/EditableTimelineSection';
+import PageLayout from '@/components/layout/PageLayout';
 
 export interface TimelineEntry {
   hour: number;
   content: string;  // Keep for backward compatibility
   whatsHappening: string;
   howYoureFeeling: string;
-  hourTitle?: string; // New field for content under fasting hour heading
+  hourTitle?: string; // Field for content under fasting hour heading
 }
 
 const STORAGE_KEY = 'fastingApp_timelineData';
@@ -92,13 +91,11 @@ const FastingTimeline = () => {
   });
 
   return (
-    <>
+    <PageLayout>
       <Helmet>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
       </Helmet>
-      
-      <MainNavigation />
       
       <div className="container mx-auto py-16 px-4 max-w-5xl">
         <div className="mb-16 text-center">
@@ -120,7 +117,7 @@ const FastingTimeline = () => {
           ))}
         </div>
       </div>
-    </>
+    </PageLayout>
   );
 };
 

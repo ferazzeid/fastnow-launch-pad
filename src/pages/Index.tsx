@@ -5,7 +5,7 @@ import { GooglePlayButton } from '@/components/GooglePlayButton';
 import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
 import CircularTimer from '@/components/CircularTimer';
-import MainNavigation from '@/components/MainNavigation';
+import PageLayout from '@/components/layout/PageLayout';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -26,7 +26,6 @@ const getCustomElementImage = (elementId: string): string | null => {
 };
 
 const Index = () => {
-  // State for dynamic content
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [logoSize, setLogoSize] = useState<number>(32);
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
@@ -141,7 +140,7 @@ const Index = () => {
   }, []);
 
   return (
-    <>
+    <PageLayout>
       <Helmet>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
@@ -150,8 +149,6 @@ const Index = () => {
         <meta name="twitter:title" content={metaTitle} />
         <meta name="twitter:description" content={metaDescription} />
       </Helmet>
-      
-      <MainNavigation />
       
       {/* Background 3D Element if available */}
       {customElementsImages.background3d && (
@@ -164,19 +161,6 @@ const Index = () => {
         </div>
       )}
       
-      {/* Header */}
-      <header className="py-6 relative z-10">
-        <div className="container flex justify-between items-center">
-          {logoUrl ? (
-            <Link to="/">
-              <img src={logoUrl} alt="fastnow.app" style={{ height: `${logoSize}px` }} />
-            </Link>
-          ) : (
-            <div className="text-2xl font-bold text-mint-600">fastnow.app</div>
-          )}
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="py-20 relative z-10">
         <div className="container">
@@ -244,47 +228,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="container text-center">
-          <h3 className="text-3xl font-bold mb-4 text-mint-600">{ctaTitle}</h3>
-          <p className="text-xl text-mint-500 mb-8 max-w-md mx-auto">
-            {ctaSubtitle}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="neomorphic overflow-hidden rounded-2xl">
-              <AppStoreButton {...(appStoreLink ? { href: appStoreLink } : {})} className="bg-cream-100 border-none text-mint-600" />
-            </div>
-            <div className="neomorphic overflow-hidden rounded-2xl">
-              <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} className="bg-cream-100 border-none text-mint-600" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 border-t border-cream-200">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-sm text-mint-500 mb-4 md:mb-0">
-              © {new Date().getFullYear()} fastnow.app. All rights reserved.
-            </div>
-            <div className="flex gap-6">
-              <Link to="/privacy" className="text-sm text-mint-500 hover:text-mint-600">
-                Privacy Policy
-              </Link>
-              <Link to="/terms" className="text-sm text-mint-500 hover:text-mint-600">
-                Terms of Service
-              </Link>
-              <Link to="/contact" className="text-sm text-mint-500 hover:text-mint-600">
-                Contact
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </>
+    </PageLayout>
   );
 };
 

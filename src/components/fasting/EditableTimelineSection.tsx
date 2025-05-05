@@ -60,10 +60,10 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
       <div className="pl-6 border-l-2 border-[#A3D9B1] mt-8">
         {entries.map((entry) => (
           <div key={entry.hour} className="relative mb-12">
-            <Card className="ml-6 transition-all hover:shadow-md">
+            <Card className="transition-all hover:shadow-md">
               <CardContent className="pt-6">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-lg font-medium mb-2 text-[#6A8D74] flex items-center">
+                  <h3 className="text-lg font-medium mb-2 text-[#6A8D74]">
                     Fasting Hour {entry.hour}
                   </h3>
                   {isAdmin && (

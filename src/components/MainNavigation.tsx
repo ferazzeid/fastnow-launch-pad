@@ -29,8 +29,8 @@ const MainNavigation = () => {
   };
 
   return (
-    <NavigationMenu className="fixed top-4 right-4 z-50">
-      <NavigationMenuList>
+    <NavigationMenu className="mx-auto py-2 container">
+      <NavigationMenuList className="mx-auto">
         <NavigationMenuItem>
           <Link to="/">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
