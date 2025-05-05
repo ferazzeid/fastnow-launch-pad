@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -63,7 +62,9 @@ const Admin: React.FC = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container flex justify-between items-center py-4">
-          <h1 className="text-2xl font-bold">FastNow Admin</h1>
+          <Link to="/" className="text-2xl font-bold hover:text-primary transition-colors">
+            FastNow Admin
+          </Link>
           <div className="flex items-center gap-4">
             <Link to="/admin/users">
               <Button variant="outline">User Management</Button>
