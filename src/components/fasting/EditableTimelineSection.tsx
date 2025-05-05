@@ -7,12 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Clock, Edit, Save } from "lucide-react";
 import { type TimelineEntry } from '@/pages/FastingTimeline';
+import { Label } from "@/components/ui/label";
 
 interface EditableTimelineSectionProps {
   dayNumber: number;
   entries: TimelineEntry[];
   isAdmin: boolean;
-  onUpdateContent: (hour: number, content: string) => void;
+  onUpdateContent: (hour: number, whatsHappening: string, howYoureFeeling: string) => void;
 }
 
 const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({ 
@@ -22,16 +23,18 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
   onUpdateContent 
 }) => {
   const [editingHour, setEditingHour] = useState<number | null>(null);
-  const [editContent, setEditContent] = useState("");
+  const [whatsHappening, setWhatsHappening] = useState("");
+  const [howYoureFeeling, setHowYoureFeeling] = useState("");
   
   const handleEdit = (entry: TimelineEntry) => {
     setEditingHour(entry.hour);
-    setEditContent(entry.content);
+    setWhatsHappening(entry.whatsHappening || entry.content || '');
+    setHowYoureFeeling(entry.howYoureFeeling || '');
   };
   
   const handleSave = () => {
     if (editingHour !== null) {
-      onUpdateContent(editingHour, editContent);
+      onUpdateContent(editingHour, whatsHappening, howYoureFeeling);
       setEditingHour(null);
     }
   };
@@ -45,7 +48,7 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
           </div>
           <div>
             <h2 className="text-2xl font-bold text-[#6A8D74]">
-              Day {dayNumber}
+              Fasting Day {dayNumber}
             </h2>
             <p className="text-sm text-muted-foreground">
               Hours {(dayNumber - 1) * 24 + 1}-{dayNumber * 24}
@@ -67,7 +70,7 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
               <CardContent className="pt-6">
                 <div className="flex justify-between items-start">
                   <h3 className="text-lg font-medium mb-2 text-[#6A8D74] flex items-center">
-                    Hour {entry.hour}
+                    Fasting Hour {entry.hour}
                   </h3>
                   {isAdmin && (
                     <Button 
@@ -81,13 +84,30 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
                     </Button>
                   )}
                 </div>
-                <p className="text-muted-foreground">
-                  {entry.content || (
-                    <span className="italic text-muted-foreground/60">
-                      {isAdmin ? "Click edit to add content" : "No content for this hour yet"}
-                    </span>
-                  )}
-                </p>
+                
+                {(entry.whatsHappening || entry.content) && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-mint-500 mb-1">What's happening:</h4>
+                    <p className="text-muted-foreground">
+                      {entry.whatsHappening || entry.content}
+                    </p>
+                  </div>
+                )}
+                
+                {entry.howYoureFeeling && (
+                  <div>
+                    <h4 className="text-sm font-medium text-mint-500 mb-1">How you're feeling:</h4>
+                    <p className="text-muted-foreground">
+                      {entry.howYoureFeeling}
+                    </p>
+                  </div>
+                )}
+                
+                {!entry.whatsHappening && !entry.content && !entry.howYoureFeeling && (
+                  <p className="italic text-muted-foreground/60">
+                    {isAdmin ? "Click edit to add content" : "No content for this hour yet"}
+                  </p>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -96,17 +116,32 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
 
       {/* Edit Dialog */}
       <Dialog open={editingHour !== null} onOpenChange={(open) => !open && setEditingHour(null)}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Edit Hour {editingHour}</DialogTitle>
+            <DialogTitle>Edit Fasting Hour {editingHour}</DialogTitle>
           </DialogHeader>
-          <div className="py-4">
-            <Textarea
-              value={editContent}
-              onChange={(e) => setEditContent(e.target.value)}
-              placeholder="Describe what happens in the body during this hour of fasting..."
-              className="min-h-[150px]"
-            />
+          <div className="py-4 space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="whats-happening">What's happening:</Label>
+              <Textarea
+                id="whats-happening"
+                value={whatsHappening}
+                onChange={(e) => setWhatsHappening(e.target.value)}
+                placeholder="Describe what happens in the body during this hour of fasting..."
+                className="min-h-[120px]"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="how-youre-feeling">How you're feeling:</Label>
+              <Textarea
+                id="how-youre-feeling"
+                value={howYoureFeeling}
+                onChange={(e) => setHowYoureFeeling(e.target.value)}
+                placeholder="Describe how someone might feel during this hour of fasting..."
+                className="min-h-[120px]"
+              />
+            </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setEditingHour(null)}>Cancel</Button>
