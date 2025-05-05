@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
 import { LogOut, User, CalendarCheck } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const MainNavigation = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -35,8 +34,8 @@ const MainNavigation = () => {
       <NavigationMenuList className="mx-auto">
         <NavigationMenuItem>
           <Link to="/">
-            <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), {
-              "bg-accent/50": location.pathname === "/"
+            <NavigationMenuLink className={navigationMenuTriggerStyle({
+              active: location.pathname === "/"
             })}>
               Home
             </NavigationMenuLink>
@@ -44,8 +43,8 @@ const MainNavigation = () => {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link to="/fasting-timeline">
-            <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), {
-              "bg-accent/50": location.pathname === "/fasting-timeline"
+            <NavigationMenuLink className={navigationMenuTriggerStyle({
+              active: location.pathname === "/fasting-timeline"
             })}>
               <CalendarCheck size={16} className="mr-1" />
               Fasting Timeline
@@ -57,8 +56,8 @@ const MainNavigation = () => {
           <>
             <NavigationMenuItem>
               <Link to="/admin">
-                <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), {
-                  "bg-accent/50": location.pathname.startsWith("/admin")
+                <NavigationMenuLink className={navigationMenuTriggerStyle({
+                  active: location.pathname.startsWith("/admin")
                 })}>
                   <User size={16} className="mr-1" />
                   Admin
