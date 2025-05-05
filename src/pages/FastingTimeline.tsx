@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { toast } from "@/components/ui/use-toast";
-import { Card } from "@/components/ui/card";
 import MainNavigation from '@/components/MainNavigation';
 import EditableTimelineSection from '@/components/fasting/EditableTimelineSection';
 
@@ -73,15 +72,15 @@ const FastingTimeline = () => {
       
       <MainNavigation />
       
-      <div className="container mx-auto py-12 px-4 max-w-6xl">
-        <header className="mb-12 text-center">
-          <h1 className="text-4xl font-bold mb-4 text-[#6A8D74]">Fasting Timeline</h1>
+      <div className="container mx-auto py-16 px-4 max-w-5xl">
+        <header className="mb-16 text-center">
+          <h1 className="text-4xl font-bold mb-6 text-[#6A8D74]">Fasting Timeline</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Discover what happens in your body during each hour of fasting, from the first hour to a complete 72-hour fast.
           </p>
         </header>
         
-        <div className="fasting-timeline space-y-12">
+        <div className="fasting-timeline space-y-8">
           {groupedData.map(({ day, entries }) => (
             <EditableTimelineSection 
               key={day}

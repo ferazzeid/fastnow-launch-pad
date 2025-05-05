@@ -37,23 +37,30 @@ const EditableTimelineSection: React.FC<EditableTimelineSectionProps> = ({
   };
 
   return (
-    <section className="timeline-day">
-      <div className="sticky top-0 z-10 bg-background pt-4 pb-2">
-        <h2 className="text-2xl font-bold text-[#6A8D74] flex items-center">
-          <span className="bg-[#A3D9B1] text-white h-8 w-8 rounded-full flex items-center justify-center text-sm mr-3">
+    <section className="timeline-day mb-20">
+      <div className="sticky top-0 z-10 bg-background pt-6 pb-4">
+        <div className="flex items-center">
+          <div className="bg-[#A3D9B1] text-white h-12 w-12 rounded-xl flex items-center justify-center text-xl font-semibold shadow-md mr-4">
             {dayNumber}
-          </span>
-          Day {dayNumber} <span className="text-muted-foreground ml-2 font-normal">({(dayNumber - 1) * 24 + 1}-{dayNumber * 24} hours)</span>
-        </h2>
-        <Separator className="mt-4 bg-[#A3D9B1]" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-[#6A8D74]">
+              Day {dayNumber}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Hours {(dayNumber - 1) * 24 + 1}-{dayNumber * 24}
+            </p>
+          </div>
+        </div>
+        <Separator className="mt-6 bg-[#A3D9B1] h-1 rounded-full" />
       </div>
       
-      <div className="pl-4 border-l-2 border-[#A3D9B1] mt-6">
+      <div className="pl-6 border-l-2 border-[#A3D9B1] mt-8">
         {entries.map((entry) => (
           <div key={entry.hour} className="relative mb-12">
-            <div className="absolute -left-[17px] bg-background p-1">
-              <div className="h-6 w-6 rounded-full bg-[#F2F0E6] border border-[#A3D9B1] flex items-center justify-center">
-                <Clock className="h-3 w-3 text-[#6A8D74]" />
+            <div className="absolute -left-[21px] bg-background p-2">
+              <div className="h-8 w-8 rounded-full bg-[#F2F0E6] border-2 border-[#A3D9B1] flex items-center justify-center shadow-md">
+                <Clock className="h-4 w-4 text-[#6A8D74]" />
               </div>
             </div>
             <Card className="ml-6 transition-all hover:shadow-md">
