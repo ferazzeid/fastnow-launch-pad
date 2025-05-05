@@ -30,7 +30,13 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onDataUploaded }) => {
           throw new Error(`Invalid hour value: ${parts[0]}. Hours must be between 1 and 72.`);
         }
         
-        return { hour, content };
+        // Create the TimelineEntry object with all required properties
+        return { 
+          hour, 
+          content,  // Keep for backward compatibility
+          whatsHappening: content, // Use the content for the whatsHappening field
+          howYoureFeeling: ''  // Initialize howYoureFeeling as empty
+        };
       });
       
       // Sort entries by hour
