@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -10,12 +10,11 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
-import { LogOut, User, CalendarCheck } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 const MainNavigation = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     // Check admin status on mount
@@ -34,19 +33,14 @@ const MainNavigation = () => {
       <NavigationMenuList className="mx-auto">
         <NavigationMenuItem>
           <Link to="/">
-            <NavigationMenuLink className={navigationMenuTriggerStyle({
-              active: location.pathname === "/"
-            })}>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Home
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link to="/fasting-timeline">
-            <NavigationMenuLink className={navigationMenuTriggerStyle({
-              active: location.pathname === "/fasting-timeline"
-            })}>
-              <CalendarCheck size={16} className="mr-1" />
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Fasting Timeline
             </NavigationMenuLink>
           </Link>
@@ -56,9 +50,7 @@ const MainNavigation = () => {
           <>
             <NavigationMenuItem>
               <Link to="/admin">
-                <NavigationMenuLink className={navigationMenuTriggerStyle({
-                  active: location.pathname.startsWith("/admin")
-                })}>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   <User size={16} className="mr-1" />
                   Admin
                 </NavigationMenuLink>
