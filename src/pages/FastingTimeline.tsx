@@ -10,6 +10,7 @@ export interface TimelineEntry {
   content: string;  // Keep for backward compatibility
   whatsHappening: string;
   howYoureFeeling: string;
+  hourTitle?: string; // New field for content under fasting hour heading
 }
 
 const STORAGE_KEY = 'fastingApp_timelineData';
@@ -40,6 +41,7 @@ const FastingTimeline = () => {
           ...entry,
           whatsHappening: entry.whatsHappening || entry.content || '',
           howYoureFeeling: entry.howYoureFeeling || '',
+          hourTitle: entry.hourTitle || '',
         }));
         
         setTimelineData(updatedData);
@@ -54,19 +56,21 @@ const FastingTimeline = () => {
         content: '',
         whatsHappening: '',
         howYoureFeeling: '',
+        hourTitle: '',
       }));
       setTimelineData(initialData);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData));
     }
   }, []);
   
-  const updateHourContent = (hour: number, whatsHappening: string, howYoureFeeling: string) => {
+  const updateHourContent = (hour: number, whatsHappening: string, howYoureFeeling: string, hourTitle: string) => {
     const updatedData = timelineData.map(entry => 
       entry.hour === hour ? { 
         ...entry, 
         content: whatsHappening, // Update legacy content field for backward compatibility
         whatsHappening, 
-        howYoureFeeling 
+        howYoureFeeling,
+        hourTitle 
       } : entry
     );
     setTimelineData(updatedData);
