@@ -6,7 +6,6 @@ import { GooglePlayButton } from '@/components/GooglePlayButton';
 import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
 import CircularTimer from '@/components/CircularTimer';
-import { Settings, History, ArrowRight, User, Search } from 'lucide-react';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -59,11 +58,6 @@ const Index = () => {
   
   // State for custom UI elements
   const [customElementsImages, setCustomElementsImages] = useState<{[key: string]: string | null}>({
-    startButton: null,
-    historyButton: null,
-    goalsButton: null,
-    settingsButton: null,
-    sliderThumb: null,
     background3d: null
   });
   
@@ -132,15 +126,13 @@ const Index = () => {
       setShowDefaultDesign(defaultDesignSetting !== 'false');
     }
     
-    // Load all custom images
-    const elements = ['startButton', 'historyButton', 'goalsButton', 'settingsButton', 'sliderThumb', 'background3d'];
-    const images: {[key: string]: string | null} = {};
-    
-    elements.forEach(elementId => {
-      images[elementId] = getCustomElementImage(elementId);
-    });
-    
-    setCustomElementsImages(images);
+    // Only load background3d custom image
+    const background3dImage = getCustomElementImage('background3d');
+    if (background3dImage) {
+      setCustomElementsImages({
+        background3d: background3dImage
+      });
+    }
   }, []);
 
   return (
@@ -175,7 +167,6 @@ const Index = () => {
           ) : (
             <div className="text-2xl font-bold text-mint-600">fastnow.app</div>
           )}
-          {/* Removed contact us button */}
         </div>
       </header>
 
@@ -222,97 +213,6 @@ const Index = () => {
                       className="mb-10"
                     />
                   </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* App Controls Section - Removed the bottom buttons */}
-      <section className="py-8 mb-10 relative z-10">
-        <div className="container">
-          <div className="flex flex-wrap justify-center gap-6">
-            {/* Start Button */}
-            {customElementsImages.startButton ? (
-              <div className="py-2 px-8">
-                <img 
-                  src={customElementsImages.startButton} 
-                  alt="Start" 
-                  className="h-12 cursor-pointer"
-                />
-              </div>
-            ) : (
-              <div className="neomorphic py-2 px-8 rounded-full">
-                <span className="text-mint-600 font-medium">Start</span>
-              </div>
-            )}
-            
-            {/* Control Buttons */}
-            <div className="flex gap-4">
-              {/* History Button */}
-              {customElementsImages.historyButton ? (
-                <div className="flex flex-col items-center">
-                  <img 
-                    src={customElementsImages.historyButton} 
-                    alt="History" 
-                    className="h-14 w-14 object-contain cursor-pointer"
-                  />
-                  <span className="text-xs text-mint-500 mt-2">History</span>
-                </div>
-              ) : (
-                <div className="neomorphic w-14 h-14 flex items-center justify-center">
-                  <History size={20} className="text-mint-500" />
-                  <span className="text-xs text-mint-500 absolute -bottom-6">History</span>
-                </div>
-              )}
-              
-              {/* Goals Button */}
-              {customElementsImages.goalsButton ? (
-                <div className="flex flex-col items-center">
-                  <img 
-                    src={customElementsImages.goalsButton} 
-                    alt="Goals" 
-                    className="h-14 w-14 object-contain cursor-pointer"
-                  />
-                  <span className="text-xs text-mint-500 mt-2">Goals</span>
-                </div>
-              ) : (
-                <div className="neomorphic w-14 h-14 flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-mint-500 rounded-full"></div>
-                  <span className="text-xs text-mint-500 absolute -bottom-6">Goals</span>
-                </div>
-              )}
-              
-              {/* Settings Button */}
-              {customElementsImages.settingsButton ? (
-                <div className="flex flex-col items-center">
-                  <img 
-                    src={customElementsImages.settingsButton} 
-                    alt="Settings" 
-                    className="h-14 w-14 object-contain cursor-pointer"
-                  />
-                  <span className="text-xs text-mint-500 mt-2">Settings</span>
-                </div>
-              ) : (
-                <div className="neomorphic w-14 h-14 flex items-center justify-center">
-                  <Settings size={20} className="text-mint-500" />
-                  <span className="text-xs text-mint-500 absolute -bottom-6">Settings</span>
-                </div>
-              )}
-            </div>
-            
-            {/* Slider */}
-            <div className="w-full max-w-sm mt-6">
-              <div className="h-3 w-full rounded-full neomorphic-inset flex items-center px-1">
-                {customElementsImages.sliderThumb ? (
-                  <img 
-                    src={customElementsImages.sliderThumb} 
-                    alt="Slider"
-                    className="h-7 w-7 cursor-pointer"
-                  />
-                ) : (
-                  <div className="h-5 w-5 neomorphic rounded-full bg-mint-300"></div>
                 )}
               </div>
             </div>
