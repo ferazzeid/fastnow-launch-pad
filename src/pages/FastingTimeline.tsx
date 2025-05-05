@@ -2,13 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { toast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import MainNavigation from '@/components/MainNavigation';
-import TimelineSection from '@/components/fasting/TimelineSection';
-import CSVUploader from '@/components/fasting/CSVUploader';
-import { Download } from 'lucide-react';
+import EditableTimelineSection from '@/components/fasting/EditableTimelineSection';
 
 export interface TimelineEntry {
   hour: number;
@@ -35,36 +31,38 @@ const FastingTimeline = () => {
       } catch (error) {
         console.error('Failed to parse saved timeline data:', error);
       }
+    } else {
+      // Initialize empty data for all 72 hours
+      const initialData = Array.from({ length: 72 }, (_, i) => ({
+        hour: i + 1,
+        content: ''
+      }));
+      setTimelineData(initialData);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData));
     }
   }, []);
   
-  const handleDataUpload = (data: TimelineEntry[]) => {
-    setTimelineData(data);
-    // Save to localStorage for persistence
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  const updateHourContent = (hour: number, content: string) => {
+    const updatedData = timelineData.map(entry => 
+      entry.hour === hour ? { ...entry, content } : entry
+    );
+    setTimelineData(updatedData);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
     toast({
-      title: "Timeline data uploaded",
-      description: `${data.length} hours of fasting timeline data has been loaded and saved.`,
+      title: "Timeline Updated",
+      description: `Hour ${hour} content has been saved.`,
     });
   };
 
-  const handleDownloadTemplateCSV = () => {
-    // Create a link to download the template CSV file
-    const link = document.createElement('a');
-    link.href = '/fasting-timeline-template.csv';
-    link.download = 'fasting-timeline-template.csv';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  // Group data by 24-hour sections
-  const groupedData = timelineData.reduce((acc, entry) => {
-    const dayIndex = Math.floor((entry.hour - 1) / 24);
-    if (!acc[dayIndex]) acc[dayIndex] = [];
-    acc[dayIndex].push(entry);
-    return acc;
-  }, [] as TimelineEntry[][]);
+  // Group data by days (24-hour sections)
+  const groupedData = Array.from({ length: 3 }, (_, dayIndex) => {
+    return {
+      day: dayIndex + 1,
+      entries: timelineData.filter(entry => 
+        entry.hour > dayIndex * 24 && entry.hour <= (dayIndex + 1) * 24
+      ).sort((a, b) => a.hour - b.hour)
+    };
+  });
 
   return (
     <>
@@ -83,55 +81,17 @@ const FastingTimeline = () => {
           </p>
         </header>
         
-        {isAdmin && (
-          <Card className="mb-8 p-6">
-            <h2 className="text-xl font-semibold mb-4">Upload Timeline Data</h2>
-            <p className="mb-4 text-muted-foreground">
-              Upload a CSV file with hour numbers (1-72) and corresponding body changes to populate the timeline.
-            </p>
-            <div className="space-y-4">
-              <CSVUploader onDataUploaded={handleDataUpload} />
-              <div className="flex items-center mt-4">
-                <Button 
-                  variant="outline" 
-                  onClick={handleDownloadTemplateCSV} 
-                  className="flex items-center gap-2"
-                >
-                  <Download size={16} />
-                  Download Template CSV
-                </Button>
-              </div>
-            </div>
-          </Card>
-        )}
-        
-        {groupedData.length > 0 ? (
-          <div className="fasting-timeline space-y-12">
-            {groupedData.map((dayData, dayIndex) => (
-              <TimelineSection 
-                key={dayIndex} 
-                dayNumber={dayIndex + 1} 
-                entries={dayData}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16 bg-[#F2F0E6] rounded-lg border border-[#A3D9B1]">
-            <h3 className="text-xl font-medium text-[#6A8D74] mb-4">No Timeline Data Yet</h3>
-            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-              {isAdmin ? (
-                "Upload a CSV file with your fasting timeline data to visualize the hour-by-hour changes."
-              ) : (
-                "The timeline data has not been uploaded by an administrator yet."
-              )}
-            </p>
-            {isAdmin && (
-              <Button variant="outline" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                Upload Data
-              </Button>
-            )}
-          </div>
-        )}
+        <div className="fasting-timeline space-y-12">
+          {groupedData.map(({ day, entries }) => (
+            <EditableTimelineSection 
+              key={day}
+              dayNumber={day} 
+              entries={entries}
+              isAdmin={isAdmin}
+              onUpdateContent={updateHourContent}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
