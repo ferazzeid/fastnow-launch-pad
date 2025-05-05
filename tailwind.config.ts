@@ -25,6 +25,19 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        cream: {
+          50: "#FFFBF0",
+          100: "#FEF6E6",
+          200: "#F9EDD4",
+          300: "#F5E6C8",
+          400: "#F0DFBC",
+        },
+        sage: {
+          300: "#B8C9B8",
+          400: "#96AE96",
+          500: "#7A997A",
+          600: "#5F785F",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -72,11 +85,21 @@ export default {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
+        "rotate": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 1s ease-out",
+        "slow-spin": "rotate 30s linear infinite",
+      },
+      boxShadow: {
+        'soft': '0 4px 15px rgba(0, 0, 0, 0.05)',
+        'neomorphic': '8px 8px 16px #e6ddd0, -8px -8px 16px #fffcef',
+        'neomorphic-inset': 'inset 6px 6px 12px #e6ddd0, inset -6px -6px 12px #fffcef',
       },
     },
   },

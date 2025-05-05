@@ -7,35 +7,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --background: 40 33% 96%;
+    --foreground: 110 6% 26%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card: 40 33% 96%;
+    --card-foreground: 110 6% 26%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover: 40 33% 96%;
+    --popover-foreground: 110 6% 26%;
 
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 110 6% 26%;
+    --primary-foreground: 40 33% 96%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 44 42% 96%;
+    --secondary-foreground: 110 6% 26%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 44 42% 92%;
+    --muted-foreground: 110 6% 40%;
 
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 120 14% 75%;
+    --accent-foreground: 110 6% 26%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 40 33% 96%;
 
-    --border: 0 0% 89%;
-    --input: 0 0% 89%;
-    --ring: 0 0% 0%;
+    --border: 44 42% 86%;
+    --input: 44 42% 86%;
+    --ring: 110 6% 26%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
   }
 
   * {
@@ -43,7 +43,7 @@
   }
   
   body {
-    @apply bg-background text-foreground;
+    @apply bg-cream-100 text-foreground;
     font-family: 'Inter', sans-serif;
   }
 
@@ -51,7 +51,38 @@
     @apply px-4 md:px-6 lg:px-8 mx-auto max-w-7xl;
   }
   
-  .btn-app-store {
-    @apply flex items-center justify-center border border-primary bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-6 rounded-lg transition-colors;
+  .neomorphic {
+    @apply bg-cream-100 rounded-full shadow-neomorphic;
   }
+  
+  .neomorphic-inset {
+    @apply bg-cream-100 rounded-full shadow-neomorphic-inset;
+  }
+  
+  .timer-circle {
+    @apply rounded-full bg-cream-100 relative flex items-center justify-center;
+    box-shadow: 8px 8px 16px #e6ddd0, -8px -8px 16px #fffcef;
+  }
+  
+  .timer-inner {
+    @apply rounded-full bg-cream-100;
+    box-shadow: inset 4px 4px 8px #e6ddd0, inset -4px -4px 8px #fffcef;
+  }
+  
+  .btn-app-store {
+    @apply flex items-center justify-center border border-primary bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-6 rounded-2xl transition-colors;
+  }
+  
+  .feature-icon {
+    @apply neomorphic flex items-center justify-center w-16 h-16 text-sage-500;
+  }
+}
+
+.neomorphic-slider .slider-track {
+  @apply bg-cream-200 h-2 rounded-full overflow-hidden relative;
+  box-shadow: inset 2px 2px 4px #e6ddd0, inset -2px -2px 4px #fffcef;
+}
+
+.neomorphic-slider .slider-thumb {
+  @apply bg-sage-300 h-5 w-5 rounded-full cursor-pointer shadow-soft -mt-1.5;
 }
