@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { AppStoreButton } from '@/components/AppStoreButton';
+import { GooglePlayButton } from '@/components/GooglePlayButton';
 
 const Footer = () => {
   const [ctaTitle, setCtaTitle] = React.useState('Ready to start your fasting journey?');
@@ -35,7 +37,18 @@ const Footer = () => {
             {ctaSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* App store buttons would go here */}
+            <div className="neomorphic overflow-hidden rounded-2xl">
+              <AppStoreButton 
+                href={appStoreLink} 
+                className="bg-cream-100 border-none text-mint-600"
+              />
+            </div>
+            <div className="neomorphic overflow-hidden rounded-2xl">
+              <GooglePlayButton 
+                href={googlePlayLink} 
+                className="bg-cream-100 border-none text-mint-600"
+              />
+            </div>
           </div>
         </div>
       </div>
