@@ -1,10 +1,8 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppStoreButton } from '@/components/AppStoreButton';
 import { GooglePlayButton } from '@/components/GooglePlayButton';
-import { FeatureItem } from '@/components/FeatureItem';
-import { SpeedIcon, SecurityIcon, IntuitiveIcon } from '@/components/icons/FeatureIcons';
-import { AppMockup } from '@/components/AppMockup';
 import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
 import CircularTimer from '@/components/CircularTimer';
@@ -175,11 +173,9 @@ const Index = () => {
               <img src={logoUrl} alt="fastnow.app" className="h-8" />
             </Link>
           ) : (
-            <div className="text-2xl font-bold text-sage-600">fastnow.app</div>
+            <div className="text-2xl font-bold text-mint-600">fastnow.app</div>
           )}
-          <div className="neomorphic p-2 px-4 rounded-full text-sm text-sage-500">
-            <Link to="/contact">Contact us</Link>
-          </div>
+          {/* Removed contact us button */}
         </div>
       </header>
 
@@ -188,7 +184,7 @@ const Index = () => {
         <div className="container">
           <div className="flex flex-col lg:flex-row items-center">
             <div className="lg:w-1/2 mb-10 lg:mb-0">
-              <h1 className="text-5xl font-bold leading-tight mb-6 animate-fade-in text-sage-600">
+              <h1 className="text-5xl font-bold leading-tight mb-6 animate-fade-in text-mint-600">
                 {heroTitle.split('\\n').map((line, i) => (
                   <React.Fragment key={i}>
                     {line}
@@ -197,15 +193,15 @@ const Index = () => {
                 ))}
                 <span className="text-primary"></span>
               </h1>
-              <h2 className="text-xl text-sage-500 mb-8 max-w-md">
+              <h2 className="text-xl text-mint-500 mb-8 max-w-md">
                 {heroSubtitle}
               </h2>
               <div className="flex flex-col sm:flex-row gap-4 mt-10">
                 <div className="neomorphic overflow-hidden rounded-2xl">
-                  <AppStoreButton {...(appStoreLink ? { href: appStoreLink } : {})} className="bg-cream-100 border-none text-sage-600" />
+                  <AppStoreButton {...(appStoreLink ? { href: appStoreLink } : {})} className="bg-cream-100 border-none text-mint-600" />
                 </div>
                 <div className="neomorphic overflow-hidden rounded-2xl">
-                  <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} className="bg-cream-100 border-none text-sage-600" />
+                  <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} className="bg-cream-100 border-none text-mint-600" />
                 </div>
               </div>
             </div>
@@ -225,28 +221,6 @@ const Index = () => {
                       progress={30}
                       className="mb-10"
                     />
-                    
-                    {/* Floating icons */}
-                    <div className="absolute -top-8 -left-8 neomorphic w-12 h-12 flex items-center justify-center">
-                      <div className="w-4 h-4 bg-cream-100 rounded-full"></div>
-                    </div>
-                    
-                    <div className="absolute -top-4 -right-4 neomorphic w-16 h-16 flex items-center justify-center">
-                      <div className="rotate-45 transform">
-                        <ArrowRight size={20} className="text-sage-500" />
-                      </div>
-                    </div>
-                    
-                    <div className="absolute -bottom-4 -right-8 neomorphic w-14 h-14 flex items-center justify-center">
-                      <div className="flex space-x-0.5">
-                        <div className="w-1 h-4 bg-sage-500 rounded-full"></div>
-                        <div className="w-1 h-4 bg-sage-500 rounded-full"></div>
-                      </div>
-                    </div>
-                    
-                    <div className="absolute -bottom-8 -left-4 neomorphic w-16 h-10 flex items-center justify-center rounded-xl">
-                      <div></div>
-                    </div>
                   </div>
                 )}
               </div>
@@ -255,7 +229,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* App Controls Section */}
+      {/* App Controls Section - Removed the bottom buttons */}
       <section className="py-8 mb-10 relative z-10">
         <div className="container">
           <div className="flex flex-wrap justify-center gap-6">
@@ -270,7 +244,7 @@ const Index = () => {
               </div>
             ) : (
               <div className="neomorphic py-2 px-8 rounded-full">
-                <span className="text-sage-600 font-medium">Start</span>
+                <span className="text-mint-600 font-medium">Start</span>
               </div>
             )}
             
@@ -284,12 +258,12 @@ const Index = () => {
                     alt="History" 
                     className="h-14 w-14 object-contain cursor-pointer"
                   />
-                  <span className="text-xs text-sage-500 mt-2">History</span>
+                  <span className="text-xs text-mint-500 mt-2">History</span>
                 </div>
               ) : (
                 <div className="neomorphic w-14 h-14 flex items-center justify-center">
-                  <History size={20} className="text-sage-500" />
-                  <span className="text-xs text-sage-500 absolute -bottom-6">History</span>
+                  <History size={20} className="text-mint-500" />
+                  <span className="text-xs text-mint-500 absolute -bottom-6">History</span>
                 </div>
               )}
               
@@ -301,12 +275,12 @@ const Index = () => {
                     alt="Goals" 
                     className="h-14 w-14 object-contain cursor-pointer"
                   />
-                  <span className="text-xs text-sage-500 mt-2">Goals</span>
+                  <span className="text-xs text-mint-500 mt-2">Goals</span>
                 </div>
               ) : (
                 <div className="neomorphic w-14 h-14 flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-sage-500 rounded-full"></div>
-                  <span className="text-xs text-sage-500 absolute -bottom-6">Goals</span>
+                  <div className="w-5 h-5 border-2 border-mint-500 rounded-full"></div>
+                  <span className="text-xs text-mint-500 absolute -bottom-6">Goals</span>
                 </div>
               )}
               
@@ -318,12 +292,12 @@ const Index = () => {
                     alt="Settings" 
                     className="h-14 w-14 object-contain cursor-pointer"
                   />
-                  <span className="text-xs text-sage-500 mt-2">Settings</span>
+                  <span className="text-xs text-mint-500 mt-2">Settings</span>
                 </div>
               ) : (
                 <div className="neomorphic w-14 h-14 flex items-center justify-center">
-                  <Settings size={20} className="text-sage-500" />
-                  <span className="text-xs text-sage-500 absolute -bottom-6">Settings</span>
+                  <Settings size={20} className="text-mint-500" />
+                  <span className="text-xs text-mint-500 absolute -bottom-6">Settings</span>
                 </div>
               )}
             </div>
@@ -338,27 +312,8 @@ const Index = () => {
                     className="h-7 w-7 cursor-pointer"
                   />
                 ) : (
-                  <div className="h-5 w-5 neomorphic rounded-full bg-sage-300"></div>
+                  <div className="h-5 w-5 neomorphic rounded-full bg-mint-300"></div>
                 )}
-              </div>
-            </div>
-            
-            {/* Bottom Controls */}
-            <div className="flex gap-4 mt-6">
-              <div className="neomorphic w-12 h-12 flex items-center justify-center rounded-full">
-                <div className="w-5 h-5 border-2 border-sage-500 rounded-full"></div>
-              </div>
-              
-              <div className="neomorphic w-12 h-12 flex items-center justify-center rounded-full">
-                <User size={18} className="text-sage-500" />
-              </div>
-              
-              <div className="neomorphic w-12 h-12 flex items-center justify-center rounded-full">
-                <Search size={18} className="text-sage-500" />
-              </div>
-              
-              <div className="neomorphic w-12 h-12 flex items-center justify-center rounded-full">
-                <ArrowRight size={18} className="text-sage-500" />
               </div>
             </div>
           </div>
@@ -368,15 +323,15 @@ const Index = () => {
       {/* Features Section */}
       <section className="py-20 bg-cream-50">
         <div className="container">
-          <h3 className="text-3xl font-bold text-center mb-16 text-sage-600">{featuresTitle}</h3>
+          <h3 className="text-3xl font-bold text-center mb-16 text-mint-600">{featuresTitle}</h3>
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="bg-cream-100 p-8 rounded-3xl shadow-soft">
                 <div className="feature-icon mb-6">
                   {Icons[feature.iconName as keyof typeof Icons]?.({ className: "w-8 h-8" })}
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-sage-600">{feature.title}</h3>
-                <p className="text-sage-500">{feature.description}</p>
+                <h3 className="text-xl font-semibold mb-2 text-mint-600">{feature.title}</h3>
+                <p className="text-mint-500">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -386,16 +341,16 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-20">
         <div className="container text-center">
-          <h3 className="text-3xl font-bold mb-4 text-sage-600">{ctaTitle}</h3>
-          <p className="text-xl text-sage-500 mb-8 max-w-md mx-auto">
+          <h3 className="text-3xl font-bold mb-4 text-mint-600">{ctaTitle}</h3>
+          <p className="text-xl text-mint-500 mb-8 max-w-md mx-auto">
             {ctaSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <div className="neomorphic overflow-hidden rounded-2xl">
-              <AppStoreButton {...(appStoreLink ? { href: appStoreLink } : {})} className="bg-cream-100 border-none text-sage-600" />
+              <AppStoreButton {...(appStoreLink ? { href: appStoreLink } : {})} className="bg-cream-100 border-none text-mint-600" />
             </div>
             <div className="neomorphic overflow-hidden rounded-2xl">
-              <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} className="bg-cream-100 border-none text-sage-600" />
+              <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} className="bg-cream-100 border-none text-mint-600" />
             </div>
           </div>
         </div>
@@ -405,17 +360,17 @@ const Index = () => {
       <footer className="py-8 border-t border-cream-200">
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-sm text-sage-500 mb-4 md:mb-0">
+            <div className="text-sm text-mint-500 mb-4 md:mb-0">
               © {new Date().getFullYear()} fastnow.app. All rights reserved.
             </div>
             <div className="flex gap-6">
-              <Link to="/privacy" className="text-sm text-sage-500 hover:text-sage-600">
+              <Link to="/privacy" className="text-sm text-mint-500 hover:text-mint-600">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="text-sm text-sage-500 hover:text-sage-600">
+              <Link to="/terms" className="text-sm text-mint-500 hover:text-mint-600">
                 Terms of Service
               </Link>
-              <Link to="/contact" className="text-sm text-sage-500 hover:text-sage-600">
+              <Link to="/contact" className="text-sm text-mint-500 hover:text-mint-600">
                 Contact
               </Link>
             </div>

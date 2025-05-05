@@ -7,6 +7,29 @@
 
 @layer base {
   :root {
+    /* Default colors */
+    --cream-base: #F2F0E6;
+    --mint-light: #A3D9B1;
+    --mint-dark: #6A8D74;
+    
+    /* Shadow colors derived from cream base */
+    --shadow-dark: #e6ddd0;
+    --shadow-light: #fffcef;
+    
+    /* Color variations */
+    --cream-50: #FFFBF0;
+    --cream-100: var(--cream-base);
+    --cream-200: #F9EDD4;
+    --cream-300: #F5E6C8;
+    --cream-400: #F0DFBC;
+    
+    /* Mint/sage colors */
+    --mint-300: var(--mint-light);
+    --mint-400: #8AC298;
+    --mint-500: var(--mint-dark);
+    --mint-600: #57735F;
+    
+    /* Theme colors */
     --background: 40 33% 96%;
     --foreground: 110 6% 26%;
 
@@ -61,12 +84,12 @@
   
   .timer-circle {
     @apply rounded-full bg-cream-100 relative flex items-center justify-center;
-    box-shadow: 8px 8px 16px #e6ddd0, -8px -8px 16px #fffcef;
+    box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
   }
   
   .timer-inner {
     @apply rounded-full bg-cream-100;
-    box-shadow: inset 4px 4px 8px #e6ddd0, inset -4px -4px 8px #fffcef;
+    box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
   }
   
   .custom-timer {
@@ -79,7 +102,7 @@
   }
   
   .feature-icon {
-    @apply neomorphic flex items-center justify-center w-16 h-16 text-sage-500;
+    @apply neomorphic flex items-center justify-center w-16 h-16 text-mint-500;
   }
   
   .custom-ui-element {
@@ -93,9 +116,9 @@
 
 .neomorphic-slider .slider-track {
   @apply bg-cream-200 h-2 rounded-full overflow-hidden relative;
-  box-shadow: inset 2px 2px 4px #e6ddd0, inset -2px -2px 4px #fffcef;
+  box-shadow: inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
 }
 
 .neomorphic-slider .slider-thumb {
-  @apply bg-sage-300 h-5 w-5 rounded-full cursor-pointer shadow-soft -mt-1.5;
+  @apply bg-mint-300 h-5 w-5 rounded-full cursor-pointer shadow-soft -mt-1.5;
 }

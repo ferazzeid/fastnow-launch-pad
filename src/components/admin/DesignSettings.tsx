@@ -14,6 +14,12 @@ interface ElementDesign {
   imageUrl: string;
 }
 
+interface ColorSettings {
+  creamBase: string;
+  mintLight: string;
+  mintDark: string;
+}
+
 const DesignSettings: React.FC = () => {
   // Default UI elements that can be customized
   const defaultElements: ElementDesign[] = [
@@ -31,6 +37,13 @@ const DesignSettings: React.FC = () => {
   const [showDefaultDesign, setShowDefaultDesign] = useState(
     localStorage.getItem('fastingApp_showDefaultDesign') !== 'false'
   );
+  
+  // Color settings
+  const [colors, setColors] = useState<ColorSettings>({
+    creamBase: localStorage.getItem('fastingApp_creamBase') || '#F2F0E6',
+    mintLight: localStorage.getItem('fastingApp_mintLight') || '#A3D9B1',
+    mintDark: localStorage.getItem('fastingApp_mintDark') || '#6A8D74'
+  });
 
   useEffect(() => {
     // Load saved elements from localStorage
@@ -40,6 +53,9 @@ const DesignSettings: React.FC = () => {
     } else {
       setElements(defaultElements);
     }
+    
+    // Apply saved colors on load
+    applyColors(colors);
   }, []);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, elementId: string) => {
@@ -91,9 +107,184 @@ const DesignSettings: React.FC = () => {
     localStorage.setItem('fastingApp_showDefaultDesign', newValue.toString());
     toast.success(newValue ? 'Using default design as fallback' : 'Using only custom images');
   };
+  
+  // Handle color input changes
+  const handleColorChange = (colorName: keyof ColorSettings, value: string) => {
+    setColors(prev => ({ ...prev, [colorName]: value }));
+  };
+  
+  // Apply colors to the document root
+  const applyColors = (colorValues: ColorSettings) => {
+    const root = document.documentElement;
+    
+    // Set the main colors
+    root.style.setProperty('--cream-base', colorValues.creamBase);
+    root.style.setProperty('--mint-light', colorValues.mintLight);
+    root.style.setProperty('--mint-dark', colorValues.mintDark);
+    
+    // Calculate and set shadow colors based on cream base
+    const shadowDark = calculateDarkerShade(colorValues.creamBase, 0.1);
+    const shadowLight = calculateLighterShade(colorValues.creamBase, 0.1);
+    
+    root.style.setProperty('--shadow-dark', shadowDark);
+    root.style.setProperty('--shadow-light', shadowLight);
+    
+    // Save to localStorage for persistence
+    localStorage.setItem('fastingApp_creamBase', colorValues.creamBase);
+    localStorage.setItem('fastingApp_mintLight', colorValues.mintLight);
+    localStorage.setItem('fastingApp_mintDark', colorValues.mintDark);
+    
+    toast.success('Color theme updated');
+  };
+  
+  // Helper functions to calculate shadow colors
+  const calculateDarkerShade = (hex: string, percent: number): string => {
+    const { r, g, b } = hexToRgb(hex);
+    const factor = 1 - percent;
+    
+    const newR = Math.floor(r * factor);
+    const newG = Math.floor(g * factor);
+    const newB = Math.floor(b * factor);
+    
+    return rgbToHex(newR, newG, newB);
+  };
+  
+  const calculateLighterShade = (hex: string, percent: number): string => {
+    const { r, g, b } = hexToRgb(hex);
+    const factor = percent;
+    
+    const newR = Math.floor(r + (255 - r) * factor);
+    const newG = Math.floor(g + (255 - g) * factor);
+    const newB = Math.floor(b + (255 - b) * factor);
+    
+    return rgbToHex(newR, newG, newB);
+  };
+  
+  // Color conversion utilities
+  const hexToRgb = (hex: string): { r: number, g: number, b: number } => {
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    const formattedHex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
+    
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(formattedHex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : { r: 0, g: 0, b: 0 };
+  };
+  
+  const componentToHex = (c: number): string => {
+    const hex = c.toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  };
+  
+  const rgbToHex = (r: number, g: number, b: number): string => {
+    return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  };
+  
+  // Save color settings
+  const handleSaveColors = () => {
+    applyColors(colors);
+  };
+  
+  // Reset colors to default
+  const handleResetColors = () => {
+    const defaultColors = {
+      creamBase: '#F2F0E6',
+      mintLight: '#A3D9B1',
+      mintDark: '#6A8D74'
+    };
+    setColors(defaultColors);
+    applyColors(defaultColors);
+  };
 
   return (
     <div className="space-y-8">
+      <Card>
+        <CardHeader>
+          <CardTitle>Color Settings</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="cream-base">Cream (Background/Base)</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="cream-base"
+                    type="color"
+                    value={colors.creamBase}
+                    onChange={(e) => handleColorChange('creamBase', e.target.value)}
+                    className="w-12 h-12 p-1 cursor-pointer"
+                  />
+                  <Input
+                    type="text"
+                    value={colors.creamBase}
+                    onChange={(e) => handleColorChange('creamBase', e.target.value)}
+                    className="flex-1"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">Main background color</p>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="mint-light">Light Mint Green (Accents)</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="mint-light"
+                    type="color"
+                    value={colors.mintLight}
+                    onChange={(e) => handleColorChange('mintLight', e.target.value)}
+                    className="w-12 h-12 p-1 cursor-pointer"
+                  />
+                  <Input
+                    type="text"
+                    value={colors.mintLight}
+                    onChange={(e) => handleColorChange('mintLight', e.target.value)}
+                    className="flex-1"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">Used for thumb, active states</p>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="mint-dark">Dark Mint Green (Text)</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="mint-dark"
+                    type="color"
+                    value={colors.mintDark}
+                    onChange={(e) => handleColorChange('mintDark', e.target.value)}
+                    className="w-12 h-12 p-1 cursor-pointer"
+                  />
+                  <Input
+                    type="text"
+                    value={colors.mintDark}
+                    onChange={(e) => handleColorChange('mintDark', e.target.value)}
+                    className="flex-1"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">Used for icon outlines, text, accents</p>
+              </div>
+            </div>
+            
+            <div className="flex gap-4">
+              <Button onClick={handleSaveColors}>Apply Colors</Button>
+              <Button variant="outline" onClick={handleResetColors}>Reset to Default</Button>
+            </div>
+            
+            <div className="p-4 border rounded-md mt-4">
+              <h4 className="font-medium mb-2">Color Preview</h4>
+              <div className="flex gap-4 items-center">
+                <div className="w-16 h-16 rounded-md" style={{ backgroundColor: colors.creamBase }}></div>
+                <div className="w-12 h-12 rounded-full" style={{ backgroundColor: colors.mintLight }}></div>
+                <div className="w-8 h-8 rounded-full" style={{ backgroundColor: colors.mintDark }}></div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Design Settings</CardTitle>
