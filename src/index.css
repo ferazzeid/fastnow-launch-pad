@@ -69,12 +69,25 @@
     box-shadow: inset 4px 4px 8px #e6ddd0, inset -4px -4px 8px #fffcef;
   }
   
+  .custom-timer {
+    @apply relative flex items-center justify-center;
+    transition: all 0.3s ease;
+  }
+  
   .btn-app-store {
     @apply flex items-center justify-center border border-primary bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-6 rounded-2xl transition-colors;
   }
   
   .feature-icon {
     @apply neomorphic flex items-center justify-center w-16 h-16 text-sage-500;
+  }
+  
+  .custom-ui-element {
+    @apply transition-all duration-300;
+  }
+  
+  .custom-ui-element:hover {
+    @apply transform scale-105;
   }
 }
 

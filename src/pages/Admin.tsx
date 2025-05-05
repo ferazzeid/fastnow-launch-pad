@@ -9,6 +9,7 @@ import ContentSettings from "@/components/admin/ContentSettings";
 import FeaturesSettings from "@/components/admin/FeaturesSettings";
 import SeoSettings from "@/components/admin/SeoSettings";
 import PagesSettings from "@/components/admin/PagesSettings";
+import DesignSettings from "@/components/admin/DesignSettings";
 
 const Admin: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -67,10 +68,11 @@ const Admin: React.FC = () => {
       
       <main className="container py-8">
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-5 mb-4">
+          <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-6 mb-4">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="content">Content</TabsTrigger>
             <TabsTrigger value="features">Features</TabsTrigger>
+            <TabsTrigger value="design">Design</TabsTrigger>
             <TabsTrigger value="seo">SEO</TabsTrigger>
             <TabsTrigger value="pages">Pages</TabsTrigger>
           </TabsList>
@@ -85,6 +87,10 @@ const Admin: React.FC = () => {
           
           <TabsContent value="features">
             <FeaturesSettings />
+          </TabsContent>
+          
+          <TabsContent value="design">
+            <DesignSettings />
           </TabsContent>
           
           <TabsContent value="seo">
