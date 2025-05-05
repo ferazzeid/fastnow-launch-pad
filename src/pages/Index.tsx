@@ -6,6 +6,7 @@ import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
 import CircularTimer from '@/components/CircularTimer';
 import PageLayout from '@/components/layout/PageLayout';
+import { FeatureItem } from '@/components/FeatureItem';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -102,7 +103,9 @@ const Index = () => {
     
     const savedFeatures = localStorage.getItem('fastingApp_features');
     if (savedFeatures) {
-      setFeatures(JSON.parse(savedFeatures));
+      // Ensure we only load two features
+      const parsedFeatures = JSON.parse(savedFeatures);
+      setFeatures(parsedFeatures.slice(0, 2));
     }
     
     // App store links
@@ -211,14 +214,13 @@ const Index = () => {
         <div className="container">
           <h3 className="text-3xl font-bold text-center mb-16 text-mint-600">{featuresTitle}</h3>
           <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-            {features.map((feature, index) => (
-              <div key={index} className="bg-cream-100 p-10 rounded-3xl shadow-soft h-full">
-                <div className="feature-icon mb-8 flex justify-center">
-                  {Icons[feature.iconName as keyof typeof Icons]?.({ className: "w-12 h-12" })}
-                </div>
-                <h3 className="text-2xl font-semibold mb-4 text-mint-600 text-center">{feature.title}</h3>
-                <p className="text-mint-500 text-center text-lg">{feature.description}</p>
-              </div>
+            {features.slice(0, 2).map((feature, index) => (
+              <FeatureItem
+                key={index}
+                title={feature.title}
+                description={feature.description}
+                icon={Icons[feature.iconName as keyof typeof Icons]?.({ className: "w-12 h-12" })}
+              />
             ))}
           </div>
         </div>

@@ -33,6 +33,13 @@ const FeaturesSettings: React.FC = () => {
     JSON.parse(localStorage.getItem('fastingApp_features') || JSON.stringify(defaultFeatures))
   );
 
+  // Ensure we only have two features
+  React.useEffect(() => {
+    if (features.length > 2) {
+      setFeatures(features.slice(0, 2));
+    }
+  }, [features]);
+
   const updateFeature = (index: number, field: keyof Feature, value: string) => {
     const updatedFeatures = features.map((feature, i) => 
       i === index ? { ...feature, [field]: value } : feature
@@ -41,8 +48,10 @@ const FeaturesSettings: React.FC = () => {
   };
 
   const handleFeaturesUpdate = () => {
+    // Ensure we only save two features
+    const twoFeatures = features.slice(0, 2);
     localStorage.setItem('fastingApp_featuresTitle', featuresTitle);
-    localStorage.setItem('fastingApp_features', JSON.stringify(features));
+    localStorage.setItem('fastingApp_features', JSON.stringify(twoFeatures));
     toast.success("Features updated successfully");
   };
 
@@ -62,7 +71,7 @@ const FeaturesSettings: React.FC = () => {
         </div>
 
         <div className="space-y-6">
-          {features.map((feature, index) => (
+          {features.slice(0, 2).map((feature, index) => (
             <div key={index} className="p-4 border rounded-md space-y-3">
               <div className="space-y-2">
                 <Label htmlFor={`feature-${index}-title`}>Feature {index + 1} Title</Label>
