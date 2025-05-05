@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,22 +22,49 @@ const GeneralSettings: React.FC = () => {
   const [imageAlt, setImageAlt] = useState(
     localStorage.getItem('fastingApp_imageAlt') || 'Fasting app interface preview'
   );
+  
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setLogo(e.target.files[0]);
-      const imageUrl = URL.createObjectURL(e.target.files[0]);
-      setLogoPreview(imageUrl);
-      localStorage.setItem('fastingApp_logoUrl', imageUrl);
+      const file = e.target.files[0];
+      setLogo(file);
+      
+      try {
+        // Convert to base64
+        const base64String = await convertFileToBase64(file);
+        setLogoPreview(base64String);
+        localStorage.setItem('fastingApp_logoUrl', base64String);
+        toast.success("Logo uploaded successfully");
+      } catch (error) {
+        toast.error("Failed to process logo image");
+        console.error("Error processing logo:", error);
+      }
     }
   };
 
-  const handleAppImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAppImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setAppImage(e.target.files[0]);
-      const imageUrl = URL.createObjectURL(e.target.files[0]);
-      setMockupPreview(imageUrl);
-      localStorage.setItem('fastingApp_mockupUrl', imageUrl);
+      const file = e.target.files[0];
+      setAppImage(file);
+      
+      try {
+        // Convert to base64
+        const base64String = await convertFileToBase64(file);
+        setMockupPreview(base64String);
+        localStorage.setItem('fastingApp_mockupUrl', base64String);
+        toast.success("App image uploaded successfully");
+      } catch (error) {
+        toast.error("Failed to process app image");
+        console.error("Error processing app image:", error);
+      }
     }
   };
 

@@ -25,13 +25,17 @@ export const CircularTimer: React.FC<CircularTimerProps> = ({
     }
     
     // Check for custom timer image
-    const customElements = localStorage.getItem('fastingApp_customElements');
-    if (customElements) {
-      const elements = JSON.parse(customElements);
-      const timerElement = elements.find((el: any) => el.id === 'timer');
-      if (timerElement && timerElement.imageUrl) {
-        setCustomTimerImage(timerElement.imageUrl);
+    try {
+      const customElements = localStorage.getItem('fastingApp_customElements');
+      if (customElements) {
+        const elements = JSON.parse(customElements);
+        const timerElement = elements.find((el: any) => el.id === 'timer');
+        if (timerElement && timerElement.imageUrl) {
+          setCustomTimerImage(timerElement.imageUrl);
+        }
       }
+    } catch (error) {
+      console.error("Error loading custom timer image:", error);
     }
   }, []);
   
