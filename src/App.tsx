@@ -11,6 +11,7 @@ import Admin from "./pages/Admin";
 import AdminPageEditor from "./pages/AdminPageEditor";
 import ContentPage from "./pages/ContentPage";
 import UserManagement from "./pages/UserManagement";
+import FastingTimeline from "./pages/FastingTimeline";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/privacy" element={<ContentPage />} />
             <Route path="/terms" element={<ContentPage />} />
             <Route path="/contact" element={<ContentPage />} />
+            <Route path="/fasting-timeline" element={<FastingTimeline />} />
             
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />

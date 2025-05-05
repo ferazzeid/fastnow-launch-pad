@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppStoreButton } from '@/components/AppStoreButton';
@@ -6,6 +5,7 @@ import { GooglePlayButton } from '@/components/GooglePlayButton';
 import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
 import CircularTimer from '@/components/CircularTimer';
+import MainNavigation from '@/components/MainNavigation';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -136,7 +136,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream-100">
+    <>
       <Helmet>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
@@ -145,6 +145,8 @@ const Index = () => {
         <meta name="twitter:title" content={metaTitle} />
         <meta name="twitter:description" content={metaDescription} />
       </Helmet>
+      
+      <MainNavigation />
       
       {/* Background 3D Element if available */}
       {customElementsImages.background3d && (
@@ -277,7 +279,7 @@ const Index = () => {
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 };
 
