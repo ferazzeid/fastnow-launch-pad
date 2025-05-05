@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppStoreButton } from '@/components/AppStoreButton';
@@ -28,6 +29,7 @@ const getCustomElementImage = (elementId: string): string | null => {
 const Index = () => {
   // State for dynamic content
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [logoSize, setLogoSize] = useState<number>(32);
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<number>(300);
   const [imageAlt, setImageAlt] = useState<string>('Fasting app interface preview');
@@ -70,6 +72,10 @@ const Index = () => {
     // Logo
     const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
     if (savedLogoUrl) setLogoUrl(savedLogoUrl);
+    
+    // Logo Size
+    const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
+    if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
     
     // App Image
     const savedMockupUrl = localStorage.getItem('fastingApp_mockupUrl');
@@ -164,7 +170,7 @@ const Index = () => {
         <div className="container flex justify-between items-center">
           {logoUrl ? (
             <Link to="/">
-              <img src={logoUrl} alt="fastnow.app" className="h-8" />
+              <img src={logoUrl} alt="fastnow.app" style={{ height: `${logoSize}px` }} />
             </Link>
           ) : (
             <div className="text-2xl font-bold text-mint-600">fastnow.app</div>

@@ -17,6 +17,9 @@ const GeneralSettings: React.FC = () => {
   const [imageSize, setImageSize] = useState(
     parseInt(localStorage.getItem('fastingApp_imageSize') || '300')
   );
+  const [logoSize, setLogoSize] = useState(
+    parseInt(localStorage.getItem('fastingApp_logoSize') || '32')
+  );
   const [imageAlt, setImageAlt] = useState(
     localStorage.getItem('fastingApp_imageAlt') || 'Fasting app interface preview'
   );
@@ -52,6 +55,13 @@ const GeneralSettings: React.FC = () => {
     toast.success("Image size updated");
   };
   
+  const handleLogoSizeChange = (value: number[]) => {
+    const newSize = value[0];
+    setLogoSize(newSize);
+    localStorage.setItem('fastingApp_logoSize', newSize.toString());
+    toast.success("Logo size updated");
+  };
+  
   const handleAltTextUpdate = () => {
     localStorage.setItem('fastingApp_imageAlt', imageAlt);
     toast.success("Alt text updated successfully");
@@ -85,9 +95,26 @@ const GeneralSettings: React.FC = () => {
                     src={logoPreview} 
                     alt="Logo preview" 
                     className="max-h-16" 
+                    style={{ height: `${logoSize}px` }}
                   />
                 </div>
               )}
+            </div>
+          </div>
+          
+          <div className="space-y-2 pt-4">
+            <Label htmlFor="logo-size">Logo Size (px)</Label>
+            <div className="flex items-center gap-4">
+              <Slider
+                id="logo-size"
+                defaultValue={[logoSize]}
+                min={16}
+                max={64}
+                step={2}
+                onValueChange={handleLogoSizeChange}
+                className="flex-1"
+              />
+              <span className="w-12 text-center">{logoSize}</span>
             </div>
           </div>
         </CardContent>
