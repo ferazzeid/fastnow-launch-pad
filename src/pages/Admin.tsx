@@ -10,6 +10,7 @@ import FeaturesSettings from "@/components/admin/FeaturesSettings";
 import SeoSettings from "@/components/admin/SeoSettings";
 import PagesSettings from "@/components/admin/PagesSettings";
 import DesignSettings from "@/components/admin/DesignSettings";
+import { Link } from "react-router-dom";
 
 const Admin: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,7 +29,8 @@ const Admin: React.FC = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (username === 'admin' && password === 'admin') {
+    // Ensure login works with "admin" "admin"
+    if (username.toLowerCase() === 'admin' && password === 'admin') {
       localStorage.setItem('fastingApp_auth', 'true');
       setIsAuthenticated(true);
       toast.success("Logged in successfully");
@@ -62,7 +64,12 @@ const Admin: React.FC = () => {
       <header className="border-b bg-card">
         <div className="container flex justify-between items-center py-4">
           <h1 className="text-2xl font-bold">FastNow Admin</h1>
-          <Button variant="outline" onClick={handleLogout}>Logout</Button>
+          <div className="flex items-center gap-4">
+            <Link to="/admin/users">
+              <Button variant="outline">User Management</Button>
+            </Link>
+            <Button variant="outline" onClick={handleLogout}>Logout</Button>
+          </div>
         </div>
       </header>
       

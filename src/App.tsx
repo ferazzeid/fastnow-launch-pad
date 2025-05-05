@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import AdminPageEditor from "./pages/AdminPageEditor";
 import ContentPage from "./pages/ContentPage";
+import UserManagement from "./pages/UserManagement";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
             
             {/* Admin routes */}
             <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/users" element={<UserManagement />} />
             <Route path="/admin/:pageType" element={<AdminPageEditor />} />
             
             {/* Content pages */}
