@@ -172,9 +172,7 @@ const Index = () => {
                 {heroSubtitle}
               </h2>
               <div className="flex justify-start mt-10">
-                <div className="neomorphic overflow-hidden rounded-2xl">
-                  <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} className="bg-cream-100 border-none text-mint-600" />
-                </div>
+                <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} />
               </div>
             </div>
             <div className="lg:w-1/2 flex justify-center items-center">
