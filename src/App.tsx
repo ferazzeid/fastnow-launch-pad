@@ -17,6 +17,9 @@ import BlogPost from "./pages/BlogPost";
 import AdminBlog from "./pages/AdminBlog";
 import BlogEditor from "./pages/BlogEditor";
 import BlogApi from "./pages/BlogApi";
+import AdminMotivators from "./pages/AdminMotivators";
+import AdminHourlyContent from "./pages/AdminHourlyContent";
+import AppContentApi from "./pages/AppContentApi";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +39,7 @@ const App = () => (
             
             {/* API routes */}
             <Route path="/api/blog" element={<BlogApi />} />
+            <Route path="/api/app-content" element={<AppContentApi />} />
             
             {/* Admin routes */}
             <Route path="/admin" element={<Admin />} />
@@ -43,6 +47,8 @@ const App = () => (
             <Route path="/admin/blog" element={<AdminBlog />} />
             <Route path="/admin/blog/new" element={<BlogEditor />} />
             <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
+            <Route path="/admin/motivators" element={<AdminMotivators />} />
+            <Route path="/admin/hourly-content" element={<AdminHourlyContent />} />
             <Route path="/admin/:pageType" element={<AdminPageEditor />} />
             
             {/* Content pages */}

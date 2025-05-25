@@ -70,6 +70,12 @@ const Admin: React.FC = () => {
             <Link to="/admin/blog">
               <Button variant="outline">Blog Management</Button>
             </Link>
+            <Link to="/admin/motivators">
+              <Button variant="outline">Motivators</Button>
+            </Link>
+            <Link to="/admin/hourly-content">
+              <Button variant="outline">Hourly Content</Button>
+            </Link>
             <Link to="/admin/users">
               <Button variant="outline">User Management</Button>
             </Link>
@@ -79,6 +85,24 @@ const Admin: React.FC = () => {
       </header>
       
       <main className="container py-8">
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold mb-4">App Content Management</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <Link to="/admin/motivators">
+              <div className="border rounded-lg p-4 hover:bg-accent transition-colors cursor-pointer">
+                <h3 className="font-semibold">Motivators</h3>
+                <p className="text-sm text-muted-foreground">Manage motivational content for the app</p>
+              </div>
+            </Link>
+            <Link to="/admin/hourly-content">
+              <div className="border rounded-lg p-4 hover:bg-accent transition-colors cursor-pointer">
+                <h3 className="font-semibold">Hourly Content</h3>
+                <p className="text-sm text-muted-foreground">Manage 96 hours of fasting journey content</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+
         <Tabs defaultValue="general" className="space-y-6">
           <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-6 mb-4">
             <TabsTrigger value="general">General</TabsTrigger>
