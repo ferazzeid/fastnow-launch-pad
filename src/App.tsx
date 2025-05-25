@@ -18,9 +18,10 @@ import AdminBlog from "./pages/AdminBlog";
 import BlogEditor from "./pages/BlogEditor";
 import BlogApi from "./pages/BlogApi";
 import AdminMotivators from "./pages/AdminMotivators";
-import AdminHourlyContent from "./pages/AdminHourlyContent";
+import AdminFastingHours from "./pages/AdminFastingHours";
 import AppContentApi from "./pages/AppContentApi";
 import FastingSlotsApi from "./pages/FastingSlotsApi";
+import FastingHoursApi from "./pages/FastingHoursApi";
 import MotivatorsApi from "./pages/MotivatorsApi";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/api/blog" element={<BlogApi />} />
             <Route path="/api/app-content" element={<AppContentApi />} />
             <Route path="/api/fasting-slots" element={<FastingSlotsApi />} />
+            <Route path="/api/fasting-hours" element={<FastingHoursApi />} />
             <Route path="/api/motivators" element={<MotivatorsApi />} />
             
             {/* Admin routes */}
@@ -52,7 +54,7 @@ const App = () => (
             <Route path="/admin/blog/new" element={<BlogEditor />} />
             <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
             <Route path="/admin/motivators" element={<AdminMotivators />} />
-            <Route path="/admin/hourly-content" element={<AdminHourlyContent />} />
+            <Route path="/admin/fasting-hours" element={<AdminFastingHours />} />
             <Route path="/admin/:pageType" element={<AdminPageEditor />} />
             
             {/* Content pages */}

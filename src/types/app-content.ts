@@ -25,7 +25,7 @@ export interface Motivator {
   updatedAt?: string;
 }
 
-export interface FastingSlot {
+export interface FastingHour {
   hour: number;
   day: number;
   title: string;
@@ -50,28 +50,20 @@ export interface FastingSlot {
   updatedAt: string;
 }
 
-export interface HourlyContent {
-  hour: number; // 1-96
-  field1: string;
-  field2: string;
-  field3: string;
-  field4: string;
-  field5: string;
-  updatedAt: string;
-}
+// Legacy interface for backward compatibility
+export interface FastingSlot extends FastingHour {}
 
 export interface AppContentApiData {
   motivators: Motivator[];
-  hourlyContent: HourlyContent[];
-  fastingSlots: FastingSlot[];
+  fastingHours: FastingHour[];
   lastUpdated: string;
 }
 
-export interface FastingSlotsApiResponse {
+export interface FastingHoursApiResponse {
   version: string;
   lastUpdated: string;
   totalHours: number;
-  slots: FastingSlot[];
+  hours: FastingHour[];
 }
 
 export interface MotivatorsApiResponse {

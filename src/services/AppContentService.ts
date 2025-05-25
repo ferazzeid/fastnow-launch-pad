@@ -1,9 +1,8 @@
-import { Motivator, HourlyContent, FastingSlot } from '@/types/app-content';
+import { Motivator, FastingHour } from '@/types/app-content';
 
 export class AppContentService {
   private static MOTIVATORS_KEY = 'fastingApp_motivators';
-  private static HOURLY_CONTENT_KEY = 'fastingApp_hourlyContent';
-  private static FASTING_SLOTS_KEY = 'fastingApp_fastingSlots';
+  private static FASTING_HOURS_KEY = 'fastingApp_fastingHours';
 
   // Motivators Management
   static getAllMotivators(): Motivator[] {
@@ -42,118 +41,55 @@ export class AppContentService {
     this.exportToApi();
   }
 
-  // Hourly Content Management (legacy)
-  static getAllHourlyContent(): HourlyContent[] {
+  // Fasting Hours Management (New consolidated system)
+  static getAllFastingHours(): FastingHour[] {
     try {
-      const hourlyContent = localStorage.getItem(this.HOURLY_CONTENT_KEY);
-      return hourlyContent ? JSON.parse(hourlyContent) : this.initializeHourlyContent();
+      const fastingHours = localStorage.getItem(this.FASTING_HOURS_KEY);
+      return fastingHours ? JSON.parse(fastingHours) : this.initializeFastingHours();
     } catch (error) {
-      console.error('Error loading hourly content:', error);
-      return this.initializeHourlyContent();
+      console.error('Error loading fasting hours:', error);
+      return this.initializeFastingHours();
     }
   }
 
-  static getHourlyContentByHour(hour: number): HourlyContent | null {
-    const hourlyContent = this.getAllHourlyContent();
-    return hourlyContent.find(content => content.hour === hour) || null;
+  static getFastingHourByHour(hour: number): FastingHour | null {
+    const fastingHours = this.getAllFastingHours();
+    return fastingHours.find(fh => fh.hour === hour) || null;
   }
 
-  static saveHourlyContent(content: HourlyContent): void {
-    const allContent = this.getAllHourlyContent();
-    const existingIndex = allContent.findIndex(c => c.hour === content.hour);
+  static saveFastingHour(hour: FastingHour): void {
+    const allHours = this.getAllFastingHours();
+    const existingIndex = allHours.findIndex(h => h.hour === hour.hour);
     
-    const updatedContent = { ...content, updatedAt: new Date().toISOString() };
+    const updatedHour = { ...hour, updatedAt: new Date().toISOString() };
     
     if (existingIndex >= 0) {
-      allContent[existingIndex] = updatedContent;
+      allHours[existingIndex] = updatedHour;
     } else {
-      allContent.push(updatedContent);
-      allContent.sort((a, b) => a.hour - b.hour);
+      allHours.push(updatedHour);
+      allHours.sort((a, b) => a.hour - b.hour);
     }
     
-    localStorage.setItem(this.HOURLY_CONTENT_KEY, JSON.stringify(allContent));
+    localStorage.setItem(this.FASTING_HOURS_KEY, JSON.stringify(allHours));
     this.exportToApi();
   }
 
-  private static initializeHourlyContent(): HourlyContent[] {
-    const hourlyContent: HourlyContent[] = [];
-    for (let hour = 1; hour <= 96; hour++) {
-      hourlyContent.push({
-        hour,
-        field1: '',
-        field2: '',
-        field3: '',
-        field4: '',
-        field5: '',
-        updatedAt: new Date().toISOString()
-      });
-    }
-    localStorage.setItem(this.HOURLY_CONTENT_KEY, JSON.stringify(hourlyContent));
-    return hourlyContent;
-  }
+  private static initializeFastingHours(): FastingHour[] {
+    const fastingHours: FastingHour[] = [];
 
-  // Fasting Slots Management
-  static getAllFastingSlots(): FastingSlot[] {
-    try {
-      const fastingSlots = localStorage.getItem(this.FASTING_SLOTS_KEY);
-      return fastingSlots ? JSON.parse(fastingSlots) : this.initializeFastingSlots();
-    } catch (error) {
-      console.error('Error loading fasting slots:', error);
-      return this.initializeFastingSlots();
-    }
-  }
-
-  static getFastingSlotByHour(hour: number): FastingSlot | null {
-    const fastingSlots = this.getAllFastingSlots();
-    return fastingSlots.find(slot => slot.hour === hour) || null;
-  }
-
-  static saveFastingSlot(slot: FastingSlot): void {
-    const allSlots = this.getAllFastingSlots();
-    const existingIndex = allSlots.findIndex(s => s.hour === slot.hour);
-    
-    const updatedSlot = { ...slot, updatedAt: new Date().toISOString() };
-    
-    if (existingIndex >= 0) {
-      allSlots[existingIndex] = updatedSlot;
-    } else {
-      allSlots.push(updatedSlot);
-      allSlots.sort((a, b) => a.hour - b.hour);
-    }
-    
-    localStorage.setItem(this.FASTING_SLOTS_KEY, JSON.stringify(allSlots));
-    this.exportToApi();
-  }
-
-  private static initializeFastingSlots(): FastingSlot[] {
-    const keyHours = [0, 1, 4, 8, 12, 16, 18, 20, 24, 30, 36, 42, 48, 60, 72, 84, 96];
-    const fastingSlots: FastingSlot[] = [];
-
-    const sampleData = {
+    // Sample data for key hours
+    const keyHoursData: { [key: number]: Partial<FastingHour> } = {
       0: {
         title: "Fast Initiated",
         bodyState: "You've just started your fast. Your body is still processing your last meal and beginning to transition into fasting mode.",
         commonFeelings: ["motivated", "excited", "normal"],
         encouragement: "Great job starting your fast! The first step is always the hardest.",
         motivatorTags: ["motivation", "beginning", "preparation"],
-        difficulty: "easy" as const,
-        phase: "preparation" as const,
+        difficulty: "easy",
+        phase: "preparation",
         tips: ["Set up your environment for success", "Remove tempting foods", "Stay hydrated"],
         scientificInfo: "Your body is still digesting food and blood glucose levels are normal. Insulin is actively working to process nutrients.",
         symptoms: { positive: ["Clear mindset", "High energy"], challenging: [] },
-        milestones: { autophagy: false, ketosis: false, fatBurning: false }
-      },
-      1: {
-        title: "Early Fasting",
-        bodyState: "Your last meal is being digested. Blood sugar levels are starting to stabilize.",
-        commonFeelings: ["normal", "slightly hungry"],
-        encouragement: "You're doing great! Your body is adapting to the fasting state.",
-        motivatorTags: ["beginning", "adaptation"],
-        difficulty: "easy" as const,
-        phase: "initial" as const,
-        tips: ["Keep yourself busy", "Drink water regularly"],
-        scientificInfo: "Digestion is nearly complete. Blood glucose is beginning to decline as glycogen stores start being accessed.",
-        symptoms: { positive: ["Stable energy"], challenging: ["Mild hunger"] },
         milestones: { autophagy: false, ketosis: false, fatBurning: false }
       },
       16: {
@@ -162,8 +98,8 @@ export class AppContentService {
         commonFeelings: ["focused", "slightly tired", "proud"],
         encouragement: "Amazing! You've reached the point where your body starts its deep cleaning process.",
         motivatorTags: ["autophagy", "breakthrough", "healing"],
-        difficulty: "moderate" as const,
-        phase: "adaptation" as const,
+        difficulty: "moderate",
+        phase: "adaptation",
         tips: ["This is when the magic happens", "Stay strong through any hunger waves"],
         scientificInfo: "Autophagy processes are activating. Your body is beginning to recycle damaged cellular components.",
         symptoms: { positive: ["Mental clarity", "Sense of accomplishment"], challenging: ["Hunger waves", "Some fatigue"] },
@@ -175,8 +111,8 @@ export class AppContentService {
         commonFeelings: ["energetic", "clear-minded", "empowered"],
         encouragement: "Incredible! You've achieved a state that brings profound healing benefits.",
         motivatorTags: ["ketosis", "fat-burning", "peak-performance"],
-        difficulty: "moderate" as const,
-        phase: "ketosis" as const,
+        difficulty: "moderate",
+        phase: "ketosis",
         tips: ["Enjoy the mental clarity", "Listen to your body"],
         scientificInfo: "Deep ketosis with significant ketone production. Brain is efficiently using ketones for fuel.",
         symptoms: { positive: ["Exceptional mental clarity", "Stable energy", "Reduced inflammation"], challenging: [] },
@@ -184,33 +120,62 @@ export class AppContentService {
       }
     };
 
-    keyHours.forEach(hour => {
-      const day = Math.floor(hour / 24) + 1;
-      const data = sampleData[hour as keyof typeof sampleData] || {
-        title: `Hour ${hour}`,
-        bodyState: "Your body continues its fasting journey.",
-        commonFeelings: ["determined"],
-        encouragement: "Keep going! Every hour brings new benefits.",
-        motivatorTags: ["persistence"],
-        difficulty: "moderate" as const,
-        phase: hour < 12 ? "initial" as const : hour < 24 ? "adaptation" as const : hour < 48 ? "ketosis" as const : "deep_ketosis" as const,
-        tips: ["Stay hydrated", "Rest when needed"],
-        scientificInfo: "Continued metabolic adaptation and cellular repair processes.",
-        symptoms: { positive: ["Progress"], challenging: [] },
-        milestones: { autophagy: hour >= 16, ketosis: hour >= 24, fatBurning: hour >= 12 }
-      };
-
-      fastingSlots.push({
+    // Create all 96 hours
+    for (let hour = 1; hour <= 96; hour++) {
+      const day = Math.floor((hour - 1) / 24) + 1;
+      const sampleData = keyHoursData[hour] || {};
+      
+      fastingHours.push({
         hour,
         day,
-        ...data,
+        title: sampleData.title || `Hour ${hour}`,
+        bodyState: sampleData.bodyState || "",
+        commonFeelings: sampleData.commonFeelings || [],
+        encouragement: sampleData.encouragement || "",
+        motivatorTags: sampleData.motivatorTags || [],
+        difficulty: sampleData.difficulty || "moderate",
+        phase: hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended",
+        tips: sampleData.tips || [],
+        scientificInfo: sampleData.scientificInfo || "",
         imageUrl: `https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&hour=${hour}`,
+        symptoms: sampleData.symptoms || { positive: [], challenging: [] },
+        milestones: sampleData.milestones || { 
+          autophagy: hour >= 16, 
+          ketosis: hour >= 24, 
+          fatBurning: hour >= 12 
+        },
         updatedAt: new Date().toISOString()
       });
-    });
+    }
 
-    localStorage.setItem(this.FASTING_SLOTS_KEY, JSON.stringify(fastingSlots));
-    return fastingSlots;
+    localStorage.setItem(this.FASTING_HOURS_KEY, JSON.stringify(fastingHours));
+    return fastingHours;
+  }
+
+  // Legacy support methods (for backward compatibility)
+  static getAllFastingSlots(): FastingHour[] {
+    return this.getAllFastingHours();
+  }
+
+  static getFastingSlotByHour(hour: number): FastingHour | null {
+    return this.getFastingHourByHour(hour);
+  }
+
+  static saveFastingSlot(slot: FastingHour): void {
+    this.saveFastingHour(slot);
+  }
+
+  // Legacy hourly content methods (now return empty for cleanup)
+  static getAllHourlyContent(): any[] {
+    return [];
+  }
+
+  static getHourlyContentByHour(hour: number): null {
+    return null;
+  }
+
+  static saveHourlyContent(content: any): void {
+    // No-op for legacy compatibility
   }
 
   // Utility functions
@@ -221,27 +186,25 @@ export class AppContentService {
   private static async exportToApi(): Promise<void> {
     try {
       const motivators = this.getAllMotivators();
-      const hourlyContent = this.getAllHourlyContent();
-      const fastingSlots = this.getAllFastingSlots();
+      const fastingHours = this.getAllFastingHours();
       
       const apiData = {
         motivators,
-        hourlyContent,
-        fastingSlots,
+        fastingHours,
         lastUpdated: new Date().toISOString()
       };
 
       localStorage.setItem('fastingApp_appContentApi', JSON.stringify(apiData));
       
-      // Create the fasting slots API data
-      const fastingSlotsApiData = {
+      // Create the fasting hours API data
+      const fastingHoursApiData = {
         version: "1.0.0",
         lastUpdated: new Date().toISOString(),
         totalHours: 96,
-        slots: fastingSlots
+        hours: fastingHours
       };
       
-      localStorage.setItem('fastingApp_fastingSlotsApi', JSON.stringify(fastingSlotsApiData));
+      localStorage.setItem('fastingApp_fastingHoursApi', JSON.stringify(fastingHoursApiData));
       
       // Create the motivators API data
       const motivatorsApiData = {
@@ -263,38 +226,40 @@ export class AppContentService {
     try {
       const apiData = localStorage.getItem('fastingApp_appContentApi');
       return apiData ? JSON.parse(apiData) : { 
-        motivators: [], 
-        hourlyContent: this.getAllHourlyContent(),
-        fastingSlots: this.getAllFastingSlots(),
-        lastUpdated: null 
+        motivators: this.getAllMotivators(), 
+        fastingHours: this.getAllFastingHours(),
+        lastUpdated: new Date().toISOString()
       };
     } catch (error) {
       console.error('Error loading app content API data:', error);
       return { 
         motivators: [], 
-        hourlyContent: this.initializeHourlyContent(),
-        fastingSlots: this.initializeFastingSlots(),
-        lastUpdated: null 
+        fastingHours: this.initializeFastingHours(),
+        lastUpdated: new Date().toISOString()
       };
     }
   }
 
   static getFastingSlotsApiData(): any {
+    return this.getFastingHoursApiData();
+  }
+
+  static getFastingHoursApiData(): any {
     try {
-      const apiData = localStorage.getItem('fastingApp_fastingSlotsApi');
+      const apiData = localStorage.getItem('fastingApp_fastingHoursApi');
       return apiData ? JSON.parse(apiData) : {
         version: "1.0.0",
         lastUpdated: new Date().toISOString(),
         totalHours: 96,
-        slots: this.getAllFastingSlots()
+        hours: this.getAllFastingHours()
       };
     } catch (error) {
-      console.error('Error loading fasting slots API data:', error);
+      console.error('Error loading fasting hours API data:', error);
       return {
         version: "1.0.0",
         lastUpdated: new Date().toISOString(),
         totalHours: 96,
-        slots: this.initializeFastingSlots()
+        hours: this.initializeFastingHours()
       };
     }
   }
@@ -322,8 +287,7 @@ export class AppContentService {
   // Initialize sample data
   static createSampleData(): void {
     const existingMotivators = this.getAllMotivators();
-    const existingHourlyContent = this.getAllHourlyContent();
-    const existingFastingSlots = this.getAllFastingSlots();
+    const existingFastingHours = this.getAllFastingHours();
 
     if (existingMotivators.length === 0) {
       const sampleMotivators: Motivator[] = [
@@ -571,9 +535,9 @@ export class AppContentService {
       localStorage.setItem(this.MOTIVATORS_KEY, JSON.stringify(sampleMotivators));
     }
 
-    // Initialize fasting slots if they don't exist
-    if (existingFastingSlots.length === 0) {
-      this.initializeFastingSlots();
+    // Initialize fasting hours if they don't exist
+    if (existingFastingHours.length === 0) {
+      this.initializeFastingHours();
     }
 
     this.exportToApi();
