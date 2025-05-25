@@ -1,4 +1,3 @@
-
 import { Motivator, HourlyContent, FastingSlot } from '@/types/app-content';
 
 export class AppContentService {
@@ -234,7 +233,7 @@ export class AppContentService {
 
       localStorage.setItem('fastingApp_appContentApi', JSON.stringify(apiData));
       
-      // Also create the fasting slots API data
+      // Create the fasting slots API data
       const fastingSlotsApiData = {
         version: "1.0.0",
         lastUpdated: new Date().toISOString(),
@@ -243,9 +242,20 @@ export class AppContentService {
       };
       
       localStorage.setItem('fastingApp_fastingSlotsApi', JSON.stringify(fastingSlotsApiData));
-      console.log('App content and fasting slots exported to API successfully');
+      
+      // Create the motivators API data
+      const motivatorsApiData = {
+        version: "1.0.0",
+        lastUpdated: new Date().toISOString(),
+        totalMotivators: motivators.length,
+        predefinedMotivators: motivators
+      };
+      
+      localStorage.setItem('fastingApp_motivatorsApi', JSON.stringify(motivatorsApiData));
+      
+      console.log('All API data exported successfully');
     } catch (error) {
-      console.error('Error exporting app content to API:', error);
+      console.error('Error exporting API data:', error);
     }
   }
 
@@ -289,6 +299,26 @@ export class AppContentService {
     }
   }
 
+  static getMotivatorsApiData(): any {
+    try {
+      const apiData = localStorage.getItem('fastingApp_motivatorsApi');
+      return apiData ? JSON.parse(apiData) : {
+        version: "1.0.0",
+        lastUpdated: new Date().toISOString(),
+        totalMotivators: 0,
+        predefinedMotivators: this.getAllMotivators()
+      };
+    } catch (error) {
+      console.error('Error loading motivators API data:', error);
+      return {
+        version: "1.0.0",
+        lastUpdated: new Date().toISOString(),
+        totalMotivators: 0,
+        predefinedMotivators: this.getAllMotivators()
+      };
+    }
+  }
+
   // Initialize sample data
   static createSampleData(): void {
     const existingMotivators = this.getAllMotivators();
@@ -298,18 +328,242 @@ export class AppContentService {
     if (existingMotivators.length === 0) {
       const sampleMotivators: Motivator[] = [
         {
-          id: this.generateId(),
-          title: 'Stay Strong',
-          description: 'Remember why you started your fasting journey',
-          image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+          id: 'template-fit-clothes',
+          title: 'Fit Into Clothes',
+          description: 'Get back into that favorite outfit that makes you feel amazing',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/fit-clothes.jpg',
+          caption: 'That perfect dress is waiting for me',
+          category: 'appearance',
+          subcategory: 'clothing',
+          difficulty: 'beginner',
+          timeframe: '4-8 weeks',
+          tags: ['clothing', 'confidence', 'transformation'],
+          isActive: true,
+          isFeatured: true,
+          sortOrder: 1,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/fit-clothes.jpg',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         },
         {
-          id: this.generateId(),
-          title: 'Mind Over Matter',
-          description: 'Your mental strength is your greatest asset',
-          image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
+          id: 'template-prepare-event',
+          title: 'Prepare for Event',
+          description: 'Look and feel your best for that special occasion',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/event-ready.jpg',
+          caption: 'I will shine at this event',
+          category: 'events',
+          subcategory: 'special occasion',
+          difficulty: 'intermediate',
+          timeframe: '6-12 weeks',
+          tags: ['wedding', 'reunion', 'celebration', 'confidence'],
+          isActive: true,
+          isFeatured: true,
+          sortOrder: 2,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/event-ready.jpg',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 'template-surprise-person',
+          title: 'Surprise a Person',
+          description: 'Transform yourself for someone special in your life',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/surprise-someone.jpg',
+          caption: 'I will amaze them with my transformation',
+          category: 'personal',
+          subcategory: 'relationships',
+          difficulty: 'intermediate',
+          timeframe: '8-16 weeks',
+          tags: ['love', 'surprise', 'transformation', 'confidence'],
+          isActive: true,
+          isFeatured: false,
+          sortOrder: 3,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/surprise-someone.jpg',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 'template-beach-body',
+          title: 'Beach Body Ready',
+          description: 'Feel confident and strong in your summer body',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/beach-ready.jpg',
+          caption: 'I will feel amazing in my beach body',
+          category: 'appearance',
+          subcategory: 'fitness',
+          difficulty: 'intermediate',
+          timeframe: '12-20 weeks',
+          tags: ['summer', 'beach', 'confidence', 'fitness'],
+          isActive: true,
+          isFeatured: true,
+          sortOrder: 4,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/beach-ready.jpg',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 'template-energy-boost',
+          title: 'Boost Daily Energy',
+          description: 'Increase your energy levels and mental clarity throughout the day',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/energy-boost.jpg',
+          caption: 'I will feel energized and focused every day',
+          category: 'health',
+          subcategory: 'energy',
+          difficulty: 'beginner',
+          timeframe: '2-4 weeks',
+          tags: ['energy', 'clarity', 'health', 'productivity'],
+          isActive: true,
+          isFeatured: false,
+          sortOrder: 5,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/energy-boost.jpg',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 'template-job-interview',
+          title: 'Job Interview Confidence',
+          description: 'Feel confident and sharp for important career opportunities',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/job-interview.jpg',
+          caption: 'I will project confidence in my interview',
+          category: 'events',
+          subcategory: 'career',
+          difficulty: 'beginner',
+          timeframe: '2-6 weeks',
+          tags: ['career', 'confidence', 'professional', 'success'],
+          isActive: true,
+          isFeatured: false,
+          sortOrder: 6,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/job-interview.jpg',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 'template-mental-clarity',
+          title: 'Mental Clarity & Focus',
+          description: 'Enhance your cognitive function and mental sharpness',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/mental-clarity.jpg',
+          caption: 'I will achieve crystal clear focus',
+          category: 'health',
+          subcategory: 'mental health',
+          difficulty: 'intermediate',
+          timeframe: '4-8 weeks',
+          tags: ['focus', 'clarity', 'cognitive', 'meditation'],
+          isActive: true,
+          isFeatured: false,
+          sortOrder: 7,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/mental-clarity.jpg',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 'template-athletic-performance',
+          title: 'Athletic Performance',
+          description: 'Improve your strength, endurance, and competition readiness',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/athletic-performance.jpg',
+          caption: 'I will excel in my athletic performance',
+          category: 'health',
+          subcategory: 'fitness',
+          difficulty: 'advanced',
+          timeframe: '8-16 weeks',
+          tags: ['athletics', 'performance', 'strength', 'endurance'],
+          isActive: true,
+          isFeatured: false,
+          sortOrder: 8,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/athletic-performance.jpg',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 'template-self-discipline',
+          title: 'Build Self-Discipline',
+          description: 'Develop stronger willpower and self-control in all areas of life',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/self-discipline.jpg',
+          caption: 'I will master my self-discipline',
+          category: 'personal',
+          subcategory: 'growth',
+          difficulty: 'advanced',
+          timeframe: '12-24 weeks',
+          tags: ['discipline', 'willpower', 'growth', 'mindset'],
+          isActive: true,
+          isFeatured: false,
+          sortOrder: 9,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/self-discipline.jpg',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 'template-longevity',
+          title: 'Longevity & Health',
+          description: 'Optimize your health for a longer, more vibrant life',
+          imageUrl: 'https://your-aws-bucket.s3.amazonaws.com/motivators/longevity.jpg',
+          caption: 'I will invest in my long-term health',
+          category: 'health',
+          subcategory: 'longevity',
+          difficulty: 'intermediate',
+          timeframe: 'ongoing',
+          tags: ['longevity', 'health', 'aging', 'vitality'],
+          isActive: true,
+          isFeatured: false,
+          sortOrder: 10,
+          createdDate: new Date().toISOString(),
+          timesUsed: 0,
+          totalSessions: 0,
+          completedSessions: 0,
+          totalTimeSpent: 0,
+          isPredefined: true,
+          image: 'https://your-aws-bucket.s3.amazonaws.com/motivators/longevity.jpg',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         }

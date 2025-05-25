@@ -2,10 +2,27 @@
 export interface Motivator {
   id: string;
   title: string;
-  description?: string;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
+  description: string;
+  imageUrl: string;
+  caption: string;
+  createdDate: string;
+  timesUsed: number;
+  totalSessions: number;
+  completedSessions: number;
+  totalTimeSpent: number;
+  isPredefined: boolean;
+  category: string;
+  subcategory: string;
+  difficulty: string;
+  timeframe: string;
+  tags: string[];
+  isActive: boolean;
+  isFeatured: boolean;
+  sortOrder: number;
+  // Legacy field for backward compatibility
+  image?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface FastingSlot {
@@ -55,4 +72,11 @@ export interface FastingSlotsApiResponse {
   lastUpdated: string;
   totalHours: number;
   slots: FastingSlot[];
+}
+
+export interface MotivatorsApiResponse {
+  version: string;
+  lastUpdated: string;
+  totalMotivators: number;
+  predefinedMotivators: Motivator[];
 }

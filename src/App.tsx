@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,6 +21,7 @@ import AdminMotivators from "./pages/AdminMotivators";
 import AdminHourlyContent from "./pages/AdminHourlyContent";
 import AppContentApi from "./pages/AppContentApi";
 import FastingSlotsApi from "./pages/FastingSlotsApi";
+import MotivatorsApi from "./pages/MotivatorsApi";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +43,7 @@ const App = () => (
             <Route path="/api/blog" element={<BlogApi />} />
             <Route path="/api/app-content" element={<AppContentApi />} />
             <Route path="/api/fasting-slots" element={<FastingSlotsApi />} />
+            <Route path="/api/motivators" element={<MotivatorsApi />} />
             
             {/* Admin routes */}
             <Route path="/admin" element={<Admin />} />
