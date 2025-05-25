@@ -9,6 +9,11 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import AdminPageEditor from "./pages/AdminPageEditor";
+import AdminGeneral from "./pages/AdminGeneral";
+import AdminPages from "./pages/AdminPages";
+import AdminFeatures from "./pages/AdminFeatures";
+import AdminDesign from "./pages/AdminDesign";
+import AdminSeo from "./pages/AdminSeo";
 import ContentPage from "./pages/ContentPage";
 import UserManagement from "./pages/UserManagement";
 import FastingTimeline from "./pages/FastingTimeline";
@@ -49,6 +54,11 @@ const App = () => (
             
             {/* Admin routes */}
             <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/general" element={<AdminGeneral />} />
+            <Route path="/admin/pages" element={<AdminPages />} />
+            <Route path="/admin/features" element={<AdminFeatures />} />
+            <Route path="/admin/design" element={<AdminDesign />} />
+            <Route path="/admin/seo" element={<AdminSeo />} />
             <Route path="/admin/users" element={<UserManagement />} />
             <Route path="/admin/blog" element={<AdminBlog />} />
             <Route path="/admin/blog/new" element={<BlogEditor />} />
