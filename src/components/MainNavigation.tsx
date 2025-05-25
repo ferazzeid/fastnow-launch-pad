@@ -47,6 +47,19 @@ const MainNavigation = () => {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
+          <Link to="/blog">
+            <NavigationMenuLink 
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                location.pathname.startsWith("/blog") && "text-accent-green bg-gray-50"
+              )}
+            >
+              Blog
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <Link to="/fasting-timeline">
             <NavigationMenuLink 
               className={cn(

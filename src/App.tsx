@@ -12,6 +12,10 @@ import AdminPageEditor from "./pages/AdminPageEditor";
 import ContentPage from "./pages/ContentPage";
 import UserManagement from "./pages/UserManagement";
 import FastingTimeline from "./pages/FastingTimeline";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import AdminBlog from "./pages/AdminBlog";
+import BlogEditor from "./pages/BlogEditor";
 
 const queryClient = new QueryClient();
 
@@ -25,9 +29,16 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             
+            {/* Blog routes */}
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            
             {/* Admin routes */}
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/blog" element={<AdminBlog />} />
+            <Route path="/admin/blog/new" element={<BlogEditor />} />
+            <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
             <Route path="/admin/:pageType" element={<AdminPageEditor />} />
             
             {/* Content pages */}

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -66,6 +67,9 @@ const Admin: React.FC = () => {
             FastNow Admin
           </Link>
           <div className="flex items-center gap-4">
+            <Link to="/admin/blog">
+              <Button variant="outline">Blog Management</Button>
+            </Link>
             <Link to="/admin/users">
               <Button variant="outline">User Management</Button>
             </Link>
