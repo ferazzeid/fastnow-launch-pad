@@ -16,6 +16,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import AdminBlog from "./pages/AdminBlog";
 import BlogEditor from "./pages/BlogEditor";
+import BlogApi from "./pages/BlogApi";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,9 @@ const App = () => (
             {/* Blog routes */}
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            
+            {/* API routes */}
+            <Route path="/api/blog" element={<BlogApi />} />
             
             {/* Admin routes */}
             <Route path="/admin" element={<Admin />} />

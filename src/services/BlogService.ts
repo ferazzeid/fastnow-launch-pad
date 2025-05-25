@@ -1,4 +1,3 @@
-
 import { BlogPost } from '@/types/blog';
 
 export class BlogService {
@@ -35,12 +34,24 @@ export class BlogService {
     }
     
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(posts));
+    
+    // Auto-export to JSON after saving
+    this.exportToApi();
   }
 
   static deletePost(id: string): void {
     const posts = this.getAllPosts();
     const filteredPosts = posts.filter(post => post.id !== id);
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(filteredPosts));
+    
+    // Auto-export to JSON after deleting
+    this.exportToApi();
+  }
+
+  private static async exportToApi(): Promise<void> {
+    // Dynamic import to avoid circular dependency
+    const { BlogApiService } = await import('./BlogApiService');
+    BlogApiService.exportToJson();
   }
 
   static generateSlug(title: string): string {
@@ -150,7 +161,7 @@ Signs you should break your fast:
         categories: ['Tips', 'Health'],
         tags: ['mistakes', 'tips', 'safety', 'beginner'],
         status: 'published',
-        createdAt: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+        createdAt: new Date(Date.now() - 86400000).toISOString(),
         updatedAt: new Date(Date.now() - 86400000).toISOString(),
         publishedAt: new Date(Date.now() - 86400000).toISOString(),
         metaDescription: 'Learn about common intermittent fasting mistakes and how to avoid them for better results.',
@@ -161,6 +172,8 @@ Signs you should break your fast:
     const existingPosts = this.getAllPosts();
     if (existingPosts.length === 0) {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(samplePosts));
+      // Export initial data to API
+      this.exportToApi();
     }
   }
 }
