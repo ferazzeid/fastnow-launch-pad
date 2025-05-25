@@ -4,19 +4,25 @@ import { AppContentService } from '@/services/AppContentService';
 
 const FastingHoursApi = () => {
   useEffect(() => {
-    // Serve the fasting hours JSON data
-    const apiData = AppContentService.getFastingHoursApiData();
+    // Force initialize sample data
+    AppContentService.createSampleData();
     
-    // Set content type and return JSON
-    const jsonResponse = JSON.stringify(apiData, null, 2);
-    
-    // For demonstration, show the JSON in the browser
-    document.body.innerHTML = `<pre style="font-family: monospace; white-space: pre-wrap; padding: 20px;">${jsonResponse}</pre>`;
-    
-    // Set proper headers for API response
-    if (typeof window !== 'undefined') {
-      document.title = 'Fasting Hours API - JSON Data';
-    }
+    // Small delay to ensure data is saved
+    setTimeout(() => {
+      // Serve the fasting hours JSON data
+      const apiData = AppContentService.getFastingHoursApiData();
+      
+      // Set content type and return JSON
+      const jsonResponse = JSON.stringify(apiData, null, 2);
+      
+      // For demonstration, show the JSON in the browser
+      document.body.innerHTML = `<pre style="font-family: monospace; white-space: pre-wrap; padding: 20px;">${jsonResponse}</pre>`;
+      
+      // Set proper headers for API response
+      if (typeof window !== 'undefined') {
+        document.title = 'Fasting Hours API - JSON Data';
+      }
+    }, 100);
   }, []);
 
   return (

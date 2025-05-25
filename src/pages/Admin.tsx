@@ -1,142 +1,180 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "@/components/ui/sonner";
-import LoginForm from "@/components/admin/LoginForm";
-import GeneralSettings from "@/components/admin/GeneralSettings";
-import ContentSettings from "@/components/admin/ContentSettings";
-import FeaturesSettings from "@/components/admin/FeaturesSettings";
-import SeoSettings from "@/components/admin/SeoSettings";
-import PagesSettings from "@/components/admin/PagesSettings";
-import DesignSettings from "@/components/admin/DesignSettings";
 import { Link } from "react-router-dom";
+import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock } from "lucide-react";
 
-const Admin: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  // Check if already authenticated
-  useEffect(() => {
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    if (authStatus === 'true') {
-      setIsAuthenticated(true);
-    }
-  }, []);
-
-  // Simple login handling
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Ensure login works with "admin" "admin"
-    if (username.toLowerCase() === 'admin' && password === 'admin') {
-      localStorage.setItem('fastingApp_auth', 'true');
-      setIsAuthenticated(true);
-      toast.success("Logged in successfully");
-    } else {
-      toast.error("Invalid credentials");
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('fastingApp_auth');
-    setIsAuthenticated(false);
-    toast.success("Logged out successfully");
-  };
-
-  // Return login form if not authenticated
-  if (!isAuthenticated) {
-    return (
-      <LoginForm 
-        username={username}
-        setUsername={setUsername}
-        password={password}
-        setPassword={setPassword}
-        handleLogin={handleLogin}
-      />
-    );
-  }
-
-  // Return admin dashboard if authenticated
+const Admin = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container flex justify-between items-center py-4">
-          <Link to="/" className="text-2xl font-bold hover:text-primary transition-colors">
-            FastNow Admin
+          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          <Link to="/">
+            <Button variant="outline">Back to Site</Button>
           </Link>
-          <div className="flex items-center gap-4">
-            <Link to="/admin/blog">
-              <Button variant="outline">Blog Management</Button>
-            </Link>
-            <Link to="/admin/motivators">
-              <Button variant="outline">Motivators</Button>
-            </Link>
-            <Link to="/admin/hourly-content">
-              <Button variant="outline">Hourly Content</Button>
-            </Link>
-            <Link to="/admin/users">
-              <Button variant="outline">User Management</Button>
-            </Link>
-            <Button variant="outline" onClick={handleLogout}>Logout</Button>
-          </div>
         </div>
       </header>
       
       <main className="container py-8">
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-4">App Content Management</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <Link to="/admin/motivators">
-              <div className="border rounded-lg p-4 hover:bg-accent transition-colors cursor-pointer">
-                <h3 className="font-semibold">Motivators</h3>
-                <p className="text-sm text-muted-foreground">Manage motivational content for the app</p>
-              </div>
-            </Link>
-            <Link to="/admin/hourly-content">
-              <div className="border rounded-lg p-4 hover:bg-accent transition-colors cursor-pointer">
-                <h3 className="font-semibold">Hourly Content</h3>
-                <p className="text-sm text-muted-foreground">Manage 96 hours of fasting journey content</p>
-              </div>
-            </Link>
-          </div>
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Content Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText size={20} />
+                Content Management
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/general">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings size={16} className="mr-2" />
+                  General Settings
+                </Button>
+              </Link>
+              <Link to="/admin/pages">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText size={16} className="mr-2" />
+                  Page Content
+                </Button>
+              </Link>
+              <Link to="/admin/features">
+                <Button variant="outline" className="w-full justify-start">
+                  <Heart size={16} className="mr-2" />
+                  Features
+                </Button>
+              </Link>
+              <Link to="/admin/design">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings size={16} className="mr-2" />
+                  Design Settings
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
 
-        <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-6 mb-4">
-            <TabsTrigger value="general">General</TabsTrigger>
-            <TabsTrigger value="content">Content</TabsTrigger>
-            <TabsTrigger value="features">Features</TabsTrigger>
-            <TabsTrigger value="design">Design</TabsTrigger>
-            <TabsTrigger value="seo">SEO</TabsTrigger>
-            <TabsTrigger value="pages">Pages</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="general">
-            <GeneralSettings />
-          </TabsContent>
-          
-          <TabsContent value="content">
-            <ContentSettings />
-          </TabsContent>
-          
-          <TabsContent value="features">
-            <FeaturesSettings />
-          </TabsContent>
-          
-          <TabsContent value="design">
-            <DesignSettings />
-          </TabsContent>
-          
-          <TabsContent value="seo">
-            <SeoSettings />
-          </TabsContent>
-          
-          <TabsContent value="pages">
-            <PagesSettings />
-          </TabsContent>
-        </Tabs>
+          {/* User Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users size={20} />
+                User Management
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Link to="/admin/users">
+                <Button variant="outline" className="w-full justify-start">
+                  <Users size={16} className="mr-2" />
+                  Manage Users
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Blog Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BookOpen size={20} />
+                Blog Management
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/blog">
+                <Button variant="outline" className="w-full justify-start">
+                  <BookOpen size={16} className="mr-2" />
+                  Manage Posts
+                </Button>
+              </Link>
+              <Link to="/admin/blog/new">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText size={16} className="mr-2" />
+                  Create New Post
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* App Content Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Calendar size={20} />
+                Fasting Content
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/fasting-hours">
+                <Button variant="outline" className="w-full justify-start">
+                  <Clock size={16} className="mr-2" />
+                  Hourly Fasting Content
+                </Button>
+              </Link>
+              <Link to="/admin/motivators">
+                <Button variant="outline" className="w-full justify-start">
+                  <Heart size={16} className="mr-2" />
+                  Motivators
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* API Endpoints */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Settings size={20} />
+                API Endpoints
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/api/app-content" target="_blank">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText size={16} className="mr-2" />
+                  App Content API
+                </Button>
+              </Link>
+              <Link to="/api/fasting-hours" target="_blank">
+                <Button variant="outline" className="w-full justify-start">
+                  <Clock size={16} className="mr-2" />
+                  Fasting Hours API
+                </Button>
+              </Link>
+              <Link to="/api/motivators" target="_blank">
+                <Button variant="outline" className="w-full justify-start">
+                  <Heart size={16} className="mr-2" />
+                  Motivators API
+                </Button>
+              </Link>
+              <Link to="/api/blog" target="_blank">
+                <Button variant="outline" className="w-full justify-start">
+                  <BookOpen size={16} className="mr-2" />
+                  Blog API
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* SEO Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Settings size={20} />
+                SEO & Analytics
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Link to="/admin/seo">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings size={16} className="mr-2" />
+                  SEO Settings
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
       </main>
     </div>
   );
