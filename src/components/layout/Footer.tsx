@@ -1,13 +1,11 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AppStoreButton } from '@/components/AppStoreButton';
 import { GooglePlayButton } from '@/components/GooglePlayButton';
 
 const Footer = () => {
   const [ctaTitle, setCtaTitle] = React.useState('Ready to start your fasting journey?');
   const [ctaSubtitle, setCtaSubtitle] = React.useState('Download fastnow.app today and transform your health through fasting.');
-  const [appStoreLink, setAppStoreLink] = React.useState('https://apps.apple.com');
   const [googlePlayLink, setGooglePlayLink] = React.useState('https://play.google.com');
 
   // Load content from localStorage on mount
@@ -19,10 +17,7 @@ const Footer = () => {
     const savedCtaSubtitle = localStorage.getItem('fastingApp_ctaSubtitle');
     if (savedCtaSubtitle) setCtaSubtitle(savedCtaSubtitle);
     
-    // App store links
-    const savedAppStoreLink = localStorage.getItem('fastingApp_appStoreLink');
-    if (savedAppStoreLink) setAppStoreLink(savedAppStoreLink);
-    
+    // Google Play link
     const savedGooglePlayLink = localStorage.getItem('fastingApp_googlePlayLink');
     if (savedGooglePlayLink) setGooglePlayLink(savedGooglePlayLink);
   }, []);
@@ -36,13 +31,7 @@ const Footer = () => {
           <p className="text-xl text-gray-600 mb-8 max-w-md mx-auto">
             {ctaSubtitle}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-              <AppStoreButton 
-                href={appStoreLink} 
-                className="bg-white border-none text-gray-900 hover:bg-gray-50"
-              />
-            </div>
+          <div className="flex justify-center">
             <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
               <GooglePlayButton 
                 href={googlePlayLink} 
