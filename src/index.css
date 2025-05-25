@@ -7,58 +7,74 @@
 
 @layer base {
   :root {
-    /* Default colors */
-    --cream-base: #F2F0E6;
-    --mint-light: #A3D9B1;
-    --mint-dark: #6A8D74;
+    /* Black and white base colors */
+    --background-primary: #ffffff;
+    --background-secondary: #f8f9fa;
+    --background-tertiary: #f1f3f4;
+    --surface-primary: #ffffff;
+    --surface-secondary: #f8f9fa;
     
-    /* Shadow colors derived from cream base */
-    --shadow-dark: #e6ddd0;
-    --shadow-light: #fffcef;
+    /* Text colors */
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-tertiary: #6b7280;
+    --text-inverse: #ffffff;
     
-    /* Color variations */
-    --cream-50: #FFFBF0;
-    --cream-100: var(--cream-base);
-    --cream-200: #F9EDD4;
-    --cream-300: #F5E6C8;
-    --cream-400: #F0DFBC;
+    /* Gray scale */
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
     
-    /* Mint/sage colors */
-    --mint-300: var(--mint-light);
-    --mint-400: #8AC298;
-    --mint-500: var(--mint-dark);
-    --mint-600: #57735F;
+    /* Accent green (preserved from original) */
+    --accent-green-light: #A3D9B1;
+    --accent-green: #6A8D74;
+    --accent-green-dark: #57735F;
     
-    /* Theme colors */
-    --background: 40 33% 96%;
-    --foreground: 110 6% 26%;
+    /* Borders */
+    --border-primary: #e5e7eb;
+    --border-secondary: #d1d5db;
+    
+    /* Shadows - minimal, only for timer */
+    --shadow-timer-light: #ffffff;
+    --shadow-timer-dark: #e5e7eb;
+    
+    /* Theme colors for shadcn components */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
 
-    --card: 40 33% 96%;
-    --card-foreground: 110 6% 26%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
 
-    --popover: 40 33% 96%;
-    --popover-foreground: 110 6% 26%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
 
-    --primary: 110 6% 26%;
-    --primary-foreground: 40 33% 96%;
+    --primary: 140 20% 42%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 44 42% 96%;
-    --secondary-foreground: 110 6% 26%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 29%;
 
-    --muted: 44 42% 92%;
-    --muted-foreground: 110 6% 40%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 42%;
 
-    --accent: 120 14% 75%;
-    --accent-foreground: 110 6% 26%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 29%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 40 33% 96%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 44 42% 86%;
-    --input: 44 42% 86%;
-    --ring: 110 6% 26%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 140 20% 42%;
 
-    --radius: 1rem;
+    --radius: 0.5rem;
   }
 
   * {
@@ -66,7 +82,7 @@
   }
   
   body {
-    @apply bg-cream-100 text-foreground;
+    @apply bg-white text-gray-900;
     font-family: 'Inter', sans-serif;
   }
 
@@ -74,22 +90,15 @@
     @apply px-4 md:px-6 lg:px-8 mx-auto max-w-7xl;
   }
   
-  .neomorphic {
-    @apply bg-cream-100 rounded-full shadow-neomorphic;
-  }
-  
-  .neomorphic-inset {
-    @apply bg-cream-100 rounded-full shadow-neomorphic-inset;
-  }
-  
+  /* Timer circle - keep neomorphic effect */
   .timer-circle {
-    @apply rounded-full bg-cream-100 relative flex items-center justify-center;
-    box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+    @apply rounded-full bg-white relative flex items-center justify-center border border-gray-200;
+    box-shadow: 8px 8px 16px var(--shadow-timer-dark), -8px -8px 16px var(--shadow-timer-light);
   }
   
   .timer-inner {
-    @apply rounded-full bg-cream-100;
-    box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+    @apply rounded-full bg-white border border-gray-100;
+    box-shadow: inset 4px 4px 8px var(--shadow-timer-dark), inset -4px -4px 8px var(--shadow-timer-light);
   }
   
   .custom-timer {
@@ -97,12 +106,14 @@
     transition: all 0.3s ease;
   }
   
+  /* Minimal button styles */
   .btn-app-store {
-    @apply flex items-center justify-center border border-primary bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-6 rounded-2xl transition-colors;
+    @apply flex items-center justify-center border border-gray-300 bg-white text-gray-900 hover:bg-gray-50 h-14 px-6 rounded-lg transition-colors;
   }
   
+  /* Green accent for icons and small elements */
   .feature-icon {
-    @apply neomorphic flex items-center justify-center w-16 h-16 text-mint-500;
+    @apply flex items-center justify-center w-16 h-16 text-accent-green bg-white border border-gray-200 rounded-xl;
   }
   
   .custom-ui-element {
@@ -112,13 +123,36 @@
   .custom-ui-element:hover {
     @apply transform scale-105;
   }
+
+  /* Minimal cards */
+  .minimal-card {
+    @apply bg-white border border-gray-200 rounded-lg;
+  }
+
+  /* Green accent utilities */
+  .text-accent-green {
+    color: var(--accent-green);
+  }
+  
+  .text-accent-green-light {
+    color: var(--accent-green-light);
+  }
+  
+  .bg-accent-green {
+    background-color: var(--accent-green);
+  }
+  
+  .border-accent-green {
+    border-color: var(--accent-green);
+  }
 }
 
+/* Remove most neomorphic effects */
 .neomorphic-slider .slider-track {
-  @apply bg-cream-200 h-2 rounded-full overflow-hidden relative;
-  box-shadow: inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
+  @apply bg-gray-100 h-2 rounded-full overflow-hidden relative border border-gray-200;
 }
 
 .neomorphic-slider .slider-thumb {
-  @apply bg-mint-300 h-5 w-5 rounded-full cursor-pointer shadow-soft -mt-1.5;
+  @apply bg-accent-green h-5 w-5 rounded-full cursor-pointer -mt-1.5 border-2 border-white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

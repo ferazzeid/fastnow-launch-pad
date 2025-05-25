@@ -25,25 +25,28 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        cream: {
-          50: "var(--cream-50)",
-          100: "var(--cream-100)",
-          200: "var(--cream-200)",
-          300: "var(--cream-300)",
-          400: "var(--cream-400)",
+        
+        // Gray scale system
+        gray: {
+          50: "var(--gray-50)",
+          100: "var(--gray-100)",
+          200: "var(--gray-200)",
+          300: "var(--gray-300)",
+          400: "var(--gray-400)",
+          500: "var(--gray-500)",
+          600: "var(--gray-600)",
+          700: "var(--gray-700)",
+          800: "var(--gray-800)",
+          900: "var(--gray-900)",
         },
-        mint: {
-          300: "var(--mint-300)",
-          400: "var(--mint-400)",
-          500: "var(--mint-500)",
-          600: "var(--mint-600)",
+        
+        // Green accents
+        'accent-green': {
+          light: "var(--accent-green-light)",
+          DEFAULT: "var(--accent-green)",
+          dark: "var(--accent-green-dark)",
         },
-        sage: {
-          300: "var(--mint-300)",
-          400: "var(--mint-400)",
-          500: "var(--mint-500)",
-          600: "var(--mint-600)",
-        },
+        
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -103,9 +106,9 @@ export default {
         "slow-spin": "rotate 30s linear infinite",
       },
       boxShadow: {
-        'soft': '0 4px 15px rgba(0, 0, 0, 0.05)',
-        'neomorphic': '8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light)',
-        'neomorphic-inset': 'inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light)',
+        'soft': '0 2px 8px rgba(0, 0, 0, 0.05)',
+        'timer': '8px 8px 16px var(--shadow-timer-dark), -8px -8px 16px var(--shadow-timer-light)',
+        'timer-inset': 'inset 6px 6px 12px var(--shadow-timer-dark), inset -6px -6px 12px var(--shadow-timer-light)',
       },
     },
   },

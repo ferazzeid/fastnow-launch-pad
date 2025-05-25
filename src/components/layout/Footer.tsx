@@ -28,25 +28,25 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="border-t border-cream-200 bg-cream-50">
+    <footer className="border-t border-gray-200 bg-gray-50">
       {/* CTA Section */}
       <div className="py-16">
         <div className="container text-center">
-          <h3 className="text-3xl font-bold mb-4 text-mint-600">{ctaTitle}</h3>
-          <p className="text-xl text-mint-500 mb-8 max-w-md mx-auto">
+          <h3 className="text-3xl font-bold mb-4 text-gray-900">{ctaTitle}</h3>
+          <p className="text-xl text-gray-600 mb-8 max-w-md mx-auto">
             {ctaSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="neomorphic overflow-hidden rounded-2xl">
+            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
               <AppStoreButton 
                 href={appStoreLink} 
-                className="bg-cream-100 border-none text-mint-600"
+                className="bg-white border-none text-gray-900 hover:bg-gray-50"
               />
             </div>
-            <div className="neomorphic overflow-hidden rounded-2xl">
+            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
               <GooglePlayButton 
                 href={googlePlayLink} 
-                className="bg-cream-100 border-none text-mint-600"
+                className="bg-white border-none text-gray-900 hover:bg-gray-50"
               />
             </div>
           </div>
@@ -54,20 +54,20 @@ const Footer = () => {
       </div>
       
       {/* Footer Links */}
-      <div className="py-8 border-t border-cream-200">
+      <div className="py-8 border-t border-gray-200 bg-white">
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-sm text-mint-500 mb-4 md:mb-0">
+            <div className="text-sm text-gray-600 mb-4 md:mb-0">
               © {new Date().getFullYear()} fastnow.app. All rights reserved.
             </div>
             <div className="flex gap-6">
-              <Link to="/privacy" className="text-sm text-mint-500 hover:text-mint-600">
+              <Link to="/privacy" className="text-sm text-gray-600 hover:text-accent-green">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="text-sm text-mint-500 hover:text-mint-600">
+              <Link to="/terms" className="text-sm text-gray-600 hover:text-accent-green">
                 Terms of Service
               </Link>
-              <Link to="/contact" className="text-sm text-mint-500 hover:text-mint-600">
+              <Link to="/contact" className="text-sm text-gray-600 hover:text-accent-green">
                 Contact
               </Link>
             </div>

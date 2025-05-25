@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { toast } from "@/components/ui/use-toast";
@@ -97,10 +98,10 @@ const FastingTimeline = () => {
         <meta name="description" content={metaDescription} />
       </Helmet>
       
-      <div className="container mx-auto py-16 px-4 max-w-5xl">
+      <div className="container mx-auto py-16 px-4 max-w-5xl bg-white">
         <div className="mb-16 text-center">
-          <h2 className="text-4xl font-bold mb-6 text-[#6A8D74]">Fasting Timeline</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold mb-6 text-gray-900">Fasting Timeline</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Discover what happens in your body during each hour of fasting, from the first hour to a complete 72-hour fast.
           </p>
         </div>
