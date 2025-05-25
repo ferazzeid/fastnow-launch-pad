@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppStoreButton } from '@/components/AppStoreButton';
 import { GooglePlayButton } from '@/components/GooglePlayButton';
 import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
@@ -58,7 +57,6 @@ const Index = () => {
   });
   
   const [showDefaultDesign, setShowDefaultDesign] = useState(true);
-  const [appStoreLink, setAppStoreLink] = useState('https://apps.apple.com');
   const [googlePlayLink, setGooglePlayLink] = useState('https://play.google.com');
 
   // Load content from localStorage on component mount
@@ -108,10 +106,7 @@ const Index = () => {
       setFeatures(parsedFeatures.slice(0, 2));
     }
     
-    // App store links
-    const savedAppStoreLink = localStorage.getItem('fastingApp_appStoreLink');
-    if (savedAppStoreLink) setAppStoreLink(savedAppStoreLink);
-    
+    // Google Play link
     const savedGooglePlayLink = localStorage.getItem('fastingApp_googlePlayLink');
     if (savedGooglePlayLink) setGooglePlayLink(savedGooglePlayLink);
     
@@ -176,10 +171,7 @@ const Index = () => {
               <h2 className="text-xl text-mint-500 mb-8 max-w-md">
                 {heroSubtitle}
               </h2>
-              <div className="flex flex-col sm:flex-row gap-4 mt-10">
-                <div className="neomorphic overflow-hidden rounded-2xl">
-                  <AppStoreButton {...(appStoreLink ? { href: appStoreLink } : {})} className="bg-cream-100 border-none text-mint-600" />
-                </div>
+              <div className="flex justify-start mt-10">
                 <div className="neomorphic overflow-hidden rounded-2xl">
                   <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} className="bg-cream-100 border-none text-mint-600" />
                 </div>
