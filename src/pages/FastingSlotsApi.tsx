@@ -2,13 +2,10 @@
 import React, { useEffect } from 'react';
 import { AppContentService } from '@/services/AppContentService';
 
-const AppContentApi = () => {
+const FastingSlotsApi = () => {
   useEffect(() => {
-    // Initialize sample data if needed
-    AppContentService.createSampleData();
-    
-    // Serve the JSON data
-    const apiData = AppContentService.getAppContentApiData();
+    // Serve the fasting slots JSON data
+    const apiData = AppContentService.getFastingSlotsApiData();
     
     // Set content type and return JSON
     const jsonResponse = JSON.stringify(apiData, null, 2);
@@ -18,15 +15,15 @@ const AppContentApi = () => {
     
     // Set proper headers for API response
     if (typeof window !== 'undefined') {
-      document.title = 'App Content API - JSON Data';
+      document.title = 'Fasting Slots API - JSON Data';
     }
   }, []);
 
   return (
     <div style={{ fontFamily: 'monospace', whiteSpace: 'pre-wrap', padding: '20px' }}>
-      Loading app content API data...
+      Loading fasting slots API data...
     </div>
   );
 };
 
-export default AppContentApi;
+export default FastingSlotsApi;
