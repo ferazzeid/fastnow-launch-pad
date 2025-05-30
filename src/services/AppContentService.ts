@@ -77,7 +77,7 @@ export class AppContentService {
   private static initializeFastingHours(): FastingHour[] {
     const fastingHours: FastingHour[] = [];
 
-    // Comprehensive data for specific key hours
+    // Comprehensive data for specific key hours - matching your provided JSON
     const detailedHoursData: { [key: number]: Partial<FastingHour> } = {
       0: {
         title: "Fast Initiated",
@@ -221,27 +221,53 @@ export class AppContentService {
       const day = Math.floor(hour / 24) + 1;
       const detailedData = detailedHoursData[hour];
       
-      fastingHours.push({
-        hour,
-        day,
-        title: detailedData?.title || `Hour ${hour}`,
-        bodyState: detailedData?.bodyState || "",
-        commonFeelings: detailedData?.commonFeelings || [],
-        encouragement: detailedData?.encouragement || "",
-        motivatorTags: detailedData?.motivatorTags || [],
-        difficulty: detailedData?.difficulty || "moderate",
-        phase: detailedData?.phase || (hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended"),
-        tips: [],
-        scientificInfo: "",
-        imageUrl: `https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&hour=${hour}`,
-        symptoms: { positive: [], challenging: [] },
-        milestones: { 
-          autophagy: hour >= 16, 
-          ketosis: hour >= 24, 
-          fatBurning: hour >= 12 
-        },
-        updatedAt: new Date().toISOString()
-      });
+      // If we have detailed data for this hour, use it completely
+      if (detailedData) {
+        fastingHours.push({
+          hour,
+          day,
+          title: detailedData.title || `Hour ${hour}`,
+          bodyState: detailedData.bodyState || "",
+          commonFeelings: detailedData.commonFeelings || [],
+          encouragement: detailedData.encouragement || "",
+          motivatorTags: detailedData.motivatorTags || [],
+          difficulty: detailedData.difficulty || "moderate",
+          phase: detailedData.phase || (hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended"),
+          tips: [],
+          scientificInfo: "",
+          imageUrl: `https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&hour=${hour}`,
+          symptoms: { positive: [], challenging: [] },
+          milestones: { 
+            autophagy: hour >= 16, 
+            ketosis: hour >= 24, 
+            fatBurning: hour >= 12 
+          },
+          updatedAt: new Date().toISOString()
+        });
+      } else {
+        // For hours without detailed data, create basic structure
+        fastingHours.push({
+          hour,
+          day,
+          title: `Hour ${hour}`,
+          bodyState: "",
+          commonFeelings: [],
+          encouragement: "",
+          motivatorTags: [],
+          difficulty: "moderate",
+          phase: hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended",
+          tips: [],
+          scientificInfo: "",
+          imageUrl: `https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&hour=${hour}`,
+          symptoms: { positive: [], challenging: [] },
+          milestones: { 
+            autophagy: hour >= 16, 
+            ketosis: hour >= 24, 
+            fatBurning: hour >= 12 
+          },
+          updatedAt: new Date().toISOString()
+        });
+      }
     }
 
     localStorage.setItem(this.FASTING_HOURS_KEY, JSON.stringify(fastingHours));
@@ -650,10 +676,9 @@ export class AppContentService {
       localStorage.setItem(this.MOTIVATORS_KEY, JSON.stringify(sampleMotivators));
     }
 
-    // Initialize fasting hours if they don't exist
-    if (existingFastingHours.length === 0) {
-      this.initializeFastingHours();
-    }
+    // Force re-initialize fasting hours to ensure latest data structure
+    console.log('Force re-initializing fasting hours with latest data...');
+    this.initializeFastingHours();
 
     this.exportToApi();
   }
