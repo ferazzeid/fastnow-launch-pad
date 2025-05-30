@@ -77,69 +77,165 @@ export class AppContentService {
   private static initializeFastingHours(): FastingHour[] {
     const fastingHours: FastingHour[] = [];
 
-    // Sample data for key hours
-    const keyHoursData: { [key: number]: Partial<FastingHour> } = {
+    // Comprehensive data for specific key hours
+    const detailedHoursData: { [key: number]: Partial<FastingHour> } = {
       0: {
         title: "Fast Initiated",
         bodyState: "You've just started your fast. Your body is still processing your last meal and beginning to transition into fasting mode.",
         commonFeelings: ["motivated", "excited", "normal"],
-        encouragement: "Great job starting your fast! The first step is always the hardest.",
+        encouragement: "Great job starting your fast! The first step is always the hardest. Your body is preparing for the amazing journey ahead.",
         motivatorTags: ["motivation", "beginning", "preparation"],
         difficulty: "easy",
-        phase: "preparation",
-        tips: ["Set up your environment for success", "Remove tempting foods", "Stay hydrated"],
-        scientificInfo: "Your body is still digesting food and blood glucose levels are normal. Insulin is actively working to process nutrients.",
-        symptoms: { positive: ["Clear mindset", "High energy"], challenging: [] },
-        milestones: { autophagy: false, ketosis: false, fatBurning: false }
+        phase: "preparation"
+      },
+      1: {
+        title: "The Beginning",
+        bodyState: "Your body is starting to use up stored glucose. Insulin levels begin to drop.",
+        commonFeelings: ["normal", "motivated"],
+        encouragement: "You're off to a great start! Your body is beginning its natural fasting process.",
+        motivatorTags: ["motivation", "beginning"],
+        difficulty: "easy",
+        phase: "initial"
+      },
+      4: {
+        title: "Glucose Depletion",
+        bodyState: "Blood glucose levels are dropping. Your body starts accessing glycogen stores.",
+        commonFeelings: ["slight hunger", "normal energy"],
+        encouragement: "Your body is efficiently using its stored energy. This is exactly what should happen!",
+        motivatorTags: ["science", "progress"],
+        difficulty: "easy",
+        phase: "initial"
+      },
+      8: {
+        title: "First Hunger Wave",
+        bodyState: "Ghrelin (hunger hormone) starts to rise. Your body expects food at usual meal times.",
+        commonFeelings: ["hunger", "thinking about food"],
+        encouragement: "This hunger is just a signal, not an emergency. It will pass in 30-60 minutes.",
+        motivatorTags: ["hunger", "willpower"],
+        difficulty: "moderate",
+        phase: "initial"
+      },
+      12: {
+        title: "Metabolic Shift",
+        bodyState: "Your body is transitioning from glucose to fat burning. Growth hormone starts to increase.",
+        commonFeelings: ["mild hunger", "clear thinking"],
+        encouragement: "Congratulations! You're entering the fat-burning zone. Your metabolism is shifting beautifully.",
+        motivatorTags: ["fat-burning", "progress"],
+        difficulty: "moderate",
+        phase: "adaptation"
       },
       16: {
-        title: "Autophagy Begins",
-        bodyState: "Your body has switched to fat burning and autophagy is beginning to activate.",
-        commonFeelings: ["focused", "slightly tired", "proud"],
-        encouragement: "Amazing! You've reached the point where your body starts its deep cleaning process.",
-        motivatorTags: ["autophagy", "breakthrough", "healing"],
+        title: "The Hunger Peak",
+        bodyState: "Ghrelin levels peak, but your body is becoming more efficient at fat oxidation.",
+        commonFeelings: ["strong hunger", "irritability", "food thoughts"],
+        encouragement: "This is often the hardest part! You're so close to breaking through. The hunger will subside soon.",
+        motivatorTags: ["hunger", "breakthrough", "willpower"],
+        difficulty: "hard",
+        phase: "adaptation"
+      },
+      18: {
+        title: "Hunger Subsides",
+        bodyState: "Ketone production increases. Your brain starts using ketones for fuel more efficiently.",
+        commonFeelings: ["reduced hunger", "mental clarity"],
+        encouragement: "Amazing! You've pushed through the hardest part. Notice how the hunger is fading?",
+        motivatorTags: ["breakthrough", "mental-clarity"],
         difficulty: "moderate",
-        phase: "adaptation",
-        tips: ["This is when the magic happens", "Stay strong through any hunger waves"],
-        scientificInfo: "Autophagy processes are activating. Your body is beginning to recycle damaged cellular components.",
-        symptoms: { positive: ["Mental clarity", "Sense of accomplishment"], challenging: ["Hunger waves", "Some fatigue"] },
-        milestones: { autophagy: true, ketosis: false, fatBurning: true }
+        phase: "adaptation"
+      },
+      20: {
+        title: "Evening Clarity",
+        bodyState: "Autophagy processes are ramping up. Your body is cleaning out damaged cells.",
+        commonFeelings: ["mental clarity", "slight energy boost"],
+        encouragement: "Your body is now in full repair mode. You're experiencing the benefits of autophagy!",
+        motivatorTags: ["autophagy", "repair", "benefits"],
+        difficulty: "moderate",
+        phase: "adaptation"
+      },
+      24: {
+        title: "One Day Complete",
+        bodyState: "Significant ketone production. Growth hormone levels are elevated. Autophagy is active.",
+        commonFeelings: ["accomplished", "energized", "minimal hunger"],
+        encouragement: "Incredible achievement! You've completed 24 hours and your body is thriving in ketosis.",
+        motivatorTags: ["achievement", "ketosis", "milestone"],
+        difficulty: "easy",
+        phase: "ketosis"
+      },
+      30: {
+        title: "Deep Ketosis",
+        bodyState: "Your brain is efficiently using ketones. Mental clarity often peaks during this time.",
+        commonFeelings: ["mental clarity", "stable energy", "minimal hunger"],
+        encouragement: "You're in the sweet spot! Many people report their best mental performance during this phase.",
+        motivatorTags: ["mental-clarity", "peak-performance"],
+        difficulty: "easy",
+        phase: "ketosis"
+      },
+      36: {
+        title: "Autophagy Peak",
+        bodyState: "Autophagy is at its peak. Your body is maximally cleaning and repairing itself.",
+        commonFeelings: ["energized", "focused", "light feeling"],
+        encouragement: "This is when the magic happens! Your body is performing deep cellular maintenance.",
+        motivatorTags: ["autophagy", "repair", "peak-benefits"],
+        difficulty: "easy",
+        phase: "ketosis"
+      },
+      42: {
+        title: "Sustained Ketosis",
+        bodyState: "Stable ketone levels. Your body has fully adapted to using fat for fuel.",
+        commonFeelings: ["stable energy", "calm", "minimal appetite"],
+        encouragement: "You're a fat-burning machine now! Your body has beautifully adapted to this natural state.",
+        motivatorTags: ["adaptation", "fat-burning", "stability"],
+        difficulty: "easy",
+        phase: "ketosis"
       },
       48: {
-        title: "Deep Ketosis",
-        bodyState: "You're in deep ketosis. Your body is efficiently burning fat and producing ketones for brain fuel.",
-        commonFeelings: ["energetic", "clear-minded", "empowered"],
-        encouragement: "Incredible! You've achieved a state that brings profound healing benefits.",
-        motivatorTags: ["ketosis", "fat-burning", "peak-performance"],
+        title: "Two Days Strong",
+        bodyState: "Maximum autophagy benefits. Stem cell regeneration may be beginning.",
+        commonFeelings: ["accomplished", "clear-headed", "peaceful"],
+        encouragement: "48 hours is a major milestone! You're accessing some of the deepest benefits of fasting.",
+        motivatorTags: ["milestone", "regeneration", "achievement"],
+        difficulty: "easy",
+        phase: "deep_ketosis"
+      },
+      60: {
+        title: "Extended Benefits",
+        bodyState: "Stem cell regeneration is active. Immune system reset may be occurring.",
+        commonFeelings: ["energized", "resilient", "mentally sharp"],
+        encouragement: "You're in elite territory now! Your body is accessing profound healing mechanisms.",
+        motivatorTags: ["elite", "healing", "regeneration"],
         difficulty: "moderate",
-        phase: "ketosis",
-        tips: ["Enjoy the mental clarity", "Listen to your body"],
-        scientificInfo: "Deep ketosis with significant ketone production. Brain is efficiently using ketones for fuel.",
-        symptoms: { positive: ["Exceptional mental clarity", "Stable energy", "Reduced inflammation"], challenging: [] },
-        milestones: { autophagy: true, ketosis: true, fatBurning: true }
+        phase: "deep_ketosis"
+      },
+      72: {
+        title: "Three Day Master",
+        bodyState: "Maximum stem cell regeneration. Immune system renewal is at its peak.",
+        commonFeelings: ["accomplished", "transformed", "powerful"],
+        encouragement: "You've achieved something extraordinary! 72 hours unlocks the deepest healing benefits.",
+        motivatorTags: ["mastery", "transformation", "elite-achievement"],
+        difficulty: "moderate",
+        phase: "extended"
       }
     };
 
     // Create all 96 hours
-    for (let hour = 1; hour <= 96; hour++) {
-      const day = Math.floor((hour - 1) / 24) + 1;
-      const sampleData = keyHoursData[hour] || {};
+    for (let hour = 0; hour <= 96; hour++) {
+      const day = Math.floor(hour / 24) + 1;
+      const detailedData = detailedHoursData[hour];
       
       fastingHours.push({
         hour,
         day,
-        title: sampleData.title || `Hour ${hour}`,
-        bodyState: sampleData.bodyState || "",
-        commonFeelings: sampleData.commonFeelings || [],
-        encouragement: sampleData.encouragement || "",
-        motivatorTags: sampleData.motivatorTags || [],
-        difficulty: sampleData.difficulty || "moderate",
-        phase: hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended",
-        tips: sampleData.tips || [],
-        scientificInfo: sampleData.scientificInfo || "",
+        title: detailedData?.title || `Hour ${hour}`,
+        bodyState: detailedData?.bodyState || "",
+        commonFeelings: detailedData?.commonFeelings || [],
+        encouragement: detailedData?.encouragement || "",
+        motivatorTags: detailedData?.motivatorTags || [],
+        difficulty: detailedData?.difficulty || "moderate",
+        phase: detailedData?.phase || (hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended"),
+        tips: [],
+        scientificInfo: "",
         imageUrl: `https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&hour=${hour}`,
-        symptoms: sampleData.symptoms || { positive: [], challenging: [] },
-        milestones: sampleData.milestones || { 
+        symptoms: { positive: [], challenging: [] },
+        milestones: { 
           autophagy: hour >= 16, 
           ketosis: hour >= 24, 
           fatBurning: hour >= 12 
