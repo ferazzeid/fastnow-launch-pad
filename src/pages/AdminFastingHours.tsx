@@ -39,29 +39,28 @@ const AdminFastingHours = () => {
   const [newChallengingSymptom, setNewChallengingSymptom] = useState('');
 
   useEffect(() => {
-    console.log('=== COMPONENT MOUNTED ===');
+    console.log('🏁 Component mounted, initializing data...');
     AppContentService.createSampleData();
     loadHourContent(currentHour);
   }, []);
 
   useEffect(() => {
-    console.log('=== CURRENT HOUR CHANGED TO:', currentHour, '===');
+    console.log(`🔄 Hour changed to: ${currentHour}`);
     loadHourContent(currentHour);
   }, [currentHour]);
 
   const loadHourContent = (hour: number) => {
-    console.log(`=== LOADING CONTENT FOR HOUR ${hour} ===`);
+    console.log(`📖 Loading content for hour ${hour}...`);
     
     const hourContent = AppContentService.getFastingHourByHour(hour);
-    console.log(`Retrieved content for hour ${hour}:`, hourContent);
     
     if (hourContent) {
-      console.log(`✅ Found existing content for hour ${hour}`);
+      console.log(`✅ Loaded existing content for hour ${hour}: "${hourContent.title}"`);
       setContent(hourContent);
     } else {
-      console.log(`❌ No existing content for hour ${hour}, creating default`);
+      console.log(`🆕 Creating new content for hour ${hour}`);
       const day = Math.floor(hour / 24) + 1;
-      const defaultContent = {
+      const defaultContent: FastingHour = {
         hour,
         day,
         title: '',
@@ -69,8 +68,8 @@ const AdminFastingHours = () => {
         commonFeelings: [],
         encouragement: '',
         motivatorTags: [],
-        difficulty: 'easy' as const,
-        phase: hour <= 4 ? 'preparation' as const : hour <= 12 ? 'initial' as const : hour <= 24 ? 'adaptation' as const : hour <= 48 ? 'ketosis' as const : hour <= 72 ? 'deep_ketosis' as const : 'extended' as const,
+        difficulty: 'easy',
+        phase: hour <= 4 ? 'preparation' : hour <= 12 ? 'initial' : hour <= 24 ? 'adaptation' : hour <= 48 ? 'ketosis' : hour <= 72 ? 'deep_ketosis' : 'extended',
         tips: [],
         scientificInfo: '',
         imageUrl: '',
@@ -84,61 +83,47 @@ const AdminFastingHours = () => {
       };
       setContent(defaultContent);
     }
-    console.log('=== LOADING COMPLETE ===');
   };
 
   const handleSave = () => {
-    console.log('=== UNIFIED SAVE BUTTON CLICKED ===');
-    console.log('Current hour:', currentHour);
-    console.log('Content being saved:', JSON.stringify(content, null, 2));
+    console.log('💾 === SAVE BUTTON CLICKED ===');
     
-    const updatedContent = {
+    const contentToSave = {
       ...content,
       hour: currentHour,
       day: Math.floor(currentHour / 24) + 1,
       updatedAt: new Date().toISOString()
     };
     
-    console.log('Updated content with hour/day:', JSON.stringify(updatedContent, null, 2));
+    console.log(`💾 Saving hour ${currentHour} with title: "${contentToSave.title}"`);
     
     try {
-      console.log('=== CALLING AppContentService.saveFastingHour ===');
+      AppContentService.saveFastingHour(contentToSave);
       
-      // Save to localStorage
-      AppContentService.saveFastingHour(updatedContent);
+      // Update local state
+      setContent(contentToSave);
       
-      // Update the component state
-      setContent(updatedContent);
-      
-      // Verify the save worked
-      const savedContent = AppContentService.getFastingHourByHour(currentHour);
-      console.log('Verification - retrieved content:', JSON.stringify(savedContent, null, 2));
-      
-      if (savedContent && savedContent.title === updatedContent.title) {
-        console.log('✅ VERIFICATION SUCCESSFUL: Title matches');
-        toast.success(`Hour ${currentHour} content saved successfully`);
+      // Test immediate reload
+      const testLoad = AppContentService.getFastingHourByHour(currentHour);
+      if (testLoad && testLoad.title === contentToSave.title) {
+        console.log('✅ Save verified successfully!');
+        toast.success(`Hour ${currentHour} saved successfully!`);
       } else {
-        console.log('❌ VERIFICATION FAILED: Title does not match');
-        toast.error(`Save verification failed for hour ${currentHour}`);
+        console.log('❌ Save verification failed!');
+        toast.error('Save failed - verification error');
       }
       
-      console.log('=== SAVE COMPLETE ===');
     } catch (error) {
-      console.error('❌ ERROR DURING SAVE:', error);
-      toast.error(`Failed to save hour ${currentHour} content`);
+      console.error('❌ Save error:', error);
+      toast.error(`Failed to save hour ${currentHour}`);
     }
   };
 
   const handleFieldChange = (field: keyof FastingHour, value: any) => {
-    console.log(`🔄 FIELD CHANGE: ${field} =`, value);
-    setContent(prev => {
-      const updated = {
-        ...prev,
-        [field]: value
-      };
-      console.log('Updated content state:', updated);
-      return updated;
-    });
+    setContent(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   const addArrayItem = (field: 'commonFeelings' | 'motivatorTags' | 'tips', value: string, setValue: (value: string) => void) => {
@@ -197,7 +182,7 @@ const AdminFastingHours = () => {
             Fasting Hours Management
           </Link>
           <div className="flex items-center gap-4">
-            <Button onClick={handleSave} className="flex items-center gap-2">
+            <Button onClick={handleSave} className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
               <Save size={16} />
               Save Hour {currentHour}
             </Button>
@@ -252,7 +237,7 @@ const AdminFastingHours = () => {
             </CardContent>
           </Card>
 
-          {/* Required Fields for App - Priority Section */}
+          {/* Required Fields */}
           <Card className="mb-6 border-2 border-blue-200 bg-blue-50/30">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-700">
@@ -331,9 +316,8 @@ const AdminFastingHours = () => {
                 </Select>
               </div>
 
-              {/* Required Arrays */}
+              {/* Arrays section */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {/* Common Feelings */}
                 <div>
                   <Label className="text-sm font-semibold">Common Feelings *</Label>
                   <div className="flex gap-2 mt-2">
@@ -369,7 +353,6 @@ const AdminFastingHours = () => {
                   </div>
                 </div>
 
-                {/* Motivator Tags */}
                 <div>
                   <Label className="text-sm font-semibold">Motivator Tags *</Label>
                   <div className="flex gap-2 mt-2">
@@ -408,14 +391,13 @@ const AdminFastingHours = () => {
             </CardContent>
           </Card>
 
-          {/* Additional Optional Fields */}
+          {/* Optional Fields */}
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Additional Content (Optional)</CardTitle>
-              <p className="text-sm text-muted-foreground">These fields provide extra content but are not required for the app.</p>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Scientific Info and Image */}
+              {/* ... keep existing code (optional fields like tips, symptoms, etc.) */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="scientific-info">Scientific Information</Label>
@@ -439,7 +421,6 @@ const AdminFastingHours = () => {
                 </div>
               </div>
 
-              {/* Milestones */}
               <div>
                 <Label>Milestones</Label>
                 <div className="flex flex-wrap gap-4 mt-2">
@@ -482,7 +463,6 @@ const AdminFastingHours = () => {
                 </div>
               </div>
 
-              {/* Tips */}
               <div>
                 <Label>Tips</Label>
                 <div className="flex gap-2 mt-2">
@@ -517,9 +497,7 @@ const AdminFastingHours = () => {
                 </div>
               </div>
 
-              {/* Symptoms */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Positive Symptoms */}
                 <div>
                   <Label>Positive Symptoms</Label>
                   <div className="flex gap-2 mt-2">
@@ -554,7 +532,6 @@ const AdminFastingHours = () => {
                   </div>
                 </div>
 
-                {/* Challenging Symptoms */}
                 <div>
                   <Label>Challenging Symptoms</Label>
                   <div className="flex gap-2 mt-2">

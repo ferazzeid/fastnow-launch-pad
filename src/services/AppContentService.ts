@@ -1,11 +1,140 @@
-
 import { Motivator, FastingHour } from '@/types/app-content';
 
 export class AppContentService {
   private static MOTIVATORS_KEY = 'fastingApp_motivators';
   private static FASTING_HOURS_KEY = 'fastingApp_fastingHours';
 
-  // Motivators Management
+  // === FASTING HOURS MANAGEMENT ===
+  
+  static getAllFastingHours(): FastingHour[] {
+    try {
+      const data = localStorage.getItem(this.FASTING_HOURS_KEY);
+      console.log('🔍 getAllFastingHours - raw data from localStorage:', data);
+      
+      if (!data) {
+        console.log('📝 No data found, initializing...');
+        return this.initializeFastingHours();
+      }
+      
+      const parsed = JSON.parse(data);
+      console.log('✅ getAllFastingHours - parsed data:', parsed.length, 'hours');
+      return parsed;
+    } catch (error) {
+      console.error('❌ Error in getAllFastingHours:', error);
+      return this.initializeFastingHours();
+    }
+  }
+
+  static getFastingHourByHour(hour: number): FastingHour | null {
+    console.log(`🔎 getFastingHourByHour called for hour: ${hour}`);
+    const allHours = this.getAllFastingHours();
+    console.log(`📊 Total hours in storage: ${allHours.length}`);
+    
+    const found = allHours.find(h => h.hour === hour);
+    console.log(`${found ? '✅' : '❌'} Hour ${hour} ${found ? 'found' : 'not found'}`);
+    
+    if (found) {
+      console.log(`📄 Hour ${hour} data:`, { title: found.title, bodyState: found.bodyState?.substring(0, 50) + '...' });
+    }
+    
+    return found || null;
+  }
+
+  static saveFastingHour(hourData: FastingHour): void {
+    console.log('💾 === SAVE OPERATION START ===');
+    console.log('💾 Hour to save:', hourData.hour);
+    console.log('💾 Title to save:', hourData.title);
+    
+    try {
+      // Get all current hours
+      const allHours = this.getAllFastingHours();
+      console.log('💾 Current total hours before save:', allHours.length);
+      
+      // Find existing hour or add new one
+      const existingIndex = allHours.findIndex(h => h.hour === hourData.hour);
+      console.log('💾 Existing hour index:', existingIndex);
+      
+      const updatedHour = {
+        ...hourData,
+        updatedAt: new Date().toISOString()
+      };
+      
+      if (existingIndex >= 0) {
+        console.log('💾 Updating existing hour at index:', existingIndex);
+        allHours[existingIndex] = updatedHour;
+      } else {
+        console.log('💾 Adding new hour');
+        allHours.push(updatedHour);
+        allHours.sort((a, b) => a.hour - b.hour);
+      }
+      
+      // Save to localStorage
+      const dataToSave = JSON.stringify(allHours);
+      console.log('💾 Saving data length:', dataToSave.length);
+      
+      localStorage.setItem(this.FASTING_HOURS_KEY, dataToSave);
+      console.log('💾 Data saved to localStorage');
+      
+      // Immediate verification
+      const verification = localStorage.getItem(this.FASTING_HOURS_KEY);
+      if (verification) {
+        const verifyParsed = JSON.parse(verification);
+        const verifyHour = verifyParsed.find((h: FastingHour) => h.hour === hourData.hour);
+        console.log('✅ VERIFICATION SUCCESS - Hour saved with title:', verifyHour?.title);
+      } else {
+        console.log('❌ VERIFICATION FAILED - No data in localStorage');
+      }
+      
+      console.log('💾 === SAVE OPERATION COMPLETE ===');
+      
+    } catch (error) {
+      console.error('❌ Error in saveFastingHour:', error);
+      throw error;
+    }
+  }
+
+  private static initializeFastingHours(): FastingHour[] {
+    console.log('🚀 Initializing fasting hours...');
+    const fastingHours: FastingHour[] = [];
+
+    // Create basic structure for all 96 hours
+    for (let hour = 0; hour <= 96; hour++) {
+      const day = Math.floor(hour / 24) + 1;
+      
+      const fastingHour: FastingHour = {
+        hour,
+        day,
+        title: `Hour ${hour}`,
+        bodyState: "",
+        commonFeelings: [],
+        encouragement: "",
+        motivatorTags: [],
+        difficulty: "moderate",
+        phase: hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended",
+        tips: [],
+        scientificInfo: "",
+        imageUrl: "",
+        symptoms: { positive: [], challenging: [] },
+        milestones: { 
+          autophagy: hour >= 16, 
+          ketosis: hour >= 24, 
+          fatBurning: hour >= 12 
+        },
+        updatedAt: new Date().toISOString()
+      };
+      
+      fastingHours.push(fastingHour);
+    }
+
+    console.log('🚀 Saving initialized hours to localStorage...');
+    localStorage.setItem(this.FASTING_HOURS_KEY, JSON.stringify(fastingHours));
+    
+    console.log('🚀 Initialization complete');
+    return fastingHours;
+  }
+
+  // === MOTIVATORS MANAGEMENT ===
+  
   static getAllMotivators(): Motivator[] {
     try {
       const motivators = localStorage.getItem(this.MOTIVATORS_KEY);
@@ -42,283 +171,8 @@ export class AppContentService {
     this.exportToApi();
   }
 
-  // Fasting Hours Management (New consolidated system)
-  static getAllFastingHours(): FastingHour[] {
-    try {
-      const fastingHours = localStorage.getItem(this.FASTING_HOURS_KEY);
-      const parsed = fastingHours ? JSON.parse(fastingHours) : null;
-      console.log('getAllFastingHours - retrieved from localStorage:', parsed);
-      
-      if (!parsed || parsed.length === 0) {
-        console.log('No fasting hours found, initializing...');
-        return this.initializeFastingHours();
-      }
-      
-      return parsed;
-    } catch (error) {
-      console.error('Error loading fasting hours:', error);
-      return this.initializeFastingHours();
-    }
-  }
-
-  static getFastingHourByHour(hour: number): FastingHour | null {
-    console.log(`getFastingHourByHour called for hour: ${hour}`);
-    const fastingHours = this.getAllFastingHours();
-    console.log('All fasting hours:', fastingHours);
-    const found = fastingHours.find(fh => fh.hour === hour) || null;
-    console.log(`Found hour ${hour}:`, found);
-    return found;
-  }
-
-  static saveFastingHour(hour: FastingHour): void {
-    console.log('saveFastingHour called with:', hour);
-    
-    try {
-      const allHours = this.getAllFastingHours();
-      console.log('Current all hours before save:', allHours);
-      
-      const existingIndex = allHours.findIndex(h => h.hour === hour.hour);
-      console.log('Existing index for hour', hour.hour, ':', existingIndex);
-      
-      const updatedHour = { ...hour, updatedAt: new Date().toISOString() };
-      
-      if (existingIndex >= 0) {
-        console.log('Updating existing hour at index:', existingIndex);
-        allHours[existingIndex] = updatedHour;
-      } else {
-        console.log('Adding new hour');
-        allHours.push(updatedHour);
-        allHours.sort((a, b) => a.hour - b.hour);
-      }
-      
-      console.log('Saving to localStorage with key:', this.FASTING_HOURS_KEY);
-      console.log('Data being saved:', allHours);
-      
-      localStorage.setItem(this.FASTING_HOURS_KEY, JSON.stringify(allHours));
-      
-      // Verify the save immediately
-      const verifyData = localStorage.getItem(this.FASTING_HOURS_KEY);
-      console.log('Verification - data in localStorage after save:', verifyData);
-      
-      this.exportToApi();
-      
-      console.log('Save completed successfully');
-    } catch (error) {
-      console.error('Error in saveFastingHour:', error);
-      throw error;
-    }
-  }
-
-  private static initializeFastingHours(): FastingHour[] {
-    console.log('Initializing fasting hours...');
-    const fastingHours: FastingHour[] = [];
-
-    // Comprehensive data for specific key hours - matching your provided JSON
-    const detailedHoursData: { [key: number]: Partial<FastingHour> } = {
-      0: {
-        title: "Fast Initiated",
-        bodyState: "You've just started your fast. Your body is still processing your last meal and beginning to transition into fasting mode.",
-        commonFeelings: ["motivated", "excited", "normal"],
-        encouragement: "Great job starting your fast! The first step is always the hardest. Your body is preparing for the amazing journey ahead.",
-        motivatorTags: ["motivation", "beginning", "preparation"],
-        difficulty: "easy",
-        phase: "preparation"
-      },
-      1: {
-        title: "The Beginning",
-        bodyState: "Your body is starting to use up stored glucose. Insulin levels begin to drop.",
-        commonFeelings: ["normal", "motivated"],
-        encouragement: "You're off to a great start! Your body is beginning its natural fasting process.",
-        motivatorTags: ["motivation", "beginning"],
-        difficulty: "easy",
-        phase: "initial"
-      },
-      4: {
-        title: "Glucose Depletion",
-        bodyState: "Blood glucose levels are dropping. Your body starts accessing glycogen stores.",
-        commonFeelings: ["slight hunger", "normal energy"],
-        encouragement: "Your body is efficiently using its stored energy. This is exactly what should happen!",
-        motivatorTags: ["science", "progress"],
-        difficulty: "easy",
-        phase: "initial"
-      },
-      8: {
-        title: "First Hunger Wave",
-        bodyState: "Ghrelin (hunger hormone) starts to rise. Your body expects food at usual meal times.",
-        commonFeelings: ["hunger", "thinking about food"],
-        encouragement: "This hunger is just a signal, not an emergency. It will pass in 30-60 minutes.",
-        motivatorTags: ["hunger", "willpower"],
-        difficulty: "moderate",
-        phase: "initial"
-      },
-      12: {
-        title: "Metabolic Shift",
-        bodyState: "Your body is transitioning from glucose to fat burning. Growth hormone starts to increase.",
-        commonFeelings: ["mild hunger", "clear thinking"],
-        encouragement: "Congratulations! You're entering the fat-burning zone. Your metabolism is shifting beautifully.",
-        motivatorTags: ["fat-burning", "progress"],
-        difficulty: "moderate",
-        phase: "adaptation"
-      },
-      16: {
-        title: "The Hunger Peak",
-        bodyState: "Ghrelin levels peak, but your body is becoming more efficient at fat oxidation.",
-        commonFeelings: ["strong hunger", "irritability", "food thoughts"],
-        encouragement: "This is often the hardest part! You're so close to breaking through. The hunger will subside soon.",
-        motivatorTags: ["hunger", "breakthrough", "willpower"],
-        difficulty: "hard",
-        phase: "adaptation"
-      },
-      18: {
-        title: "Hunger Subsides",
-        bodyState: "Ketone production increases. Your brain starts using ketones for fuel more efficiently.",
-        commonFeelings: ["reduced hunger", "mental clarity"],
-        encouragement: "Amazing! You've pushed through the hardest part. Notice how the hunger is fading?",
-        motivatorTags: ["breakthrough", "mental-clarity"],
-        difficulty: "moderate",
-        phase: "adaptation"
-      },
-      20: {
-        title: "Evening Clarity",
-        bodyState: "Autophagy processes are ramping up. Your body is cleaning out damaged cells.",
-        commonFeelings: ["mental clarity", "slight energy boost"],
-        encouragement: "Your body is now in full repair mode. You're experiencing the benefits of autophagy!",
-        motivatorTags: ["autophagy", "repair", "benefits"],
-        difficulty: "moderate",
-        phase: "adaptation"
-      },
-      24: {
-        title: "One Day Complete",
-        bodyState: "Significant ketone production. Growth hormone levels are elevated. Autophagy is active.",
-        commonFeelings: ["accomplished", "energized", "minimal hunger"],
-        encouragement: "Incredible achievement! You've completed 24 hours and your body is thriving in ketosis.",
-        motivatorTags: ["achievement", "ketosis", "milestone"],
-        difficulty: "easy",
-        phase: "ketosis"
-      },
-      30: {
-        title: "Deep Ketosis",
-        bodyState: "Your brain is efficiently using ketones. Mental clarity often peaks during this time.",
-        commonFeelings: ["mental clarity", "stable energy", "minimal hunger"],
-        encouragement: "You're in the sweet spot! Many people report their best mental performance during this phase.",
-        motivatorTags: ["mental-clarity", "peak-performance"],
-        difficulty: "easy",
-        phase: "ketosis"
-      },
-      36: {
-        title: "Autophagy Peak",
-        bodyState: "Autophagy is at its peak. Your body is maximally cleaning and repairing itself.",
-        commonFeelings: ["energized", "focused", "light feeling"],
-        encouragement: "This is when the magic happens! Your body is performing deep cellular maintenance.",
-        motivatorTags: ["autophagy", "repair", "peak-benefits"],
-        difficulty: "easy",
-        phase: "ketosis"
-      },
-      42: {
-        title: "Sustained Ketosis",
-        bodyState: "Stable ketone levels. Your body has fully adapted to using fat for fuel.",
-        commonFeelings: ["stable energy", "calm", "minimal appetite"],
-        encouragement: "You're a fat-burning machine now! Your body has beautifully adapted to this natural state.",
-        motivatorTags: ["adaptation", "fat-burning", "stability"],
-        difficulty: "easy",
-        phase: "ketosis"
-      },
-      48: {
-        title: "Two Days Strong",
-        bodyState: "Maximum autophagy benefits. Stem cell regeneration may be beginning.",
-        commonFeelings: ["accomplished", "clear-headed", "peaceful"],
-        encouragement: "48 hours is a major milestone! You're accessing some of the deepest benefits of fasting.",
-        motivatorTags: ["milestone", "regeneration", "achievement"],
-        difficulty: "easy",
-        phase: "deep_ketosis"
-      },
-      60: {
-        title: "Extended Benefits",
-        bodyState: "Stem cell regeneration is active. Immune system reset may be occurring.",
-        commonFeelings: ["energized", "resilient", "mentally sharp"],
-        encouragement: "You're in elite territory now! Your body is accessing profound healing mechanisms.",
-        motivatorTags: ["elite", "healing", "regeneration"],
-        difficulty: "moderate",
-        phase: "deep_ketosis"
-      },
-      72: {
-        title: "Three Day Master",
-        bodyState: "Maximum stem cell regeneration. Immune system renewal is at its peak.",
-        commonFeelings: ["accomplished", "transformed", "powerful"],
-        encouragement: "You've achieved something extraordinary! 72 hours unlocks the deepest healing benefits.",
-        motivatorTags: ["mastery", "transformation", "elite-achievement"],
-        difficulty: "moderate",
-        phase: "extended"
-      }
-    };
-
-    // Create all 96 hours
-    for (let hour = 0; hour <= 96; hour++) {
-      const day = Math.floor(hour / 24) + 1;
-      const detailedData = detailedHoursData[hour];
-      
-      const fastingHour: FastingHour = {
-        hour,
-        day,
-        title: detailedData?.title || `Hour ${hour}`,
-        bodyState: detailedData?.bodyState || "",
-        commonFeelings: detailedData?.commonFeelings || [],
-        encouragement: detailedData?.encouragement || "",
-        motivatorTags: detailedData?.motivatorTags || [],
-        difficulty: (detailedData?.difficulty as any) || "moderate",
-        phase: (detailedData?.phase as any) || (hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended"),
-        tips: [],
-        scientificInfo: "",
-        imageUrl: `https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&hour=${hour}`,
-        symptoms: { positive: [], challenging: [] },
-        milestones: { 
-          autophagy: hour >= 16, 
-          ketosis: hour >= 24, 
-          fatBurning: hour >= 12 
-        },
-        updatedAt: new Date().toISOString()
-      };
-      
-      fastingHours.push(fastingHour);
-    }
-
-    console.log('Saving initialized fasting hours to localStorage...');
-    localStorage.setItem(this.FASTING_HOURS_KEY, JSON.stringify(fastingHours));
-    
-    // Verify the initialization save
-    const verifyInit = localStorage.getItem(this.FASTING_HOURS_KEY);
-    console.log('Verification - initialized data saved to localStorage:', verifyInit ? 'SUCCESS' : 'FAILED');
-    
-    return fastingHours;
-  }
-
-  // Legacy support methods (for backward compatibility)
-  static getAllFastingSlots(): FastingHour[] {
-    return this.getAllFastingHours();
-  }
-
-  static getFastingSlotByHour(hour: number): FastingHour | null {
-    return this.getFastingHourByHour(hour);
-  }
-
-  static saveFastingSlot(slot: FastingHour): void {
-    this.saveFastingHour(slot);
-  }
-
-  // Legacy hourly content methods (now return empty for cleanup)
-  static getAllHourlyContent(): any[] {
-    return [];
-  }
-
-  static getHourlyContentByHour(hour: number): null {
-    return null;
-  }
-
-  static saveHourlyContent(content: any): void {
-    // No-op for legacy compatibility
-  }
-
-  // Utility functions
+  // === UTILITY METHODS ===
+  
   static generateId(): string {
     return Date.now().toString() + Math.random().toString(36).substr(2, 9);
   }
@@ -335,33 +189,26 @@ export class AppContentService {
       };
 
       localStorage.setItem('fastingApp_appContentApi', JSON.stringify(apiData));
-      
-      // Create the fasting hours API data
-      const fastingHoursApiData = {
+      localStorage.setItem('fastingApp_fastingHoursApi', JSON.stringify({
         version: "1.0.0",
         lastUpdated: new Date().toISOString(),
         totalHours: 96,
         hours: fastingHours
-      };
-      
-      localStorage.setItem('fastingApp_fastingHoursApi', JSON.stringify(fastingHoursApiData));
-      
-      // Create the motivators API data
-      const motivatorsApiData = {
+      }));
+      localStorage.setItem('fastingApp_motivatorsApi', JSON.stringify({
         version: "1.0.0",
         lastUpdated: new Date().toISOString(),
         totalMotivators: motivators.length,
         predefinedMotivators: motivators
-      };
+      }));
       
-      localStorage.setItem('fastingApp_motivatorsApi', JSON.stringify(motivatorsApiData));
-      
-      console.log('All API data exported successfully');
     } catch (error) {
       console.error('Error exporting API data:', error);
     }
   }
 
+  // === API DATA GETTERS ===
+  
   static getAppContentApiData(): any {
     try {
       const apiData = localStorage.getItem('fastingApp_appContentApi');
@@ -374,14 +221,10 @@ export class AppContentService {
       console.error('Error loading app content API data:', error);
       return { 
         motivators: [], 
-        fastingHours: this.initializeFastingHours(),
+        fastingHours: this.getAllFastingHours(),
         lastUpdated: new Date().toISOString()
       };
     }
-  }
-
-  static getFastingSlotsApiData(): any {
-    return this.getFastingHoursApiData();
   }
 
   static getFastingHoursApiData(): any {
@@ -399,7 +242,7 @@ export class AppContentService {
         version: "1.0.0",
         lastUpdated: new Date().toISOString(),
         totalHours: 96,
-        hours: this.initializeFastingHours()
+        hours: this.getAllFastingHours()
       };
     }
   }
@@ -424,10 +267,26 @@ export class AppContentService {
     }
   }
 
-  // New method to get fasting hours in the app's expected format
+  // === LEGACY COMPATIBILITY ===
+  
+  static getAllFastingSlots(): FastingHour[] {
+    return this.getAllFastingHours();
+  }
+
+  static getFastingSlotByHour(hour: number): FastingHour | null {
+    return this.getFastingHourByHour(hour);
+  }
+
+  static saveFastingSlot(slot: FastingHour): void {
+    this.saveFastingHour(slot);
+  }
+
+  static getFastingSlotsApiData(): any {
+    return this.getFastingHoursApiData();
+  }
+
   static getFastingHoursForApp(): any {
     const fastingHours = this.getAllFastingHours();
-    
     return {
       slots: fastingHours.map(hour => ({
         hour: hour.hour,
@@ -443,10 +302,10 @@ export class AppContentService {
     };
   }
 
-  // Initialize sample data
+  // === SAMPLE DATA CREATION ===
+  
   static createSampleData(): void {
     const existingMotivators = this.getAllMotivators();
-    const existingFastingHours = this.getAllFastingHours();
 
     if (existingMotivators.length === 0) {
       const sampleMotivators: Motivator[] = [
@@ -694,9 +553,11 @@ export class AppContentService {
       localStorage.setItem(this.MOTIVATORS_KEY, JSON.stringify(sampleMotivators));
     }
 
-    // Force re-initialize fasting hours to ensure latest data structure
-    console.log('Force re-initializing fasting hours with latest data...');
-    this.initializeFastingHours();
+    // Initialize fasting hours if they don't exist
+    const existingHours = this.getAllFastingHours();
+    if (existingHours.length === 0) {
+      this.initializeFastingHours();
+    }
 
     this.exportToApi();
   }
