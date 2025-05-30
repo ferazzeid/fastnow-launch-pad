@@ -13,9 +13,9 @@ import { AppContentService } from '@/services/AppContentService';
 import { FastingHour } from '@/types/app-content';
 
 const AdminFastingHours = () => {
-  const [currentHour, setCurrentHour] = useState(1);
+  const [currentHour, setCurrentHour] = useState(0);
   const [content, setContent] = useState<FastingHour>({
-    hour: 1,
+    hour: 0,
     day: 1,
     title: '',
     bodyState: '',
@@ -59,7 +59,7 @@ const AdminFastingHours = () => {
       setContent(hourContent);
     } else {
       console.log(`No existing content for hour ${hour}, creating default`);
-      const day = Math.floor((hour - 1) / 24) + 1;
+      const day = Math.floor(hour / 24) + 1;
       setContent({
         hour,
         day,
@@ -85,15 +85,44 @@ const AdminFastingHours = () => {
   };
 
   const handleSave = () => {
-    AppContentService.saveFastingHour(content);
-    toast.success(`Hour ${currentHour} content saved`);
+    console.log('Saving content for hour:', currentHour);
+    console.log('Content being saved:', content);
+    
+    // Ensure the hour and day are correctly set
+    const updatedContent = {
+      ...content,
+      hour: currentHour,
+      day: Math.floor(currentHour / 24) + 1,
+      updatedAt: new Date().toISOString()
+    };
+    
+    console.log('Updated content with hour/day:', updatedContent);
+    
+    try {
+      AppContentService.saveFastingHour(updatedContent);
+      setContent(updatedContent);
+      
+      // Verify the save worked by retrieving the data
+      const savedContent = AppContentService.getFastingHourByHour(currentHour);
+      console.log('Verification - saved content retrieved:', savedContent);
+      
+      toast.success(`Hour ${currentHour} content saved successfully`);
+    } catch (error) {
+      console.error('Error saving content:', error);
+      toast.error(`Failed to save hour ${currentHour} content`);
+    }
   };
 
   const handleFieldChange = (field: keyof FastingHour, value: any) => {
-    setContent(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    console.log(`Updating field ${field} with value:`, value);
+    setContent(prev => {
+      const updated = {
+        ...prev,
+        [field]: value
+      };
+      console.log('Updated content state:', updated);
+      return updated;
+    });
   };
 
   const addArrayItem = (field: 'commonFeelings' | 'motivatorTags' | 'tips', value: string, setValue: (value: string) => void) => {
