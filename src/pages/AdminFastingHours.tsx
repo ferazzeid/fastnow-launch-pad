@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/sonner";
-import { Save, ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
+import { Save, ChevronLeft, ChevronRight, Plus, X, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppContentService } from '@/services/AppContentService';
 import { FastingHour } from '@/types/app-content';
@@ -190,79 +190,32 @@ const AdminFastingHours = () => {
             </CardContent>
           </Card>
 
-          {/* Content Form */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Basic Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+          {/* Required Fields for App - Priority Section */}
+          <Card className="mb-6 border-2 border-blue-200 bg-blue-50/30">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-blue-700">
+                <AlertCircle size={20} />
+                Required Fields (App Data)
+              </CardTitle>
+              <p className="text-sm text-blue-600">These fields are required and will be displayed in the mobile app.</p>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="title">Title</Label>
+                  <Label htmlFor="title" className="text-sm font-semibold">Title *</Label>
                   <Input
                     id="title"
                     value={content.title}
                     onChange={(e) => handleFieldChange('title', e.target.value)}
-                    placeholder="Hour title"
+                    placeholder="Hour title (e.g., 'Fast Initiated')"
+                    className="border-blue-200 focus:border-blue-400"
                   />
                 </div>
                 
                 <div>
-                  <Label htmlFor="body-state">Body State</Label>
-                  <Textarea
-                    id="body-state"
-                    value={content.bodyState}
-                    onChange={(e) => handleFieldChange('bodyState', e.target.value)}
-                    placeholder="What's happening in the body"
-                    rows={3}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="encouragement">Encouragement</Label>
-                  <Textarea
-                    id="encouragement"
-                    value={content.encouragement}
-                    onChange={(e) => handleFieldChange('encouragement', e.target.value)}
-                    placeholder="Motivational message"
-                    rows={3}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="scientific-info">Scientific Information</Label>
-                  <Textarea
-                    id="scientific-info"
-                    value={content.scientificInfo}
-                    onChange={(e) => handleFieldChange('scientificInfo', e.target.value)}
-                    placeholder="Scientific explanation"
-                    rows={3}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="image-url">Image URL</Label>
-                  <Input
-                    id="image-url"
-                    value={content.imageUrl}
-                    onChange={(e) => handleFieldChange('imageUrl', e.target.value)}
-                    placeholder="https://..."
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Categories and Settings */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Categories & Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="difficulty">Difficulty</Label>
+                  <Label htmlFor="difficulty" className="text-sm font-semibold">Difficulty *</Label>
                   <Select value={content.difficulty} onValueChange={(value) => handleFieldChange('difficulty', value)}>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-blue-200 focus:border-blue-400">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -273,83 +226,60 @@ const AdminFastingHours = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                
-                <div>
-                  <Label htmlFor="phase">Phase</Label>
-                  <Select value={content.phase} onValueChange={(value) => handleFieldChange('phase', value)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="preparation">Preparation</SelectItem>
-                      <SelectItem value="initial">Initial</SelectItem>
-                      <SelectItem value="adaptation">Adaptation</SelectItem>
-                      <SelectItem value="ketosis">Ketosis</SelectItem>
-                      <SelectItem value="deep_ketosis">Deep Ketosis</SelectItem>
-                      <SelectItem value="extended">Extended</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              </div>
 
-                {/* Milestones */}
-                <div>
-                  <Label>Milestones</Label>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="autophagy"
-                        checked={content.milestones.autophagy}
-                        onChange={(e) => handleFieldChange('milestones', {
-                          ...content.milestones,
-                          autophagy: e.target.checked
-                        })}
-                      />
-                      <Label htmlFor="autophagy">Autophagy</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="ketosis"
-                        checked={content.milestones.ketosis}
-                        onChange={(e) => handleFieldChange('milestones', {
-                          ...content.milestones,
-                          ketosis: e.target.checked
-                        })}
-                      />
-                      <Label htmlFor="ketosis">Ketosis</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="fat-burning"
-                        checked={content.milestones.fatBurning}
-                        onChange={(e) => handleFieldChange('milestones', {
-                          ...content.milestones,
-                          fatBurning: e.target.checked
-                        })}
-                      />
-                      <Label htmlFor="fat-burning">Fat Burning</Label>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Lists Management */}
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle>Lists & Arrays</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
+              <div>
+                <Label htmlFor="body-state" className="text-sm font-semibold">Body State *</Label>
+                <Textarea
+                  id="body-state"
+                  value={content.bodyState}
+                  onChange={(e) => handleFieldChange('bodyState', e.target.value)}
+                  placeholder="What's happening in the body during this hour"
+                  rows={3}
+                  className="border-blue-200 focus:border-blue-400"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="encouragement" className="text-sm font-semibold">Encouragement *</Label>
+                <Textarea
+                  id="encouragement"
+                  value={content.encouragement}
+                  onChange={(e) => handleFieldChange('encouragement', e.target.value)}
+                  placeholder="Motivational message for users"
+                  rows={3}
+                  className="border-blue-200 focus:border-blue-400"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="phase" className="text-sm font-semibold">Phase *</Label>
+                <Select value={content.phase} onValueChange={(value) => handleFieldChange('phase', value)}>
+                  <SelectTrigger className="border-blue-200 focus:border-blue-400">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="preparation">Preparation</SelectItem>
+                    <SelectItem value="initial">Initial</SelectItem>
+                    <SelectItem value="adaptation">Adaptation</SelectItem>
+                    <SelectItem value="ketosis">Ketosis</SelectItem>
+                    <SelectItem value="deep_ketosis">Deep Ketosis</SelectItem>
+                    <SelectItem value="extended">Extended</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Required Arrays */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {/* Common Feelings */}
                 <div>
-                  <Label>Common Feelings</Label>
+                  <Label className="text-sm font-semibold">Common Feelings *</Label>
                   <div className="flex gap-2 mt-2">
                     <Input
                       value={newFeeling}
                       onChange={(e) => setNewFeeling(e.target.value)}
                       placeholder="Add feeling"
+                      className="border-blue-200 focus:border-blue-400"
                       onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                           addArrayItem('commonFeelings', newFeeling, setNewFeeling);
@@ -379,12 +309,13 @@ const AdminFastingHours = () => {
 
                 {/* Motivator Tags */}
                 <div>
-                  <Label>Motivator Tags</Label>
+                  <Label className="text-sm font-semibold">Motivator Tags *</Label>
                   <div className="flex gap-2 mt-2">
                     <Input
                       value={newTag}
                       onChange={(e) => setNewTag(e.target.value)}
                       placeholder="Add tag"
+                      className="border-blue-200 focus:border-blue-400"
                       onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                           addArrayItem('motivatorTags', newTag, setNewTag);
@@ -411,129 +342,212 @@ const AdminFastingHours = () => {
                     ))}
                   </div>
                 </div>
+              </div>
 
-                {/* Tips */}
+              <div className="flex justify-end pt-4">
+                <Button onClick={handleSave} className="flex items-center gap-2">
+                  <Save size={16} />
+                  Save Required Fields
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Additional Optional Fields */}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Additional Content (Optional)</CardTitle>
+              <p className="text-sm text-muted-foreground">These fields provide extra content but are not required for the app.</p>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Scientific Info and Image */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div>
-                  <Label>Tips</Label>
+                  <Label htmlFor="scientific-info">Scientific Information</Label>
+                  <Textarea
+                    id="scientific-info"
+                    value={content.scientificInfo}
+                    onChange={(e) => handleFieldChange('scientificInfo', e.target.value)}
+                    placeholder="Scientific explanation"
+                    rows={3}
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="image-url">Image URL</Label>
+                  <Input
+                    id="image-url"
+                    value={content.imageUrl}
+                    onChange={(e) => handleFieldChange('imageUrl', e.target.value)}
+                    placeholder="https://..."
+                  />
+                </div>
+              </div>
+
+              {/* Milestones */}
+              <div>
+                <Label>Milestones</Label>
+                <div className="flex flex-wrap gap-4 mt-2">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="autophagy"
+                      checked={content.milestones.autophagy}
+                      onChange={(e) => handleFieldChange('milestones', {
+                        ...content.milestones,
+                        autophagy: e.target.checked
+                      })}
+                    />
+                    <Label htmlFor="autophagy">Autophagy</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="ketosis"
+                      checked={content.milestones.ketosis}
+                      onChange={(e) => handleFieldChange('milestones', {
+                        ...content.milestones,
+                        ketosis: e.target.checked
+                      })}
+                    />
+                    <Label htmlFor="ketosis">Ketosis</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="fat-burning"
+                      checked={content.milestones.fatBurning}
+                      onChange={(e) => handleFieldChange('milestones', {
+                        ...content.milestones,
+                        fatBurning: e.target.checked
+                      })}
+                    />
+                    <Label htmlFor="fat-burning">Fat Burning</Label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tips */}
+              <div>
+                <Label>Tips</Label>
+                <div className="flex gap-2 mt-2">
+                  <Input
+                    value={newTip}
+                    onChange={(e) => setNewTip(e.target.value)}
+                    placeholder="Add tip"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        addArrayItem('tips', newTip, setNewTip);
+                      }
+                    }}
+                  />
+                  <Button 
+                    size="sm" 
+                    onClick={() => addArrayItem('tips', newTip, setNewTip)}
+                  >
+                    <Plus size={16} />
+                  </Button>
+                </div>
+                <div className="space-y-2 mt-2">
+                  {content.tips.map((tip, index) => (
+                    <div key={index} className="flex items-center gap-2 p-2 bg-muted rounded">
+                      <span className="flex-1">{tip}</span>
+                      <X 
+                        size={16} 
+                        className="cursor-pointer hover:text-red-500" 
+                        onClick={() => removeArrayItem('tips', index)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Symptoms */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Positive Symptoms */}
+                <div>
+                  <Label>Positive Symptoms</Label>
                   <div className="flex gap-2 mt-2">
                     <Input
-                      value={newTip}
-                      onChange={(e) => setNewTip(e.target.value)}
-                      placeholder="Add tip"
+                      value={newPositiveSymptom}
+                      onChange={(e) => setNewPositiveSymptom(e.target.value)}
+                      placeholder="Add positive symptom"
                       onKeyPress={(e) => {
                         if (e.key === 'Enter') {
-                          addArrayItem('tips', newTip, setNewTip);
+                          addSymptom('positive', newPositiveSymptom, setNewPositiveSymptom);
                         }
                       }}
                     />
                     <Button 
                       size="sm" 
-                      onClick={() => addArrayItem('tips', newTip, setNewTip)}
+                      onClick={() => addSymptom('positive', newPositiveSymptom, setNewPositiveSymptom)}
                     >
                       <Plus size={16} />
                     </Button>
                   </div>
                   <div className="space-y-2 mt-2">
-                    {content.tips.map((tip, index) => (
-                      <div key={index} className="flex items-center gap-2 p-2 bg-muted rounded">
-                        <span className="flex-1">{tip}</span>
+                    {content.symptoms.positive.map((symptom, index) => (
+                      <div key={index} className="flex items-center gap-2 p-2 bg-green-50 rounded">
+                        <span className="flex-1">{symptom}</span>
                         <X 
                           size={16} 
                           className="cursor-pointer hover:text-red-500" 
-                          onClick={() => removeArrayItem('tips', index)}
+                          onClick={() => removeSymptom('positive', index)}
                         />
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Symptoms */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Positive Symptoms */}
-                  <div>
-                    <Label>Positive Symptoms</Label>
-                    <div className="flex gap-2 mt-2">
-                      <Input
-                        value={newPositiveSymptom}
-                        onChange={(e) => setNewPositiveSymptom(e.target.value)}
-                        placeholder="Add positive symptom"
-                        onKeyPress={(e) => {
-                          if (e.key === 'Enter') {
-                            addSymptom('positive', newPositiveSymptom, setNewPositiveSymptom);
-                          }
-                        }}
-                      />
-                      <Button 
-                        size="sm" 
-                        onClick={() => addSymptom('positive', newPositiveSymptom, setNewPositiveSymptom)}
-                      >
-                        <Plus size={16} />
-                      </Button>
-                    </div>
-                    <div className="space-y-2 mt-2">
-                      {content.symptoms.positive.map((symptom, index) => (
-                        <div key={index} className="flex items-center gap-2 p-2 bg-green-50 rounded">
-                          <span className="flex-1">{symptom}</span>
-                          <X 
-                            size={16} 
-                            className="cursor-pointer hover:text-red-500" 
-                            onClick={() => removeSymptom('positive', index)}
-                          />
-                        </div>
-                      ))}
-                    </div>
+                {/* Challenging Symptoms */}
+                <div>
+                  <Label>Challenging Symptoms</Label>
+                  <div className="flex gap-2 mt-2">
+                    <Input
+                      value={newChallengingSymptom}
+                      onChange={(e) => setNewChallengingSymptom(e.target.value)}
+                      placeholder="Add challenging symptom"
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          addSymptom('challenging', newChallengingSymptom, setNewChallengingSymptom);
+                        }
+                      }}
+                    />
+                    <Button 
+                      size="sm" 
+                      onClick={() => addSymptom('challenging', newChallengingSymptom, setNewChallengingSymptom)}
+                    >
+                      <Plus size={16} />
+                    </Button>
                   </div>
-
-                  {/* Challenging Symptoms */}
-                  <div>
-                    <Label>Challenging Symptoms</Label>
-                    <div className="flex gap-2 mt-2">
-                      <Input
-                        value={newChallengingSymptom}
-                        onChange={(e) => setNewChallengingSymptom(e.target.value)}
-                        placeholder="Add challenging symptom"
-                        onKeyPress={(e) => {
-                          if (e.key === 'Enter') {
-                            addSymptom('challenging', newChallengingSymptom, setNewChallengingSymptom);
-                          }
-                        }}
-                      />
-                      <Button 
-                        size="sm" 
-                        onClick={() => addSymptom('challenging', newChallengingSymptom, setNewChallengingSymptom)}
-                      >
-                        <Plus size={16} />
-                      </Button>
-                    </div>
-                    <div className="space-y-2 mt-2">
-                      {content.symptoms.challenging.map((symptom, index) => (
-                        <div key={index} className="flex items-center gap-2 p-2 bg-red-50 rounded">
-                          <span className="flex-1">{symptom}</span>
-                          <X 
-                            size={16} 
-                            className="cursor-pointer hover:text-red-500" 
-                            onClick={() => removeSymptom('challenging', index)}
-                          />
-                        </div>
-                      ))}
-                    </div>
+                  <div className="space-y-2 mt-2">
+                    {content.symptoms.challenging.map((symptom, index) => (
+                      <div key={index} className="flex items-center gap-2 p-2 bg-red-50 rounded">
+                        <span className="flex-1">{symptom}</span>
+                        <X 
+                          size={16} 
+                          className="cursor-pointer hover:text-red-500" 
+                          onClick={() => removeSymptom('challenging', index)}
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
+              </div>
 
-                <div className="flex justify-between items-center pt-4">
-                  <div className="text-sm text-muted-foreground">
-                    {content.updatedAt && (
-                      <span>Last updated: {new Date(content.updatedAt).toLocaleString()}</span>
-                    )}
-                  </div>
-                  <Button onClick={handleSave} className="flex items-center gap-2">
-                    <Save size={16} />
-                    Save Hour {currentHour}
-                  </Button>
+              <div className="flex justify-between items-center pt-4">
+                <div className="text-sm text-muted-foreground">
+                  {content.updatedAt && (
+                    <span>Last updated: {new Date(content.updatedAt).toLocaleString()}</span>
+                  )}
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+                <Button onClick={handleSave} variant="outline" className="flex items-center gap-2">
+                  <Save size={16} />
+                  Save All Data
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
