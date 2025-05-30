@@ -9,8 +9,23 @@ const FastingHoursApi = () => {
     
     // Small delay to ensure data is saved
     setTimeout(() => {
-      // Serve the fasting hours JSON data
-      const apiData = AppContentService.getFastingHoursApiData();
+      // Get fasting hours data and format it for the app
+      const fastingHours = AppContentService.getAllFastingHours();
+      
+      // Transform the data to match the app's expected format
+      const apiData = {
+        slots: fastingHours.map(hour => ({
+          hour: hour.hour,
+          day: hour.day,
+          title: hour.title,
+          bodyState: hour.bodyState,
+          commonFeelings: hour.commonFeelings,
+          encouragement: hour.encouragement,
+          motivatorTags: hour.motivatorTags,
+          difficulty: hour.difficulty,
+          phase: hour.phase
+        }))
+      };
       
       // Set content type and return JSON
       const jsonResponse = JSON.stringify(apiData, null, 2);

@@ -284,6 +284,25 @@ export class AppContentService {
     }
   }
 
+  // New method to get fasting hours in the app's expected format
+  static getFastingHoursForApp(): any {
+    const fastingHours = this.getAllFastingHours();
+    
+    return {
+      slots: fastingHours.map(hour => ({
+        hour: hour.hour,
+        day: hour.day,
+        title: hour.title,
+        bodyState: hour.bodyState,
+        commonFeelings: hour.commonFeelings,
+        encouragement: hour.encouragement,
+        motivatorTags: hour.motivatorTags,
+        difficulty: hour.difficulty,
+        phase: hour.phase
+      }))
+    };
+  }
+
   // Initialize sample data
   static createSampleData(): void {
     const existingMotivators = this.getAllMotivators();
