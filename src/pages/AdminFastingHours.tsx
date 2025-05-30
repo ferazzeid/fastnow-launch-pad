@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -40,14 +39,26 @@ const AdminFastingHours = () => {
   const [newChallengingSymptom, setNewChallengingSymptom] = useState('');
 
   useEffect(() => {
+    // Ensure sample data is created on component mount
+    console.log('Initializing sample data...');
+    AppContentService.createSampleData();
+    loadHourContent(currentHour);
+  }, []);
+
+  useEffect(() => {
     loadHourContent(currentHour);
   }, [currentHour]);
 
   const loadHourContent = (hour: number) => {
+    console.log(`Loading content for hour ${hour}...`);
     const hourContent = AppContentService.getFastingHourByHour(hour);
+    console.log('Retrieved hour content:', hourContent);
+    
     if (hourContent) {
+      console.log(`Found existing content for hour ${hour}`);
       setContent(hourContent);
     } else {
+      console.log(`No existing content for hour ${hour}, creating default`);
       const day = Math.floor((hour - 1) / 24) + 1;
       setContent({
         hour,
@@ -122,7 +133,7 @@ const AdminFastingHours = () => {
   };
 
   const goToPrevious = () => {
-    if (currentHour > 1) setCurrentHour(currentHour - 1);
+    if (currentHour > 0) setCurrentHour(currentHour - 1);
   };
 
   const goToNext = () => {
@@ -155,7 +166,7 @@ const AdminFastingHours = () => {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between mb-4">
-                <Button variant="outline" onClick={goToPrevious} disabled={currentHour === 1}>
+                <Button variant="outline" onClick={goToPrevious} disabled={currentHour === 0}>
                   <ChevronLeft size={16} className="mr-1" />
                   Previous
                 </Button>
@@ -176,12 +187,12 @@ const AdminFastingHours = () => {
                 <Input
                   id="hour-jump"
                   type="number"
-                  min="1"
+                  min="0"
                   max="96"
                   value={currentHour}
                   onChange={(e) => {
                     const hour = parseInt(e.target.value);
-                    if (hour >= 1 && hour <= 96) goToHour(hour);
+                    if (hour >= 0 && hour <= 96) goToHour(hour);
                   }}
                   className="w-20"
                 />
