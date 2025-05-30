@@ -1,3 +1,4 @@
+
 import { Motivator, FastingHour } from '@/types/app-content';
 
 export class AppContentService {
@@ -45,7 +46,15 @@ export class AppContentService {
   static getAllFastingHours(): FastingHour[] {
     try {
       const fastingHours = localStorage.getItem(this.FASTING_HOURS_KEY);
-      return fastingHours ? JSON.parse(fastingHours) : this.initializeFastingHours();
+      const parsed = fastingHours ? JSON.parse(fastingHours) : null;
+      console.log('getAllFastingHours - retrieved from localStorage:', parsed);
+      
+      if (!parsed || parsed.length === 0) {
+        console.log('No fasting hours found, initializing...');
+        return this.initializeFastingHours();
+      }
+      
+      return parsed;
     } catch (error) {
       console.error('Error loading fasting hours:', error);
       return this.initializeFastingHours();
@@ -53,28 +62,55 @@ export class AppContentService {
   }
 
   static getFastingHourByHour(hour: number): FastingHour | null {
+    console.log(`getFastingHourByHour called for hour: ${hour}`);
     const fastingHours = this.getAllFastingHours();
-    return fastingHours.find(fh => fh.hour === hour) || null;
+    console.log('All fasting hours:', fastingHours);
+    const found = fastingHours.find(fh => fh.hour === hour) || null;
+    console.log(`Found hour ${hour}:`, found);
+    return found;
   }
 
   static saveFastingHour(hour: FastingHour): void {
-    const allHours = this.getAllFastingHours();
-    const existingIndex = allHours.findIndex(h => h.hour === hour.hour);
+    console.log('saveFastingHour called with:', hour);
     
-    const updatedHour = { ...hour, updatedAt: new Date().toISOString() };
-    
-    if (existingIndex >= 0) {
-      allHours[existingIndex] = updatedHour;
-    } else {
-      allHours.push(updatedHour);
-      allHours.sort((a, b) => a.hour - b.hour);
+    try {
+      const allHours = this.getAllFastingHours();
+      console.log('Current all hours before save:', allHours);
+      
+      const existingIndex = allHours.findIndex(h => h.hour === hour.hour);
+      console.log('Existing index for hour', hour.hour, ':', existingIndex);
+      
+      const updatedHour = { ...hour, updatedAt: new Date().toISOString() };
+      
+      if (existingIndex >= 0) {
+        console.log('Updating existing hour at index:', existingIndex);
+        allHours[existingIndex] = updatedHour;
+      } else {
+        console.log('Adding new hour');
+        allHours.push(updatedHour);
+        allHours.sort((a, b) => a.hour - b.hour);
+      }
+      
+      console.log('Saving to localStorage with key:', this.FASTING_HOURS_KEY);
+      console.log('Data being saved:', allHours);
+      
+      localStorage.setItem(this.FASTING_HOURS_KEY, JSON.stringify(allHours));
+      
+      // Verify the save immediately
+      const verifyData = localStorage.getItem(this.FASTING_HOURS_KEY);
+      console.log('Verification - data in localStorage after save:', verifyData);
+      
+      this.exportToApi();
+      
+      console.log('Save completed successfully');
+    } catch (error) {
+      console.error('Error in saveFastingHour:', error);
+      throw error;
     }
-    
-    localStorage.setItem(this.FASTING_HOURS_KEY, JSON.stringify(allHours));
-    this.exportToApi();
   }
 
   private static initializeFastingHours(): FastingHour[] {
+    console.log('Initializing fasting hours...');
     const fastingHours: FastingHour[] = [];
 
     // Comprehensive data for specific key hours - matching your provided JSON
@@ -221,56 +257,38 @@ export class AppContentService {
       const day = Math.floor(hour / 24) + 1;
       const detailedData = detailedHoursData[hour];
       
-      // If we have detailed data for this hour, use it completely
-      if (detailedData) {
-        fastingHours.push({
-          hour,
-          day,
-          title: detailedData.title || `Hour ${hour}`,
-          bodyState: detailedData.bodyState || "",
-          commonFeelings: detailedData.commonFeelings || [],
-          encouragement: detailedData.encouragement || "",
-          motivatorTags: detailedData.motivatorTags || [],
-          difficulty: detailedData.difficulty || "moderate",
-          phase: detailedData.phase || (hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended"),
-          tips: [],
-          scientificInfo: "",
-          imageUrl: `https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&hour=${hour}`,
-          symptoms: { positive: [], challenging: [] },
-          milestones: { 
-            autophagy: hour >= 16, 
-            ketosis: hour >= 24, 
-            fatBurning: hour >= 12 
-          },
-          updatedAt: new Date().toISOString()
-        });
-      } else {
-        // For hours without detailed data, create basic structure
-        fastingHours.push({
-          hour,
-          day,
-          title: `Hour ${hour}`,
-          bodyState: "",
-          commonFeelings: [],
-          encouragement: "",
-          motivatorTags: [],
-          difficulty: "moderate",
-          phase: hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended",
-          tips: [],
-          scientificInfo: "",
-          imageUrl: `https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&hour=${hour}`,
-          symptoms: { positive: [], challenging: [] },
-          milestones: { 
-            autophagy: hour >= 16, 
-            ketosis: hour >= 24, 
-            fatBurning: hour >= 12 
-          },
-          updatedAt: new Date().toISOString()
-        });
-      }
+      const fastingHour: FastingHour = {
+        hour,
+        day,
+        title: detailedData?.title || `Hour ${hour}`,
+        bodyState: detailedData?.bodyState || "",
+        commonFeelings: detailedData?.commonFeelings || [],
+        encouragement: detailedData?.encouragement || "",
+        motivatorTags: detailedData?.motivatorTags || [],
+        difficulty: (detailedData?.difficulty as any) || "moderate",
+        phase: (detailedData?.phase as any) || (hour <= 4 ? "preparation" : hour <= 12 ? "initial" : hour <= 24 ? "adaptation" : hour <= 48 ? "ketosis" : hour <= 72 ? "deep_ketosis" : "extended"),
+        tips: [],
+        scientificInfo: "",
+        imageUrl: `https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&hour=${hour}`,
+        symptoms: { positive: [], challenging: [] },
+        milestones: { 
+          autophagy: hour >= 16, 
+          ketosis: hour >= 24, 
+          fatBurning: hour >= 12 
+        },
+        updatedAt: new Date().toISOString()
+      };
+      
+      fastingHours.push(fastingHour);
     }
 
+    console.log('Saving initialized fasting hours to localStorage...');
     localStorage.setItem(this.FASTING_HOURS_KEY, JSON.stringify(fastingHours));
+    
+    // Verify the initialization save
+    const verifyInit = localStorage.getItem(this.FASTING_HOURS_KEY);
+    console.log('Verification - initialized data saved to localStorage:', verifyInit ? 'SUCCESS' : 'FAILED');
+    
     return fastingHours;
   }
 
