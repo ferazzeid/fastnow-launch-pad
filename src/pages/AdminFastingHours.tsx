@@ -39,28 +39,29 @@ const AdminFastingHours = () => {
   const [newChallengingSymptom, setNewChallengingSymptom] = useState('');
 
   useEffect(() => {
-    // Ensure sample data is created on component mount
-    console.log('Initializing sample data...');
+    console.log('=== COMPONENT MOUNTED ===');
     AppContentService.createSampleData();
     loadHourContent(currentHour);
   }, []);
 
   useEffect(() => {
+    console.log('=== CURRENT HOUR CHANGED TO:', currentHour, '===');
     loadHourContent(currentHour);
   }, [currentHour]);
 
   const loadHourContent = (hour: number) => {
-    console.log(`Loading content for hour ${hour}...`);
+    console.log(`=== LOADING CONTENT FOR HOUR ${hour} ===`);
+    
     const hourContent = AppContentService.getFastingHourByHour(hour);
-    console.log('Retrieved hour content:', hourContent);
+    console.log(`Retrieved content for hour ${hour}:`, hourContent);
     
     if (hourContent) {
-      console.log(`Found existing content for hour ${hour}`);
+      console.log(`✅ Found existing content for hour ${hour}`);
       setContent(hourContent);
     } else {
-      console.log(`No existing content for hour ${hour}, creating default`);
+      console.log(`❌ No existing content for hour ${hour}, creating default`);
       const day = Math.floor(hour / 24) + 1;
-      setContent({
+      const defaultContent = {
         hour,
         day,
         title: '',
@@ -68,8 +69,8 @@ const AdminFastingHours = () => {
         commonFeelings: [],
         encouragement: '',
         motivatorTags: [],
-        difficulty: 'easy',
-        phase: hour <= 4 ? 'preparation' : hour <= 12 ? 'initial' : hour <= 24 ? 'adaptation' : hour <= 48 ? 'ketosis' : hour <= 72 ? 'deep_ketosis' : 'extended',
+        difficulty: 'easy' as const,
+        phase: hour <= 4 ? 'preparation' as const : hour <= 12 ? 'initial' as const : hour <= 24 ? 'adaptation' as const : hour <= 48 ? 'ketosis' as const : hour <= 72 ? 'deep_ketosis' as const : 'extended' as const,
         tips: [],
         scientificInfo: '',
         imageUrl: '',
@@ -80,15 +81,17 @@ const AdminFastingHours = () => {
           fatBurning: hour >= 12 
         },
         updatedAt: new Date().toISOString()
-      });
+      };
+      setContent(defaultContent);
     }
+    console.log('=== LOADING COMPLETE ===');
   };
 
   const handleSave = () => {
-    console.log('Saving content for hour:', currentHour);
-    console.log('Content being saved:', content);
+    console.log('=== UNIFIED SAVE BUTTON CLICKED ===');
+    console.log('Current hour:', currentHour);
+    console.log('Content being saved:', JSON.stringify(content, null, 2));
     
-    // Ensure the hour and day are correctly set
     const updatedContent = {
       ...content,
       hour: currentHour,
@@ -96,25 +99,38 @@ const AdminFastingHours = () => {
       updatedAt: new Date().toISOString()
     };
     
-    console.log('Updated content with hour/day:', updatedContent);
+    console.log('Updated content with hour/day:', JSON.stringify(updatedContent, null, 2));
     
     try {
+      console.log('=== CALLING AppContentService.saveFastingHour ===');
+      
+      // Save to localStorage
       AppContentService.saveFastingHour(updatedContent);
+      
+      // Update the component state
       setContent(updatedContent);
       
-      // Verify the save worked by retrieving the data
+      // Verify the save worked
       const savedContent = AppContentService.getFastingHourByHour(currentHour);
-      console.log('Verification - saved content retrieved:', savedContent);
+      console.log('Verification - retrieved content:', JSON.stringify(savedContent, null, 2));
       
-      toast.success(`Hour ${currentHour} content saved successfully`);
+      if (savedContent && savedContent.title === updatedContent.title) {
+        console.log('✅ VERIFICATION SUCCESSFUL: Title matches');
+        toast.success(`Hour ${currentHour} content saved successfully`);
+      } else {
+        console.log('❌ VERIFICATION FAILED: Title does not match');
+        toast.error(`Save verification failed for hour ${currentHour}`);
+      }
+      
+      console.log('=== SAVE COMPLETE ===');
     } catch (error) {
-      console.error('Error saving content:', error);
+      console.error('❌ ERROR DURING SAVE:', error);
       toast.error(`Failed to save hour ${currentHour} content`);
     }
   };
 
   const handleFieldChange = (field: keyof FastingHour, value: any) => {
-    console.log(`Updating field ${field} with value:`, value);
+    console.log(`🔄 FIELD CHANGE: ${field} =`, value);
     setContent(prev => {
       const updated = {
         ...prev,
@@ -180,9 +196,15 @@ const AdminFastingHours = () => {
           <Link to="/admin" className="text-2xl font-bold hover:text-primary transition-colors">
             Fasting Hours Management
           </Link>
-          <Link to="/admin">
-            <Button variant="outline">Back to Admin</Button>
-          </Link>
+          <div className="flex items-center gap-4">
+            <Button onClick={handleSave} className="flex items-center gap-2">
+              <Save size={16} />
+              Save Hour {currentHour}
+            </Button>
+            <Link to="/admin">
+              <Button variant="outline">Back to Admin</Button>
+            </Link>
+          </div>
         </div>
       </header>
       
@@ -383,13 +405,6 @@ const AdminFastingHours = () => {
                   </div>
                 </div>
               </div>
-
-              <div className="flex justify-end pt-4">
-                <Button onClick={handleSave} className="flex items-center gap-2">
-                  <Save size={16} />
-                  Save Required Fields
-                </Button>
-              </div>
             </CardContent>
           </Card>
 
@@ -575,16 +590,10 @@ const AdminFastingHours = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-4">
-                <div className="text-sm text-muted-foreground">
-                  {content.updatedAt && (
-                    <span>Last updated: {new Date(content.updatedAt).toLocaleString()}</span>
-                  )}
-                </div>
-                <Button onClick={handleSave} variant="outline" className="flex items-center gap-2">
-                  <Save size={16} />
-                  Save All Data
-                </Button>
+              <div className="text-sm text-muted-foreground text-center">
+                {content.updatedAt && (
+                  <span>Last updated: {new Date(content.updatedAt).toLocaleString()}</span>
+                )}
               </div>
             </CardContent>
           </Card>
