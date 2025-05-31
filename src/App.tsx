@@ -12,7 +12,6 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminPageEditor from "./pages/AdminPageEditor";
 import AdminGeneral from "./pages/AdminGeneral";
 import AdminPages from "./pages/AdminPages";
-import AdminFeatures from "./pages/AdminFeatures";
 import AdminDesign from "./pages/AdminDesign";
 import AdminSeo from "./pages/AdminSeo";
 import ContentPage from "./pages/ContentPage";
@@ -68,7 +67,6 @@ const App = () => (
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/general" element={<AdminGeneral />} />
             <Route path="/admin/pages" element={<AdminPages />} />
-            <Route path="/admin/features" element={<AdminFeatures />} />
             <Route path="/admin/design" element={<AdminDesign />} />
             <Route path="/admin/seo" element={<AdminSeo />} />
             <Route path="/admin/users" element={<UserManagement />} />

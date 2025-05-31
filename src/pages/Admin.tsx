@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLogin from './AdminLogin';
@@ -99,12 +100,6 @@ const Admin = () => {
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
                   Page Content Manager
-                </Button>
-              </Link>
-              <Link to="/admin/features">
-                <Button variant="outline" className="w-full justify-start">
-                  <Heart size={16} className="mr-2" />
-                  Features
                 </Button>
               </Link>
               <Link to="/admin/design">
