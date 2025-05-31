@@ -11,8 +11,13 @@ export const useGoogleAnalytics = () => {
     let googleAnalyticsId = null;
     
     if (seoSettings) {
-      const parsed = JSON.parse(seoSettings);
-      googleAnalyticsId = parsed.googleAnalyticsId;
+      try {
+        const parsed = JSON.parse(seoSettings);
+        googleAnalyticsId = parsed.googleAnalyticsId;
+      } catch (error) {
+        console.error('Error parsing SEO settings:', error);
+        return;
+      }
     }
 
     if (googleAnalyticsId && googleAnalyticsId.trim()) {
@@ -43,8 +48,13 @@ export const useGoogleAnalytics = () => {
     let googleAnalyticsId = null;
     
     if (seoSettings) {
-      const parsed = JSON.parse(seoSettings);
-      googleAnalyticsId = parsed.googleAnalyticsId;
+      try {
+        const parsed = JSON.parse(seoSettings);
+        googleAnalyticsId = parsed.googleAnalyticsId;
+      } catch (error) {
+        console.error('Error parsing SEO settings:', error);
+        return;
+      }
     }
 
     if (googleAnalyticsId && googleAnalyticsId.trim() && window.gtag) {
