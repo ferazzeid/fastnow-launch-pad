@@ -16,7 +16,7 @@ export const useGoogleAnalytics = () => {
         googleAnalyticsId = parsed.googleAnalyticsId;
       } catch (error) {
         console.error('Error parsing SEO settings:', error);
-        return;
+        // Don't return here - continue with the component lifecycle
       }
     }
 
@@ -53,7 +53,7 @@ export const useGoogleAnalytics = () => {
         googleAnalyticsId = parsed.googleAnalyticsId;
       } catch (error) {
         console.error('Error parsing SEO settings:', error);
-        return;
+        // Don't return here - continue with the component lifecycle
       }
     }
 
