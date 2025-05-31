@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GooglePlayButton } from '@/components/GooglePlayButton';
@@ -161,10 +162,10 @@ const Index = () => {
             <div className="lg:w-1/2 mb-10 lg:mb-0">
               <h1 className="text-5xl font-bold leading-tight mb-6 animate-fade-in text-mint-600">
                 {heroTitle.split('\\n').map((line, i) => (
-                  <React.Fragment key={i}>
+                  <span key={i}>
                     {line}
                     {i < heroTitle.split('\\n').length - 1 && <br />}
-                  </React.Fragment>
+                  </span>
                 ))}
                 <span className="text-primary"></span>
               </h1>
