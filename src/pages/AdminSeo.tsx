@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -57,7 +56,7 @@ const AdminSeo = () => {
     };
     
     localStorage.setItem('fastingApp_seo_settings', JSON.stringify(settings));
-    toast.success("SEO settings saved successfully");
+    toast.success("SEO settings saved successfully. Refresh the page to activate Google Analytics tracking.");
   };
 
   const handleBack = () => {
@@ -134,8 +133,12 @@ const AdminSeo = () => {
                   id="googleAnalyticsId"
                   value={googleAnalyticsId}
                   onChange={(e) => setGoogleAnalyticsId(e.target.value)}
-                  placeholder="G-XXXXXXXXXX"
+                  placeholder="G-XXXXXXXXXX or UA-XXXXXXXX-X"
                 />
+                <p className="text-sm text-gray-500">
+                  Enter your Google Analytics Measurement ID (e.g., G-XXXXXXXXXX). 
+                  Once saved and the page is refreshed, tracking will be active on all pages.
+                </p>
               </div>
               
               <div className="space-y-2">

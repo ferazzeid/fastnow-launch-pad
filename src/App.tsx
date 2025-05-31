@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
+import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
@@ -36,6 +37,58 @@ import FastingTimelineApi from "./pages/FastingTimelineApi";
 
 const queryClient = new QueryClient();
 
+const AppRoutes = () => {
+  useGoogleAnalytics();
+  
+  return (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      
+      {/* Blog routes */}
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
+      
+      {/* Fasting Timeline routes */}
+      <Route path="/fasting-timeline" element={<FastingTimelineBlog />} />
+      <Route path="/fasting-timeline/:slug" element={<FastingTimelinePost />} />
+      
+      {/* API routes */}
+      <Route path="/api/blog" element={<BlogApi />} />
+      <Route path="/api/fasting-timeline" element={<FastingTimelineApi />} />
+      <Route path="/api/app-content" element={<AppContentApi />} />
+      <Route path="/api/fasting-slots" element={<FastingSlotsApi />} />
+      <Route path="/api/fasting-hours" element={<FastingHoursApi />} />
+      <Route path="/api/motivators" element={<MotivatorsApi />} />
+      
+      {/* Admin routes */}
+      <Route path="/admin" element={<Admin />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/general" element={<AdminGeneral />} />
+      <Route path="/admin/pages" element={<AdminPages />} />
+      <Route path="/admin/design" element={<AdminDesign />} />
+      <Route path="/admin/seo" element={<AdminSeo />} />
+      <Route path="/admin/users" element={<UserManagement />} />
+      <Route path="/admin/blog" element={<AdminBlog />} />
+      <Route path="/admin/blog/new" element={<BlogEditor />} />
+      <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
+      <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
+      <Route path="/admin/fasting-timeline/new" element={<FastingTimelineEditor />} />
+      <Route path="/admin/fasting-timeline/edit/:id" element={<FastingTimelineEditor />} />
+      <Route path="/admin/motivators" element={<AdminMotivators />} />
+      <Route path="/admin/fasting-hours" element={<AdminFastingHours />} />
+      <Route path="/admin/:pageType" element={<AdminPageEditor />} />
+      
+      {/* Content pages */}
+      <Route path="/privacy" element={<ContentPage />} />
+      <Route path="/terms" element={<ContentPage />} />
+      <Route path="/contact" element={<ContentPage />} />
+      
+      {/* Catch-all route */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
@@ -43,51 +96,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            
-            {/* Blog routes */}
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            
-            {/* Fasting Timeline routes */}
-            <Route path="/fasting-timeline" element={<FastingTimelineBlog />} />
-            <Route path="/fasting-timeline/:slug" element={<FastingTimelinePost />} />
-            
-            {/* API routes */}
-            <Route path="/api/blog" element={<BlogApi />} />
-            <Route path="/api/fasting-timeline" element={<FastingTimelineApi />} />
-            <Route path="/api/app-content" element={<AppContentApi />} />
-            <Route path="/api/fasting-slots" element={<FastingSlotsApi />} />
-            <Route path="/api/fasting-hours" element={<FastingHoursApi />} />
-            <Route path="/api/motivators" element={<MotivatorsApi />} />
-            
-            {/* Admin routes */}
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/general" element={<AdminGeneral />} />
-            <Route path="/admin/pages" element={<AdminPages />} />
-            <Route path="/admin/design" element={<AdminDesign />} />
-            <Route path="/admin/seo" element={<AdminSeo />} />
-            <Route path="/admin/users" element={<UserManagement />} />
-            <Route path="/admin/blog" element={<AdminBlog />} />
-            <Route path="/admin/blog/new" element={<BlogEditor />} />
-            <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
-            <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
-            <Route path="/admin/fasting-timeline/new" element={<FastingTimelineEditor />} />
-            <Route path="/admin/fasting-timeline/edit/:id" element={<FastingTimelineEditor />} />
-            <Route path="/admin/motivators" element={<AdminMotivators />} />
-            <Route path="/admin/fasting-hours" element={<AdminFastingHours />} />
-            <Route path="/admin/:pageType" element={<AdminPageEditor />} />
-            
-            {/* Content pages */}
-            <Route path="/privacy" element={<ContentPage />} />
-            <Route path="/terms" element={<ContentPage />} />
-            <Route path="/contact" element={<ContentPage />} />
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
       </TooltipProvider>
     </HelmetProvider>
