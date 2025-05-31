@@ -21,7 +21,7 @@ interface PageContent {
 const AdminPages = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [content, setContent] = useState<PageContent>({
     home: '',
     about: '',
@@ -243,15 +243,24 @@ United States`
   };
 
   useEffect(() => {
+    console.log('AdminPages component mounted');
+    
     const authStatus = localStorage.getItem('fastingApp_auth');
+    console.log('Auth status:', authStatus);
+    
     if (authStatus !== 'true') {
+      console.log('Not authenticated, redirecting to admin');
       navigate('/admin');
       return;
     }
+    
+    console.log('User is authenticated');
     setIsAuthenticated(true);
 
     // Load existing page content
     const savedContent = localStorage.getItem('fastingApp_page_content');
+    console.log('Saved content:', savedContent);
+    
     if (savedContent) {
       try {
         const parsed = JSON.parse(savedContent);
@@ -261,14 +270,17 @@ United States`
           privacy: parsed.privacy || defaultContent.privacy,
           terms: parsed.terms || defaultContent.terms
         });
+        console.log('Loaded saved content');
       } catch (error) {
         console.error('Error loading page content:', error);
         setContent(defaultContent);
       }
     } else {
-      // Initialize with default content
+      console.log('No saved content, using defaults');
       setContent(defaultContent);
     }
+    
+    setIsLoading(false);
   }, [navigate]);
 
   const handleContentChange = (page: keyof PageContent, value: string) => {
@@ -327,8 +339,22 @@ United States`
     }
   };
 
+  console.log('Rendering AdminPages, isAuthenticated:', isAuthenticated, 'isLoading:', isLoading);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
-    return null;
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div>Redirecting to admin...</div>
+      </div>
+    );
   }
 
   return (
