@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -28,6 +27,11 @@ import AppContentApi from "./pages/AppContentApi";
 import FastingSlotsApi from "./pages/FastingSlotsApi";
 import FastingHoursApi from "./pages/FastingHoursApi";
 import MotivatorsApi from "./pages/MotivatorsApi";
+import FastingTimelineBlog from "./pages/FastingTimelineBlog";
+import FastingTimelinePost from "./pages/FastingTimelinePost";
+import AdminFastingTimeline from "./pages/AdminFastingTimeline";
+import FastingTimelineEditor from "./pages/FastingTimelineEditor";
+import FastingTimelineApi from "./pages/FastingTimelineApi";
 
 const queryClient = new QueryClient();
 
@@ -45,8 +49,13 @@ const App = () => (
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             
+            {/* Fasting Timeline routes */}
+            <Route path="/fasting-timeline" element={<FastingTimelineBlog />} />
+            <Route path="/fasting-timeline/:slug" element={<FastingTimelinePost />} />
+            
             {/* API routes */}
             <Route path="/api/blog" element={<BlogApi />} />
+            <Route path="/api/fasting-timeline" element={<FastingTimelineApi />} />
             <Route path="/api/app-content" element={<AppContentApi />} />
             <Route path="/api/fasting-slots" element={<FastingSlotsApi />} />
             <Route path="/api/fasting-hours" element={<FastingHoursApi />} />
@@ -63,6 +72,9 @@ const App = () => (
             <Route path="/admin/blog" element={<AdminBlog />} />
             <Route path="/admin/blog/new" element={<BlogEditor />} />
             <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
+            <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
+            <Route path="/admin/fasting-timeline/new" element={<FastingTimelineEditor />} />
+            <Route path="/admin/fasting-timeline/edit/:id" element={<FastingTimelineEditor />} />
             <Route path="/admin/motivators" element={<AdminMotivators />} />
             <Route path="/admin/fasting-hours" element={<AdminFastingHours />} />
             <Route path="/admin/:pageType" element={<AdminPageEditor />} />
@@ -71,7 +83,6 @@ const App = () => (
             <Route path="/privacy" element={<ContentPage />} />
             <Route path="/terms" element={<ContentPage />} />
             <Route path="/contact" element={<ContentPage />} />
-            <Route path="/fasting-timeline" element={<FastingTimeline />} />
             
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />

@@ -97,12 +97,36 @@ const Admin = () => {
             </CardContent>
           </Card>
 
+          {/* Fasting Timeline Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock size={20} />
+                Fasting Timeline
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/fasting-timeline">
+                <Button variant="outline" className="w-full justify-start">
+                  <Clock size={16} className="mr-2" />
+                  Manage Timeline Posts
+                </Button>
+              </Link>
+              <Link to="/admin/fasting-timeline/new">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText size={16} className="mr-2" />
+                  Create New Hour
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
           {/* App Content Management */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar size={20} />
-                Fasting Content
+                Legacy Fasting Content
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -140,6 +164,12 @@ const Admin = () => {
                 <Button variant="outline" className="w-full justify-start">
                   <Clock size={16} className="mr-2" />
                   Fasting Hours API
+                </Button>
+              </Link>
+              <Link to="/api/fasting-timeline" target="_blank">
+                <Button variant="outline" className="w-full justify-start">
+                  <Clock size={16} className="mr-2" />
+                  Fasting Timeline API
                 </Button>
               </Link>
               <Link to="/api/motivators" target="_blank">

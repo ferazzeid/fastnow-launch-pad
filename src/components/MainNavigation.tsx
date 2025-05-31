@@ -65,7 +65,7 @@ const MainNavigation = () => {
               className={cn(
                 navigationMenuTriggerStyle(),
                 "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname === "/fasting-timeline" && "text-accent-green bg-gray-50"
+                location.pathname.startsWith("/fasting-timeline") && "text-accent-green bg-gray-50"
               )}
             >
               Fasting Timeline
