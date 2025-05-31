@@ -37,7 +37,7 @@ const Admin = () => {
               <Link to="/admin/pages">
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
-                  Page Content
+                  Page Content Manager
                 </Button>
               </Link>
               <Link to="/admin/features">
