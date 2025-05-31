@@ -1,19 +1,80 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AdminLogin from './AdminLogin';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock } from "lucide-react";
+import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut } from "lucide-react";
+import { toast } from "@/components/ui/sonner";
 
 const Admin = () => {
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    console.log('Admin component mounted');
+    
+    // Initialize default admin user if no users exist
+    const savedUsers = localStorage.getItem('fastingApp_users');
+    if (!savedUsers) {
+      const defaultUsers = [
+        {
+          id: '1',
+          username: 'admin',
+          role: 'admin',
+          dateAdded: new Date().toISOString()
+        }
+      ];
+      localStorage.setItem('fastingApp_users', JSON.stringify(defaultUsers));
+      localStorage.setItem('fastingApp_user_admin', 'admin');
+      console.log('Initialized default admin user');
+    }
+    
+    const authStatus = localStorage.getItem('fastingApp_auth');
+    console.log('Auth status:', authStatus);
+    
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
+    
+    setIsLoading(false);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('fastingApp_auth');
+    localStorage.removeItem('fastingApp_currentUser');
+    setIsAuthenticated(false);
+    toast.success("Logged out successfully");
+    navigate('/admin');
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AdminLogin />;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container flex justify-between items-center py-4">
           <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-          <Link to="/">
-            <Button variant="outline">Back to Site</Button>
-          </Link>
+          <div className="flex gap-2">
+            <Link to="/">
+              <Button variant="outline">Back to Site</Button>
+            </Link>
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut size={16} className="mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
       
