@@ -5,6 +5,19 @@ import { Search, Tag, Clock, Edit } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { 
+  Sidebar, 
+  SidebarContent, 
+  SidebarGroup, 
+  SidebarGroupContent, 
+  SidebarGroupLabel, 
+  SidebarMenu, 
+  SidebarMenuButton, 
+  SidebarMenuItem, 
+  SidebarProvider, 
+  SidebarTrigger 
+} from '@/components/ui/sidebar';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import PageLayout from '@/components/layout/PageLayout';
 import { Helmet } from 'react-helmet-async';
 import { FastingTimelinePost } from '@/types/fastingTimeline';
@@ -67,6 +80,62 @@ const FastingTimelineBlog = () => {
     navigate(`/admin/fasting-timeline/edit/${postId}`);
   };
 
+  const getPostByHour = (hour: number) => {
+    return posts.find(post => post.hour === hour);
+  };
+
+  const FastingHoursSidebar = () => {
+    const hourRanges = [
+      { title: 'Early Hours (1-16)', hours: Array.from({length: 16}, (_, i) => i + 1) },
+      { title: 'Intermediate (17-24)', hours: Array.from({length: 8}, (_, i) => i + 17) },
+      { title: 'Advanced (25-48)', hours: Array.from({length: 24}, (_, i) => i + 25) },
+      { title: 'Extended (49-72)', hours: Array.from({length: 24}, (_, i) => i + 49) }
+    ];
+
+    return (
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Fasting Hours</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <Accordion type="multiple" className="w-full">
+                {hourRanges.map((range, index) => (
+                  <AccordionItem key={index} value={`range-${index}`}>
+                    <AccordionTrigger className="text-sm">{range.title}</AccordionTrigger>
+                    <AccordionContent>
+                      <SidebarMenu>
+                        {range.hours.map(hour => {
+                          const post = getPostByHour(hour);
+                          return (
+                            <SidebarMenuItem key={hour}>
+                              <SidebarMenuButton asChild>
+                                {post ? (
+                                  <Link to={`/fasting-timeline/${post.slug}`}>
+                                    <Clock className="w-4 h-4" />
+                                    <span>Hour {hour}</span>
+                                  </Link>
+                                ) : (
+                                  <div className="flex items-center gap-2 text-gray-400 cursor-not-allowed">
+                                    <Clock className="w-4 h-4" />
+                                    <span>Hour {hour}</span>
+                                  </div>
+                                )}
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          );
+                        })}
+                      </SidebarMenu>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+    );
+  };
+
   return (
     <PageLayout>
       <Helmet>
@@ -74,160 +143,171 @@ const FastingTimelineBlog = () => {
         <meta name="description" content="Explore your fasting journey hour by hour. Discover what happens in your body and mind during each hour of your fast from 0 to 96 hours." />
       </Helmet>
 
-      <div className="container py-12">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-mint-600 mb-4">Fasting Timeline</h1>
-          <p className="text-xl text-mint-500 max-w-2xl mx-auto">
-            Discover your fasting journey hour by hour. Each hour is a milestone worth celebrating.
-          </p>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Search fasting hours..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
+      <SidebarProvider>
+        <div className="min-h-screen flex w-full">
+          <FastingHoursSidebar />
           
-          <div className="flex gap-2 overflow-x-auto flex-wrap">
-            <Button
-              variant={hourRange === 'all' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setHourRange('all')}
-            >
-              All Hours
-            </Button>
-            <Button
-              variant={hourRange === 'early' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setHourRange('early')}
-            >
-              0-16 Hours
-            </Button>
-            <Button
-              variant={hourRange === 'intermediate' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setHourRange('intermediate')}
-            >
-              17-24 Hours
-            </Button>
-            <Button
-              variant={hourRange === 'advanced' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setHourRange('advanced')}
-            >
-              25-48 Hours
-            </Button>
-            <Button
-              variant={hourRange === 'extended' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setHourRange('extended')}
-            >
-              49+ Hours
-            </Button>
-          </div>
+          <div className="flex-1">
+            <div className="container py-12">
+              {/* Header with Sidebar Toggle */}
+              <div className="flex items-center gap-4 mb-8">
+                <SidebarTrigger />
+                <div className="text-center flex-1">
+                  <h1 className="text-4xl font-bold text-mint-600 mb-4">Fasting Timeline</h1>
+                  <p className="text-xl text-mint-500 max-w-2xl mx-auto">
+                    Discover your fasting journey hour by hour. Each hour is a milestone worth celebrating.
+                  </p>
+                </div>
+              </div>
 
-          <div className="flex gap-2 overflow-x-auto">
-            <Button
-              variant={selectedCategory === '' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setSelectedCategory('')}
-            >
-              All Categories
-            </Button>
-            {categories.map(category => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedCategory(category)}
-                className="whitespace-nowrap"
-              >
-                {category}
-              </Button>
-            ))}
+              {/* Search and Filters */}
+              <div className="mb-8 space-y-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    placeholder="Search fasting hours..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                
+                <div className="flex gap-2 overflow-x-auto flex-wrap">
+                  <Button
+                    variant={hourRange === 'all' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setHourRange('all')}
+                  >
+                    All Hours
+                  </Button>
+                  <Button
+                    variant={hourRange === 'early' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setHourRange('early')}
+                  >
+                    0-16 Hours
+                  </Button>
+                  <Button
+                    variant={hourRange === 'intermediate' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setHourRange('intermediate')}
+                  >
+                    17-24 Hours
+                  </Button>
+                  <Button
+                    variant={hourRange === 'advanced' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setHourRange('advanced')}
+                  >
+                    25-48 Hours
+                  </Button>
+                  <Button
+                    variant={hourRange === 'extended' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setHourRange('extended')}
+                  >
+                    49+ Hours
+                  </Button>
+                </div>
+
+                <div className="flex gap-2 overflow-x-auto">
+                  <Button
+                    variant={selectedCategory === '' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setSelectedCategory('')}
+                  >
+                    All Categories
+                  </Button>
+                  {categories.map(category => (
+                    <Button
+                      key={category}
+                      variant={selectedCategory === category ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setSelectedCategory(category)}
+                      className="whitespace-nowrap"
+                    >
+                      {category}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Posts Grid */}
+              {filteredPosts.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-500 text-lg">No fasting timeline posts found.</p>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredPosts.map((post) => (
+                    <Card key={post.id} className="hover:shadow-lg transition-shadow">
+                      {post.featuredImage && (
+                        <div className="aspect-video overflow-hidden rounded-t-lg">
+                          <img
+                            src={post.featuredImage}
+                            alt={post.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <Clock className="w-4 h-4" />
+                            Hour {post.hour}
+                          </div>
+                          {/* Edit Button for Admins */}
+                          {isAdmin && (
+                            <Button 
+                              onClick={() => handleEdit(post.id)} 
+                              variant="ghost" 
+                              size="sm"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
+                        <CardTitle className="line-clamp-2">
+                          <Link 
+                            to={`/fasting-timeline/${post.slug}`}
+                            className="hover:text-accent-green transition-colors"
+                          >
+                            {post.title}
+                          </Link>
+                        </CardTitle>
+                        <CardDescription className="line-clamp-3">
+                          {post.excerpt}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex items-center justify-between">
+                          <div className="flex gap-1 flex-wrap">
+                            {post.categories.slice(0, 2).map(category => (
+                              <span
+                                key={category}
+                                className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-accent-green text-white"
+                              >
+                                <Tag className="w-3 h-3" />
+                                {category}
+                              </span>
+                            ))}
+                          </div>
+                          <Link
+                            to={`/fasting-timeline/${post.slug}`}
+                            className="text-accent-green hover:underline text-sm font-medium"
+                          >
+                            Read More
+                          </Link>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-
-        {/* Posts Grid */}
-        {filteredPosts.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No fasting timeline posts found.</p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post) => (
-              <Card key={post.id} className="hover:shadow-lg transition-shadow">
-                {post.featuredImage && (
-                  <div className="aspect-video overflow-hidden rounded-t-lg">
-                    <img
-                      src={post.featuredImage}
-                      alt={post.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <Clock className="w-4 h-4" />
-                      Hour {post.hour}
-                    </div>
-                    {/* Edit Button for Admins */}
-                    {isAdmin && (
-                      <Button 
-                        onClick={() => handleEdit(post.id)} 
-                        variant="ghost" 
-                        size="sm"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
-                  <CardTitle className="line-clamp-2">
-                    <Link 
-                      to={`/fasting-timeline/${post.slug}`}
-                      className="hover:text-accent-green transition-colors"
-                    >
-                      {post.title}
-                    </Link>
-                  </CardTitle>
-                  <CardDescription className="line-clamp-3">
-                    {post.excerpt}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="flex gap-1 flex-wrap">
-                      {post.categories.slice(0, 2).map(category => (
-                        <span
-                          key={category}
-                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-accent-green text-white"
-                        >
-                          <Tag className="w-3 h-3" />
-                          {category}
-                        </span>
-                      ))}
-                    </div>
-                    <Link
-                      to={`/fasting-timeline/${post.slug}`}
-                      className="text-accent-green hover:underline text-sm font-medium"
-                    >
-                      Read More
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-      </div>
+      </SidebarProvider>
     </PageLayout>
   );
 };
