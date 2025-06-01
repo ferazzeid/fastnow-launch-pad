@@ -93,7 +93,7 @@ const FastingTimelineBlog = () => {
     ];
 
     return (
-      <Sidebar>
+      <Sidebar side="right">
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Fasting Hours</SidebarGroupLabel>
@@ -145,19 +145,17 @@ const FastingTimelineBlog = () => {
 
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
-          <FastingHoursSidebar />
-          
           <div className="flex-1">
             <div className="container py-12">
               {/* Header with Sidebar Toggle */}
               <div className="flex items-center gap-4 mb-8">
-                <SidebarTrigger />
                 <div className="text-center flex-1">
                   <h1 className="text-4xl font-bold text-mint-600 mb-4">Fasting Timeline</h1>
                   <p className="text-xl text-mint-500 max-w-2xl mx-auto">
                     Discover your fasting journey hour by hour. Each hour is a milestone worth celebrating.
                   </p>
                 </div>
+                <SidebarTrigger />
               </div>
 
               {/* Search and Filters */}
@@ -306,6 +304,8 @@ const FastingTimelineBlog = () => {
               )}
             </div>
           </div>
+          
+          <FastingHoursSidebar />
         </div>
       </SidebarProvider>
     </PageLayout>
