@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
-import { Calendar, Tag, ArrowLeft, Clock, Edit } from 'lucide-react';
+import { Tag, ArrowLeft, Clock, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import PageLayout from '@/components/layout/PageLayout';
@@ -48,14 +48,6 @@ const FastingTimelinePost = () => {
   if (!post || post.status !== 'published') {
     return <Navigate to="/fasting-timeline" replace />;
   }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
 
   return (
     <PageLayout>
@@ -104,17 +96,11 @@ const FastingTimelinePost = () => {
           
           <h1 className="text-4xl font-bold text-mint-600 mb-4">{post.title}</h1>
           
-          <div className="flex items-center gap-4 text-gray-600 mb-4">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              {formatDate(post.publishedAt)}
+          {post.author && (
+            <div className="text-gray-600 mb-4">
+              By {post.author}
             </div>
-            {post.author && (
-              <div>
-                By {post.author}
-              </div>
-            )}
-          </div>
+          )}
 
           {post.categories.length > 0 && (
             <div className="flex gap-2 flex-wrap">

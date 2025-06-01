@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Calendar, Tag, Edit } from 'lucide-react';
+import { Search, Tag, Edit } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -54,14 +54,6 @@ const Blog = () => {
 
     setFilteredPosts(filtered);
   }, [posts, searchTerm, selectedCategory]);
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
 
   const handleEdit = (postId: string) => {
     navigate(`/admin/blog/edit/${postId}`);
@@ -137,10 +129,7 @@ const Blog = () => {
                 )}
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <Calendar className="w-4 h-4" />
-                      {formatDate(post.publishedAt)}
-                    </div>
+                    <div className="flex-1" />
                     {/* Edit Button for Admins */}
                     {isAdmin && (
                       <Button 

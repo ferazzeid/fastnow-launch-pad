@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Calendar, Tag, Clock, Edit } from 'lucide-react';
+import { Search, Tag, Clock, Edit } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -62,14 +62,6 @@ const FastingTimelineBlog = () => {
 
     setFilteredPosts(filtered);
   }, [posts, searchTerm, selectedCategory, hourRange]);
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
 
   const handleEdit = (postId: string) => {
     navigate(`/admin/fasting-timeline/edit/${postId}`);
@@ -186,8 +178,6 @@ const FastingTimelineBlog = () => {
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                       <Clock className="w-4 h-4" />
                       Hour {post.hour}
-                      <Calendar className="w-4 h-4 ml-2" />
-                      {formatDate(post.publishedAt)}
                     </div>
                     {/* Edit Button for Admins */}
                     {isAdmin && (
