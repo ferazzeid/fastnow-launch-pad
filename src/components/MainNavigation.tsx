@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
 import { LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { GooglePlayButton } from "./GooglePlayButton";
 
 const MainNavigation = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -31,8 +32,8 @@ const MainNavigation = () => {
   };
 
   return (
-    <NavigationMenu className="mx-auto py-2 container border-b border-gray-200 bg-white">
-      <NavigationMenuList className="mx-auto">
+    <NavigationMenu className="mx-auto container bg-white">
+      <NavigationMenuList className="mx-auto flex items-center gap-4">
         <NavigationMenuItem>
           <Link to="/">
             <NavigationMenuLink 
@@ -102,6 +103,10 @@ const MainNavigation = () => {
             </NavigationMenuItem>
           </>
         )}
+        
+        <NavigationMenuItem className="ml-4">
+          <GooglePlayButton href="https://play.google.com" className="h-10" />
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
