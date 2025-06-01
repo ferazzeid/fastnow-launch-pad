@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Calendar, Tag, Clock } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, Calendar, Tag, Clock, Edit } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -11,14 +11,20 @@ import { FastingTimelinePost } from '@/types/fastingTimeline';
 import { FastingTimelineService } from '@/services/FastingTimelineService';
 
 const FastingTimelineBlog = () => {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState<FastingTimelinePost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<FastingTimelinePost[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [hourRange, setHourRange] = useState('all');
   const [categories, setCategories] = useState<string[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    // Check if user is authenticated as admin
+    const authStatus = localStorage.getItem('fastingApp_auth');
+    setIsAdmin(authStatus === 'true');
+
     const allPosts = FastingTimelineService.getAllPosts();
     const publishedPosts = allPosts.filter(post => post.status === 'published');
     setPosts(publishedPosts);
@@ -63,6 +69,10 @@ const FastingTimelineBlog = () => {
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  const handleEdit = (postId: string) => {
+    navigate(`/admin/fasting-timeline/edit/${postId}`);
   };
 
   return (
@@ -172,11 +182,23 @@ const FastingTimelineBlog = () => {
                   </div>
                 )}
                 <CardHeader>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                    <Clock className="w-4 h-4" />
-                    Hour {post.hour}
-                    <Calendar className="w-4 h-4 ml-2" />
-                    {formatDate(post.publishedAt)}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Clock className="w-4 h-4" />
+                      Hour {post.hour}
+                      <Calendar className="w-4 h-4 ml-2" />
+                      {formatDate(post.publishedAt)}
+                    </div>
+                    {/* Edit Button for Admins */}
+                    {isAdmin && (
+                      <Button 
+                        onClick={() => handleEdit(post.id)} 
+                        variant="ghost" 
+                        size="sm"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    )}
                   </div>
                   <CardTitle className="line-clamp-2">
                     <Link 

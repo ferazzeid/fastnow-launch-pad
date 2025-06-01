@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
-import { Calendar, Tag, ArrowLeft } from 'lucide-react';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { Calendar, Tag, ArrowLeft, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import PageLayout from '@/components/layout/PageLayout';
@@ -12,16 +12,28 @@ import ReactMarkdown from 'react-markdown';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [post, setPost] = useState<BlogPostType | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    // Check if user is authenticated as admin
+    const authStatus = localStorage.getItem('fastingApp_auth');
+    setIsAdmin(authStatus === 'true');
+
     if (!slug) return;
     
     const foundPost = BlogService.getPostBySlug(slug);
     setPost(foundPost);
     setLoading(false);
   }, [slug]);
+
+  const handleEdit = () => {
+    if (post && isAdmin) {
+      navigate(`/admin/blog/edit/${post.id}`);
+    }
+  };
 
   if (loading) {
     return (
@@ -57,10 +69,20 @@ const BlogPost = () => {
 
       <article className="container py-12">
         {/* Back to Blog */}
-        <Link to="/blog" className="inline-flex items-center gap-2 text-accent-green hover:underline mb-8">
-          <ArrowLeft className="w-4 h-4" />
-          Back to Blog
-        </Link>
+        <div className="flex justify-between items-center mb-8">
+          <Link to="/blog" className="inline-flex items-center gap-2 text-accent-green hover:underline">
+            <ArrowLeft className="w-4 h-4" />
+            Back to Blog
+          </Link>
+          
+          {/* Edit Button for Admins */}
+          {isAdmin && (
+            <Button onClick={handleEdit} variant="outline" size="sm">
+              <Edit className="w-4 h-4 mr-2" />
+              Edit Post
+            </Button>
+          )}
+        </div>
 
         {/* Featured Image */}
         {post.featuredImage && (

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Calendar, Tag, Archive } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, Calendar, Tag, Edit } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -11,13 +11,22 @@ import { BlogPost } from '@/types/blog';
 import { BlogService } from '@/services/BlogService';
 
 const Blog = () => {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState<string[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    // Check if user is authenticated as admin
+    const authStatus = localStorage.getItem('fastingApp_auth');
+    setIsAdmin(authStatus === 'true');
+
+    // Initialize sample posts if none exist
+    BlogService.createSamplePosts();
+    
     const allPosts = BlogService.getAllPosts();
     const publishedPosts = allPosts.filter(post => post.status === 'published');
     setPosts(publishedPosts);
@@ -54,28 +63,32 @@ const Blog = () => {
     });
   };
 
+  const handleEdit = (postId: string) => {
+    navigate(`/admin/blog/edit/${postId}`);
+  };
+
   return (
     <PageLayout>
       <Helmet>
         <title>Blog - FastNow.app</title>
-        <meta name="description" content="Read the latest insights about intermittent fasting, health tips, and wellness advice on the FastNow.app blog." />
+        <meta name="description" content="Read the latest articles about intermittent fasting, health tips, and wellness advice from the FastNow.app team." />
       </Helmet>
 
       <div className="container py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-mint-600 mb-4">Blog</h1>
+          <h1 className="text-4xl font-bold text-mint-600 mb-4">FastNow Blog</h1>
           <p className="text-xl text-mint-500 max-w-2xl mx-auto">
-            Discover insights, tips, and stories about intermittent fasting and healthy living.
+            Discover the latest insights on intermittent fasting, health tips, and wellness advice.
           </p>
         </div>
 
         {/* Search and Filters */}
-        <div className="mb-8 space-y-4 md:space-y-0 md:flex md:items-center md:gap-4">
+        <div className="mb-8 space-y-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input
-              placeholder="Search posts..."
+              placeholder="Search blog posts..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -107,7 +120,7 @@ const Blog = () => {
         {/* Posts Grid */}
         {filteredPosts.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No posts found.</p>
+            <p className="text-gray-500 text-lg">No blog posts found.</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -123,9 +136,21 @@ const Blog = () => {
                   </div>
                 )}
                 <CardHeader>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                    <Calendar className="w-4 h-4" />
-                    {formatDate(post.publishedAt)}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Calendar className="w-4 h-4" />
+                      {formatDate(post.publishedAt)}
+                    </div>
+                    {/* Edit Button for Admins */}
+                    {isAdmin && (
+                      <Button 
+                        onClick={() => handleEdit(post.id)} 
+                        variant="ghost" 
+                        size="sm"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    )}
                   </div>
                   <CardTitle className="line-clamp-2">
                     <Link 
