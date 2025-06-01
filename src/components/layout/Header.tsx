@@ -34,7 +34,7 @@ const Header = () => {
 
   return (
     <header className="py-6 border-b border-gray-200 bg-white relative z-10">
-      <div className="container flex justify-between items-center mb-4">
+      <div className="container flex justify-between items-center">
         {logoUrl ? (
           <Link to="/">
             <img src={logoUrl} alt="fastnow.app" style={{ height: `${logoSize}px` }} />
@@ -42,8 +42,8 @@ const Header = () => {
         ) : (
           <Link to="/" className="text-2xl font-bold text-accent-green">fastnow.app</Link>
         )}
+        <MainNavigation />
       </div>
-      <MainNavigation />
     </header>
   );
 };

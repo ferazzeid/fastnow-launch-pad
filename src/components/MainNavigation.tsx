@@ -32,8 +32,8 @@ const MainNavigation = () => {
   };
 
   return (
-    <NavigationMenu className="mx-auto container bg-white">
-      <NavigationMenuList className="mx-auto flex items-center gap-4">
+    <NavigationMenu className="bg-white">
+      <NavigationMenuList className="flex items-center gap-4">
         <NavigationMenuItem>
           <Link to="/">
             <NavigationMenuLink 
