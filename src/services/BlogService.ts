@@ -24,6 +24,19 @@ export class BlogService {
     return posts.find(post => post.slug === slug) || null;
   }
 
+  static generateId(): string {
+    return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+  }
+
+  static generateSlug(title: string): string {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+  }
+
   static savePost(post: BlogPost): void {
     const posts = this.getAllPosts();
     const existingIndex = posts.findIndex(p => p.id === post.id);
