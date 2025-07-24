@@ -224,7 +224,7 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="lg:w-1/2 flex justify-end items-start pt-8">
+            <div className="lg:w-1/2 flex justify-end items-start">
               <div className="relative">
                 {mockupUrl ? (
                   <img 
@@ -239,7 +239,7 @@ const Index = () => {
                       progress={75}
                       displayTime="23:59"
                       isActive={true}
-                      className="scale-75"
+                      className="scale-150"
                     />
                   </div>
                 )}
@@ -249,25 +249,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Section - Updated to show only two features */}
-      <section className="py-20 bg-cream-50">
-        <div className="container">
-          <h3 className="text-3xl font-bold text-center mb-16 text-mint-600">{featuresTitle}</h3>
-          <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-            {features.slice(0, 2).map((feature, index) => {
-              const IconComponent = Icons[feature.iconName as keyof typeof Icons];
-              return (
-                <FeatureItem
-                  key={index}
-                  title={feature.title}
-                  description={feature.description}
-                  icon={IconComponent ? IconComponent({ className: "w-12 h-12" }) : null}
-                />
-              );
-            })}
-          </div>
-        </div>
-      </section>
     </PageLayout>
   );
 };
