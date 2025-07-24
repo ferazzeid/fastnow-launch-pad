@@ -74,6 +74,23 @@
     --input: 0 0% 90%;
     --ring: 140 20% 42%;
 
+    /* Ceramic plate colors */
+    --ceramic-light: 32 20% 95%;
+    --ceramic-base: 32 15% 92%;
+    --ceramic-warm: 32 18% 88%;
+    --ceramic-shadow: 32 12% 85%;
+    --ceramic-deep: 32 8% 80%;
+
+    /* 3D Effects */
+    --shadow-plate: 0 8px 32px -8px hsl(0 0% 0% / 0.3), 0 0 0 1px hsl(32 12% 85% / 0.2);
+    --shadow-rim: inset 0 1px 4px hsl(0 0% 100% / 0.8), inset 0 -1px 2px hsl(32 8% 80% / 0.3);
+    --shadow-well: inset 0 2px 8px hsl(32 8% 80% / 0.4), inset 0 4px 12px hsl(0 0% 0% / 0.1);
+
+    /* Gradients */
+    --gradient-ceramic: radial-gradient(ellipse at 30% 30%, hsl(var(--ceramic-light)), hsl(var(--ceramic-base)) 70%);
+    --gradient-rim: linear-gradient(135deg, hsl(var(--ceramic-light)), hsl(var(--ceramic-warm)) 50%, hsl(var(--ceramic-shadow)));
+    --gradient-well: radial-gradient(circle, hsl(var(--ceramic-base)), hsl(var(--ceramic-shadow)) 80%);
+
     --radius: 0.5rem;
   }
 

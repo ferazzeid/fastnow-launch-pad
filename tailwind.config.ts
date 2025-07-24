@@ -47,6 +47,15 @@ export default {
           dark: "var(--accent-green-dark)",
         },
         
+        // Ceramic colors
+        ceramic: {
+          light: 'hsl(var(--ceramic-light))',
+          base: 'hsl(var(--ceramic-base))',
+          warm: 'hsl(var(--ceramic-warm))',
+          shadow: 'hsl(var(--ceramic-shadow))',
+          deep: 'hsl(var(--ceramic-deep))'
+        },
+        
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

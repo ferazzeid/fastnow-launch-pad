@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
-import CircularTimer from '@/components/CircularTimer';
+import { CeramicTimer } from '@/components/CeramicTimer';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeatureItem } from '@/components/FeatureItem';
 
@@ -232,9 +232,10 @@ const Index = () => {
                   />
                 ) : (
                   <div className="relative flex justify-center items-center">
-                    <CircularTimer 
-                      size={320} 
-                      progress={30}
+                    <CeramicTimer 
+                      progress={75}
+                      displayTime="23:59"
+                      isActive={true}
                       className="mb-10"
                     />
                   </div>
