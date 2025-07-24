@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
 import { CeramicTimer } from '@/components/CeramicTimer';
@@ -185,7 +186,8 @@ const Index = () => {
           <div className="flex flex-col lg:flex-row items-center">
             <div className="lg:w-1/2 mb-10 lg:mb-0">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                My Fasting Protocol for Fat Loss (That Actually Worked)
+                My Fasting Protocol for Fat Loss{' '}
+                <span className="text-2xl md:text-3xl lg:text-4xl">(That Actually Worked)</span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto">
                 After years of trying and failing with generalized advice, I finally followed a specific protocol that worked — and I documented every part of it.
@@ -195,8 +197,9 @@ const Index = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-start mb-8">
                 <Button asChild size="lg" className="text-lg px-8 py-4">
-                  <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
-                    👉 Launch the App
+                  <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                    Launch App
+                    <ArrowRight size={16} />
                   </a>
                 </Button>
               </div>
@@ -221,7 +224,7 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="lg:w-1/2 flex justify-center items-center">
+            <div className="lg:w-1/2 flex justify-end items-start pt-8">
               <div className="relative">
                 {mockupUrl ? (
                   <img 
@@ -236,7 +239,7 @@ const Index = () => {
                       progress={75}
                       displayTime="23:59"
                       isActive={true}
-                      className="mb-10"
+                      className="scale-75"
                     />
                   </div>
                 )}
