@@ -224,8 +224,8 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="lg:w-1/2 flex justify-center lg:justify-end lg:items-start">
-              <div className="relative lg:absolute lg:top-0 lg:right-0">
+            <div className="lg:w-1/2 flex justify-center lg:justify-end">
+              <div className="mt-8 lg:mt-16 mr-4 lg:mr-8 lg:ml-auto lg:-translate-x-4">
                 {mockupUrl ? (
                   <img 
                     src={mockupUrl} 
