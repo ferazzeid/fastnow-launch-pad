@@ -1,0 +1,5 @@
+# Netlify redirects for SPA
+/*    /index.html   200
+
+# API endpoints should serve JSON content
+/api/*    /index.html   200
