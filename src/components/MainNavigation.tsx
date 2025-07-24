@@ -60,6 +60,19 @@ const MainNavigation = () => {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link to="/fastnow-protocol">
+            <NavigationMenuLink 
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                location.pathname === "/fastnow-protocol" && "text-accent-green bg-gray-50"
+              )}
+            >
+              The FastNow Protocol
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
         
         {isAdmin && (
           <>
