@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GooglePlayButton } from '@/components/GooglePlayButton';
+import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
 import CircularTimer from '@/components/CircularTimer';
@@ -184,15 +184,41 @@ const Index = () => {
         <div className="container">
           <div className="flex flex-col lg:flex-row items-center">
             <div className="lg:w-1/2 mb-10 lg:mb-0">
-              <h1 className="text-5xl font-bold leading-tight mb-6 animate-fade-in text-mint-600">
-                {renderHeroTitle()}
-                <span className="text-primary"></span>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+                What I'm Offering
               </h1>
-              <h2 className="text-xl text-mint-500 mb-8 max-w-md">
-                {heroSubtitle}
-              </h2>
-              <div className="flex justify-start mt-10">
-                <GooglePlayButton {...(googlePlayLink ? { href: googlePlayLink } : {})} />
+              <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto">
+                After years of trying and failing with generalized advice, I finally followed a specific protocol that worked — and I documented every part of it.
+              </p>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+                To help you apply it (or adapt it to your own situation), I built a minimal mobile-friendly app you can use right now:
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-start mb-8">
+                <Button asChild size="lg" className="text-lg px-8 py-4">
+                  <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
+                    👉 Launch the App
+                  </a>
+                </Button>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8 max-w-2xl">
+                <h3 className="text-lg font-semibold mb-3">Pricing Options:</h3>
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                  <li>• Free if you bring your own OpenAI API key</li>
+                  <li>• Use it without AI, in a simpler mode</li>
+                  <li>• Or unlock the AI assistant for $9/month — this is the setup I personally use</li>
+                </ul>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
+                  The AI assistant helps you reflect, stay mentally clear, and apply the protocol day by day.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-4">Want to See the Full Protocol First?</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-3xl">
+                  Before you try the app, you can read exactly what I did — including how I structured the fast, how I transitioned to calorie control, and what actually worked:
+                </p>
+                <Button asChild variant="outline" size="lg">
+                  <a href="/fastnow-protocol">Read the Complete Protocol</a>
+                </Button>
               </div>
             </div>
             <div className="lg:w-1/2 flex justify-center items-center">

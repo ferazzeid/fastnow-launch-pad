@@ -40,7 +40,7 @@ const Header = () => {
             <img src={logoUrl} alt="fastnow.app" style={{ height: `${logoSize}px` }} />
           </Link>
         ) : (
-          <Link to="/" className="text-2xl font-bold text-accent-green">fastnow.app</Link>
+          <Link to="/" className="text-2xl font-bold text-accent-green">FastNow</Link>
         )}
         <MainNavigation />
       </div>

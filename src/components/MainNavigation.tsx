@@ -73,6 +73,19 @@ const MainNavigation = () => {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink 
+            className={cn(
+              navigationMenuTriggerStyle(),
+              "text-gray-700 hover:text-accent-green hover:bg-gray-50"
+            )}
+            asChild
+          >
+            <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
+              FastNow
+            </a>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
         
         {isAdmin && (
           <>
