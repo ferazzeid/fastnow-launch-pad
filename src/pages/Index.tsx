@@ -224,7 +224,7 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="lg:w-1/2 flex justify-end items-start">
+            <div className="lg:w-1/2 flex justify-center lg:justify-start lg:pl-8">
               <div className="relative">
                 {mockupUrl ? (
                   <img 
@@ -239,7 +239,7 @@ const Index = () => {
                       progress={75}
                       displayTime="23:59"
                       isActive={true}
-                      className="scale-150"
+                      className="scale-125 lg:scale-150"
                     />
                   </div>
                 )}
