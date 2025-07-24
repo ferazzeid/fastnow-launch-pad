@@ -8,13 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/sonner";
-
-interface User {
-  id: string;
-  username: string;
-  role: string;
-  dateAdded: string;
-}
+import { AuthService, User } from "@/services/AuthService";
 
 const UserManagement: React.FC = () => {
   const navigate = useNavigate();
@@ -25,87 +19,51 @@ const UserManagement: React.FC = () => {
   const [newRole, setNewRole] = useState('viewer');
 
   useEffect(() => {
-    // Check authentication
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    if (authStatus !== 'true') {
+    // Check authentication with secure session
+    const session = AuthService.getCurrentSession();
+    if (!session || !AuthService.hasPermission('admin')) {
       navigate('/admin');
       return;
     }
     setIsAuthenticated(true);
 
-    // Load users from localStorage
-    const savedUsers = localStorage.getItem('fastingApp_users');
-    if (savedUsers) {
-      setUsers(JSON.parse(savedUsers));
-    } else {
-      // Initialize with default admin user if no users exist
-      const defaultUsers = [
-        {
-          id: '1',
-          username: 'admin',
-          role: 'admin',
-          dateAdded: new Date().toISOString()
-        }
-      ];
-      setUsers(defaultUsers);
-      localStorage.setItem('fastingApp_users', JSON.stringify(defaultUsers));
-    }
+    // Load users securely
+    const users = AuthService.getUsers();
+    setUsers(users);
   }, [navigate]);
 
-  const handleAddUser = (e: React.FormEvent) => {
+  const handleAddUser = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!newUsername || !newPassword) {
-      toast.error("Username and password are required");
-      return;
+    // Sanitize inputs
+    const sanitizedUsername = AuthService.sanitizeInput(newUsername);
+    const sanitizedPassword = AuthService.sanitizeInput(newPassword);
+    
+    const result = await AuthService.addUser(sanitizedUsername, sanitizedPassword, newRole);
+    
+    if (result.success) {
+      // Refresh user list
+      setUsers(AuthService.getUsers());
+      toast.success("User added successfully");
+      
+      // Clear form
+      setNewUsername('');
+      setNewPassword('');
+      setNewRole('viewer');
+    } else {
+      toast.error(result.error || "Failed to add user");
     }
-
-    // Check if username already exists
-    if (users.some(user => user.username.toLowerCase() === newUsername.toLowerCase())) {
-      toast.error("Username already exists");
-      return;
-    }
-
-    // Create new user
-    const newUser: User = {
-      id: Date.now().toString(),
-      username: newUsername,
-      role: newRole,
-      dateAdded: new Date().toISOString()
-    };
-
-    // Add user to localStorage with password
-    const updatedUsers = [...users, newUser];
-    setUsers(updatedUsers);
-    localStorage.setItem('fastingApp_users', JSON.stringify(updatedUsers));
-    
-    // Store user credentials (in a real app, passwords should be hashed)
-    localStorage.setItem(`fastingApp_user_${newUsername.toLowerCase()}`, newPassword);
-    
-    toast.success("User added successfully");
-    
-    // Clear form
-    setNewUsername('');
-    setNewPassword('');
-    setNewRole('viewer');
   };
 
-  const handleDeleteUser = (userId: string, username: string) => {
-    // Prevent deleting the main admin account
-    if (username.toLowerCase() === 'admin') {
-      toast.error("Cannot delete the main admin account");
-      return;
+  const handleDeleteUser = (userId: string) => {
+    const result = AuthService.deleteUser(userId);
+    
+    if (result.success) {
+      setUsers(AuthService.getUsers());
+      toast.success("User deleted successfully");
+    } else {
+      toast.error(result.error || "Failed to delete user");
     }
-    
-    // Remove user from state and localStorage
-    const updatedUsers = users.filter(user => user.id !== userId);
-    setUsers(updatedUsers);
-    localStorage.setItem('fastingApp_users', JSON.stringify(updatedUsers));
-    
-    // Remove user credentials
-    localStorage.removeItem(`fastingApp_user_${username.toLowerCase()}`);
-    
-    toast.success("User deleted successfully");
   };
 
   const handleChangeRole = (userId: string, newRole: string) => {
@@ -113,7 +71,7 @@ const UserManagement: React.FC = () => {
       user.id === userId ? { ...user, role: newRole } : user
     );
     setUsers(updatedUsers);
-    localStorage.setItem('fastingApp_users', JSON.stringify(updatedUsers));
+    AuthService.saveUsers(updatedUsers);
     toast.success("User role updated");
   };
 
@@ -160,9 +118,13 @@ const UserManagement: React.FC = () => {
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="Enter password"
+                    placeholder="Min 8 characters"
                     required
+                    minLength={8}
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Password must be at least 8 characters long
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="role">Role</Label>
@@ -223,7 +185,7 @@ const UserManagement: React.FC = () => {
                         <Button 
                           variant="destructive" 
                           size="sm"
-                          onClick={() => handleDeleteUser(user.id, user.username)}
+                          onClick={() => handleDeleteUser(user.id)}
                           disabled={user.username.toLowerCase() === 'admin'}
                         >
                           Delete

@@ -14,8 +14,14 @@ const BlogApi = () => {
     const blob = new Blob([jsonResponse], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
-    // For demonstration, we'll show the JSON in the browser
-    document.body.innerHTML = `<pre style="font-family: monospace; white-space: pre-wrap; padding: 20px;">${jsonResponse}</pre>`;
+    // For demonstration, show the JSON in the browser safely
+    const preElement = document.createElement('pre');
+    preElement.style.fontFamily = 'monospace';
+    preElement.style.whiteSpace = 'pre-wrap';
+    preElement.style.padding = '20px';
+    preElement.textContent = jsonResponse;
+    document.body.innerHTML = '';
+    document.body.appendChild(preElement);
     
     // Set proper headers for API response
     if (typeof window !== 'undefined') {

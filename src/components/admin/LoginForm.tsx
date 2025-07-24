@@ -11,6 +11,7 @@ interface LoginFormProps {
   password: string;
   setPassword: (password: string) => void;
   handleLogin: (e: React.FormEvent) => void;
+  isLoading?: boolean;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({
@@ -18,7 +19,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   setUsername,
   password,
   setPassword,
-  handleLogin
+  handleLogin,
+  isLoading = false
 }) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
@@ -50,10 +52,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 required
               />
             </div>
-            <Button type="submit" className="w-full">Login</Button>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Signing in..." : "Login"}
+            </Button>
             
             <div className="text-center text-sm text-muted-foreground mt-4">
-              <p>Use username: admin and password: admin</p>
+              <p>Default: admin / admin123!</p>
+              <p className="text-xs text-destructive">Change password after first login</p>
             </div>
           </form>
         </CardContent>

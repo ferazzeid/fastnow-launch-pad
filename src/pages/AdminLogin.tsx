@@ -2,58 +2,50 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '@/components/admin/LoginForm';
+import { AuthService } from '@/services/AuthService';
 import { toast } from "@/components/ui/sonner";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Check if already authenticated
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    if (authStatus === 'true') {
+    const session = AuthService.getCurrentSession();
+    if (session) {
       navigate('/admin');
     }
   }, [navigate]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
-    console.log('Login attempt:', { username, password });
+    // Sanitize inputs
+    const sanitizedUsername = AuthService.sanitizeInput(username);
+    const sanitizedPassword = AuthService.sanitizeInput(password);
     
-    // Check default admin credentials
-    if (username.toLowerCase() === 'admin' && password === 'admin') {
-      localStorage.setItem('fastingApp_auth', 'true');
-      localStorage.setItem('fastingApp_currentUser', 'admin');
-      toast.success("Login successful!");
-      navigate('/admin');
-      return;
-    }
-    
-    // Check against stored users
-    const savedUsers = localStorage.getItem('fastingApp_users');
-    if (savedUsers) {
-      try {
-        const users = JSON.parse(savedUsers);
-        const user = users.find((u: any) => u.username.toLowerCase() === username.toLowerCase());
+    try {
+      const result = await AuthService.authenticate(sanitizedUsername, sanitizedPassword);
+      
+      if (result.success) {
+        // Set legacy auth for backward compatibility
+        localStorage.setItem('fastingApp_auth', 'true');
+        localStorage.setItem('fastingApp_currentUser', sanitizedUsername.toLowerCase());
         
-        if (user) {
-          const storedPassword = localStorage.getItem(`fastingApp_user_${username.toLowerCase()}`);
-          if (storedPassword === password) {
-            localStorage.setItem('fastingApp_auth', 'true');
-            localStorage.setItem('fastingApp_currentUser', username.toLowerCase());
-            toast.success("Login successful!");
-            navigate('/admin');
-            return;
-          }
-        }
-      } catch (error) {
-        console.error('Error checking user credentials:', error);
+        toast.success("Login successful!");
+        navigate('/admin');
+      } else {
+        toast.error(result.error || "Authentication failed");
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      toast.error("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
     }
-    
-    toast.error("Invalid username or password");
   };
 
   return (
@@ -63,6 +55,7 @@ const AdminLogin = () => {
       password={password}
       setPassword={setPassword}
       handleLogin={handleLogin}
+      isLoading={isLoading}
     />
   );
 };
