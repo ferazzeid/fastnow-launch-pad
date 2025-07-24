@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
 import { LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { GooglePlayButton } from "./GooglePlayButton";
+
 
 const MainNavigation = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -60,19 +60,6 @@ const MainNavigation = () => {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/fasting-timeline">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname.startsWith("/fasting-timeline") && "text-accent-green bg-gray-50"
-              )}
-            >
-              Fasting Timeline
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
         
         {isAdmin && (
           <>
@@ -104,9 +91,6 @@ const MainNavigation = () => {
           </>
         )}
         
-        <NavigationMenuItem className="ml-4">
-          <GooglePlayButton href="https://play.google.com" className="h-10" />
-        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );

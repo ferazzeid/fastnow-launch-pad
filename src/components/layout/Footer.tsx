@@ -1,12 +1,10 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GooglePlayButton } from '@/components/GooglePlayButton';
 
 const Footer = () => {
   const [ctaTitle, setCtaTitle] = React.useState('Ready to start your fasting journey?');
   const [ctaSubtitle, setCtaSubtitle] = React.useState('Download fastnow.app today and transform your health through fasting.');
-  const [googlePlayLink, setGooglePlayLink] = React.useState('https://play.google.com');
 
   // Load content from localStorage on mount
   React.useEffect(() => {
@@ -16,10 +14,6 @@ const Footer = () => {
     
     const savedCtaSubtitle = localStorage.getItem('fastingApp_ctaSubtitle');
     if (savedCtaSubtitle) setCtaSubtitle(savedCtaSubtitle);
-    
-    // Google Play link
-    const savedGooglePlayLink = localStorage.getItem('fastingApp_googlePlayLink');
-    if (savedGooglePlayLink) setGooglePlayLink(savedGooglePlayLink);
   }, []);
 
   return (
@@ -31,14 +25,6 @@ const Footer = () => {
           <p className="text-xl text-gray-600 mb-8 max-w-md mx-auto">
             {ctaSubtitle}
           </p>
-          <div className="flex justify-center">
-            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-              <GooglePlayButton 
-                href={googlePlayLink} 
-                className="bg-white border-none text-gray-900 hover:bg-gray-50"
-              />
-            </div>
-          </div>
         </div>
       </div>
       
