@@ -183,8 +183,8 @@ const Index = () => {
       {/* Hero Section */}
       <section className="py-20 relative z-10">
         <div className="container">
-          <div className="flex flex-col lg:flex-row items-center">
-            <div className="lg:w-1/2 mb-10 lg:mb-0">
+          <div className="flex flex-col lg:flex-row items-start">
+            <div className="lg:w-1/2 mb-10 lg:mb-0 lg:pr-8">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
                 My Fasting Protocol for Fat Loss{' '}
                 <span className="text-2xl md:text-3xl lg:text-4xl">(That Actually Worked)</span>
@@ -224,8 +224,8 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="lg:w-1/2 flex justify-center lg:justify-start lg:pl-8">
-              <div className="relative">
+            <div className="lg:w-1/2 flex justify-center lg:justify-end lg:items-start">
+              <div className="relative lg:absolute lg:top-0 lg:right-0">
                 {mockupUrl ? (
                   <img 
                     src={mockupUrl} 
