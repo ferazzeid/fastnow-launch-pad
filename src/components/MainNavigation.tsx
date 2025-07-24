@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 
@@ -35,30 +35,18 @@ const MainNavigation = () => {
     <NavigationMenu className="bg-white">
       <NavigationMenuList className="flex items-center gap-4">
         <NavigationMenuItem>
-          <Link to="/">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname === "/" && "text-accent-green bg-gray-50"
-              )}
-            >
-              Home
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/blog">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname.startsWith("/blog") && "text-accent-green bg-gray-50"
-              )}
-            >
-              Blog
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink 
+            className={cn(
+              navigationMenuTriggerStyle(),
+              "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green"
+            )}
+            asChild
+          >
+            <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+              Launch App
+              <ArrowRight size={14} />
+            </a>
+          </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link to="/fastnow-protocol">
@@ -74,17 +62,17 @@ const MainNavigation = () => {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink 
-            className={cn(
-              navigationMenuTriggerStyle(),
-              "text-gray-700 hover:text-accent-green hover:bg-gray-50"
-            )}
-            asChild
-          >
-            <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
-              FastNow
-            </a>
-          </NavigationMenuLink>
+          <Link to="/blog">
+            <NavigationMenuLink 
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                location.pathname.startsWith("/blog") && "text-accent-green bg-gray-50"
+              )}
+            >
+              Blog
+            </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
         
         {isAdmin && (

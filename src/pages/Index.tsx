@@ -185,7 +185,7 @@ const Index = () => {
           <div className="flex flex-col lg:flex-row items-center">
             <div className="lg:w-1/2 mb-10 lg:mb-0">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                What I'm Offering
+                My Fasting Protocol for Fat Loss (That Actually Worked)
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto">
                 After years of trying and failing with generalized advice, I finally followed a specific protocol that worked — and I documented every part of it.
