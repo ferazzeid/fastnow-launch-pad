@@ -36,6 +36,7 @@ import AdminFastingTimeline from "./pages/AdminFastingTimeline";
 import FastingTimelineEditor from "./pages/FastingTimelineEditor";
 import FastingTimelineApi from "./pages/FastingTimelineApi";
 import FastNowProtocol from "./pages/FastNowProtocol";
+import AboutFastNowApp from "./pages/AboutFastNowApp";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const AppRoutes = () => {
       
       {/* FastNow Protocol */}
       <Route path="/fastnow-protocol" element={<FastNowProtocol />} />
+      <Route path="/about-fast-now-app" element={<AboutFastNowApp />} />
       
       {/* Fasting Timeline routes */}
       <Route path="/fasting-timeline" element={<FastingTimelineBlog />} />

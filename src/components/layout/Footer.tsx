@@ -3,8 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  const [ctaTitle, setCtaTitle] = React.useState('Ready to start your fasting journey?');
-  const [ctaSubtitle, setCtaSubtitle] = React.useState('Download fastnow.app today and transform your health through fasting.');
+  const [ctaTitle, setCtaTitle] = React.useState('Ready to start your health transformation?');
+  const [ctaSubtitle, setCtaSubtitle] = React.useState('Access the Fast Now app and take control of your health through our structured protocol.');
 
   // Load content from localStorage on mount
   React.useEffect(() => {
