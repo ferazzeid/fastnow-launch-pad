@@ -75,6 +75,19 @@ const MainNavigation = () => {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
+          <Link to="/my-weight-story">
+            <NavigationMenuLink 
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                location.pathname === "/my-weight-story" && "text-accent-green bg-gray-50"
+              )}
+            >
+              My Weight Story
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <Link to="/blog">
             <NavigationMenuLink 
               className={cn(
