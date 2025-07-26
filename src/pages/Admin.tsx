@@ -163,11 +163,17 @@ const Admin = () => {
                 SEO & Analytics
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-3">
               <Link to="/admin/seo">
                 <Button variant="outline" className="w-full justify-start">
                   <Settings size={16} className="mr-2" />
                   SEO Settings
+                </Button>
+              </Link>
+              <Link to="/admin/contact">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings size={16} className="mr-2" />
+                  Contact Form Settings
                 </Button>
               </Link>
             </CardContent>

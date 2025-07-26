@@ -16,6 +16,7 @@ import AdminGeneral from "./pages/AdminGeneral";
 import AdminPages from "./pages/AdminPages";
 import AdminDesign from "./pages/AdminDesign";
 import AdminSeo from "./pages/AdminSeo";
+import AdminContactSettings from "./pages/AdminContactSettings";
 import ContentPage from "./pages/ContentPage";
 import UserManagement from "./pages/UserManagement";
 import FastingTimeline from "./pages/FastingTimeline";
@@ -61,6 +62,7 @@ const AppRoutes = () => {
       <Route path="/admin/pages" element={<AdminPages />} />
       <Route path="/admin/design" element={<AdminDesign />} />
       <Route path="/admin/seo" element={<AdminSeo />} />
+      <Route path="/admin/contact" element={<AdminContactSettings />} />
       <Route path="/admin/users" element={<UserManagement />} />
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />

@@ -143,17 +143,18 @@ const GeneralSettings: React.FC = () => {
                 className="mt-1 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
               />
               <p className="text-sm text-muted-foreground mt-1">
-                This will replace "fastnow.app" in the header
+                This will replace "fastnow.app" in the header. Hover to preview.
               </p>
             </div>
             <div>
               {logoPreview && (
-                <div className="border rounded p-4 flex justify-center">
+                <div className="border rounded p-4 flex justify-center group">
                   <img 
                     src={logoPreview} 
                     alt="Logo preview" 
-                    className="max-h-16" 
+                    className="max-h-16 transition-transform hover:scale-150 cursor-pointer" 
                     style={{ height: `${logoSize}px` }}
+                    title="Hover to zoom"
                   />
                 </div>
               )}
@@ -228,16 +229,17 @@ const GeneralSettings: React.FC = () => {
                 className="mt-1 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
               />
               <p className="text-sm text-muted-foreground mt-1">
-                This will replace the phone image on the landing page
+                This will replace the phone image on the landing page. Hover to preview.
               </p>
             </div>
             <div>
               {mockupPreview && (
-                <div className="border rounded p-4 flex justify-center">
+                <div className="border rounded p-4 flex justify-center group">
                   <img 
                     src={mockupPreview} 
                     alt="App image preview" 
-                    className="max-h-40" 
+                    className="max-h-40 transition-transform hover:scale-150 cursor-pointer" 
+                    title="Hover to zoom"
                   />
                 </div>
               )}

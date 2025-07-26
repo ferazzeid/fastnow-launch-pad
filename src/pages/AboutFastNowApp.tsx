@@ -19,6 +19,11 @@ const AboutFastNowApp = () => {
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               About Fast Now App
             </h1>
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
+              <p className="text-amber-800 font-medium text-center">
+                📱 This is a web app specifically designed for mobile devices
+              </p>
+            </div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               A supportive tool designed to help you implement and follow my personal Fast Now Protocol - 
               combining structured fasting, smart nutrition, and daily movement with optional AI assistance.
