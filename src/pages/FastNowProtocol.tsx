@@ -147,6 +147,68 @@ const FastNowProtocol = () => {
             </div>
           </div>
 
+          {/* Phase 4: Mental Immersion */}
+          <div className="mb-12">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft p-8 border border-gray-100 dark:border-gray-700">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-2xl">🧠</div>
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Phase 4: Mental Immersion (The Hidden Pillar)</h2>
+                  <p className="text-purple-600 font-medium">Why It Matters: This is the silent force behind all physical success</p>
+                </div>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">✅ What This Means:</h3>
+                  <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                    <li>• Spend time thinking about your journey — even if you're not ready to begin</li>
+                    <li>• Watch videos, explore fasting tools, follow creators or apps that align with the mission</li>
+                    <li>• Visualize the process, the difficulties, and the outcome</li>
+                    <li>• Let the idea take up mental space — this creates subconscious readiness</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">🔁 Integration with the 3 Pillars:</h3>
+                  <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                    <li>• Immersion builds conviction, making fasting easier</li>
+                    <li>• It gives your food tracking purpose — not just numbers, but meaning</li>
+                    <li>• It makes walking and effort feel connected to your larger goal</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="mt-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
+                <p className="text-gray-700 dark:text-gray-300">
+                  <strong>Before you even fast, before the first gram of fat is lost</strong> — your mind needs to enter the process. 
+                  When you finally do fast, or track meals, or decline that tempting snack — your success will come not just from discipline, 
+                  but from the fact that you've already lived this path in your mind many times.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Ready to Start Section */}
+          <div className="mb-12">
+            <div className="bg-gradient-to-r from-accent-green to-mint-600 rounded-2xl shadow-soft p-8 text-white text-center">
+              <h2 className="text-2xl font-bold mb-4">Ready to Start Your Fasting Journey?</h2>
+              <p className="text-lg mb-6 opacity-90">
+                Access our FastNow tools and AI-powered fasting companion to guide you through each phase of the protocol.
+              </p>
+              <p className="text-sm mb-6 opacity-80">
+                Use with your own OpenAI API key (free) or subscribe monthly to use our API key.
+              </p>
+              <a 
+                href="https://lounge.fastnow.app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block bg-white text-accent-green px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+              >
+                Access The Lounge →
+              </a>
+            </div>
+          </div>
+
           {/* Example Weekly Routine */}
           <div className="mb-12">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft p-8 border border-gray-100 dark:border-gray-700">
