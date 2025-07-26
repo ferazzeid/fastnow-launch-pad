@@ -35,6 +35,20 @@ const MainNavigation = () => {
     <NavigationMenu className="bg-white">
       <NavigationMenuList className="flex items-center gap-4">
         <NavigationMenuItem>
+          <NavigationMenuLink 
+            className={cn(
+              navigationMenuTriggerStyle(),
+              "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green"
+            )}
+            asChild
+          >
+            <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+              Access Fast Now App
+              <ArrowRight size={14} />
+            </a>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <Link to="/about-fast-now-app">
             <NavigationMenuLink 
               className={cn(

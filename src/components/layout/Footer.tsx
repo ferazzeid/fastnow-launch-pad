@@ -18,18 +18,8 @@ const Footer = () => {
 
   return (
     <footer className="border-t border-gray-200 bg-gray-50">
-      {/* CTA Section */}
-      <div className="py-16">
-        <div className="container text-center">
-          <h3 className="text-3xl font-bold mb-4 text-gray-900">{ctaTitle}</h3>
-          <p className="text-xl text-gray-600 mb-8 max-w-md mx-auto">
-            {ctaSubtitle}
-          </p>
-        </div>
-      </div>
-      
       {/* Footer Links */}
-      <div className="py-8 border-t border-gray-200 bg-white">
+      <div className="py-8 bg-white">
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-sm text-gray-600 mb-4 md:mb-0">

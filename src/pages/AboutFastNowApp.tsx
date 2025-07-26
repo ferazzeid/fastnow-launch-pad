@@ -20,14 +20,36 @@ const AboutFastNowApp = () => {
               About Fast Now App
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your comprehensive companion for the Fast Now Protocol - combining structured fasting, 
-              smart nutrition, and daily movement with AI-powered guidance and tracking.
+              A supportive tool designed to help you implement and follow my personal Fast Now Protocol - 
+              combining structured fasting, smart nutrition, and daily movement with optional AI assistance.
             </p>
+          </div>
+
+          {/* Philosophy Section */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Why You Need a Dedicated Tool</h2>
+            <div className="bg-gray-50 rounded-lg p-8">
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                My key philosophy is that you need a certain level of immersion into something like this for it to work. 
+                It needs to have a certain level of priority in your subconscious, and there are many ways of doing this.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                One way is to have a dedicated app that you can access to deal with this and spend a certain amount of 
+                energy and time per day on it, so it stays important in your head. It's competing against all of the 
+                other things that are happening during the day.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                It's important to have some kind of tool that you can regularly go back to and interact with, 
+                staying in touch with this whole topic that will get you the results you want. All you need is 
+                just a bit of clarity, a bit of structure, and an example that works - and that's what we are 
+                providing here, and that's what the app does.
+              </p>
+            </div>
           </div>
 
           {/* What the App Does */}
           <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">What the App Does</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">How the App Supports the Protocol</h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <div className="w-12 h-12 bg-accent-green/10 rounded-lg flex items-center justify-center mb-4">
@@ -35,8 +57,8 @@ const AboutFastNowApp = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">Initiation Fast Support</h3>
                 <p className="text-gray-600">
-                  Guides you through the 3-day water fast with timer tracking, AI coaching, 
-                  and safety reminders to kickstart your protocol.
+                  Supports you through the 3-day water fast with timer tracking, safety reminders, 
+                  and guidance to help you successfully complete this crucial first phase.
                 </p>
               </div>
 
@@ -64,9 +86,9 @@ const AboutFastNowApp = () => {
             </div>
           </div>
 
-          {/* AI Features */}
+          {/* AI Support */}
           <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">AI-Powered Guidance</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Optional AI Implementation Support</h2>
             <div className="bg-gray-50 rounded-lg p-8">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
@@ -74,36 +96,40 @@ const AboutFastNowApp = () => {
                   <ul className="space-y-3 text-gray-600">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-accent-green mt-0.5 shrink-0" />
-                      Personalized coaching and motivation
+                      Voice chat for easy setup and progress tracking
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-accent-green mt-0.5 shrink-0" />
-                      Real-time answers to your fasting questions
+                      Help navigating the protocol implementation
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-accent-green mt-0.5 shrink-0" />
-                      Meal planning and food suggestions
+                      Quick answers to protocol-related questions
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-accent-green mt-0.5 shrink-0" />
-                      Progress analysis and adjustments
+                      Facilitates easier app usage and interaction
                     </li>
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Without AI</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Without AI (Manual Mode)</h3>
                   <ul className="space-y-3 text-gray-600">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-                      Basic timer and tracking functions
+                      All core tracking and timer functions work
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-                      Static protocol information
+                      Manual data entry and progress tracking
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-                      Limited functionality
+                      Static protocol information and guidance
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
+                      Perfect if you prefer complete control
                     </li>
                   </ul>
                 </div>
@@ -117,7 +143,7 @@ const AboutFastNowApp = () => {
             <div className="bg-white border border-gray-200 rounded-lg p-8">
               <p className="text-lg text-gray-600 mb-6">
                 Fast Now is a web application - no download required. Simply access it through your browser 
-                and start your protocol journey immediately.
+                and start implementing the protocol immediately.
               </p>
               
               <div className="grid md:grid-cols-2 gap-8">
@@ -148,9 +174,22 @@ const AboutFastNowApp = () => {
 
               <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                 <p className="text-sm text-amber-800">
-                  <strong>Free Trial:</strong> Test the app with limited AI requests to see if it's right for you 
+                  <strong>Free Trial:</strong> Test the app with limited AI requests to see if it works for you 
                   before committing to any payment option.
                 </p>
+              </div>
+              
+              <div className="mt-8 text-center">
+                <Button 
+                  size="lg" 
+                  className="bg-accent-green hover:bg-accent-green-dark text-white"
+                  asChild
+                >
+                  <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                    Access Fast Now App
+                    <ArrowRight size={16} />
+                  </a>
+                </Button>
               </div>
             </div>
           </div>
