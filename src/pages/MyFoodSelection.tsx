@@ -14,189 +14,233 @@ const MyFoodSelection = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              My Food Selection
+              My Food Overview – What I Actually Eat (And Why)
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Real examples of what I'm eating right now while following my own protocol - 
-              practical, simple, and effective choices that work for me.
+              This page shows the exact foods I'm eating right now. You may not find the exact same items in your country or store — and that's totally fine. This isn't about perfection. It's about clarity, immersion, and giving you one real example to study or copy.
             </p>
           </div>
 
           <div className="prose prose-lg max-w-none text-gray-700 space-y-8">
             <div className="bg-accent-green/5 border border-accent-green/20 rounded-lg p-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Current Approach</h2>
-              <p>
-                This is what I'm doing right now, as I write this. It's not a prescription for everyone - 
-                it's simply what's working for me at this moment in my journey. Use it as an example, 
-                adapt what makes sense for your situation.
+              <p className="text-gray-700 mb-4">
+                You can use AI or common sense to substitute. I'll explain why I'm eating (or avoiding) each item, and what compromises I've chosen to make. This is here to:
               </p>
+              <ul className="list-disc list-inside space-y-2 text-gray-700">
+                <li>Help you immerse yourself in the topic</li>
+                <li>Give you a ready-to-use daily food map</li>
+                <li>Let you copy it one-to-one if you want</li>
+                <li>Give the app and its AI functionality a clear reference point</li>
+              </ul>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Daily Routine</h3>
-                <div className="space-y-4 text-gray-600">
-                  <div>
-                    <strong className="text-gray-900">Morning:</strong>
-                    <p>Water, black coffee (no additions)</p>
-                  </div>
-                  <div>
-                    <strong className="text-gray-900">Afternoon (First Meal):</strong>
-                    <p>Usually around 2-3 PM when hunger actually appears</p>
-                  </div>
-                  <div>
-                    <strong className="text-gray-900">Evening (Second Meal):</strong>
-                    <p>Around 7-8 PM, keeping portions controlled</p>
-                  </div>
-                  <div>
-                    <strong className="text-gray-900">Daily Walk:</strong>
-                    <p>45-60 minutes, usually after the first meal</p>
-                  </div>
-                </div>
-              </div>
+            <h2 className="text-3xl font-bold text-red-600 mb-6">❌ Foods I Never Eat Right Now (Clear No-Gos)</h2>
 
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Food Philosophy</h3>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• <strong>Simple ingredients:</strong> Less processing, more clarity</li>
-                  <li>• <strong>Portion awareness:</strong> Quality over quantity</li>
-                  <li>• <strong>Limited variety:</strong> Reduces decision fatigue</li>
-                  <li>• <strong>Consistent timing:</strong> Eating when actually hungry</li>
-                  <li>• <strong>No snacking:</strong> Clear meal boundaries</li>
-                </ul>
-              </div>
-            </div>
-
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Current Food Choices</h2>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Typical First Meal (Afternoon)</h3>
-                <div className="space-y-3 text-gray-700">
-                  <div className="border-l-4 border-accent-green pl-4">
-                    <p className="font-medium">Protein Base:</p>
-                    <p>• Grilled chicken breast (100-150g)</p>
-                    <p>• Or: Fish fillet (salmon, cod)</p>
-                    <p>• Or: 2-3 eggs, scrambled or boiled</p>
-                  </div>
-                  <div className="border-l-4 border-accent-green pl-4">
-                    <p className="font-medium">Vegetables:</p>
-                    <p>• Large mixed salad (cucumber, tomato, lettuce)</p>
-                    <p>• Or: Steamed broccoli/cauliflower</p>
-                    <p>• Small amount of olive oil for dressing</p>
-                  </div>
-                  <div className="border-l-4 border-accent-green pl-4">
-                    <p className="font-medium">Occasional Addition:</p>
-                    <p>• Small portion of rice (50g dry weight)</p>
-                    <p>• Or: Sweet potato (1 medium)</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Typical Second Meal (Evening)</h3>
-                <div className="space-y-3 text-gray-700">
-                  <div className="border-l-4 border-accent-green pl-4">
-                    <p className="font-medium">Light Protein:</p>
-                    <p>• Greek yogurt (plain, unsweetened)</p>
-                    <p>• Or: Small piece of cheese</p>
-                    <p>• Or: Handful of nuts (almonds, walnuts)</p>
-                  </div>
-                  <div className="border-l-4 border-accent-green pl-4">
-                    <p className="font-medium">Vegetables/Fruit:</p>
-                    <p>• Apple or pear</p>
-                    <p>• Or: Small salad</p>
-                    <p>• Or: Vegetable soup (homemade)</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Principles I Follow</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Portion Control</h4>
-                  <p className="text-gray-700 text-sm">
-                    I use my hand as a guide: palm-sized protein, fist-sized vegetables, 
-                    thumb-sized fats. Simple, no weighing required.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Meal Timing</h4>
-                  <p className="text-gray-700 text-sm">
-                    I eat when genuinely hungry, not by the clock. Usually this means 
-                    8-10 hours between meals.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Food Quality</h4>
-                  <p className="text-gray-700 text-sm">
-                    I choose foods I can pronounce the ingredients of. Less packaging, 
-                    more real food.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Hydration</h4>
-                  <p className="text-gray-700 text-sm">
-                    Water throughout the day, black coffee in the morning. No liquid calories 
-                    except occasional herbal tea.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">What I Avoid</h2>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="space-y-6">
               <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-red-900 mb-3">Processed Foods</h3>
-                <ul className="text-red-700 text-sm space-y-1">
-                  <li>• Packaged snacks</li>
-                  <li>• Ready meals</li>
-                  <li>• Processed meats</li>
-                  <li>• Sugary drinks</li>
-                </ul>
+                <h3 className="text-xl font-semibold text-red-900 mb-4">🍞 Breads, Rice, Potatoes, Noodles</h3>
+                <div className="text-red-800 space-y-2">
+                  <p>No bread. No exceptions. No special rye versions. No smart keto breads.</p>
+                  <p>This also includes: cakes, cookies, doughs, wraps, pastries.</p>
+                  <p>No rice.</p>
+                  <p>No potatoes. Not in any form.</p>
+                  <p>No pasta or noodles.</p>
+                  <p className="italic font-medium">If I were someone who could handle complex exceptions and always follow through on nuanced rules, I wouldn't be in this situation. Simplicity is the only rule that works.</p>
+                </div>
               </div>
+
               <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-red-900 mb-3">High-Calorie Traps</h3>
-                <ul className="text-red-700 text-sm space-y-1">
-                  <li>• Nuts (except small portions)</li>
-                  <li>• Dried fruits</li>
-                  <li>• Too much olive oil</li>
-                  <li>• Large bread portions</li>
-                </ul>
+                <h3 className="text-xl font-semibold text-red-900 mb-4">🍬 Sugar, Sweets, Junk Food</h3>
+                <div className="text-red-800 space-y-2">
+                  <p>Obvious no.</p>
+                  <p>Not even worth explaining.</p>
+                </div>
               </div>
+
               <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-red-900 mb-3">Habit Triggers</h3>
-                <ul className="text-red-700 text-sm space-y-1">
-                  <li>• Alcohol (mostly)</li>
-                  <li>• Late-night eating</li>
-                  <li>• Emotional eating</li>
-                  <li>• Mindless snacking</li>
-                </ul>
+                <h3 className="text-xl font-semibold text-red-900 mb-4">🍎 Fruits</h3>
+                <div className="text-red-800 space-y-2">
+                  <p>None.</p>
+                  <p>Even "healthy" fruit like apples or bananas caused massive weight gain for me.</p>
+                  <p>Fruit juices? Dangerous.</p>
+                  <p>Fruit may return in an advanced phase later — but for now, it's off the table.</p>
+                </div>
+              </div>
+
+              <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-red-900 mb-4">🥕 High-Sugar Vegetables</h3>
+                <div className="text-red-800 space-y-2">
+                  <p>No carrots.</p>
+                  <p>No beets.</p>
+                  <p>These act more like sugar sources than vegetables.</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-3xl font-bold text-amber-600 mb-6">⚠️ Foods I Sometimes Allow (Compromise Zone)</h2>
+
+            <div className="space-y-6">
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-amber-900 mb-4">🥒 Cucumbers</h3>
+                <div className="text-amber-800 space-y-2">
+                  <p>High in carbs, actually. Surprising.</p>
+                  <p>But I love them. Salty, hydrating, crunchy.</p>
+                  <p>I eat them on days where I walk more or allow higher intake.</p>
+                </div>
+              </div>
+
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-amber-900 mb-4">🥒 Pickles (Fermented)</h3>
+                <div className="text-amber-800 space-y-2">
+                  <p>Much lower carb than fresh cucumbers (but not always — check the label).</p>
+                  <p>I use them often. Crunchy, salty, satisfying.</p>
+                  <p>Helpful for electrolyte balance, especially early in the diet.</p>
+                </div>
+              </div>
+
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-amber-900 mb-4">🍅 Tomatoes</h3>
+                <div className="text-amber-800 space-y-2">
+                  <p>High in sugar and carbs, but can be integrated in moderation.</p>
+                  <p>I use them very selectively.</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-3xl font-bold text-green-600 mb-6">✅ Core Food Staples (What I Actually Eat)</h2>
+
+            <div className="space-y-6">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-green-900 mb-4">🧀 Cheese (Hard and Soft)</h3>
+                <div className="text-green-800 space-y-2">
+                  <p>Main go-to food.</p>
+                  <p>Easy to portion. Readily available. Tasty.</p>
+                  <p>Especially soft cheeses. Brie, Camembert, etc.</p>
+                  <p>Can be eaten 1–2x a day as a major calorie source.</p>
+                </div>
+              </div>
+
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-green-900 mb-4">🥚 Eggs</h3>
+                <div className="text-green-800 space-y-2">
+                  <p>Boiled eggs with salt. Avoid frying.</p>
+                  <p>No butter. No olive oil.</p>
+                  <p>Eggs are stable, satisfying, and easy to manage.</p>
+                </div>
+              </div>
+
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-green-900 mb-4">🍗 Meats (With Compromises)</h3>
+                <div className="text-green-800 space-y-2">
+                  <p>I do include processed meats.</p>
+                  <ul className="list-disc list-inside ml-4 space-y-1">
+                    <li>Sliced sausage products</li>
+                    <li>Ham (lower calorie)</li>
+                    <li>Occasionally: salami (very salty, high calorie — use with care)</li>
+                  </ul>
+                  <p className="italic">Why? Convenience and variety. Clean meats are ideal, but harder to source and prepare.</p>
+                </div>
+              </div>
+
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-green-900 mb-4">🐟 Fish (Smoked Salmon, Fresh Salmon)</h3>
+                <div className="text-green-800 space-y-2">
+                  <p>Smoked or cooked.</p>
+                  <p>Easy to portion. High in protein and fat.</p>
+                  <p>I include this often. It's satisfying and nutrient-rich.</p>
+                </div>
+              </div>
+
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-green-900 mb-4">🍗 Chicken</h3>
+                <div className="text-green-800 space-y-2">
+                  <p>Often store-bought (half rotisserie chicken)</p>
+                  <p>Watch calories, but a great fallback meal</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-3xl font-bold text-blue-600 mb-6">🥤 Drinks</h2>
+
+            <div className="space-y-6">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-blue-900 mb-4">💧 Water & Sparkling Water</h3>
+                <div className="text-blue-800">
+                  <p>Ideally, I'd drink this only. But I struggle to do so.</p>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-blue-900 mb-4">🥤 Coke Zero / Pepsi Max / Light Sodas</h3>
+                <div className="text-blue-800 space-y-2">
+                  <p>Yes, I drink them daily.</p>
+                  <p>They help suppress hunger and add comfort</p>
+                  <p>I'm aware of the controversy — but they've been essential for my success</p>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-blue-900 mb-4">☕ Coffee</h3>
+                <div className="text-blue-800 space-y-2">
+                  <p>Black coffee helps a lot — especially during fasting days</p>
+                  <p>Used sparingly, but strategically</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-3xl font-bold text-purple-600 mb-6">🧂 Optional Extras</h2>
+
+            <div className="space-y-6">
+              <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-purple-900 mb-4">🫒 Olives</h3>
+                <div className="text-purple-800">
+                  <p>Sometimes. Good if you're under budget.</p>
+                </div>
+              </div>
+
+              <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-purple-900 mb-4">🐟 Tuna (Canned in Water)</h3>
+                <div className="text-purple-800 space-y-2">
+                  <p>In theory, yes — but I hate it. Can't swallow it.</p>
+                  <p>Not part of my diet for that reason.</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-3xl font-bold text-red-600 mb-6">❌ Other No-Gos</h2>
+
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+              <div className="text-red-800 space-y-2">
+                <p><strong>Olive oil:</strong> too calorie dense.</p>
+                <p><strong>Butter:</strong> same.</p>
+                <p><strong>Nuts:</strong> too many calories per gram. Impossible to integrate into a tight calorie plan.</p>
+                <p><strong>Mayonnaise, ketchup:</strong> sugar bombs. No use.</p>
               </div>
             </div>
 
             <div className="bg-gray-900 text-white rounded-lg p-8">
-              <h2 className="text-2xl font-semibold mb-4">The Reality Check</h2>
+              <h2 className="text-2xl font-semibold text-white mb-4">🧾 Final Words</h2>
+              <p className="mb-4">My real list is surprisingly short:</p>
+              <ul className="list-disc list-inside space-y-1 mb-4 text-accent-green">
+                <li>Eggs</li>
+                <li>Cheese</li>
+                <li>Chicken</li>
+                <li>Salmon</li>
+                <li>Sliced meats / sausage</li>
+                <li>Cucumbers</li>
+                <li>Pickles</li>
+                <li>Occasionally tomatoes or olives</li>
+                <li>Coke Zero / Light sodas</li>
+                <li>Water, coffee</li>
+              </ul>
               <p className="mb-4">
-                This isn't perfect. Some days I eat more than planned. Some days I skip the walk. 
-                Some days I have a piece of chocolate or a glass of wine.
-              </p>
-              <p className="mb-4">
-                The difference now is that these are exceptions, not the rule. And when they happen, 
-                I don't let them derail everything. I just get back to the plan the next day.
+                This list may feel strict — but it works. It gives me momentum, energy, and flexibility once I combine it with walking and fasting.
               </p>
               <p className="text-accent-green font-medium">
-                Consistency over perfection. Progress over perfection. That's what actually works.
+                Don't try to perfect this. Just use it.
               </p>
-            </div>
-
-            <div className="text-center">
-              <p className="text-lg text-gray-600 italic">
-                Remember: This is what works for me right now. Your food selection might be different, 
-                and that's completely fine. The principle is finding simple, sustainable choices that 
-                you can stick with long-term.
+              <p className="text-gray-300">
+                If you need to adapt, substitute, or replace items — either use your judgment or ask the app. But this is the real list I'm using today, and it's getting me results.
               </p>
             </div>
           </div>
