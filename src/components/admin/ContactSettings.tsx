@@ -18,6 +18,7 @@ const ContactSettings = () => {
     const savedWebhook = localStorage.getItem('fastingApp_contactWebhook');
     
     if (savedEmail) setContactEmail(savedEmail);
+    else setContactEmail('FastNowApp@Pm.me'); // Set default email
     if (savedWebhook) setWebhookUrl(savedWebhook);
   }, []);
 
