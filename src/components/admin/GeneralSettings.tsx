@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/components/ui/sonner";
 import { Input } from "@/components/ui/input";
+import { ImageUploadService } from "@/services/ImageUploadService";
 
 const GeneralSettings: React.FC = () => {
   const [logo, setLogo] = useState<File | null>(null);
@@ -40,14 +41,14 @@ const GeneralSettings: React.FC = () => {
       setLogo(file);
       
       try {
-        // Convert to base64
-        const base64String = await convertFileToBase64(file);
-        setLogoPreview(base64String);
-        localStorage.setItem('fastingApp_logoUrl', base64String);
+        const result = await ImageUploadService.uploadImage(file, 'logos', `logo-${Date.now()}`);
+        setLogoPreview(result.url);
+        localStorage.setItem('fastingApp_logoUrl', result.url);
+        localStorage.setItem('fastingApp_logoPath', result.path);
         toast.success("Logo uploaded successfully");
       } catch (error) {
-        toast.error("Failed to process logo image");
-        console.error("Error processing logo:", error);
+        toast.error("Failed to upload logo image");
+        console.error("Error uploading logo:", error);
       }
     }
   };
@@ -58,14 +59,14 @@ const GeneralSettings: React.FC = () => {
       setAppImage(file);
       
       try {
-        // Convert to base64
-        const base64String = await convertFileToBase64(file);
-        setMockupPreview(base64String);
-        localStorage.setItem('fastingApp_mockupUrl', base64String);
+        const result = await ImageUploadService.uploadImage(file, 'app-images', `app-image-${Date.now()}`);
+        setMockupPreview(result.url);
+        localStorage.setItem('fastingApp_mockupUrl', result.url);
+        localStorage.setItem('fastingApp_mockupPath', result.path);
         toast.success("App image uploaded successfully");
       } catch (error) {
-        toast.error("Failed to process app image");
-        console.error("Error processing app image:", error);
+        toast.error("Failed to upload app image");
+        console.error("Error uploading app image:", error);
       }
     }
   };
@@ -76,26 +77,26 @@ const GeneralSettings: React.FC = () => {
       setFavicon(file);
       
       try {
-        // Convert to base64
-        const base64String = await convertFileToBase64(file);
-        setFaviconPreview(base64String);
-        localStorage.setItem('fastingApp_faviconUrl', base64String);
+        const result = await ImageUploadService.uploadImage(file, 'favicons', `favicon-${Date.now()}`);
+        setFaviconPreview(result.url);
+        localStorage.setItem('fastingApp_faviconUrl', result.url);
+        localStorage.setItem('fastingApp_faviconPath', result.path);
         
         // Update favicon in real-time
         const linkElement = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
         if (linkElement) {
-          linkElement.href = base64String;
+          linkElement.href = result.url;
         } else {
           const newLink = document.createElement('link');
           newLink.rel = 'icon';
-          newLink.href = base64String;
+          newLink.href = result.url;
           document.head.appendChild(newLink);
         }
         
         toast.success("Favicon uploaded successfully");
       } catch (error) {
-        toast.error("Failed to process favicon image");
-        console.error("Error processing favicon:", error);
+        toast.error("Failed to upload favicon image");
+        console.error("Error uploading favicon:", error);
       }
     }
   };
