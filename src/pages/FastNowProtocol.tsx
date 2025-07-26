@@ -22,39 +22,6 @@ const FastNowProtocol = () => {
             </p>
           </div>
 
-          {/* Disclaimer */}
-          <div className="mb-16">
-            <div className="bg-amber-50 dark:bg-amber-900/20 rounded-2xl shadow-soft p-8 border border-amber-200 dark:border-amber-800">
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold text-sm mt-1">⚠️</div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-3 text-amber-800 dark:text-amber-200">Important Disclaimer</h3>
-                  <div className="space-y-3 text-gray-700 dark:text-gray-300 text-sm">
-                    <p>
-                      <strong>What I'm sharing here is not medical advice.</strong> This is a personal protocol that I've developed and tested on myself. 
-                      As I write this, it is actively working well for me — after many failed attempts, this version finally "clicked."
-                    </p>
-                    <p>
-                      I believe it's more powerful to share one real example in full rather than a vague, watered-down summary that tries to apply to everyone. 
-                      Real examples give context, texture, and make it easier to compare and adapt.
-                    </p>
-                    <p>
-                      <strong>That said, we're all different:</strong>
-                    </p>
-                    <ul className="ml-4 space-y-1">
-                      <li>• Your weight, goals, or health conditions may differ</li>
-                      <li>• You might live in a different climate or culture</li>
-                      <li>• Your local food availability might not match mine</li>
-                    </ul>
-                    <p>
-                      Please use your own judgment to adapt what doesn't fit. You can substitute ingredients, adjust timing, or consult an AI (or doctor) to help with adjustments. 
-                      What matters is understanding the core principles — and shaping them to work for you.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Visual Formula */}
           <div className="mb-16">
@@ -222,73 +189,6 @@ const FastNowProtocol = () => {
             </div>
           </div>
 
-          {/* Ready to Start Section */}
-          <div className="mb-12">
-            <div className="bg-gradient-to-r from-accent-green to-mint-600 rounded-2xl shadow-soft p-8 text-white text-center">
-              <h2 className="text-2xl font-bold mb-4">Ready to Start Your Fasting Journey?</h2>
-              <p className="text-lg mb-6 opacity-90">
-                Access our FastNow app with the three core elements of this protocol: the initiation fast, the food protocol, 
-                and the walking protocol. It will help you immerse yourself into the process and keep it structured.
-              </p>
-              <div className="space-y-3 text-sm opacity-80 mb-6">
-                <p>
-                  <strong>Free option:</strong> Use your own OpenAI API key if you're already an API subscriber.
-                </p>
-                <p>
-                  <strong>Monthly subscription:</strong> Subscribe and use our API access to OpenAI for support.
-                </p>
-                <p>
-                  The app is also usable without AI but its functionality is then severely limited. 
-                  You can test it for free with a few limited AI requests, however we highly recommend 
-                  either using your own API key or subscribing monthly.
-                </p>
-              </div>
-              <a 
-                href="https://lounge.fastnow.app" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-block bg-white text-accent-green px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-              >
-                Access The Lounge →
-              </a>
-            </div>
-          </div>
-
-          {/* Example Weekly Routine */}
-          <div className="mb-12">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft p-8 border border-gray-100 dark:border-gray-700">
-              <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">📆 Example Weekly Routine</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="bg-mint-50 dark:bg-gray-700">
-                      <th className="border border-gray-200 dark:border-gray-600 p-3 text-left">Day</th>
-                      <th className="border border-gray-200 dark:border-gray-600 p-3 text-left">Fast?</th>
-                      <th className="border border-gray-200 dark:border-gray-600 p-3 text-left">Max Carbs</th>
-                      <th className="border border-gray-200 dark:border-gray-600 p-3 text-left">Target Calories</th>
-                      <th className="border border-gray-200 dark:border-gray-600 p-3 text-left">Walk?</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">Mon–Wed</td>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">✅</td>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">0g</td>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">0 kcal (water only)</td>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">Light</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">Thu–Sun</td>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">❌</td>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">&lt;30g</td>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">1,200–1,500 kcal</td>
-                      <td className="border border-gray-200 dark:border-gray-600 p-3">Yes</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
 
           {/* Measurement Philosophy */}
           <div className="mb-12">
@@ -334,6 +234,72 @@ const FastNowProtocol = () => {
                 <li>• Progress compounds fast in the first 2–4 weeks</li>
                 <li>• This system is sustainable because it's simple and effective</li>
               </ul>
+            </div>
+          </div>
+
+          {/* Ready to Start Your Fasting Journey - Call to Action */}
+          <div className="mb-12">
+            <div className="bg-gradient-to-r from-accent-green to-mint-600 rounded-2xl shadow-soft p-8 text-white text-center">
+              <h2 className="text-2xl font-bold mb-4">Ready to Start Your Fasting Journey?</h2>
+              <p className="text-lg mb-6 opacity-90">
+                Access our FastNow app with the three core elements of this protocol: the initiation fast, the food protocol, 
+                and the walking protocol. It will help you immerse yourself into the process and keep it structured.
+              </p>
+              <div className="space-y-3 text-sm opacity-80 mb-6">
+                <p>
+                  <strong>Free option:</strong> Use your own OpenAI API key if you're already an API subscriber.
+                </p>
+                <p>
+                  <strong>Monthly subscription:</strong> Subscribe and use our API access to OpenAI for support.
+                </p>
+                <p>
+                  The app is also usable without AI but its functionality is then severely limited. 
+                  You can test it for free with a few limited AI requests, however we highly recommend 
+                  either using your own API key or subscribing monthly.
+                </p>
+              </div>
+              <a 
+                href="https://lounge.fastnow.app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block bg-white text-accent-green px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+              >
+                Access The Lounge →
+              </a>
+            </div>
+          </div>
+
+          {/* Disclaimer */}
+          <div className="mb-12">
+            <div className="bg-amber-50 dark:bg-amber-900/20 rounded-2xl shadow-soft p-8 border border-amber-200 dark:border-amber-800">
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold text-sm mt-1">⚠️</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-3 text-amber-800 dark:text-amber-200">Important Disclaimer</h3>
+                  <div className="space-y-3 text-gray-700 dark:text-gray-300 text-sm">
+                    <p>
+                      <strong>What I'm sharing here is not medical advice.</strong> This is a personal protocol that I've developed and tested on myself. 
+                      As I write this, it is actively working well for me — after many failed attempts, this version finally "clicked."
+                    </p>
+                    <p>
+                      I believe it's more powerful to share one real example in full rather than a vague, watered-down summary that tries to apply to everyone. 
+                      Real examples give context, texture, and make it easier to compare and adapt.
+                    </p>
+                    <p>
+                      <strong>That said, we're all different:</strong>
+                    </p>
+                    <ul className="ml-4 space-y-1">
+                      <li>• Your weight, goals, or health conditions may differ</li>
+                      <li>• You might live in a different climate or culture</li>
+                      <li>• Your local food availability might not match mine</li>
+                    </ul>
+                    <p>
+                      Please use your own judgment to adapt what doesn't fit. You can substitute ingredients, adjust timing, or consult an AI (or doctor) to help with adjustments. 
+                      What matters is understanding the core principles — and shaping them to work for you.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
