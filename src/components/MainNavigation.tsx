@@ -8,9 +8,15 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
-import { LogOut, User, ArrowRight } from "lucide-react";
+import { LogOut, User, ArrowRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 
@@ -75,17 +81,27 @@ const MainNavigation = () => {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/my-weight-story">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname === "/my-weight-story" && "text-accent-green bg-gray-50"
-              )}
-            >
-              My Weight Story
-            </NavigationMenuLink>
-          </Link>
+          <DropdownMenu>
+            <DropdownMenuTrigger className={cn(
+              navigationMenuTriggerStyle(),
+              "text-gray-700 hover:text-accent-green hover:bg-gray-50 flex items-center gap-1"
+            )}>
+              About Me
+              <ChevronDown size={14} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50">
+              <DropdownMenuItem asChild>
+                <Link to="/my-weight-story" className="text-gray-700 hover:text-accent-green">
+                  My Weight Story
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/my-food-selection" className="text-gray-700 hover:text-accent-green">
+                  My Food Selection
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link to="/blog">

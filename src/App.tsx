@@ -38,6 +38,7 @@ import FastingTimelineApi from "./pages/FastingTimelineApi";
 import FastNowProtocol from "./pages/FastNowProtocol";
 import AboutFastNowApp from "./pages/AboutFastNowApp";
 import MyWeightStory from "./pages/MyWeightStory";
+import MyFoodSelection from "./pages/MyFoodSelection";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const AppRoutes = () => {
       <Route path="/fastnow-protocol" element={<FastNowProtocol />} />
       <Route path="/about-fast-now-app" element={<AboutFastNowApp />} />
       <Route path="/my-weight-story" element={<MyWeightStory />} />
+      <Route path="/my-food-selection" element={<MyFoodSelection />} />
       
       {/* Fasting Timeline routes */}
       <Route path="/fasting-timeline" element={<FastingTimelineBlog />} />
