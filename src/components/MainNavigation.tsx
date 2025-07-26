@@ -82,10 +82,17 @@ const MainNavigation = () => {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <DropdownMenu>
-            <DropdownMenuTrigger className={cn(
-              navigationMenuTriggerStyle(),
-              "text-gray-700 hover:text-accent-green hover:bg-gray-50 flex items-center gap-1"
-            )}>
+            <DropdownMenuTrigger 
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "text-gray-700 hover:text-accent-green hover:bg-gray-50 flex items-center gap-1"
+              )}
+              onMouseEnter={(e) => {
+                // Open dropdown on hover
+                const trigger = e.currentTarget;
+                setTimeout(() => trigger.click(), 0);
+              }}
+            >
               About Me
               <ChevronDown size={14} />
             </DropdownMenuTrigger>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
+import PageFeaturedImage from '@/components/PageFeaturedImage';
 
 const MyFoodSelection = () => {
   return (
@@ -20,6 +21,8 @@ const MyFoodSelection = () => {
               This page shows the exact foods I'm eating right now. You may not find the exact same items in your country or store — and that's totally fine. This isn't about perfection. It's about clarity, immersion, and giving you one real example to study or copy.
             </p>
           </div>
+
+          <PageFeaturedImage pageKey="myFoodSelection" />
 
           <div className="prose prose-lg max-w-none text-gray-700 space-y-8">
             <div className="bg-accent-green/5 border border-accent-green/20 rounded-lg p-8">
