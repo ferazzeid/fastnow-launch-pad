@@ -23,18 +23,8 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import AdminBlog from "./pages/AdminBlog";
 import BlogEditor from "./pages/BlogEditor";
-import BlogApi from "./pages/BlogApi";
-import AdminMotivators from "./pages/AdminMotivators";
-import AdminFastingHours from "./pages/AdminFastingHours";
-import AppContentApi from "./pages/AppContentApi";
-import FastingSlotsApi from "./pages/FastingSlotsApi";
-import FastingHoursApi from "./pages/FastingHoursApi";
-import MotivatorsApi from "./pages/MotivatorsApi";
 import FastingTimelineBlog from "./pages/FastingTimelineBlog";
 import FastingTimelinePost from "./pages/FastingTimelinePost";
-import AdminFastingTimeline from "./pages/AdminFastingTimeline";
-import FastingTimelineEditor from "./pages/FastingTimelineEditor";
-import FastingTimelineApi from "./pages/FastingTimelineApi";
 import FastNowProtocol from "./pages/FastNowProtocol";
 import AboutFastNowApp from "./pages/AboutFastNowApp";
 import MyWeightStory from "./pages/MyWeightStory";
@@ -63,13 +53,6 @@ const AppRoutes = () => {
       <Route path="/fasting-timeline" element={<FastingTimelineBlog />} />
       <Route path="/fasting-timeline/:slug" element={<FastingTimelinePost />} />
       
-      {/* API routes */}
-      <Route path="/api/blog" element={<BlogApi />} />
-      <Route path="/api/fasting-timeline" element={<FastingTimelineApi />} />
-      <Route path="/api/app-content" element={<AppContentApi />} />
-      <Route path="/api/fasting-slots" element={<FastingSlotsApi />} />
-      <Route path="/api/fasting-hours" element={<FastingHoursApi />} />
-      <Route path="/api/motivators" element={<MotivatorsApi />} />
       
       {/* Admin routes */}
       <Route path="/admin" element={<Admin />} />
@@ -82,11 +65,6 @@ const AppRoutes = () => {
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
-      <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
-      <Route path="/admin/fasting-timeline/new" element={<FastingTimelineEditor />} />
-      <Route path="/admin/fasting-timeline/edit/:id" element={<FastingTimelineEditor />} />
-      <Route path="/admin/motivators" element={<AdminMotivators />} />
-      <Route path="/admin/fasting-hours" element={<AdminFastingHours />} />
       <Route path="/admin/:pageType" element={<AdminPageEditor />} />
       
       {/* Content pages */}

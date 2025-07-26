@@ -93,7 +93,7 @@ Eat normally for 5 days and restrict calories to 500-600 for 2 non-consecutive d
 
 Remember to consult with a healthcare provider before starting any fasting regimen.`,
         excerpt: 'Learn everything you need to know about intermittent fasting, from the basics to getting started safely as a beginner.',
-        featuredImage: '/placeholder.svg',
+        featuredImage: '/src/assets/blog-featured-1.jpg',
         author: 'FastNow Team',
         categories: ['Beginner Guide', 'Intermittent Fasting'],
         tags: ['fasting', 'beginner', 'health', 'weight-loss'],
@@ -163,7 +163,7 @@ This isn't vanity – it's about feeling comfortable and confident in your own s
 
 Remember, every piece of clothing that fits again is a milestone worth celebrating. Your wardrobe becomes a visual timeline of your progress, and that's incredibly powerful motivation to keep going.`,
         excerpt: 'Discover the powerful motivation that comes from fitting into old clothes again during your fasting journey – and why this feeling can be a game-changer for your confidence.',
-        featuredImage: '/placeholder.svg',
+        featuredImage: '/src/assets/blog-featured-2.jpg',
         author: 'FastNow Team',
         categories: ['Motivation', 'Personal Journey'],
         tags: ['motivation', 'confidence', 'wardrobe', 'progress', 'lifestyle'],
@@ -204,7 +204,7 @@ Results take time. Give your body at least 2-4 weeks to adapt to the new eating 
 
 Remember, intermittent fasting is a lifestyle change, not a quick fix. Be patient and consistent for the best results.`,
         excerpt: 'Avoid these 5 common intermittent fasting mistakes that could sabotage your progress and learn how to fast effectively.',
-        featuredImage: '/placeholder.svg',
+        featuredImage: '/src/assets/blog-featured-3.jpg',
         author: 'FastNow Team',
         categories: ['Tips', 'Common Mistakes'],
         tags: ['mistakes', 'tips', 'beginner', 'advice'],
@@ -340,7 +340,7 @@ The morning head start you woke up with? It's still there waiting for you, regar
 
 Remember, every successful fast started with someone ending the negotiation and making a choice. The negotiation serves its purpose, but at some point, the most powerful thing you can do is simply start.`,
         excerpt: 'Explore the complex mental negotiation that happens when starting a fast, why the internal debate can be tougher than the fast itself, and strategies for moving from thinking to doing.',
-        featuredImage: '/placeholder.svg',
+        featuredImage: '/src/assets/blog-featured-4.jpg',
         author: 'FastNow Team',
         categories: ['Psychology', 'Mental Challenges', 'Getting Started'],
         tags: ['mental-negotiation', 'starting-fast', 'psychology', 'motivation', 'decision-making', 'mindset'],
@@ -458,7 +458,7 @@ If you're currently in a plateau phase, feeling frustrated by apparent lack of p
 
 The key is to keep going, even when you can't see the progress happening. Your body might be preparing for its own overnight breakthrough, and you don't want to give up just before it arrives.`,
         excerpt: 'Explore the mysterious nature of non-linear weight loss and why sometimes the biggest breakthroughs happen overnight, often after what feels like weeks of stagnation.',
-        featuredImage: '/placeholder.svg',
+        featuredImage: '/src/assets/blog-featured-5.jpg',
         author: 'FastNow Team',
         categories: ['Weight Loss', 'Personal Experience', 'Motivation'],
         tags: ['weight-loss', 'plateau', 'breakthrough', 'motivation', 'non-linear', 'water-weight'],

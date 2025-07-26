@@ -12,7 +12,10 @@ import { Link } from "react-router-dom";
 
 interface PageContent {
   home: string;
-  about: string;
+  fastNowProtocol: string;
+  aboutFastNowApp: string;
+  myWeightStory: string;
+  myFoodSelection: string;
   privacy: string;
   terms: string;
   updatedAt?: string;
@@ -24,7 +27,10 @@ const AdminPages = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [content, setContent] = useState<PageContent>({
     home: '',
-    about: '',
+    fastNowProtocol: '',
+    aboutFastNowApp: '',
+    myWeightStory: '',
+    myFoodSelection: '',
     privacy: '',
     terms: ''
   });
@@ -57,35 +63,41 @@ Download FastingApp today and join millions of users who have transformed their 
 
 *Available on iOS and Android*`,
 
-    about: `# About FastingApp
+    fastNowProtocol: `# The FastNow Protocol
 
-## Our Mission
+Edit the content for the FastNow Protocol page here. This should include:
 
-FastingApp was created with a simple mission: to make intermittent fasting accessible, safe, and effective for everyone. We believe that proper guidance and support can help anyone achieve their health goals through the proven benefits of fasting.
+- Overview of the protocol
+- Key principles
+- Implementation steps
+- Guidelines and recommendations`,
 
-## Our Story
+    aboutFastNowApp: `# About the FastNow App
 
-Founded in 2024, FastingApp emerged from the personal experiences of our team with intermittent fasting. After witnessing the transformative effects of structured fasting on our own health and well-being, we decided to create a comprehensive platform to help others on their journey.
+Edit the content about the FastNow App here. This should include:
 
-## What We Believe
+- App features and capabilities
+- How to use the app
+- Benefits and advantages
+- Download information`,
 
-- **Health is a Journey**: Every person's path to wellness is unique
-- **Education Empowers**: Knowledge and understanding lead to better outcomes
-- **Community Matters**: Support from others makes the difference
-- **Science Guides**: Evidence-based approaches ensure safety and effectiveness
+    myWeightStory: `# My Weight Story
 
-## Our Team
+This page contains the personal weight loss journey story. Edit the content here to share:
 
-FastingApp is built by a dedicated team of health enthusiasts, developers, and wellness experts who are passionate about helping people achieve their health goals.
+- Personal background and struggles
+- The journey of weight gain and loss
+- What worked and what didn't
+- Current approach and results`,
 
-## Contact Us
+    myFoodSelection: `# My Food Selection
 
-Have questions or feedback? We'd love to hear from you.
+Edit the content about food selection and diet approach here. This should include:
 
-**Email**: support@fastingapp.com
-**Support Hours**: Monday - Friday, 9 AM - 5 PM PST
-
-Follow us on social media for tips, success stories, and the latest updates about intermittent fasting.`,
+- Current food choices
+- Meal planning strategies
+- Nutritional guidelines
+- Practical tips and recommendations`,
 
     privacy: `# Privacy Policy
 
@@ -266,7 +278,10 @@ United States`
         const parsed = JSON.parse(savedContent);
         setContent({
           home: parsed.home || defaultContent.home,
-          about: parsed.about || defaultContent.about,
+          fastNowProtocol: parsed.fastNowProtocol || defaultContent.fastNowProtocol,
+          aboutFastNowApp: parsed.aboutFastNowApp || defaultContent.aboutFastNowApp,
+          myWeightStory: parsed.myWeightStory || defaultContent.myWeightStory,
+          myFoodSelection: parsed.myFoodSelection || defaultContent.myFoodSelection,
           privacy: parsed.privacy || defaultContent.privacy,
           terms: parsed.terms || defaultContent.terms
         });
@@ -328,8 +343,14 @@ United States`
     switch(page) {
       case 'home':
         return 'Home Page';
-      case 'about':
-        return 'About Page';
+      case 'fastNowProtocol':
+        return 'FastNow Protocol';
+      case 'aboutFastNowApp':
+        return 'About FastNow App';
+      case 'myWeightStory':
+        return 'My Weight Story';
+      case 'myFoodSelection':
+        return 'My Food Selection';
       case 'privacy':
         return 'Privacy Policy';
       case 'terms':
@@ -388,9 +409,12 @@ United States`
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="home" className="w-full">
-                <TabsList className="grid w-full grid-cols-4">
+                <TabsList className="grid w-full grid-cols-7">
                   <TabsTrigger value="home">Home</TabsTrigger>
-                  <TabsTrigger value="about">About</TabsTrigger>
+                  <TabsTrigger value="fastNowProtocol">Protocol</TabsTrigger>
+                  <TabsTrigger value="aboutFastNowApp">About App</TabsTrigger>
+                  <TabsTrigger value="myWeightStory">Weight Story</TabsTrigger>
+                  <TabsTrigger value="myFoodSelection">Food Selection</TabsTrigger>
                   <TabsTrigger value="privacy">Privacy</TabsTrigger>
                   <TabsTrigger value="terms">Terms</TabsTrigger>
                 </TabsList>

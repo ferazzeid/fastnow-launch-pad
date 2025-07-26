@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
+import ContentExport from "@/components/admin/ContentExport";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -111,19 +112,19 @@ const Admin = () => {
             </CardContent>
           </Card>
 
-          {/* User Management */}
+          {/* Admin Account */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users size={20} />
-                User Management
+                Admin Account
               </CardTitle>
             </CardHeader>
             <CardContent>
               <Link to="/admin/users">
                 <Button variant="outline" className="w-full justify-start">
                   <Users size={16} className="mr-2" />
-                  Manage Users
+                  Manage Admin Account
                 </Button>
               </Link>
             </CardContent>
@@ -153,95 +154,6 @@ const Admin = () => {
             </CardContent>
           </Card>
 
-          {/* Fasting Timeline Management */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock size={20} />
-                Fasting Timeline
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link to="/admin/fasting-timeline">
-                <Button variant="outline" className="w-full justify-start">
-                  <Clock size={16} className="mr-2" />
-                  Manage Timeline Posts
-                </Button>
-              </Link>
-              <Link to="/admin/fasting-timeline/new">
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText size={16} className="mr-2" />
-                  Create New Hour
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-          {/* App Content Management */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar size={20} />
-                Legacy Fasting Content
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link to="/admin/fasting-hours">
-                <Button variant="outline" className="w-full justify-start">
-                  <Clock size={16} className="mr-2" />
-                  Hourly Fasting Content
-                </Button>
-              </Link>
-              <Link to="/admin/motivators">
-                <Button variant="outline" className="w-full justify-start">
-                  <Heart size={16} className="mr-2" />
-                  Motivators
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-          {/* API Endpoints */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings size={20} />
-                API Endpoints
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link to="/api/app-content" target="_blank">
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText size={16} className="mr-2" />
-                  App Content API
-                </Button>
-              </Link>
-              <Link to="/api/fasting-hours" target="_blank">
-                <Button variant="outline" className="w-full justify-start">
-                  <Clock size={16} className="mr-2" />
-                  Fasting Hours API
-                </Button>
-              </Link>
-              <Link to="/api/fasting-timeline" target="_blank">
-                <Button variant="outline" className="w-full justify-start">
-                  <Clock size={16} className="mr-2" />
-                  Fasting Timeline API
-                </Button>
-              </Link>
-              <Link to="/api/motivators" target="_blank">
-                <Button variant="outline" className="w-full justify-start">
-                  <Heart size={16} className="mr-2" />
-                  Motivators API
-                </Button>
-              </Link>
-              <Link to="/api/blog" target="_blank">
-                <Button variant="outline" className="w-full justify-start">
-                  <BookOpen size={16} className="mr-2" />
-                  Blog API
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
 
           {/* SEO Management */}
           <Card>
@@ -260,6 +172,11 @@ const Admin = () => {
               </Link>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Content Export/Import Section */}
+        <div className="mt-8">
+          <ContentExport />
         </div>
       </main>
     </div>

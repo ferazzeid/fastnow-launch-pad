@@ -58,9 +58,8 @@ export class FastingTimelineService {
   }
 
   private static async exportToApi(): Promise<void> {
-    // Dynamic import to avoid circular dependency
-    const { FastingTimelineApiService } = await import('./FastingTimelineApiService');
-    FastingTimelineApiService.exportToJson();
+    // API service was removed - this method is no longer needed
+    // but keeping for backward compatibility
   }
 
   static generateSlug(title: string, hour: number): string {
