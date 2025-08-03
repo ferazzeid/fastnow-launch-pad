@@ -10,12 +10,12 @@ import { ImageUploadService } from "@/services/ImageUploadService";
 const GeneralSettings: React.FC = () => {
   const [logo, setLogo] = useState<File | null>(null);
   const [appImage, setAppImage] = useState<File | null>(null);
-  const [favicon, setFavicon] = useState<File | null>(null);
+  
   const [appStoreLink, setAppStoreLink] = useState(localStorage.getItem('fastingApp_appStoreLink') || 'https://apps.apple.com');
   const [googlePlayLink, setGooglePlayLink] = useState(localStorage.getItem('fastingApp_googlePlayLink') || 'https://play.google.com');
   const [logoPreview, setLogoPreview] = useState(localStorage.getItem('fastingApp_logoUrl') || '');
   const [mockupPreview, setMockupPreview] = useState(localStorage.getItem('fastingApp_mockupUrl') || '');
-  const [faviconPreview, setFaviconPreview] = useState(localStorage.getItem('fastingApp_faviconUrl') || '');
+  
   const [imageSize, setImageSize] = useState(
     parseInt(localStorage.getItem('fastingApp_imageSize') || '300')
   );
@@ -71,35 +71,6 @@ const GeneralSettings: React.FC = () => {
     }
   };
 
-  const handleFaviconChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setFavicon(file);
-      
-      try {
-        const result = await ImageUploadService.uploadImage(file, 'favicons', `favicon-${Date.now()}`);
-        setFaviconPreview(result.url);
-        localStorage.setItem('fastingApp_faviconUrl', result.url);
-        localStorage.setItem('fastingApp_faviconPath', result.path);
-        
-        // Update favicon in real-time
-        const linkElement = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
-        if (linkElement) {
-          linkElement.href = result.url;
-        } else {
-          const newLink = document.createElement('link');
-          newLink.rel = 'icon';
-          newLink.href = result.url;
-          document.head.appendChild(newLink);
-        }
-        
-        toast.success("Favicon uploaded successfully");
-      } catch (error) {
-        toast.error("Failed to upload favicon image");
-        console.error("Error uploading favicon:", error);
-      }
-    }
-  };
 
   const handleLinksUpdate = () => {
     localStorage.setItem('fastingApp_appStoreLink', appStoreLink);
@@ -180,39 +151,6 @@ const GeneralSettings: React.FC = () => {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Favicon Settings</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <Label htmlFor="favicon-upload">Upload Favicon</Label>
-              <input 
-                id="favicon-upload" 
-                type="file" 
-                accept="image/*" 
-                onChange={handleFaviconChange} 
-                className="mt-1 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
-              />
-              <p className="text-sm text-muted-foreground mt-1">
-                This will be displayed in browser tabs
-              </p>
-            </div>
-            <div>
-              {faviconPreview && (
-                <div className="border rounded p-4 flex justify-center">
-                  <img 
-                    src={faviconPreview} 
-                    alt="Favicon preview" 
-                    className="max-h-16" 
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       <Card>
         <CardHeader>

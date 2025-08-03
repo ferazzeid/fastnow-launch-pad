@@ -13,7 +13,7 @@ const HomepageContentSettings = () => {
   const [heroDescription, setHeroDescription] = useState<string>('');
   const [ctaText, setCtaText] = useState<string>('Launch App');
   const [ctaUrl, setCtaUrl] = useState<string>('https://go.fastnow.app');
-  const [protocolCtaText, setProtocolCtaText] = useState<string>('Read the Complete Protocol');
+  
 
   useEffect(() => {
     // Load existing content
@@ -22,14 +22,14 @@ const HomepageContentSettings = () => {
     const savedHeroDescription = localStorage.getItem('fastingApp_homepageHeroDescription');
     const savedCtaText = localStorage.getItem('fastingApp_homepageCtaText');
     const savedCtaUrl = localStorage.getItem('fastingApp_homepageCtaUrl');
-    const savedProtocolCtaText = localStorage.getItem('fastingApp_homepageProtocolCtaText');
+    
 
     if (savedHeroTitle) setHeroTitle(savedHeroTitle);
     if (savedHeroSubtitle) setHeroSubtitle(savedHeroSubtitle);
     if (savedHeroDescription) setHeroDescription(savedHeroDescription);
     if (savedCtaText) setCtaText(savedCtaText);
     if (savedCtaUrl) setCtaUrl(savedCtaUrl);
-    if (savedProtocolCtaText) setProtocolCtaText(savedProtocolCtaText);
+    
   }, []);
 
   const saveContent = () => {
@@ -38,7 +38,7 @@ const HomepageContentSettings = () => {
     localStorage.setItem('fastingApp_homepageHeroDescription', heroDescription);
     localStorage.setItem('fastingApp_homepageCtaText', ctaText);
     localStorage.setItem('fastingApp_homepageCtaUrl', ctaUrl);
-    localStorage.setItem('fastingApp_homepageProtocolCtaText', protocolCtaText);
+    
     
     toast.success('Homepage content saved successfully');
   };
@@ -117,16 +117,6 @@ const HomepageContentSettings = () => {
             />
           </div>
 
-          <div>
-            <Label htmlFor="protocol-cta-text">Protocol Button Text</Label>
-            <Input
-              id="protocol-cta-text"
-              type="text"
-              value={protocolCtaText}
-              onChange={(e) => setProtocolCtaText(e.target.value)}
-              placeholder="Read the Complete Protocol"
-            />
-          </div>
 
           <Button onClick={saveContent} className="w-full">
             <Save size={16} className="mr-2" />

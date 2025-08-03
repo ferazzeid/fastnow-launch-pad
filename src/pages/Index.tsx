@@ -39,7 +39,7 @@ const Index = () => {
   const [heroDescription, setHeroDescription] = useState<string>('Discover the power of intermittent fasting with our comprehensive timeline and personalized guidance.');
   const [ctaText, setCtaText] = useState<string>('Download FastNow');
   const [ctaUrl, setCtaUrl] = useState<string>('#');
-  const [protocolCtaText, setProtocolCtaText] = useState<string>('Read the Complete Protocol');
+  
   const [ctaTitle, setCtaTitle] = useState<string>('Ready to start your fasting journey?');
   const [ctaSubtitle, setCtaSubtitle] = useState<string>('Download fastnow.app today and transform your health through fasting.');
   const [featuresTitle, setFeaturesTitle] = useState<string>('Why choose fastnow.app?');
@@ -126,8 +126,6 @@ const Index = () => {
       const savedCtaUrl = localStorage.getItem('fastingApp_homepageCtaUrl');
       if (savedCtaUrl && typeof savedCtaUrl === 'string') setCtaUrl(savedCtaUrl);
       
-      const savedProtocolCtaText = localStorage.getItem('fastingApp_homepageProtocolCtaText');
-      if (savedProtocolCtaText && typeof savedProtocolCtaText === 'string') setProtocolCtaText(savedProtocolCtaText);
       
       // CTA content
       const savedCtaTitle = localStorage.getItem('fastingApp_ctaTitle');
@@ -243,16 +241,6 @@ const Index = () => {
                     {ctaText}
                     <ArrowRight size={16} />
                   </a>
-                </Button>
-              </div>
-              
-              <div>
-                <h3 className="text-lg lg:text-xl font-semibold mb-4">Want to See the Full Protocol First?</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm lg:text-base">
-                  Before you try the app, you can read exactly what I did — including how I structured the fast, how I transitioned to calorie control, and what actually worked:
-                </p>
-                <Button asChild variant="outline" size="lg">
-                  <Link to="/fastnow-protocol">{protocolCtaText}</Link>
                 </Button>
               </div>
             </div>

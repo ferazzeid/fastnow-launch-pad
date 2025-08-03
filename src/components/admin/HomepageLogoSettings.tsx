@@ -15,6 +15,8 @@ const HomepageLogoSettings = () => {
 
   const [heroImageSettings, setHeroImageSettings] = useState<HomepageImageSettings | null>(null);
   const [heroImagePreview, setHeroImagePreview] = useState<string>('');
+  
+  const [faviconPreview, setFaviconPreview] = useState<string>('');
 
   useEffect(() => {
     loadSettings();
@@ -41,6 +43,12 @@ const HomepageLogoSettings = () => {
       if (heroImageData?.url) {
         setHeroImageSettings(heroImageData);
         setHeroImagePreview(heroImageData.url);
+      }
+
+      // Load favicon from localStorage as backup
+      const savedFavicon = localStorage.getItem('fastingApp_faviconUrl');
+      if (savedFavicon) {
+        setFaviconPreview(savedFavicon);
       }
     } catch (error) {
       console.error('Error loading settings:', error);
@@ -184,6 +192,47 @@ const HomepageLogoSettings = () => {
     }
   };
 
+  const handleFaviconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) { // 2MB limit for favicon
+      toast.error('Favicon file size must be less than 2MB');
+      return;
+    }
+
+    setFaviconPreview(URL.createObjectURL(file));
+    setUploading(true);
+    
+    try {
+      const result = await import('@/services/ImageUploadService').then(m => 
+        m.ImageUploadService.uploadImage(file, 'favicons', `favicon-${Date.now()}`)
+      );
+      
+      setFaviconPreview(result.url);
+      localStorage.setItem('fastingApp_faviconUrl', result.url);
+      localStorage.setItem('fastingApp_faviconPath', result.path);
+      
+      // Update favicon in real-time
+      const linkElement = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+      if (linkElement) {
+        linkElement.href = result.url;
+      } else {
+        const newLink = document.createElement('link');
+        newLink.rel = 'icon';
+        newLink.href = result.url;
+        document.head.appendChild(newLink);
+      }
+      
+      toast.success('Favicon uploaded successfully');
+    } catch (error) {
+      console.error('Error uploading favicon:', error);
+      toast.error('Failed to upload favicon');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const clearAllCache = async () => {
     const success = await HomepageSettingsService.clearAllSettings();
     
@@ -192,6 +241,9 @@ const HomepageLogoSettings = () => {
       setLogoPreview('');
       setHeroImageSettings(null);
       setHeroImagePreview('');
+      setFaviconPreview('');
+      localStorage.removeItem('fastingApp_faviconUrl');
+      localStorage.removeItem('fastingApp_faviconPath');
       toast.success('All cached images cleared and database reset');
     } else {
       toast.error('Failed to clear cache');
@@ -210,6 +262,40 @@ const HomepageLogoSettings = () => {
 
   return (
     <div className="space-y-6">
+      {/* Favicon Upload Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Upload size={20} />
+            Favicon Upload
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="favicon-upload">Upload Favicon</Label>
+            <Input
+              id="favicon-upload"
+              type="file"
+              accept="image/*"
+              onChange={handleFaviconUpload}
+              disabled={uploading}
+            />
+            <p className="text-sm text-muted-foreground mt-1">
+              This will be displayed in browser tabs. PNG or JPG format recommended, max 2MB.
+            </p>
+          </div>
+          {faviconPreview && (
+            <div className="border rounded p-4 flex justify-center">
+              <img 
+                src={faviconPreview} 
+                alt="Favicon preview" 
+                className="max-h-16" 
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Clear Cache Section */}
       <Card>
         <CardHeader>
