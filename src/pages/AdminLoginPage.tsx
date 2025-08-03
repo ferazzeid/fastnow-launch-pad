@@ -52,6 +52,25 @@ const AdminLoginPage = () => {
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!email) {
+      toast.error("Please enter your email address first");
+      return;
+    }
+
+    try {
+      const result = await SupabaseAuthService.resetPassword(email);
+      if (result.success) {
+        toast.success("Password reset email sent! Check your inbox.");
+      } else {
+        toast.error(result.error || "Failed to send reset email");
+      }
+    } catch (error) {
+      console.error('Password reset error:', error);
+      toast.error("An unexpected error occurred");
+    }
+  };
+
   return (
     <LoginForm
       username={email}
@@ -59,6 +78,7 @@ const AdminLoginPage = () => {
       password={password}
       setPassword={setPassword}
       handleLogin={handleLogin}
+      handleForgotPassword={handleForgotPassword}
       isLoading={isLoading}
     />
   );

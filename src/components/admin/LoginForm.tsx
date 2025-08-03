@@ -11,6 +11,7 @@ interface LoginFormProps {
   password: string;
   setPassword: (password: string) => void;
   handleLogin: (e: React.FormEvent) => void;
+  handleForgotPassword?: () => void;
   isLoading?: boolean;
 }
 
@@ -20,6 +21,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   password,
   setPassword,
   handleLogin,
+  handleForgotPassword,
   isLoading = false
 }) => {
   return (
@@ -56,6 +58,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
               {isLoading ? "Signing in..." : "Login"}
             </Button>
           </form>
+          {handleForgotPassword && (
+            <div className="mt-4 text-center">
+              <Button variant="link" onClick={handleForgotPassword} className="text-sm">
+                Forgot your password?
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
