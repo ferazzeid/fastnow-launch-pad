@@ -64,6 +64,16 @@ const MainNavigation = () => {
         </div>
       </Link>
       
+      <Link to="/about-me" onClick={onLinkClick}>
+        <div className={cn(
+          isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
+          "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+          location.pathname === "/about-me" && "text-accent-green bg-gray-50"
+        )}>
+          About Me
+        </div>
+      </Link>
+      
       <Link to="/about-fastnow-app" onClick={onLinkClick}>
         <div className={cn(
           isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
@@ -84,19 +94,9 @@ const MainNavigation = () => {
           "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green flex items-center gap-1"
         )}
       >
-        Access FastNow App
+        App
         <ArrowRight size={14} />
       </a>
-      
-      <Link to="/about-me" onClick={onLinkClick}>
-        <div className={cn(
-          isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
-          "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-          location.pathname === "/about-me" && "text-accent-green bg-gray-50"
-        )}>
-          About Me
-        </div>
-      </Link>
       
       {isAdmin && (
         <>
@@ -192,6 +192,19 @@ const MainNavigation = () => {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
+          <Link to="/about-me">
+            <NavigationMenuLink 
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                location.pathname === "/about-me" && "text-accent-green bg-gray-50"
+              )}
+            >
+              About Me
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <Link to="/about-fastnow-app">
             <NavigationMenuLink 
               className={cn(
@@ -214,22 +227,9 @@ const MainNavigation = () => {
               "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green flex items-center gap-1"
             )}
           >
-            Access FastNow App
+            App
             <ArrowRight size={14} />
           </a>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/about-me">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname === "/about-me" && "text-accent-green bg-gray-50"
-              )}
-            >
-              About Me
-            </NavigationMenuLink>
-          </Link>
         </NavigationMenuItem>
         
         {isAdmin && (

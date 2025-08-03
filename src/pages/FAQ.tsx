@@ -78,8 +78,10 @@ const FAQ = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-6">Frequently Asked Questions</h1>
-            <p className="text-xl text-gray-600">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
+              Frequently Asked Questions
+            </h1>
+            <p className="text-xl text-muted-foreground">
               Get answers to common questions about FastNow and intermittent fasting
             </p>
           </div>
@@ -95,26 +97,31 @@ const FAQ = () => {
             </div>
           ) : (
             <div className="space-y-4">
-              {faqs.map((faq) => (
-                <Card key={faq.id} className="overflow-hidden">
+              {faqs.map((faq, index) => (
+                <Card key={faq.id} className="overflow-hidden border-l-4 border-l-primary/20 hover:border-l-primary/40 transition-colors">
                   <button
                     onClick={() => toggleItem(faq.id)}
-                    className="w-full p-6 text-left hover:bg-muted/50 transition-colors"
+                    className="w-full p-6 text-left hover:bg-muted/30 transition-colors"
                   >
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-foreground pr-4">
-                        {faq.question}
-                      </h3>
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm font-semibold text-primary">
+                          {index + 1}
+                        </div>
+                        <h3 className="text-lg font-semibold text-foreground pr-4">
+                          {faq.question}
+                        </h3>
+                      </div>
                       {openItems.has(faq.id) ? (
-                        <ChevronUp className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                        <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
                       ) : (
-                        <ChevronDown className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                        <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
                       )}
                     </div>
                   </button>
                   {openItems.has(faq.id) && (
                     <CardContent className="pt-0 pb-6">
-                      <div className="prose prose-sm max-w-none text-muted-foreground">
+                      <div className="ml-11 prose prose-sm max-w-none text-muted-foreground">
                         {faq.answer.split('\n').map((paragraph, index) => (
                           <p key={index} className="mb-2 last:mb-0">
                             {paragraph}

@@ -97,18 +97,35 @@ const AboutMe = () => {
       <div className="container py-16">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
               {title}
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {subtitle}
             </p>
           </div>
 
-          <div className="prose prose-lg max-w-none text-gray-700 space-y-8">
-            {content ? formatContent(content) : (
-              <p>Content is being updated. Please check back soon.</p>
-            )}
+          <div className="space-y-8">
+            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/60 mx-auto rounded-full"></div>
+            
+            <div className="prose prose-lg max-w-none text-muted-foreground space-y-8">
+              {content ? (
+                <div className="space-y-6">
+                  {content.split('\n\n').map((paragraph, index) => (
+                    <div key={index} className="relative">
+                      <div className="absolute left-0 top-2 w-2 h-2 bg-primary/20 rounded-full"></div>
+                      <p className="pl-6 leading-relaxed">
+                        {paragraph}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-muted/20 rounded-lg">
+                  <p>Content is being updated. Please check back soon.</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

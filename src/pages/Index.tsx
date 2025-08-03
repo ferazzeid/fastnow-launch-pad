@@ -228,9 +228,11 @@ const Index = () => {
             {/* Content Section */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 lg:mb-6 leading-tight">
-                {heroTitle}{' '}
-                <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">{heroSubtitle}</span>
+                {heroTitle}
               </h1>
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-6">
+                {heroSubtitle}
+              </p>
               
               <div className="prose prose-lg max-w-none text-gray-600 dark:text-gray-300 mb-6 lg:mb-8">
                 {heroDescription.split('\n').map((paragraph, index) => (

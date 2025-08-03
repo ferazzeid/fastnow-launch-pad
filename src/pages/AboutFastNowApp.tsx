@@ -135,7 +135,7 @@ const AboutFastNowApp = () => {
             {content.featuresTitle}
           </h2>
           
-          <Tabs defaultValue="fasting-timer" className="max-w-7xl mx-auto">
+          <Tabs defaultValue="fasting-timer" className="max-w-4xl mx-auto">
             <TabsList className="grid w-full grid-cols-5">
               {features.map((feature) => (
                 <TabsTrigger key={feature.key} value={feature.key}>
