@@ -1,31 +1,103 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
-import { FeatureItem } from '@/components/FeatureItem';
-import { AppMockupGallery } from '@/components/AppMockupGallery';
-import { AppStoreButton } from '@/components/AppStoreButton';
-import { GooglePlayButton } from '@/components/GooglePlayButton';
+import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Timer, Activity, MapPin, MessageSquare, Users, Shield, Clock, Utensils, Bot, Target, TrendingUp } from 'lucide-react';
+import { Clock, Activity, Utensils, Target, Bot } from 'lucide-react';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
+import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
 
 const AboutFastNowApp = () => {
   const [content, setContent] = useState({
     heroTitle: 'About FastNow App',
-    heroDescription: 'Your ultimate companion for intermittent fasting, health tracking, and achieving your wellness goals. FastNow combines science-backed fasting protocols with modern technology to help you transform your health.',
-    featuresTitle: 'Discover FastNow Features',
-    downloadTitle: 'Download FastNow App',
-    downloadDescription: 'Start your intermittent fasting journey today with FastNow - the most comprehensive fasting companion.'
+    heroDescription: 'Your ultimate companion for intermittent fasting, health tracking, and achieving your wellness goals.',
+    featuresTitle: 'Discover FastNow Features'
   });
+
+  const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
+
+  const features = [
+    {
+      key: 'fasting-timer',
+      title: 'Smart Fasting Timer',
+      subtitle: 'Track your fasting windows with precision and intelligence',
+      icon: <Clock className="w-8 h-8 text-primary" />,
+      features: [
+        'Multiple fasting protocols (16:8, 18:6, OMAD, and more)',
+        'Visual countdown timer with progress rings',
+        'Smart notifications for start/end times',
+        'Historical fasting data and streaks',
+        'Customizable fasting goals'
+      ]
+    },
+    {
+      key: 'walking-tracker',
+      title: 'Walking Tracker',
+      subtitle: 'Monitor your daily activity and movement goals',
+      icon: <Activity className="w-8 h-8 text-primary" />,
+      features: [
+        'Step counting and distance tracking',
+        'Calorie burn estimation',
+        'Daily, weekly, and monthly goals',
+        'Walking route history',
+        'Integration with health apps'
+      ]
+    },
+    {
+      key: 'food-log',
+      title: 'Food Log',
+      subtitle: 'Track your nutrition during eating windows',
+      icon: <Utensils className="w-8 h-8 text-primary" />,
+      features: [
+        'Easy meal logging with photos',
+        'Macro and calorie tracking',
+        'Extensive food database',
+        'Custom recipe creation',
+        'Eating window optimization'
+      ]
+    },
+    {
+      key: 'motivators',
+      title: 'Motivators',
+      subtitle: 'Stay inspired with personalized motivation and goals',
+      icon: <Target className="w-8 h-8 text-primary" />,
+      features: [
+        'Personalized motivational messages',
+        'Achievement badges and rewards',
+        'Progress celebrations',
+        'Inspiring success stories',
+        'Custom goal setting'
+      ]
+    },
+    {
+      key: 'ai-assistant',
+      title: 'AI Assistant',
+      subtitle: 'Get personalized guidance from your intelligent fasting coach',
+      icon: <Bot className="w-8 h-8 text-primary" />,
+      features: [
+        '24/7 personalized fasting guidance',
+        'Science-based recommendations',
+        'Real-time answers to your questions',
+        'Adaptive protocol suggestions',
+        'Health insights and tips'
+      ]
+    }
+  ];
 
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const settings = await SiteSettingsService.getAllSettings();
+        const [settings, screenshots] = await Promise.all([
+          SiteSettingsService.getAllSettings(),
+          FeatureScreenshotService.getFeatureScreenshots()
+        ]);
+        
         if (settings.aboutAppContent) {
           setContent(settings.aboutAppContent);
         }
+        
+        setFeatureScreenshots(screenshots);
       } catch (error) {
         console.error('Error loading About App content:', error);
       }
@@ -33,6 +105,12 @@ const AboutFastNowApp = () => {
 
     loadContent();
   }, []);
+
+  const getScreenshotForFeature = (featureKey: string): string => {
+    const screenshot = featureScreenshots.find(s => s.feature_key === featureKey);
+    return screenshot?.image_url || '';
+  };
+
   return (
     <PageLayout>
       <Helmet>
@@ -43,235 +121,74 @@ const AboutFastNowApp = () => {
       <div className="container py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
             {content.heroTitle}
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             {content.heroDescription}
           </p>
         </div>
 
-        {/* App Screenshots Gallery */}
-        <div className="mb-16">
-          <AppMockupGallery 
-            showNavigation={true}
-            autoplay={true}
-            autoplayInterval={4000}
-          />
-        </div>
-
         {/* Features Tabs */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-12">
+          <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-12">
             {content.featuresTitle}
           </h2>
           
-          <Tabs defaultValue="fasting-timer" className="max-w-6xl mx-auto">
+          <Tabs defaultValue="fasting-timer" className="max-w-7xl mx-auto">
             <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="fasting-timer">Fasting Timer</TabsTrigger>
-              <TabsTrigger value="walking-tracker">Walking Tracker</TabsTrigger>
-              <TabsTrigger value="food-log">Food Log</TabsTrigger>
-              <TabsTrigger value="motivators">Motivators</TabsTrigger>
-              <TabsTrigger value="ai-assistant">AI Assistant</TabsTrigger>
+              {features.map((feature) => (
+                <TabsTrigger key={feature.key} value={feature.key}>
+                  {feature.title}
+                </TabsTrigger>
+              ))}
             </TabsList>
             
-            <TabsContent value="fasting-timer" className="mt-8">
-              <Card>
-                <CardHeader className="text-center">
-                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Clock className="w-8 h-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-2xl">Smart Fasting Timer</CardTitle>
-                  <CardDescription className="text-lg">
-                    Track your fasting windows with precision and intelligence
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold mb-2">✨ Key Features:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• Multiple fasting protocols (16:8, 18:6, OMAD, and more)</li>
-                        <li>• Visual countdown timer with progress rings</li>
-                        <li>• Smart notifications for start/end times</li>
-                        <li>• Historical fasting data and streaks</li>
-                        <li>• Customizable fasting goals</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">🎯 Benefits:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• Stay consistent with your fasting schedule</li>
-                        <li>• Track progress and build healthy habits</li>
-                        <li>• Flexible timing to fit your lifestyle</li>
-                        <li>• Detailed insights and analytics</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+            {features.map((feature) => (
+              <TabsContent key={feature.key} value={feature.key} className="mt-8">
+                <Card>
+                  <CardContent className="p-8">
+                    <div className="grid lg:grid-cols-2 gap-12 items-start">
+                      {/* Left side - Feature content */}
+                      <div className="space-y-6">
+                        <div className="text-center lg:text-left">
+                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto lg:mx-0">
+                            {feature.icon}
+                          </div>
+                          <h3 className="text-3xl font-bold mb-2">{feature.title}</h3>
+                          <p className="text-lg text-muted-foreground">
+                            {feature.subtitle}
+                          </p>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold text-lg mb-4">✨ Features:</h4>
+                          <ul className="space-y-3">
+                            {feature.features.map((item, index) => (
+                              <li key={index} className="flex items-start gap-3">
+                                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                                <span className="text-muted-foreground">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
 
-            <TabsContent value="walking-tracker" className="mt-8">
-              <Card>
-                <CardHeader className="text-center">
-                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Activity className="w-8 h-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-2xl">Walking Tracker</CardTitle>
-                  <CardDescription className="text-lg">
-                    Monitor your daily activity and movement goals
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold mb-2">🚶 Features:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• Step counting and distance tracking</li>
-                        <li>• Calorie burn estimation</li>
-                        <li>• Daily, weekly, and monthly goals</li>
-                        <li>• Walking route history</li>
-                        <li>• Integration with health apps</li>
-                      </ul>
+                      {/* Right side - App mockup */}
+                      <div className="flex justify-center lg:justify-end">
+                        <div className="w-64">
+                          <FeatureScreenshotMockup
+                            imageUrl={getScreenshotForFeature(feature.key)}
+                            altText={`${feature.title} screenshot`}
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">💪 Benefits:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• Complement fasting with gentle exercise</li>
-                        <li>• Boost metabolism naturally</li>
-                        <li>• Improve mental clarity and mood</li>
-                        <li>• Build sustainable movement habits</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="food-log" className="mt-8">
-              <Card>
-                <CardHeader className="text-center">
-                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Utensils className="w-8 h-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-2xl">Food Log</CardTitle>
-                  <CardDescription className="text-lg">
-                    Track your nutrition during eating windows
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold mb-2">🍽️ Features:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• Easy meal logging with photos</li>
-                        <li>• Macro and calorie tracking</li>
-                        <li>• Extensive food database</li>
-                        <li>• Custom recipe creation</li>
-                        <li>• Eating window optimization</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">🎯 Benefits:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• Maximize nutrition in eating windows</li>
-                        <li>• Identify food patterns and triggers</li>
-                        <li>• Make informed dietary choices</li>
-                        <li>• Support weight management goals</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="motivators" className="mt-8">
-              <Card>
-                <CardHeader className="text-center">
-                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Target className="w-8 h-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-2xl">Motivators</CardTitle>
-                  <CardDescription className="text-lg">
-                    Stay inspired with personalized motivation and goals
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold mb-2">🌟 Features:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• Personalized motivational messages</li>
-                        <li>• Achievement badges and rewards</li>
-                        <li>• Progress celebrations</li>
-                        <li>• Inspiring success stories</li>
-                        <li>• Custom goal setting</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">💫 Benefits:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• Maintain long-term motivation</li>
-                        <li>• Overcome challenging moments</li>
-                        <li>• Celebrate milestones and progress</li>
-                        <li>• Build confidence and self-efficacy</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="ai-assistant" className="mt-8">
-              <Card>
-                <CardHeader className="text-center">
-                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Bot className="w-8 h-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-2xl">AI Assistant</CardTitle>
-                  <CardDescription className="text-lg">
-                    Get personalized guidance from your intelligent fasting coach
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold mb-2">🤖 Features:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• 24/7 personalized fasting guidance</li>
-                        <li>• Science-based recommendations</li>
-                        <li>• Real-time answers to your questions</li>
-                        <li>• Adaptive protocol suggestions</li>
-                        <li>• Health insights and tips</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">🎓 Benefits:</h4>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li>• Get expert advice instantly</li>
-                        <li>• Learn about fasting science</li>
-                        <li>• Optimize your fasting approach</li>
-                        <li>• Troubleshoot challenges quickly</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            ))}
           </Tabs>
-        </div>
-
-        {/* Download Section */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-8">{content.downloadTitle}</h2>
-          <p className="text-lg text-gray-600 mb-8">
-            {content.downloadDescription}
-          </p>
-          <div className="flex justify-center gap-4">
-            <AppStoreButton />
-            <GooglePlayButton />
-          </div>
         </div>
       </div>
     </PageLayout>

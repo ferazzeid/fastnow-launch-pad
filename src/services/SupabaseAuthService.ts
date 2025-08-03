@@ -112,4 +112,20 @@ export class SupabaseAuthService {
       return { success: false, error: 'An unexpected error occurred' };
     }
   }
+
+  // Get current user with admin check
+  static async getCurrentUser() {
+    try {
+      const session = await this.getCurrentSession();
+      if (!session?.user) {
+        return { user: null, isAdmin: false };
+      }
+
+      const isAdmin = await this.hasAdminRole(session.user.id);
+      return { user: session.user, isAdmin };
+    } catch (error) {
+      console.error('Get current user exception:', error);
+      return { user: null, isAdmin: false };
+    }
+  }
 }

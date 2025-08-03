@@ -141,7 +141,7 @@ const AdminAboutFastNowApp = () => {
               <CardHeader>
                 <CardTitle>Features Section</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <div>
                   <label className="text-sm font-medium mb-2 block">Features Section Title</label>
                   <input
@@ -151,31 +151,16 @@ const AdminAboutFastNowApp = () => {
                     className="w-full p-3 border rounded-md"
                   />
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Download Section</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Download Title</label>
-                  <input
-                    type="text"
-                    value={content.downloadTitle}
-                    onChange={(e) => setContent({ ...content, downloadTitle: e.target.value })}
-                    className="w-full p-3 border rounded-md"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Download Description</label>
-                  <textarea
-                    value={content.downloadDescription}
-                    onChange={(e) => setContent({ ...content, downloadDescription: e.target.value })}
-                    rows={3}
-                    className="w-full p-3 border rounded-md"
-                  />
+                <div className="mt-4 p-4 bg-gray-50 rounded-md">
+                  <p className="text-sm text-gray-600 mb-2">
+                    <strong>Note:</strong> To manage individual feature content and screenshots, visit the{' '}
+                    <a href="/admin/feature-screenshots" className="text-blue-600 hover:underline">
+                      Feature Screenshots page
+                    </a>.
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Features include: Fasting Timer, Walking Tracker, Food Log, Motivators, and AI Assistant.
+                  </p>
                 </div>
               </CardContent>
             </Card>

@@ -115,6 +115,12 @@ const Admin = () => {
                   About FastNow App
                 </Button>
               </Link>
+              <Link to="/admin/feature-screenshots">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText size={16} className="mr-2" />
+                  Feature Screenshots
+                </Button>
+              </Link>
               <Link to="/admin/page-images">
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
