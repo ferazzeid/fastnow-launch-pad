@@ -67,11 +67,10 @@ const Admin = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container flex justify-between items-center py-4">
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          <Link to="/" className="text-2xl font-bold text-accent-green hover:opacity-80 transition-opacity">
+            FastNow
+          </Link>
           <div className="flex gap-2">
-            <Link to="/">
-              <Button variant="outline">Back to Site</Button>
-            </Link>
             <Button variant="outline" onClick={handleLogout}>
               <LogOut size={16} className="mr-2" />
               Logout

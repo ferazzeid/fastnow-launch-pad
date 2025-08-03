@@ -11,8 +11,6 @@ interface PageImageSettings {
 }
 
 const PAGES = [
-  { key: 'myFoodSelection', label: 'My Food Selection' },
-  { key: 'myWeightStory', label: 'My Weight Story' },
   { key: 'aboutFastNowApp', label: 'About Fast Now App' },
   { key: 'fastNowProtocol', label: 'FastNow Protocol' },
   { key: 'home', label: 'Home Page' },

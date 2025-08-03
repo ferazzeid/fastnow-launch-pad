@@ -14,8 +14,6 @@ interface PageContent {
   home: string;
   fastNowProtocol: string;
   aboutFastNowApp: string;
-  myWeightStory: string;
-  myFoodSelection: string;
   privacy: string;
   terms: string;
   updatedAt?: string;
@@ -29,8 +27,6 @@ const AdminPages = () => {
     home: '',
     fastNowProtocol: '',
     aboutFastNowApp: '',
-    myWeightStory: '',
-    myFoodSelection: '',
     privacy: '',
     terms: ''
   });
@@ -81,23 +77,6 @@ Edit the content about the FastNow App here. This should include:
 - Benefits and advantages
 - Download information`,
 
-    myWeightStory: `# My Weight Story
-
-This page contains the personal weight loss journey story. Edit the content here to share:
-
-- Personal background and struggles
-- The journey of weight gain and loss
-- What worked and what didn't
-- Current approach and results`,
-
-    myFoodSelection: `# My Food Selection
-
-Edit the content about food selection and diet approach here. This should include:
-
-- Current food choices
-- Meal planning strategies
-- Nutritional guidelines
-- Practical tips and recommendations`,
 
     privacy: `# Privacy Policy
 
@@ -280,8 +259,6 @@ United States`
           home: parsed.home || defaultContent.home,
           fastNowProtocol: parsed.fastNowProtocol || defaultContent.fastNowProtocol,
           aboutFastNowApp: parsed.aboutFastNowApp || defaultContent.aboutFastNowApp,
-          myWeightStory: parsed.myWeightStory || defaultContent.myWeightStory,
-          myFoodSelection: parsed.myFoodSelection || defaultContent.myFoodSelection,
           privacy: parsed.privacy || defaultContent.privacy,
           terms: parsed.terms || defaultContent.terms
         });
@@ -347,10 +324,6 @@ United States`
         return 'FastNow Protocol';
       case 'aboutFastNowApp':
         return 'About FastNow App';
-      case 'myWeightStory':
-        return 'My Weight Story';
-      case 'myFoodSelection':
-        return 'My Food Selection';
       case 'privacy':
         return 'Privacy Policy';
       case 'terms':
@@ -409,12 +382,10 @@ United States`
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="home" className="w-full">
-                <TabsList className="grid w-full grid-cols-7">
+                <TabsList className="grid w-full grid-cols-5">
                   <TabsTrigger value="home">Home</TabsTrigger>
                   <TabsTrigger value="fastNowProtocol">Protocol</TabsTrigger>
                   <TabsTrigger value="aboutFastNowApp">About App</TabsTrigger>
-                  <TabsTrigger value="myWeightStory">Weight Story</TabsTrigger>
-                  <TabsTrigger value="myFoodSelection">Food Selection</TabsTrigger>
                   <TabsTrigger value="privacy">Privacy</TabsTrigger>
                   <TabsTrigger value="terms">Terms</TabsTrigger>
                 </TabsList>
