@@ -16,17 +16,34 @@ const UserManagement: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   useEffect(() => {
-    // Check authentication with secure session
+    console.log('UserManagement: Component mounted');
+    
+    // Check legacy authentication first
+    const legacyAuth = localStorage.getItem('fastingApp_auth');
+    console.log('UserManagement: Legacy auth status:', legacyAuth);
+    
+    // Check modern session authentication
     const session = AuthService.getCurrentSession();
-    if (!session || !AuthService.hasPermission('admin')) {
+    console.log('UserManagement: Current session:', session);
+    
+    const hasAdminPermission = AuthService.hasPermission('admin');
+    console.log('UserManagement: Has admin permission:', hasAdminPermission);
+    
+    // Allow access if either legacy auth OR session auth is valid
+    if (legacyAuth !== 'true' && (!session || !hasAdminPermission)) {
+      console.log('UserManagement: Authentication failed, redirecting to admin');
       navigate('/admin');
       return;
     }
+    
+    console.log('UserManagement: Authentication successful');
     setIsAuthenticated(true);
 
     // Load current admin user
     const users = AuthService.getUsers();
+    console.log('UserManagement: All users:', users);
     const adminUser = users.find(user => user.role === 'admin');
+    console.log('UserManagement: Admin user found:', adminUser);
     setCurrentUser(adminUser || null);
   }, [navigate]);
 
