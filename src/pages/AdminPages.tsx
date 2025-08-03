@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 interface PageContent {
   home: string;
   fastNowProtocol: string;
-  aboutFastNowApp: string;
   privacy: string;
   terms: string;
   updatedAt?: string;
@@ -26,7 +25,6 @@ const AdminPages = () => {
   const [content, setContent] = useState<PageContent>({
     home: '',
     fastNowProtocol: '',
-    aboutFastNowApp: '',
     privacy: '',
     terms: ''
   });
@@ -67,16 +65,6 @@ Edit the content for the FastNow Protocol page here. This should include:
 - Key principles
 - Implementation steps
 - Guidelines and recommendations`,
-
-    aboutFastNowApp: `# About the FastNow App
-
-Edit the content about the FastNow App here. This should include:
-
-- App features and capabilities
-- How to use the app
-- Benefits and advantages
-- Download information`,
-
 
     privacy: `# Privacy Policy
 
@@ -258,7 +246,6 @@ United States`
         setContent({
           home: parsed.home || defaultContent.home,
           fastNowProtocol: parsed.fastNowProtocol || defaultContent.fastNowProtocol,
-          aboutFastNowApp: parsed.aboutFastNowApp || defaultContent.aboutFastNowApp,
           privacy: parsed.privacy || defaultContent.privacy,
           terms: parsed.terms || defaultContent.terms
         });
@@ -322,8 +309,6 @@ United States`
         return 'Home Page';
       case 'fastNowProtocol':
         return 'FastNow Protocol';
-      case 'aboutFastNowApp':
-        return 'About FastNow App';
       case 'privacy':
         return 'Privacy Policy';
       case 'terms':
@@ -383,10 +368,9 @@ United States`
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="home" className="w-full">
-                <TabsList className="grid w-full grid-cols-5">
+                <TabsList className="grid w-full grid-cols-4">
                   <TabsTrigger value="home">Home</TabsTrigger>
                   <TabsTrigger value="fastNowProtocol">Protocol</TabsTrigger>
-                  <TabsTrigger value="aboutFastNowApp">About App</TabsTrigger>
                   <TabsTrigger value="privacy">Privacy</TabsTrigger>
                   <TabsTrigger value="terms">Terms</TabsTrigger>
                 </TabsList>

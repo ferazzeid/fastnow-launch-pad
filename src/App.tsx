@@ -13,6 +13,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminAboutFastNowApp from "./pages/AdminAboutFastNowApp";
 import AdminPageEditor from "./pages/AdminPageEditor";
 import AdminGeneral from "./pages/AdminGeneral";
 import AdminPages from "./pages/AdminPages";
@@ -77,6 +78,7 @@ const AppRoutes = () => {
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
+      <Route path="/admin/about-fastnow-app" element={<AdminAboutFastNowApp />} />
       <Route path="/admin/:pageType" element={<AdminPageEditor />} />
       
       {/* Content pages */}

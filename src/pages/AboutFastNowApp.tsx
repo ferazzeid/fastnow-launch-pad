@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeatureItem } from '@/components/FeatureItem';
@@ -8,8 +8,31 @@ import { GooglePlayButton } from '@/components/GooglePlayButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Timer, Activity, MapPin, MessageSquare, Users, Shield, Clock, Utensils, Bot, Target, TrendingUp } from 'lucide-react';
+import { SiteSettingsService } from '@/services/SiteSettingsService';
 
 const AboutFastNowApp = () => {
+  const [content, setContent] = useState({
+    heroTitle: 'About FastNow App',
+    heroDescription: 'Your ultimate companion for intermittent fasting, health tracking, and achieving your wellness goals. FastNow combines science-backed fasting protocols with modern technology to help you transform your health.',
+    featuresTitle: 'Discover FastNow Features',
+    downloadTitle: 'Download FastNow App',
+    downloadDescription: 'Start your intermittent fasting journey today with FastNow - the most comprehensive fasting companion.'
+  });
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        const settings = await SiteSettingsService.getAllSettings();
+        if (settings.aboutAppContent) {
+          setContent(settings.aboutAppContent);
+        }
+      } catch (error) {
+        console.error('Error loading About App content:', error);
+      }
+    };
+
+    loadContent();
+  }, []);
   return (
     <PageLayout>
       <Helmet>
@@ -21,11 +44,10 @@ const AboutFastNowApp = () => {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-6">
-            About FastNow App
+            {content.heroTitle}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Your ultimate companion for intermittent fasting, health tracking, and achieving your wellness goals. 
-            FastNow combines science-backed fasting protocols with modern technology to help you transform your health.
+            {content.heroDescription}
           </p>
         </div>
 
@@ -41,7 +63,7 @@ const AboutFastNowApp = () => {
         {/* Features Tabs */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-12">
-            Discover FastNow Features
+            {content.featuresTitle}
           </h2>
           
           <Tabs defaultValue="fasting-timer" className="max-w-6xl mx-auto">
@@ -242,9 +264,9 @@ const AboutFastNowApp = () => {
 
         {/* Download Section */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-8">Get FastNow App</h2>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-8">{content.downloadTitle}</h2>
           <p className="text-lg text-gray-600 mb-8">
-            Available on all your favorite platforms
+            {content.downloadDescription}
           </p>
           <div className="flex justify-center gap-4">
             <AppStoreButton />
