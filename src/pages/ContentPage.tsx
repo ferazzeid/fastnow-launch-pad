@@ -251,9 +251,30 @@ For questions about these Terms, contact us at: **fastnowapp@pm.me**
               <ContactForm />
             </div>
           ) : (
-            <article className="prose prose-sm md:prose-base lg:prose-lg dark:prose-invert max-w-none">
-              <h1 className="text-3xl font-bold mb-6">{title}</h1>
-              <ReactMarkdown>{content}</ReactMarkdown>
+            <article className="legal-document max-w-none">
+              <div className="mb-8 pb-4 border-b border-border">
+                <h1 className="text-2xl font-medium text-foreground mb-2">{title}</h1>
+                <p className="text-sm text-muted-foreground">Please read these terms carefully</p>
+              </div>
+              <div className="legal-content">
+                <ReactMarkdown 
+                  components={{
+                    h1: ({children}) => <h1 className="text-xl font-medium text-foreground mt-8 mb-4 first:mt-0">{children}</h1>,
+                    h2: ({children}) => <h2 className="text-lg font-medium text-foreground mt-6 mb-3">{children}</h2>,
+                    h3: ({children}) => <h3 className="text-base font-medium text-foreground mt-4 mb-2">{children}</h3>,
+                    p: ({children}) => <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{children}</p>,
+                    ul: ({children}) => <ul className="text-sm text-muted-foreground mb-4 pl-4 space-y-1">{children}</ul>,
+                    ol: ({children}) => <ol className="text-sm text-muted-foreground mb-4 pl-4 space-y-1">{children}</ol>,
+                    li: ({children}) => <li className="text-sm text-muted-foreground leading-relaxed">{children}</li>,
+                    strong: ({children}) => <strong className="font-medium text-foreground">{children}</strong>,
+                    em: ({children}) => <em className="text-foreground">{children}</em>,
+                    hr: () => <hr className="my-6 border-border" />,
+                    blockquote: ({children}) => <blockquote className="border-l-4 border-border pl-4 my-4 text-muted-foreground italic">{children}</blockquote>
+                  }}
+                >
+                  {content}
+                </ReactMarkdown>
+              </div>
             </article>
           )}
         </div>
