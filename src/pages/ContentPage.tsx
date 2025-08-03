@@ -1,13 +1,28 @@
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
 import ContactForm from '@/components/ContactForm';
 
 const ContentPage = () => {
-  const { pageType } = useParams<{ pageType: string }>();
+  const { pageType: urlPageType } = useParams<{ pageType: string }>();
+  const location = useLocation();
+  
+  // Extract page type from URL path if not available in params
+  const getPageTypeFromPath = () => {
+    if (urlPageType) return urlPageType;
+    
+    const path = location.pathname;
+    if (path === '/privacy') return 'privacy';
+    if (path === '/terms') return 'terms';
+    if (path === '/contact') return 'contact';
+    
+    return null;
+  };
+  
+  const pageType = getPageTypeFromPath();
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
 
