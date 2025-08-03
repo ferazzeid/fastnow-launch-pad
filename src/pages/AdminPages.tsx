@@ -369,10 +369,6 @@ United States`
               </Link>
             </div>
           </div>
-          <Button onClick={handleSaveAll} disabled={isLoading}>
-            <Save size={16} className="mr-2" />
-            {isLoading ? "Saving..." : "Save All"}
-          </Button>
         </div>
       </header>
       

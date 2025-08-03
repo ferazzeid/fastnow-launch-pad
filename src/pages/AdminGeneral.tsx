@@ -83,10 +83,6 @@ const AdminGeneral = () => {
               </Link>
             </div>
           </div>
-          <Button onClick={handleSave} disabled={isLoading}>
-            <Save size={16} className="mr-2" />
-            {isLoading ? "Saving..." : "Save Settings"}
-          </Button>
         </div>
       </header>
 
@@ -206,6 +202,14 @@ const AdminGeneral = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Save Button at Bottom */}
+          <div className="flex justify-end pt-6">
+            <Button onClick={handleSave} disabled={isLoading} size="lg">
+              <Save size={16} className="mr-2" />
+              {isLoading ? "Saving..." : "Save Settings"}
+            </Button>
+          </div>
         </div>
       </main>
     </div>

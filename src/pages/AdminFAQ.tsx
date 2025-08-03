@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/components/ui/sonner';
-import { Plus, Edit, Trash2, Save, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Save, X, ArrowLeft } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface FAQ {
@@ -26,6 +27,7 @@ interface FAQForm {
 }
 
 const AdminFAQ = () => {
+  const navigate = useNavigate();
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -161,19 +163,39 @@ const AdminFAQ = () => {
   }
 
   return (
-    <div className="container py-8">
+    <div className="min-h-screen bg-background">
       <Helmet>
         <title>FAQ Management | Admin</title>
       </Helmet>
 
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">FAQ Management</h1>
-          <Button onClick={() => setShowAddForm(true)} className="flex items-center gap-2">
-            <Plus className="w-4 h-4" />
-            Add New FAQ
-          </Button>
+      <header className="border-b bg-card">
+        <div className="container flex justify-between items-center py-4">
+          <Link to="/" className="text-2xl font-bold text-accent-green hover:opacity-80 transition-opacity">
+            FastNow
+          </Link>
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-bold">FAQ Management</h1>
+            <Button variant="outline" onClick={() => navigate('/admin')}>
+              <ArrowLeft size={16} className="mr-2" />
+              Back to Admin
+            </Button>
+          </div>
         </div>
+      </header>
+
+      <main className="container py-8">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-muted-foreground">
+                Manage frequently asked questions for your website.
+              </p>
+            </div>
+            <Button onClick={() => setShowAddForm(true)} className="flex items-center gap-2">
+              <Plus className="w-4 h-4" />
+              Add New FAQ
+            </Button>
+          </div>
 
         {/* Add/Edit Form */}
         {showAddForm && (
@@ -302,7 +324,8 @@ const AdminFAQ = () => {
             ))
           )}
         </div>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

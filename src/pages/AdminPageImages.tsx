@@ -39,11 +39,11 @@ const AdminPageImages = () => {
             FastNow
           </Link>
           <div className="flex items-center gap-4">
+            <h1 className="text-xl font-bold">Page Featured Images</h1>
             <Button variant="outline" onClick={() => navigate('/admin')}>
               <ArrowLeft size={16} className="mr-2" />
               Back to Admin
             </Button>
-            <h1 className="text-xl font-bold">Page Featured Images</h1>
           </div>
         </div>
       </header>
