@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeatureItem } from '@/components/FeatureItem';
-import { AppMockup } from '@/components/AppMockup';
+import { AppMockupGallery } from '@/components/AppMockupGallery';
 import { AppStoreButton } from '@/components/AppStoreButton';
 import { GooglePlayButton } from '@/components/GooglePlayButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,9 +29,13 @@ const AboutFastNowApp = () => {
           </p>
         </div>
 
-        {/* App Mockup Section */}
+        {/* App Screenshots Gallery */}
         <div className="mb-16">
-          <AppMockup />
+          <AppMockupGallery 
+            showNavigation={true}
+            autoplay={true}
+            autoplayInterval={4000}
+          />
         </div>
 
         {/* Features Tabs */}
