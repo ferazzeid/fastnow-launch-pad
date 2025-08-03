@@ -115,6 +115,12 @@ const Admin = () => {
                   Page Featured Images
                 </Button>
               </Link>
+              <Link to="/admin/homepage-settings">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings size={16} className="mr-2" />
+                  Homepage & Logo Settings
+                </Button>
+              </Link>
               <Link to="/admin/faq">
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />

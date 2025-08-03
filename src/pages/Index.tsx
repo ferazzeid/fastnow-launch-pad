@@ -33,8 +33,12 @@ const Index = () => {
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<number>(300);
   const [imageAlt, setImageAlt] = useState<string>('Fasting app interface preview');
-  const [heroTitle, setHeroTitle] = useState<string>('Get things done,\nfaster than ever.');
-  const [heroSubtitle, setHeroSubtitle] = useState<string>('The minimalist fasting app designed to streamline your fasting journey and boost your health in days.');
+  const [heroTitle, setHeroTitle] = useState<string>('My Fasting Protocol for Fat Loss');
+  const [heroSubtitle, setHeroSubtitle] = useState<string>('(That Actually Worked)');
+  const [heroDescription, setHeroDescription] = useState<string>('After years of trying and failing with generalized advice, I finally followed a specific protocol that worked — and I documented every part of it.\n\nTo help you apply it (or adapt it to your own situation), I built a minimal mobile-friendly app you can use right now:');
+  const [ctaText, setCtaText] = useState<string>('Launch App');
+  const [ctaUrl, setCtaUrl] = useState<string>('https://go.fastnow.app');
+  const [protocolCtaText, setProtocolCtaText] = useState<string>('Read the Complete Protocol');
   const [ctaTitle, setCtaTitle] = useState<string>('Ready to start your fasting journey?');
   const [ctaSubtitle, setCtaSubtitle] = useState<string>('Download fastnow.app today and transform your health through fasting.');
   const [featuresTitle, setFeaturesTitle] = useState<string>('Why choose fastnow.app?');
@@ -85,11 +89,23 @@ const Index = () => {
       if (savedImageAlt) setImageAlt(savedImageAlt);
       
       // Hero content
-      const savedHeroTitle = localStorage.getItem('fastingApp_heroTitle');
+      const savedHeroTitle = localStorage.getItem('fastingApp_homepageHeroTitle');
       if (savedHeroTitle && typeof savedHeroTitle === 'string') setHeroTitle(savedHeroTitle);
       
-      const savedHeroSubtitle = localStorage.getItem('fastingApp_heroSubtitle');
+      const savedHeroSubtitle = localStorage.getItem('fastingApp_homepageHeroSubtitle');
       if (savedHeroSubtitle && typeof savedHeroSubtitle === 'string') setHeroSubtitle(savedHeroSubtitle);
+      
+      const savedHeroDescription = localStorage.getItem('fastingApp_homepageHeroDescription');
+      if (savedHeroDescription && typeof savedHeroDescription === 'string') setHeroDescription(savedHeroDescription);
+      
+      const savedCtaText = localStorage.getItem('fastingApp_homepageCtaText');
+      if (savedCtaText && typeof savedCtaText === 'string') setCtaText(savedCtaText);
+      
+      const savedCtaUrl = localStorage.getItem('fastingApp_homepageCtaUrl');
+      if (savedCtaUrl && typeof savedCtaUrl === 'string') setCtaUrl(savedCtaUrl);
+      
+      const savedProtocolCtaText = localStorage.getItem('fastingApp_homepageProtocolCtaText');
+      if (savedProtocolCtaText && typeof savedProtocolCtaText === 'string') setProtocolCtaText(savedProtocolCtaText);
       
       // CTA content
       const savedCtaTitle = localStorage.getItem('fastingApp_ctaTitle');
@@ -181,65 +197,63 @@ const Index = () => {
       )}
       
       {/* Hero Section */}
-      <section className="py-20 relative z-10">
+      <section className="py-12 lg:py-20 relative z-10">
         <div className="container">
-          <div className="flex flex-col lg:flex-row items-start">
-            <div className="lg:w-1/2 mb-10 lg:mb-0 lg:pr-8">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                My Fasting Protocol for Fat Loss{' '}
-                <span className="text-2xl md:text-3xl lg:text-4xl">(That Actually Worked)</span>
+          <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
+            {/* Content Section */}
+            <div className="w-full lg:w-1/2 order-2 lg:order-1">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 lg:mb-6 leading-tight">
+                {heroTitle}{' '}
+                <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">{heroSubtitle}</span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto">
-                After years of trying and failing with generalized advice, I finally followed a specific protocol that worked — and I documented every part of it.
-              </p>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-                To help you apply it (or adapt it to your own situation), I built a minimal mobile-friendly app you can use right now:
-              </p>
+              
+              <div className="prose prose-lg max-w-none text-gray-600 dark:text-gray-300 mb-6 lg:mb-8">
+                {heroDescription.split('\n').map((paragraph, index) => (
+                  paragraph.trim() && (
+                    <p key={index} className="text-base md:text-lg lg:text-xl mb-4">
+                      {paragraph}
+                    </p>
+                  )
+                ))}
+              </div>
+              
               <div className="flex flex-col sm:flex-row gap-4 justify-start mb-8">
-                <Button asChild size="lg" className="text-lg px-8 py-4">
-                  <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    Launch App
+                <Button asChild size="lg" className="text-base lg:text-lg px-6 lg:px-8 py-3 lg:py-4">
+                  <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                    {ctaText}
                     <ArrowRight size={16} />
                   </a>
                 </Button>
               </div>
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8 max-w-2xl">
-                <h3 className="text-lg font-semibold mb-3">Pricing Options:</h3>
-                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                  <li>• Free if you bring your own OpenAI API key</li>
-                  <li>• Use it without AI, in a simpler mode</li>
-                  <li>• Or unlock the AI assistant for $9/month — this is the setup I personally use</li>
-                </ul>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
-                  The AI assistant helps you reflect, stay mentally clear, and apply the protocol day by day.
-                </p>
-              </div>
+              
               <div>
-                <h3 className="text-xl font-semibold mb-4">Want to See the Full Protocol First?</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-3xl">
+                <h3 className="text-lg lg:text-xl font-semibold mb-4">Want to See the Full Protocol First?</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm lg:text-base">
                   Before you try the app, you can read exactly what I did — including how I structured the fast, how I transitioned to calorie control, and what actually worked:
                 </p>
                 <Button asChild variant="outline" size="lg">
-                  <a href="/fastnow-protocol">Read the Complete Protocol</a>
+                  <Link to="/fastnow-protocol">{protocolCtaText}</Link>
                 </Button>
               </div>
             </div>
-            <div className="lg:w-1/2 flex justify-center lg:justify-end">
-              <div className="mt-8 lg:mt-16 mr-4 lg:mr-8 lg:ml-auto lg:-translate-x-4">
+            
+            {/* Image Section */}
+            <div className="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center">
+              <div className="w-full max-w-sm lg:max-w-md">
                 {mockupUrl ? (
                   <img 
                     src={mockupUrl} 
                     alt={imageAlt} 
-                    className="max-w-full relative z-10" 
+                    className="w-full h-auto object-contain" 
                     style={{ maxWidth: `${imageSize}px` }}
                   />
                 ) : (
-                  <div className="relative flex justify-center items-center">
+                  <div className="relative flex justify-center items-center p-8">
                     <CeramicTimer 
                       progress={75}
                       displayTime="23:59"
                       isActive={true}
-                      className="scale-125 lg:scale-150"
+                      className="scale-110 lg:scale-125"
                     />
                   </div>
                 )}

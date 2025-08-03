@@ -18,6 +18,7 @@ import AdminDesign from "./pages/AdminDesign";
 import AdminSeo from "./pages/AdminSeo";
 import AdminContactSettings from "./pages/AdminContactSettings";
 import AdminPageImages from "./pages/AdminPageImages";
+import AdminHomepageSettings from "./pages/AdminHomepageSettings";
 import FAQ from "./pages/FAQ";
 import AdminFAQ from "./pages/AdminFAQ";
 import AdminEmail from "./pages/AdminEmail";
@@ -65,7 +66,8 @@ const AppRoutes = () => {
       <Route path="/admin/design" element={<AdminDesign />} />
       <Route path="/admin/seo" element={<AdminSeo />} />
       <Route path="/admin/contact" element={<AdminContactSettings />} />
-        <Route path="/admin/page-images" element={<AdminPageImages />} />
+      <Route path="/admin/page-images" element={<AdminPageImages />} />
+      <Route path="/admin/homepage-settings" element={<AdminHomepageSettings />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/admin/faq" element={<AdminFAQ />} />
         <Route path="/admin/email" element={<AdminEmail />} />
