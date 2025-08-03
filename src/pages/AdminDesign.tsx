@@ -81,19 +81,26 @@ const AdminDesign = () => {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const colorSettings = {
-      primary: primaryColor,
-      secondary: secondaryColor
-    };
-    
-    const success = await SiteSettingsService.setSetting('design_colors', colorSettings);
-    
-    if (success) {
-      // Apply colors immediately
-      SiteSettingsService.applyDesignColors(colorSettings);
-      toast.success("Design settings saved and applied successfully");
-    } else {
-      toast.error("Failed to save design settings");
+    try {
+      const colorSettings = {
+        primary: primaryColor,
+        secondary: secondaryColor
+      };
+      
+      console.log('Saving color settings:', colorSettings);
+      
+      const success = await SiteSettingsService.setSetting('design_colors', colorSettings);
+      
+      if (success) {
+        // Apply colors immediately
+        SiteSettingsService.applyDesignColors(colorSettings);
+        toast.success("Design settings saved and applied successfully");
+      } else {
+        toast.error("Failed to save design settings. Please check console for details.");
+      }
+    } catch (error) {
+      console.error('Error in handleSave:', error);
+      toast.error("Error saving design settings: " + (error as Error).message);
     }
   };
 

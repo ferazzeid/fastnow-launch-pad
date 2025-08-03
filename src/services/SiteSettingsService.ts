@@ -25,11 +25,14 @@ export class SiteSettingsService {
   // Set a setting by key
   static async setSetting(key: string, value: any) {
     try {
-      const { error } = await supabase
+      console.log('Attempting to save setting:', key, value);
+      const { data, error } = await supabase
         .from('site_settings')
         .upsert({
           setting_key: key,
           setting_value: value
+        }, {
+          onConflict: 'setting_key'
         });
 
       if (error) {
@@ -37,6 +40,7 @@ export class SiteSettingsService {
         return false;
       }
 
+      console.log('Setting saved successfully:', data);
       return true;
     } catch (error) {
       console.error('Exception saving setting:', error);

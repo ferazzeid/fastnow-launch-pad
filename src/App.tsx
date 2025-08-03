@@ -17,6 +17,7 @@ import AdminAboutFastNowApp from "./pages/AdminAboutFastNowApp";
 import AdminPageEditor from "./pages/AdminPageEditor";
 import AdminGeneral from "./pages/AdminGeneral";
 import AdminPages from "./pages/AdminPages";
+import AdminPagesNew from "./pages/AdminPagesNew";
 import AdminDesign from "./pages/AdminDesign";
 import AdminSeo from "./pages/AdminSeo";
 import AdminContactSettings from "./pages/AdminContactSettings";
@@ -65,7 +66,8 @@ const AppRoutes = () => {
       <Route path="/admin" element={<Admin />} />
       <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route path="/admin/general" element={<AdminGeneral />} />
-      <Route path="/admin/pages" element={<AdminPages />} />
+      <Route path="/admin/pages" element={<AdminPagesNew />} />
+      <Route path="/admin/pages-old" element={<AdminPages />} />
       <Route path="/admin/design" element={<AdminDesign />} />
       <Route path="/admin/seo" element={<AdminSeo />} />
       <Route path="/admin/contact" element={<AdminContactSettings />} />
