@@ -8,7 +8,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { SecurityHeaders } from "./components/SecurityHeaders";
 import { SiteSettingsService } from "@/services/SiteSettingsService";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
@@ -97,10 +97,25 @@ const AppRoutes = () => {
 };
 
 const App = () => {
+  // Load and apply design colors immediately before render
+  const [colorsLoaded, setColorsLoaded] = useState(false);
+
   useEffect(() => {
-    // Load and apply design colors on app startup
-    SiteSettingsService.loadAndApplyDesignColors();
+    const loadColors = async () => {
+      await SiteSettingsService.loadAndApplyDesignColors();
+      setColorsLoaded(true);
+    };
+    loadColors();
   }, []);
+
+  // Don't render until colors are loaded to prevent flash
+  if (!colorsLoaded) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

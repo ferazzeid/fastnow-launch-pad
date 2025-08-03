@@ -75,15 +75,26 @@ export class SiteSettingsService {
 
   // Apply design colors to CSS custom properties
   static applyDesignColors(colors: { primary: string; secondary: string }) {
-    if (!colors?.primary || !colors?.secondary) return;
+    if (!colors?.primary || !colors?.secondary) {
+      console.warn('Invalid colors provided:', colors);
+      return;
+    }
 
+    console.log('Applying colors:', colors);
     const root = document.documentElement;
     
-    // Convert hex to HSL
+    // Convert hex to HSL with validation
     const hexToHsl = (hex: string): string => {
-      const r = parseInt(hex.slice(1, 3), 16) / 255;
-      const g = parseInt(hex.slice(3, 5), 16) / 255;
-      const b = parseInt(hex.slice(5, 7), 16) / 255;
+      // Remove # if present and validate
+      const cleanHex = hex.replace('#', '');
+      if (!/^[0-9A-F]{6}$/i.test(cleanHex)) {
+        console.error('Invalid hex color:', hex);
+        return '0 0% 50%'; // fallback to gray
+      }
+
+      const r = parseInt(cleanHex.slice(0, 2), 16) / 255;
+      const g = parseInt(cleanHex.slice(2, 4), 16) / 255;
+      const b = parseInt(cleanHex.slice(4, 6), 16) / 255;
 
       const max = Math.max(r, g, b);
       const min = Math.min(r, g, b);
@@ -103,16 +114,47 @@ export class SiteSettingsService {
       return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
     };
 
-    root.style.setProperty('--primary', hexToHsl(colors.primary));
-    root.style.setProperty('--secondary', hexToHsl(colors.secondary));
-    root.style.setProperty('--accent-green', hexToHsl(colors.primary));
+    const primaryHsl = hexToHsl(colors.primary);
+    const secondaryHsl = hexToHsl(colors.secondary);
+
+    // Apply colors with console logging for debugging
+    console.log('Setting CSS variables:', {
+      '--primary': primaryHsl,
+      '--secondary': secondaryHsl,
+      '--accent-green': primaryHsl
+    });
+
+    root.style.setProperty('--primary', primaryHsl);
+    root.style.setProperty('--secondary', secondaryHsl);
+    root.style.setProperty('--accent-green', primaryHsl);
+    root.style.setProperty('--accent-green-light', primaryHsl);
+    root.style.setProperty('--accent-green-dark', primaryHsl);
   }
 
   // Load and apply design colors on app startup
   static async loadAndApplyDesignColors() {
-    const colors = await this.getSetting('design_colors');
-    if (colors && typeof colors === 'object' && 'primary' in colors && 'secondary' in colors) {
-      this.applyDesignColors(colors as { primary: string; secondary: string });
+    try {
+      console.log('Loading design colors from database...');
+      const colors = await this.getSetting('design_colors');
+      
+      if (colors && typeof colors === 'object' && 'primary' in colors && 'secondary' in colors) {
+        console.log('Found saved colors:', colors);
+        this.applyDesignColors(colors as { primary: string; secondary: string });
+      } else {
+        console.log('No saved colors found, using defaults');
+        // Apply default colors explicitly to prevent fallback issues
+        this.applyDesignColors({
+          primary: '#10B981',
+          secondary: '#6B7280'
+        });
+      }
+    } catch (error) {
+      console.error('Error loading design colors:', error);
+      // Apply safe defaults on error
+      this.applyDesignColors({
+        primary: '#10B981',
+        secondary: '#6B7280'
+      });
     }
   }
 }
