@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/sonner";
 import { AuthService, User } from "@/services/AuthService";
+import { Eye, EyeOff } from "lucide-react";
 
 const UserManagement: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ const UserManagement: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     console.log('UserManagement: Component mounted');
@@ -55,7 +58,16 @@ const UserManagement: React.FC = () => {
       return;
     }
 
-    if (newPassword !== confirmPassword) {
+    console.log('Password validation:', {
+      newPassword: `"${newPassword}"`,
+      confirmPassword: `"${confirmPassword}"`,
+      newPasswordLength: newPassword.length,
+      confirmPasswordLength: confirmPassword.length,
+      areEqual: newPassword === confirmPassword,
+      trimmedEqual: newPassword.trim() === confirmPassword.trim()
+    });
+
+    if (newPassword.trim() !== confirmPassword.trim()) {
       toast.error("Passwords do not match");
       return;
     }
@@ -82,7 +94,10 @@ const UserManagement: React.FC = () => {
       // Clear form
       setNewPassword('');
       setConfirmPassword('');
+      setShowPassword(false);
+      setShowConfirmPassword(false);
     } catch (error) {
+      console.error('Password update error:', error);
       toast.error("Failed to update password");
     }
   };
@@ -133,27 +148,59 @@ const UserManagement: React.FC = () => {
               <form onSubmit={handleChangePassword} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="newPassword">New Password</Label>
-                  <Input
-                    id="newPassword"
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="Enter new password (min 8 characters)"
-                    required
-                    minLength={8}
-                  />
+                  <div className="relative">
+                    <Input
+                      id="newPassword"
+                      type={showPassword ? "text" : "password"}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Enter new password (min 8 characters)"
+                      required
+                      minLength={8}
+                      className="pr-10"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="confirmPassword">Confirm New Password</Label>
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm new password"
-                    required
-                    minLength={8}
-                  />
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Confirm new password"
+                      required
+                      minLength={8}
+                      className="pr-10"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
                 </div>
                 <Button type="submit" className="w-full">
                   Update Password
