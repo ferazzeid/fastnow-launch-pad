@@ -55,11 +55,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Login"}
             </Button>
-            
-            <div className="text-center text-sm text-muted-foreground mt-4">
-              <p>Default: admin / admin123!</p>
-              <p className="text-xs text-destructive">Change password after first login</p>
-            </div>
           </form>
         </CardContent>
       </Card>

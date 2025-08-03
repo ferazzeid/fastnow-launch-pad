@@ -98,18 +98,18 @@ export class AuthService {
   }
 
   // Get all users
-  static getUsers(): User[] {
+  static async getUsers(): Promise<User[]> {
     try {
       const encryptedUsers = localStorage.getItem('fastingApp_users_encrypted');
       if (!encryptedUsers) {
-        return this.createDefaultAdmin();
+        return await this.createDefaultAdmin();
       }
 
       const usersData = this.decrypt(encryptedUsers);
       return JSON.parse(usersData);
     } catch (error) {
       console.error('Error loading users:', error);
-      return this.createDefaultAdmin();
+      return await this.createDefaultAdmin();
     }
   }
 
@@ -120,7 +120,7 @@ export class AuthService {
   }
 
   // Create default admin user with secure password
-  private static createDefaultAdmin(): User[] {
+  private static async createDefaultAdmin(): Promise<User[]> {
     const defaultAdmin: User = {
       id: '1',
       username: 'admin',
@@ -132,11 +132,10 @@ export class AuthService {
     const users = [defaultAdmin];
     this.saveUsers(users);
     
-    // Create secure default password (user must change on first login)
-    this.hashPassword('admin123!').then(hashedPassword => {
-      const encryptedPassword = this.encrypt(hashedPassword);
-      localStorage.setItem('fastingApp_password_admin', encryptedPassword);
-    });
+    // Create secure default password synchronously
+    const hashedPassword = await this.hashPassword('admin123!');
+    const encryptedPassword = this.encrypt(hashedPassword);
+    localStorage.setItem('fastingApp_password_admin', encryptedPassword);
 
     return users;
   }
@@ -147,7 +146,7 @@ export class AuthService {
       return { success: false, error: 'Username and password are required' };
     }
 
-    const users = this.getUsers();
+    const users = await this.getUsers();
     const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
 
     if (!user) {
@@ -205,7 +204,7 @@ export class AuthService {
       return { success: false, error: 'Password must be at least 8 characters long' };
     }
 
-    const users = this.getUsers();
+    const users = await this.getUsers();
     
     if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
       return { success: false, error: 'Username already exists' };
@@ -235,8 +234,8 @@ export class AuthService {
   }
 
   // Delete user securely
-  static deleteUser(userId: string): { success: boolean; error?: string } {
-    const users = this.getUsers();
+  static async deleteUser(userId: string): Promise<{ success: boolean; error?: string }> {
+    const users = await this.getUsers();
     const user = users.find(u => u.id === userId);
 
     if (!user) {

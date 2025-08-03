@@ -43,11 +43,12 @@ const UserManagement: React.FC = () => {
     setIsAuthenticated(true);
 
     // Load current admin user
-    const users = AuthService.getUsers();
-    console.log('UserManagement: All users:', users);
-    const adminUser = users.find(user => user.role === 'admin');
-    console.log('UserManagement: Admin user found:', adminUser);
-    setCurrentUser(adminUser || null);
+    AuthService.getUsers().then(users => {
+      console.log('UserManagement: All users:', users);
+      const adminUser = users.find(user => user.role === 'admin');
+      console.log('UserManagement: Admin user found:', adminUser);
+      setCurrentUser(adminUser || null);
+    });
   }, [navigate]);
 
   const handleChangePassword = async (e: React.FormEvent) => {
@@ -79,10 +80,10 @@ const UserManagement: React.FC = () => {
 
     // Update the admin user's password
     try {
-      const users = AuthService.getUsers();
+      const users = await AuthService.getUsers();
       const updatedUsers = await Promise.all(users.map(async (user) => {
         if (user.id === currentUser.id) {
-          const hashedPassword = await AuthService.hashPassword(newPassword);
+          const hashedPassword = await AuthService.hashPassword(newPassword.trim());
           return { ...user, password: hashedPassword };
         }
         return user;
