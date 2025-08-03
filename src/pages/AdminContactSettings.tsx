@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import ContactSettings from '@/components/admin/ContactSettings';
 
 const AdminContactSettings = () => {
@@ -10,13 +11,13 @@ const AdminContactSettings = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check authentication
-    const authToken = localStorage.getItem('fastingApp_authToken');
-    if (!authToken) {
-      navigate('/admin/login');
-    } else {
-      setIsAuthenticated(true);
+    // Check authentication - use same key as other admin pages
+    const authStatus = localStorage.getItem('fastingApp_auth');
+    if (authStatus !== 'true') {
+      navigate('/admin');
+      return;
     }
+    setIsAuthenticated(true);
     setIsLoading(false);
   }, [navigate]);
 
@@ -25,7 +26,11 @@ const AdminContactSettings = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
@@ -33,26 +38,35 @@ const AdminContactSettings = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container max-w-4xl">
-        <div className="mb-8">
-          <Button 
-            variant="outline" 
-            onClick={handleBack}
-            className="mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
+    <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Contact Form Settings | Admin</title>
+      </Helmet>
+
+      <header className="border-b bg-card">
+        <div className="container flex justify-between items-center py-4">
+          <Link to="/" className="text-2xl font-bold text-accent-green hover:opacity-80 transition-opacity">
+            FastNow
+          </Link>
+          <Button variant="outline" onClick={() => navigate('/admin')}>
+            <ArrowLeft size={16} className="mr-2" />
             Back to Admin
           </Button>
-          
-          <h1 className="text-3xl font-bold text-gray-900">Contact Form Settings</h1>
-          <p className="text-gray-600 mt-2">
-            Configure how contact form submissions are handled
-          </p>
         </div>
+      </header>
 
-        <ContactSettings />
-      </div>
+      <main className="container py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold">Contact Form Settings</h1>
+            <p className="text-muted-foreground mt-2">
+              Configure how contact form submissions are handled
+            </p>
+          </div>
+
+          <ContactSettings />
+        </div>
+      </main>
     </div>
   );
 };

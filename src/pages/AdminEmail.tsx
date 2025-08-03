@@ -18,20 +18,18 @@ const AdminEmail = () => {
           <Link to="/" className="text-2xl font-bold text-accent-green hover:opacity-80 transition-opacity">
             FastNow
           </Link>
-          <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold">Email Settings</h1>
-            <Button variant="outline" onClick={() => navigate('/admin')}>
-              <ArrowLeft size={16} className="mr-2" />
-              Back to Admin
-            </Button>
-          </div>
+          <Button variant="outline" onClick={() => navigate('/admin')}>
+            <ArrowLeft size={16} className="mr-2" />
+            Back to Admin
+          </Button>
         </div>
       </header>
 
       <main className="container py-8">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <p className="text-muted-foreground">
+            <h1 className="text-3xl font-bold">Email Settings</h1>
+            <p className="text-muted-foreground mt-2">
               Configure contact form email delivery and API integration.
             </p>
           </div>

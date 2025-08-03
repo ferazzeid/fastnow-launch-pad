@@ -117,17 +117,24 @@ const DesignSettings: React.FC = () => {
   const applyColors = (colorValues: ColorSettings) => {
     const root = document.documentElement;
     
-    // Set the main colors
-    root.style.setProperty('--cream-base', colorValues.creamBase);
-    root.style.setProperty('--mint-light', colorValues.mintLight);
-    root.style.setProperty('--mint-dark', colorValues.mintDark);
+    // Convert hex to HSL for CSS custom properties
+    const creamHsl = hexToHsl(colorValues.creamBase);
+    const mintLightHsl = hexToHsl(colorValues.mintLight);
+    const mintDarkHsl = hexToHsl(colorValues.mintDark);
     
-    // Calculate and set shadow colors based on cream base
-    const shadowDark = calculateDarkerShade(colorValues.creamBase, 0.1);
-    const shadowLight = calculateLighterShade(colorValues.creamBase, 0.1);
+    // Update primary color (used by buttons and accent elements)
+    root.style.setProperty('--primary', `${mintDarkHsl.h} ${mintDarkHsl.s}% ${mintDarkHsl.l}%`);
     
-    root.style.setProperty('--shadow-dark', shadowDark);
-    root.style.setProperty('--shadow-light', shadowLight);
+    // Update accent green colors
+    root.style.setProperty('--accent-green-light', colorValues.mintLight);
+    root.style.setProperty('--accent-green', colorValues.mintDark);
+    root.style.setProperty('--accent-green-dark', calculateDarkerShade(colorValues.mintDark, 0.1));
+    
+    // Update background colors if cream is being used as background
+    if (colorValues.creamBase !== '#F2F0E6') {
+      root.style.setProperty('--background', `${creamHsl.h} ${creamHsl.s}% ${creamHsl.l}%`);
+      root.style.setProperty('--card', `${creamHsl.h} ${creamHsl.s}% ${creamHsl.l}%`);
+    }
     
     // Save to localStorage for persistence
     localStorage.setItem('fastingApp_creamBase', colorValues.creamBase);
@@ -180,6 +187,36 @@ const DesignSettings: React.FC = () => {
   
   const rgbToHex = (r: number, g: number, b: number): string => {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  };
+  
+  // Convert hex to HSL
+  const hexToHsl = (hex: string): { h: number, s: number, l: number } => {
+    const { r, g, b } = hexToRgb(hex);
+    const rNorm = r / 255;
+    const gNorm = g / 255;
+    const bNorm = b / 255;
+    
+    const max = Math.max(rNorm, gNorm, bNorm);
+    const min = Math.min(rNorm, gNorm, bNorm);
+    let h = 0, s = 0, l = (max + min) / 2;
+    
+    if (max !== min) {
+      const delta = max - min;
+      s = l > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+      
+      switch (max) {
+        case rNorm: h = (gNorm - bNorm) / delta + (gNorm < bNorm ? 6 : 0); break;
+        case gNorm: h = (bNorm - rNorm) / delta + 2; break;
+        case bNorm: h = (rNorm - gNorm) / delta + 4; break;
+      }
+      h /= 6;
+    }
+    
+    return {
+      h: Math.round(h * 360),
+      s: Math.round(s * 100),
+      l: Math.round(l * 100)
+    };
   };
   
   // Save color settings

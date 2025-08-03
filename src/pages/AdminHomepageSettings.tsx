@@ -40,18 +40,18 @@ const AdminHomepageSettings = () => {
           <Link to="/" className="text-2xl font-bold text-accent-green hover:opacity-80 transition-opacity">
             FastNow
           </Link>
-          <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold">Homepage & Logo Settings</h1>
-            <Button variant="outline" onClick={() => navigate('/admin')}>
-              <ArrowLeft size={16} className="mr-2" />
-              Back to Admin
-            </Button>
-          </div>
+          <Button variant="outline" onClick={() => navigate('/admin')}>
+            <ArrowLeft size={16} className="mr-2" />
+            Back to Admin
+          </Button>
         </div>
       </header>
       
       <main className="container py-8">
         <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold">Homepage Settings</h1>
+          </div>
           <Tabs defaultValue="logo-images" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="logo-images">Logo & Images</TabsTrigger>

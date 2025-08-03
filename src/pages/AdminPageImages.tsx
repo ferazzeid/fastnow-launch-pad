@@ -38,18 +38,18 @@ const AdminPageImages = () => {
           <Link to="/" className="text-2xl font-bold text-accent-green hover:opacity-80 transition-opacity">
             FastNow
           </Link>
-          <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold">Page Featured Images</h1>
-            <Button variant="outline" onClick={() => navigate('/admin')}>
-              <ArrowLeft size={16} className="mr-2" />
-              Back to Admin
-            </Button>
-          </div>
+          <Button variant="outline" onClick={() => navigate('/admin')}>
+            <ArrowLeft size={16} className="mr-2" />
+            Back to Admin
+          </Button>
         </div>
       </header>
       
       <main className="container py-8">
         <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold">Page Featured Images</h1>
+          </div>
           <PageImageSettings />
         </div>
       </main>
