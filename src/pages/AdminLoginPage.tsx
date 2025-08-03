@@ -29,7 +29,15 @@ const AdminLoginPage = () => {
     e.preventDefault();
     setIsLoading(true);
     
+    // Add timeout to prevent infinite loading
+    const loginTimeout = setTimeout(() => {
+      setIsLoading(false);
+      toast.error("Login timeout. Please try again.");
+    }, 30000); // 30 second timeout
+    
     try {
+      console.log('Starting login process...', { email });
+      
       // Save login data if remember me is checked
       if (rememberMe) {
         localStorage.setItem('admin_email', email);
@@ -41,25 +49,34 @@ const AdminLoginPage = () => {
         localStorage.removeItem('admin_remember');
       }
 
+      console.log('Calling SupabaseAuthService.signIn...');
       const result = await SupabaseAuthService.signIn(email, password);
+      console.log('Login result:', { success: result.success, hasUser: !!result.user, error: result.error });
       
       if (result.success && result.user) {
+        console.log('Checking admin role for user:', result.user.id);
         const isAdmin = await SupabaseAuthService.hasAdminRole(result.user.id);
+        console.log('Admin check result:', isAdmin);
         
         if (isAdmin) {
+          console.log('Admin confirmed, navigating to /admin');
+          clearTimeout(loginTimeout);
           toast.success("Login successful!");
           navigate('/admin');
         } else {
+          console.log('User is not admin, signing out');
           toast.error("Access denied. Admin privileges required.");
           await SupabaseAuthService.signOut();
         }
       } else {
+        console.log('Login failed:', result.error);
         toast.error(result.error || "Authentication failed");
       }
     } catch (error) {
       console.error('Login error:', error);
-      toast.error("An unexpected error occurred");
+      toast.error("An unexpected error occurred: " + (error instanceof Error ? error.message : String(error)));
     } finally {
+      clearTimeout(loginTimeout);
       setIsLoading(false);
     }
   };
