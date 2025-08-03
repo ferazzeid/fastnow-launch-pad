@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/sonner";
+import { SiteSettingsService } from '@/services/SiteSettingsService';
+import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 
 const AdminDesign = () => {
   const navigate = useNavigate();
@@ -18,23 +20,31 @@ const AdminDesign = () => {
   const [theme, setTheme] = useState('light');
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    if (authStatus !== 'true') {
-      navigate('/admin');
-      return;
-    }
-    setIsAuthenticated(true);
+    const checkAuth = async () => {
+      const session = await SupabaseAuthService.getCurrentSession();
+      if (!session?.user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      const isAdmin = await SupabaseAuthService.hasAdminRole(session.user.id);
+      if (!isAdmin) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      setIsAuthenticated(true);
 
-    // Load existing design settings
-    const settings = localStorage.getItem('fastingApp_design_settings');
-    if (settings) {
-      const parsed = JSON.parse(settings);
-      setPrimaryColor(parsed.primaryColor || '#10B981');
-      setSecondaryColor(parsed.secondaryColor || '#6B7280');
-      setFontFamily(parsed.fontFamily || 'inter');
-      setFontSize(parsed.fontSize || 'medium');
-      setTheme(parsed.theme || 'light');
-    }
+      // Load existing design settings from database
+      const settings = await SiteSettingsService.getSetting('design_colors');
+      if (settings && typeof settings === 'object' && 'primary' in settings && 'secondary' in settings) {
+        const colors = settings as { primary: string; secondary: string };
+        setPrimaryColor(colors.primary || '#10B981');
+        setSecondaryColor(colors.secondary || '#6B7280');
+      }
+    };
+    
+    checkAuth();
   }, [navigate]);
 
   const applyColors = (primary: string, secondary: string) => {
@@ -68,36 +78,25 @@ const AdminDesign = () => {
     root.style.setProperty('--accent-green', hexToHsl(primary));
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const settings = {
-      primaryColor,
-      secondaryColor,
-      fontFamily,
-      fontSize,
-      theme,
-      updatedAt: new Date().toISOString()
+    const colorSettings = {
+      primary: primaryColor,
+      secondary: secondaryColor
     };
     
-    localStorage.setItem('fastingApp_design_settings', JSON.stringify(settings));
+    const success = await SiteSettingsService.setSetting('design_colors', colorSettings);
     
-    // Apply colors immediately
-    applyColors(primaryColor, secondaryColor);
-    
-    toast.success("Design settings saved and applied successfully");
+    if (success) {
+      // Apply colors immediately
+      SiteSettingsService.applyDesignColors(colorSettings);
+      toast.success("Design settings saved and applied successfully");
+    } else {
+      toast.error("Failed to save design settings");
+    }
   };
 
-  // Apply saved colors on component mount
-  useEffect(() => {
-    const settings = localStorage.getItem('fastingApp_design_settings');
-    if (settings) {
-      const parsed = JSON.parse(settings);
-      if (parsed.primaryColor && parsed.secondaryColor) {
-        applyColors(parsed.primaryColor, parsed.secondaryColor);
-      }
-    }
-  }, []);
 
   const handleBack = () => {
     navigate('/admin');

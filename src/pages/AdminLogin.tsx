@@ -2,41 +2,46 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '@/components/admin/LoginForm';
-import { AuthService } from '@/services/AuthService';
+import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { toast } from "@/components/ui/sonner";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Check if already authenticated
-    const session = AuthService.getCurrentSession();
-    if (session) {
-      navigate('/admin');
-    }
+    const checkAuth = async () => {
+      const session = await SupabaseAuthService.getCurrentSession();
+      if (session?.user) {
+        const isAdmin = await SupabaseAuthService.hasAdminRole(session.user.id);
+        if (isAdmin) {
+          navigate('/admin');
+        }
+      }
+    };
+    checkAuth();
   }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Sanitize inputs
-    const sanitizedUsername = AuthService.sanitizeInput(username);
-    const sanitizedPassword = AuthService.sanitizeInput(password);
-    
     try {
-      const result = await AuthService.authenticate(sanitizedUsername, sanitizedPassword);
+      const result = await SupabaseAuthService.signIn(email, password);
       
-      if (result.success) {
-        // Set legacy auth for backward compatibility
-        localStorage.setItem('fastingApp_auth', 'true');
-        localStorage.setItem('fastingApp_currentUser', sanitizedUsername.toLowerCase());
+      if (result.success && result.user) {
+        const isAdmin = await SupabaseAuthService.hasAdminRole(result.user.id);
         
-        toast.success("Login successful!");
-        navigate('/admin');
+        if (isAdmin) {
+          toast.success("Login successful!");
+          navigate('/admin');
+        } else {
+          toast.error("Access denied. Admin privileges required.");
+          await SupabaseAuthService.signOut();
+        }
       } else {
         toast.error(result.error || "Authentication failed");
       }
@@ -50,8 +55,8 @@ const AdminLogin = () => {
 
   return (
     <LoginForm
-      username={username}
-      setUsername={setUsername}
+      username={email}
+      setUsername={setEmail}
       password={password}
       setPassword={setPassword}
       handleLogin={handleLogin}

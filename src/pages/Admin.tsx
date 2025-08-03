@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import ContentExport from "@/components/admin/ContentExport";
+import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -15,40 +16,37 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('Admin component mounted');
-    
-    // Initialize default admin user if no users exist
-    const savedUsers = localStorage.getItem('fastingApp_users');
-    if (!savedUsers) {
-      const defaultUsers = [
-        {
-          id: '1',
-          username: 'admin',
-          role: 'admin',
-          dateAdded: new Date().toISOString()
+    const checkAuth = async () => {
+      try {
+        const session = await SupabaseAuthService.getCurrentSession();
+        if (session?.user) {
+          const isAdmin = await SupabaseAuthService.hasAdminRole(session.user.id);
+          if (isAdmin) {
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(false);
+          }
+        } else {
+          setIsAuthenticated(false);
         }
-      ];
-      localStorage.setItem('fastingApp_users', JSON.stringify(defaultUsers));
-      localStorage.setItem('fastingApp_user_admin', 'admin');
-      console.log('Initialized default admin user');
-    }
+      } catch (error) {
+        console.error('Auth check error:', error);
+        setIsAuthenticated(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
     
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    console.log('Auth status:', authStatus);
-    
-    if (authStatus === 'true') {
-      setIsAuthenticated(true);
-    }
-    
-    setIsLoading(false);
+    checkAuth();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('fastingApp_auth');
-    localStorage.removeItem('fastingApp_currentUser');
-    setIsAuthenticated(false);
-    toast.success("Logged out successfully");
-    navigate('/admin');
+  const handleLogout = async () => {
+    const success = await SupabaseAuthService.signOut();
+    if (success) {
+      setIsAuthenticated(false);
+      toast.success("Logged out successfully");
+      navigate('/admin/login');
+    }
   };
 
   if (isLoading) {
