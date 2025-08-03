@@ -289,6 +289,33 @@ export type Database = {
         }
         Relationships: []
       }
+      feature_screenshots: {
+        Row: {
+          created_at: string
+          feature_key: string
+          id: string
+          image_url: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          feature_key: string
+          id?: string
+          image_url: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          feature_key?: string
+          id?: string
+          image_url?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       food_entries: {
         Row: {
           calories: number
