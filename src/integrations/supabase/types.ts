@@ -77,6 +77,129 @@ export type Database = {
         }
         Relationships: []
       }
+      app_motivators: {
+        Row: {
+          caption: string | null
+          category: string
+          completed_sessions: number | null
+          created_at: string
+          description: string
+          difficulty: string
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          is_featured: boolean | null
+          is_predefined: boolean | null
+          sort_order: number | null
+          subcategory: string | null
+          tags: string[] | null
+          timeframe: string | null
+          times_used: number | null
+          title: string
+          total_sessions: number | null
+          total_time_spent: number | null
+          updated_at: string
+        }
+        Insert: {
+          caption?: string | null
+          category?: string
+          completed_sessions?: number | null
+          created_at?: string
+          description: string
+          difficulty?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          is_predefined?: boolean | null
+          sort_order?: number | null
+          subcategory?: string | null
+          tags?: string[] | null
+          timeframe?: string | null
+          times_used?: number | null
+          title: string
+          total_sessions?: number | null
+          total_time_spent?: number | null
+          updated_at?: string
+        }
+        Update: {
+          caption?: string | null
+          category?: string
+          completed_sessions?: number | null
+          created_at?: string
+          description?: string
+          difficulty?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          is_predefined?: boolean | null
+          sort_order?: number | null
+          subcategory?: string | null
+          tags?: string[] | null
+          timeframe?: string | null
+          times_used?: number | null
+          title?: string
+          total_sessions?: number | null
+          total_time_spent?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      blog_posts: {
+        Row: {
+          author: string
+          categories: string[] | null
+          content: string
+          created_at: string
+          excerpt: string | null
+          featured_image: string | null
+          id: string
+          meta_description: string | null
+          meta_keywords: string | null
+          published_at: string | null
+          slug: string
+          status: string
+          tags: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string
+          categories?: string[] | null
+          content: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          published_at?: string | null
+          slug: string
+          status?: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          categories?: string[] | null
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          published_at?: string | null
+          slug?: string
+          status?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       chat_conversations: {
         Row: {
           archived: boolean
@@ -253,6 +376,75 @@ export type Database = {
         }
         Relationships: []
       }
+      fasting_hours: {
+        Row: {
+          autophagy_milestone: boolean | null
+          body_state: string
+          challenging_symptoms: string[] | null
+          common_feelings: string[] | null
+          created_at: string
+          day: number
+          difficulty: string
+          encouragement: string | null
+          fat_burning_milestone: boolean | null
+          hour: number
+          id: string
+          image_url: string | null
+          ketosis_milestone: boolean | null
+          motivator_tags: string[] | null
+          phase: string
+          positive_symptoms: string[] | null
+          scientific_info: string | null
+          tips: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          autophagy_milestone?: boolean | null
+          body_state: string
+          challenging_symptoms?: string[] | null
+          common_feelings?: string[] | null
+          created_at?: string
+          day: number
+          difficulty?: string
+          encouragement?: string | null
+          fat_burning_milestone?: boolean | null
+          hour: number
+          id?: string
+          image_url?: string | null
+          ketosis_milestone?: boolean | null
+          motivator_tags?: string[] | null
+          phase?: string
+          positive_symptoms?: string[] | null
+          scientific_info?: string | null
+          tips?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          autophagy_milestone?: boolean | null
+          body_state?: string
+          challenging_symptoms?: string[] | null
+          common_feelings?: string[] | null
+          created_at?: string
+          day?: number
+          difficulty?: string
+          encouragement?: string | null
+          fat_burning_milestone?: boolean | null
+          hour?: number
+          id?: string
+          image_url?: string | null
+          ketosis_milestone?: boolean | null
+          motivator_tags?: string[] | null
+          phase?: string
+          positive_symptoms?: string[] | null
+          scientific_info?: string | null
+          tips?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       fasting_sessions: {
         Row: {
           created_at: string
@@ -286,6 +478,69 @@ export type Database = {
           status?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      fasting_timeline_posts: {
+        Row: {
+          author: string
+          categories: string[] | null
+          content: string
+          created_at: string
+          excerpt: string | null
+          featured_image: string | null
+          hour: number
+          how_youre_feeling: string | null
+          id: string
+          meta_description: string | null
+          meta_keywords: string | null
+          published_at: string | null
+          slug: string
+          status: string
+          tags: string[] | null
+          title: string
+          updated_at: string
+          whats_happening: string | null
+        }
+        Insert: {
+          author?: string
+          categories?: string[] | null
+          content: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          hour: number
+          how_youre_feeling?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          published_at?: string | null
+          slug: string
+          status?: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          whats_happening?: string | null
+        }
+        Update: {
+          author?: string
+          categories?: string[] | null
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          hour?: number
+          how_youre_feeling?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          published_at?: string | null
+          slug?: string
+          status?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          whats_happening?: string | null
         }
         Relationships: []
       }
