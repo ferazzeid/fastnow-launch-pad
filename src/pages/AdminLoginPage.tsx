@@ -6,8 +6,9 @@ import { toast } from "@/components/ui/sonner";
 
 const AdminLoginPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(() => localStorage.getItem('admin_email') || '');
+  const [password, setPassword] = useState(() => localStorage.getItem('admin_password') || '');
+  const [rememberMe, setRememberMe] = useState(() => localStorage.getItem('admin_remember') === 'true');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -29,34 +30,36 @@ const AdminLoginPage = () => {
     setIsLoading(true);
     
     try {
-      console.log('Starting login process...');
+      // Save login data if remember me is checked
+      if (rememberMe) {
+        localStorage.setItem('admin_email', email);
+        localStorage.setItem('admin_password', password);
+        localStorage.setItem('admin_remember', 'true');
+      } else {
+        localStorage.removeItem('admin_email');
+        localStorage.removeItem('admin_password');
+        localStorage.removeItem('admin_remember');
+      }
+
       const result = await SupabaseAuthService.signIn(email, password);
-      console.log('SignIn result:', result);
       
       if (result.success && result.user) {
-        console.log('Login successful, checking admin role for user:', result.user.id);
         const isAdmin = await SupabaseAuthService.hasAdminRole(result.user.id);
-        console.log('Admin role check result:', isAdmin);
         
         if (isAdmin) {
-          console.log('User is admin, attempting navigation...');
           toast.success("Login successful!");
           navigate('/admin');
-          console.log('Navigation called');
         } else {
-          console.log('User is not admin');
           toast.error("Access denied. Admin privileges required.");
           await SupabaseAuthService.signOut();
         }
       } else {
-        console.log('Login failed:', result.error);
         toast.error(result.error || "Authentication failed");
       }
     } catch (error) {
       console.error('Login error:', error);
       toast.error("An unexpected error occurred");
     } finally {
-      console.log('Setting loading to false');
       setIsLoading(false);
     }
   };
@@ -88,6 +91,8 @@ const AdminLoginPage = () => {
       setPassword={setPassword}
       handleLogin={handleLogin}
       handleForgotPassword={handleForgotPassword}
+      rememberMe={rememberMe}
+      setRememberMe={setRememberMe}
       isLoading={isLoading}
     />
   );

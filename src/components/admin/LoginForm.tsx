@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface LoginFormProps {
   username: string;
@@ -12,6 +13,8 @@ interface LoginFormProps {
   setPassword: (password: string) => void;
   handleLogin: (e: React.FormEvent) => void;
   handleForgotPassword?: () => void;
+  rememberMe?: boolean;
+  setRememberMe?: (remember: boolean) => void;
   isLoading?: boolean;
 }
 
@@ -22,6 +25,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   setPassword,
   handleLogin,
   handleForgotPassword,
+  rememberMe = false,
+  setRememberMe,
   isLoading = false
 }) => {
   return (
@@ -54,6 +59,18 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 required
               />
             </div>
+            {setRememberMe && (
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="remember"
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                />
+                <Label htmlFor="remember" className="text-sm font-normal">
+                  Remember me
+                </Label>
+              </div>
+            )}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Login"}
             </Button>
