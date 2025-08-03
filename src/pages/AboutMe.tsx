@@ -8,10 +8,13 @@ const AboutMe = () => {
   const [subtitle, setSubtitle] = useState('The personal journey behind the Fast Now Protocol - years of struggle, discovery, and finally finding what works.');
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
-    loadContent();
-  }, []);
+    if (!hasLoaded) {
+      loadContent();
+    }
+  }, [hasLoaded]);
 
   const loadContent = async () => {
     try {
@@ -60,6 +63,7 @@ const AboutMe = () => {
     } finally {
       console.log('Setting loading to false');
       setIsLoading(false);
+      setHasLoaded(true);
     }
   };
 

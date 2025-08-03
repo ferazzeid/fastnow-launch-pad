@@ -205,18 +205,18 @@ const MainNavigation = () => {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink 
+          <a 
+            href="https://go.fastnow.app" 
+            target="_blank" 
+            rel="noopener noreferrer" 
             className={cn(
               navigationMenuTriggerStyle(),
-              "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green"
+              "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green flex items-center gap-1"
             )}
-            asChild
           >
-            <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-              Access FastNow App
-              <ArrowRight size={14} />
-            </a>
-          </NavigationMenuLink>
+            Access FastNow App
+            <ArrowRight size={14} />
+          </a>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link to="/about-me">
