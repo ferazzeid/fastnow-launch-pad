@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet-async';
 import { CeramicTimer } from '@/components/CeramicTimer';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeatureItem } from '@/components/FeatureItem';
-import { HomepageSettingsService } from "@/services/HomepageSettingsService";
+import { pageContentService } from '@/services/PageContentService';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -34,17 +34,17 @@ const Index = () => {
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<number>(300);
   const [imageAlt, setImageAlt] = useState<string>('Fasting app interface preview');
-  const [heroTitle, setHeroTitle] = useState<string>('My Fasting Protocol for Fat Loss');
-  const [heroSubtitle, setHeroSubtitle] = useState<string>('(That Actually Worked)');
-  const [heroDescription, setHeroDescription] = useState<string>('After years of trying and failing with generalized advice, I finally followed a specific protocol that worked — and I documented every part of it.\n\nTo help you apply it (or adapt it to your own situation), I built a minimal mobile-friendly app you can use right now:');
-  const [ctaText, setCtaText] = useState<string>('Launch App');
-  const [ctaUrl, setCtaUrl] = useState<string>('https://go.fastnow.app');
+  const [heroTitle, setHeroTitle] = useState<string>('My Protocol for Fat Loss');
+  const [heroSubtitle, setHeroSubtitle] = useState<string>('Transform your body with our scientifically-backed fasting approach');
+  const [heroDescription, setHeroDescription] = useState<string>('Discover the power of intermittent fasting with our comprehensive timeline and personalized guidance.');
+  const [ctaText, setCtaText] = useState<string>('Download FastNow');
+  const [ctaUrl, setCtaUrl] = useState<string>('#');
   const [protocolCtaText, setProtocolCtaText] = useState<string>('Read the Complete Protocol');
   const [ctaTitle, setCtaTitle] = useState<string>('Ready to start your fasting journey?');
   const [ctaSubtitle, setCtaSubtitle] = useState<string>('Download fastnow.app today and transform your health through fasting.');
   const [featuresTitle, setFeaturesTitle] = useState<string>('Why choose fastnow.app?');
-  const [metaTitle, setMetaTitle] = useState<string>('fastnow.app - Intermittent Fasting Made Simple');
-  const [metaDescription, setMetaDescription] = useState<string>('Track your fasting periods with our minimalist, intuitive app. Download fastnow.app today and transform your health through fasting.');
+  const [metaTitle, setMetaTitle] = useState<string>('FastNow - My Protocol for Fat Loss');
+  const [metaDescription, setMetaDescription] = useState<string>('Transform your body with scientifically-backed intermittent fasting protocols and personalized guidance.');
   const [features, setFeatures] = useState([
     {
       title: "Intermittent Fasting", 
@@ -68,48 +68,45 @@ const Index = () => {
 
   // Load content from database and localStorage
   useEffect(() => {
-    const loadSettings = async () => {
+    const loadContent = async () => {
       try {
-        // First try to migrate from localStorage
-        await HomepageSettingsService.migrateFromLocalStorage();
+        // Check if migration has already been done
+        const migrationDone = localStorage.getItem('content_migration_completed');
         
-        // Load logo from database
-        const logoSettings = await HomepageSettingsService.getLogoSettings();
-        if (logoSettings?.url) {
-          setLogoUrl(logoSettings.url);
-          setLogoSize(logoSettings.height || 40);
+        if (!migrationDone) {
+          console.log('Running content migration...');
+          await pageContentService.migrateLocalStorageToDatabase();
+          localStorage.setItem('content_migration_completed', 'true');
+          pageContentService.cleanupLocalStorage();
         }
-        
-        // Load hero image from database
-        const heroImageSettings = await HomepageSettingsService.getHeroImageSettings();
-        if (heroImageSettings?.url) {
-          setMockupUrl(heroImageSettings.url);
-          setImageSize(heroImageSettings.maxWidth || 500);
-          setImageAlt(heroImageSettings.altText || 'Hero Image');
-        }
-      } catch (error) {
-        console.error('Error loading settings from database:', error);
-        
-        // Fallback to localStorage if database fails
-        const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
-        if (savedLogoUrl) setLogoUrl(savedLogoUrl);
-        
-        const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
-        if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
-        
-        const savedMockupUrl = localStorage.getItem('fastingApp_mockupUrl');
-        if (savedMockupUrl) setMockupUrl(savedMockupUrl);
 
-        const savedImageSize = localStorage.getItem('fastingApp_imageSize');
-        if (savedImageSize) setImageSize(parseInt(savedImageSize));
+        // Load homepage content from database
+        const homeContent = await pageContentService.getPageContent('home');
         
-        const savedImageAlt = localStorage.getItem('fastingApp_imageAlt');
-        if (savedImageAlt) setImageAlt(savedImageAlt);
+        if (homeContent) {
+          setHeroTitle(homeContent.title || 'My Protocol for Fat Loss');
+          setHeroSubtitle(homeContent.subtitle || 'Transform your body with our scientifically-backed fasting approach');
+          setHeroDescription(homeContent.content || 'Discover the power of intermittent fasting with our comprehensive timeline and personalized guidance.');
+          setCtaText(homeContent.button_text || 'Download FastNow');
+          setCtaUrl(homeContent.button_url || '#');
+          setMetaTitle(homeContent.meta_title || 'FastNow - My Protocol for Fat Loss');
+          setMetaDescription(homeContent.meta_description || 'Transform your body with scientifically-backed intermittent fasting protocols and personalized guidance.');
+        }
+
+        // Load site identity settings for logo
+        const siteIdentity = await pageContentService.getGeneralSetting('site_identity');
+        if (siteIdentity?.setting_value) {
+          const { logoUrl: dbLogoUrl } = siteIdentity.setting_value;
+          if (dbLogoUrl) setLogoUrl(dbLogoUrl);
+        }
+
+      } catch (error) {
+        console.error('Error loading content from database:', error);
       }
     };
 
-    // Load database settings
-    loadSettings();
+    // Load database content
+    loadContent();
 
     try {
       
@@ -230,18 +227,14 @@ const Index = () => {
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 lg:mb-6 leading-tight">
                 {heroTitle}
               </h1>
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-6">
+              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-6">
                 {heroSubtitle}
-              </p>
+              </div>
               
               <div className="prose prose-lg max-w-none text-gray-600 dark:text-gray-300 mb-6 lg:mb-8">
-                {heroDescription.split('\n').map((paragraph, index) => (
-                  paragraph.trim() && (
-                    <p key={index} className="text-base md:text-lg lg:text-xl mb-4">
-                      {paragraph}
-                    </p>
-                  )
-                ))}
+                <p className="text-base md:text-lg lg:text-xl mb-4">
+                  {heroDescription}
+                </p>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-start mb-8">

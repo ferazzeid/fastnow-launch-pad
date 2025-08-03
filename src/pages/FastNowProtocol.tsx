@@ -1,14 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Clock, Utensils, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
+import { pageContentService } from '@/services/PageContentService';
 
 const FastNowProtocol = () => {
+  const [pageContent, setPageContent] = useState({
+    title: 'The FastNow Protocol',
+    subtitle: 'How I Lost Fat With a 3-Day Fast + Calorie Control',
+    metaTitle: 'The FastNow Protocol | FastNow',
+    metaDescription: 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol'
+  });
+
+  useEffect(() => {
+    loadContent();
+  }, []);
+
+  const loadContent = async () => {
+    try {
+      // Load page content from database
+      const content = await pageContentService.getPageContent('fastnow-protocol');
+      
+      if (content) {
+        setPageContent({
+          title: content.title || 'The FastNow Protocol',
+          subtitle: content.subtitle || 'How I Lost Fat With a 3-Day Fast + Calorie Control',
+          metaTitle: content.meta_title || 'The FastNow Protocol | FastNow',
+          metaDescription: content.meta_description || 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol'
+        });
+      }
+    } catch (error) {
+      console.error('Error loading FastNow Protocol page content:', error);
+    }
+  };
+
   return (
     <PageLayout>
       <Helmet>
-        <title>The FastNow Protocol | fastnow.app</title>
-        <meta name="description" content="Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol" />
+        <title>{pageContent.metaTitle}</title>
+        <meta name="description" content={pageContent.metaDescription} />
       </Helmet>
       
       <main className="flex-1 py-12">
@@ -17,10 +47,10 @@ const FastNowProtocol = () => {
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              The FastNow Protocol
+              {pageContent.title}
             </h1>
             <p className="text-xl text-muted-foreground">
-              How I Lost Fat With a 3-Day Fast + Calorie Control
+              {pageContent.subtitle}
             </p>
           </div>
 

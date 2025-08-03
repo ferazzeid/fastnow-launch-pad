@@ -216,10 +216,6 @@ const Admin = () => {
           </Card>
         </div>
 
-        {/* Content Export/Import Section */}
-        <div className="mt-8">
-          <ContentExport />
-        </div>
       </main>
     </div>
   );

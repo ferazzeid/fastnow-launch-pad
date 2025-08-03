@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MainNavigation from '../MainNavigation';
-import { HomepageSettingsService, type HomepageLogoSettings } from "@/services/HomepageSettingsService";
+import { pageContentService } from '@/services/PageContentService';
 
 const Header = () => {
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
@@ -13,14 +13,14 @@ const Header = () => {
   React.useEffect(() => {
     const loadLogoSettings = async () => {
       try {
-        // First try to migrate from localStorage
-        await HomepageSettingsService.migrateFromLocalStorage();
-        
-        // Load from database
-        const logoSettings = await HomepageSettingsService.getLogoSettings();
-        if (logoSettings?.url) {
-          setLogoUrl(logoSettings.url);
-          setLogoSize(logoSettings.height || 40);
+        // Load site identity settings for logo
+        const siteIdentity = await pageContentService.getGeneralSetting('site_identity');
+        if (siteIdentity?.setting_value) {
+          const { logoUrl: dbLogoUrl } = siteIdentity.setting_value;
+          if (dbLogoUrl) {
+            setLogoUrl(dbLogoUrl);
+            setLogoSize(40); // Default size
+          }
         }
       } catch (error) {
         console.error('Error loading logo settings:', error);

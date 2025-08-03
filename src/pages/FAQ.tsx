@@ -4,6 +4,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { pageContentService } from '@/services/PageContentService';
 
 interface FAQ {
   id: string;
@@ -16,10 +17,35 @@ const FAQ = () => {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
+  const [pageContent, setPageContent] = useState({
+    title: 'Frequently Asked Questions',
+    description: 'Get answers to common questions about FastNow and intermittent fasting',
+    metaTitle: 'Frequently Asked Questions | FastNow App',
+    metaDescription: 'Find answers to common questions about the FastNow app, intermittent fasting, and how to get the most out of your fasting journey.'
+  });
 
   useEffect(() => {
+    loadContent();
     loadFAQs();
   }, []);
+
+  const loadContent = async () => {
+    try {
+      // Load page content from database
+      const content = await pageContentService.getPageContent('faq');
+      
+      if (content) {
+        setPageContent({
+          title: content.title || 'Frequently Asked Questions',
+          description: content.content || 'Get answers to common questions about FastNow and intermittent fasting',
+          metaTitle: content.meta_title || 'Frequently Asked Questions | FastNow App',
+          metaDescription: content.meta_description || 'Find answers to common questions about the FastNow app, intermittent fasting, and how to get the most out of your fasting journey.'
+        });
+      }
+    } catch (error) {
+      console.error('Error loading FAQ page content:', error);
+    }
+  };
 
   const loadFAQs = async () => {
     try {
@@ -66,8 +92,8 @@ const FAQ = () => {
   return (
     <PageLayout>
       <Helmet>
-        <title>Frequently Asked Questions | FastNow App</title>
-        <meta name="description" content="Find answers to common questions about the FastNow app, intermittent fasting, and how to get the most out of your fasting journey." />
+        <title>{pageContent.metaTitle}</title>
+        <meta name="description" content={pageContent.metaDescription} />
         <meta name="keywords" content="FastNow FAQ, intermittent fasting questions, fasting app help, FastNow support" />
         <script type="application/ld+json">
           {JSON.stringify(faqStructuredData)}
@@ -79,10 +105,10 @@ const FAQ = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
-              Frequently Asked Questions
+              {pageContent.title}
             </h1>
             <p className="text-xl text-muted-foreground">
-              Get answers to common questions about FastNow and intermittent fasting
+              {pageContent.description}
             </p>
           </div>
 
