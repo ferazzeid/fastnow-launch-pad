@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Save, Settings } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
+import { SiteSettingsService } from '@/services/SiteSettingsService';
 
 interface GeneralSettings {
   siteName: string;
@@ -19,6 +20,11 @@ interface GeneralSettings {
   companyName: string;
 }
 
+interface DesignSettings {
+  primaryColor: string;
+  secondaryColor: string;
+}
+
 const AdminGeneral = () => {
   const [settings, setSettings] = useState<GeneralSettings>({
     siteName: 'FastingApp',
@@ -29,6 +35,10 @@ const AdminGeneral = () => {
     defaultTimezone: 'UTC',
     supportUrl: '',
     companyName: 'FastingApp Inc.',
+  });
+  const [designSettings, setDesignSettings] = useState<DesignSettings>({
+    primaryColor: '#10B981',
+    secondaryColor: '#6B7280'
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +53,30 @@ const AdminGeneral = () => {
         console.error('Error loading general settings:', error);
       }
     }
+    // Load design settings
+    loadDesignSettings();
   }, []);
+
+  // Real-time preview effect for colors
+  useEffect(() => {
+    const previewColors = { primary: designSettings.primaryColor, secondary: designSettings.secondaryColor };
+    SiteSettingsService.applyDesignColors(previewColors);
+  }, [designSettings.primaryColor, designSettings.secondaryColor]);
+
+  const loadDesignSettings = async () => {
+    try {
+      const settings = await SiteSettingsService.getSetting('design_colors');
+      if (settings && typeof settings === 'object' && 'primary' in settings && 'secondary' in settings) {
+        const colors = settings as { primary: string; secondary: string };
+        setDesignSettings({
+          primaryColor: colors.primary || '#10B981',
+          secondaryColor: colors.secondary || '#6B7280'
+        });
+      }
+    } catch (error) {
+      console.error('Error loading design settings:', error);
+    }
+  };
 
   const handleInputChange = (field: keyof GeneralSettings, value: string) => {
     setSettings(prev => ({
@@ -56,6 +89,14 @@ const AdminGeneral = () => {
     setIsLoading(true);
     try {
       localStorage.setItem('fastingApp_generalSettings', JSON.stringify(settings));
+      
+      // Save design settings to database
+      const colorSettings = {
+        primary: designSettings.primaryColor,
+        secondary: designSettings.secondaryColor
+      };
+      await SiteSettingsService.setSetting('design_colors', colorSettings);
+      
       toast.success("General settings saved successfully!");
     } catch (error) {
       console.error('Error saving general settings:', error);
@@ -220,6 +261,57 @@ const AdminGeneral = () => {
                     SEO Settings
                   </Link>
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Design Customization */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Design Customization</CardTitle>
+              <CardDescription>
+                Customize the appearance and colors of your website
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="primaryColor">Primary Color</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="primaryColor"
+                      type="color"
+                      value={designSettings.primaryColor}
+                      onChange={(e) => setDesignSettings({ ...designSettings, primaryColor: e.target.value })}
+                      className="w-16 h-10"
+                    />
+                    <Input
+                      value={designSettings.primaryColor}
+                      onChange={(e) => setDesignSettings({ ...designSettings, primaryColor: e.target.value })}
+                      placeholder="#10B981"
+                      className="flex-1"
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="secondaryColor">Secondary Color</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="secondaryColor"
+                      type="color"
+                      value={designSettings.secondaryColor}
+                      onChange={(e) => setDesignSettings({ ...designSettings, secondaryColor: e.target.value })}
+                      className="w-16 h-10"
+                    />
+                    <Input
+                      value={designSettings.secondaryColor}
+                      onChange={(e) => setDesignSettings({ ...designSettings, secondaryColor: e.target.value })}
+                      placeholder="#6B7280"
+                      className="flex-1"
+                    />
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>

@@ -97,28 +97,10 @@ const Admin = () => {
                   General Settings
                 </Button>
               </Link>
-              <Link to="/admin/homepage-settings">
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings size={16} className="mr-2" />
-                  Homepage Settings
-                </Button>
-              </Link>
               <Link to="/admin/pages">
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
                   Page Content Manager
-                </Button>
-              </Link>
-              <Link to="/admin/design">
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings size={16} className="mr-2" />
-                  Design Settings
-                </Button>
-              </Link>
-              <Link to="/admin/feature-screenshots">
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText size={16} className="mr-2" />
-                  Feature Screenshots
                 </Button>
               </Link>
             </CardContent>

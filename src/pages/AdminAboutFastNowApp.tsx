@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { toast } from "@/components/ui/sonner";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ImageUploadService } from "@/services/ImageUploadService";
+import { FeatureScreenshotService, FeatureScreenshot } from "@/services/FeatureScreenshotService";
+import { FeatureScreenshotMockup } from "@/components/FeatureScreenshotMockup";
+import { Upload, Save, Camera } from "lucide-react";
 
 const AdminAboutFastNowApp = () => {
   const navigate = useNavigate();
@@ -19,6 +26,17 @@ const AdminAboutFastNowApp = () => {
     downloadTitle: 'Download FastNow App',
     downloadDescription: 'Start your intermittent fasting journey today with FastNow - the most comprehensive fasting companion.'
   });
+  const [screenshots, setScreenshots] = useState<FeatureScreenshot[]>([]);
+  const [uploadingFeature, setUploadingFeature] = useState<string | null>(null);
+  const [savingFeature, setSavingFeature] = useState<string | null>(null);
+
+  const FEATURE_LABELS = {
+    'fasting-timer': 'Fasting Timer',
+    'walking-tracker': 'Walking Tracker', 
+    'food-log': 'Food Log',
+    'motivators': 'Motivators',
+    'ai-assistant': 'AI Assistant'
+  };
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -29,6 +47,7 @@ const AdminAboutFastNowApp = () => {
           if (isAdmin) {
             setIsAuthenticated(true);
             await loadContent();
+            await loadScreenshots();
           } else {
             setIsAuthenticated(false);
             navigate('/');
@@ -62,6 +81,16 @@ const AdminAboutFastNowApp = () => {
     }
   };
 
+  const loadScreenshots = async () => {
+    try {
+      const data = await FeatureScreenshotService.getFeatureScreenshots();
+      setScreenshots(data);
+    } catch (error) {
+      console.error('Error loading feature screenshots:', error);
+      toast.error('Failed to load feature screenshots');
+    }
+  };
+
   const handleSave = async () => {
     setIsSaving(true);
     try {
@@ -72,6 +101,67 @@ const AdminAboutFastNowApp = () => {
       toast.error('Failed to save content');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleFileUpload = async (featureKey: string, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload an image file');
+      return;
+    }
+
+    setUploadingFeature(featureKey);
+    try {
+      const uploadResult = await ImageUploadService.uploadImage(
+        file, 
+        'feature-screenshots', 
+        `${featureKey}-${Date.now()}`
+      );
+      
+      setScreenshots(prev => prev.map(screenshot => 
+        screenshot.feature_key === featureKey 
+          ? { ...screenshot, image_url: uploadResult.url }
+          : screenshot
+      ));
+
+      toast.success('Screenshot uploaded successfully');
+    } catch (error) {
+      console.error('Error uploading screenshot:', error);
+      toast.error('Failed to upload screenshot');
+    } finally {
+      setUploadingFeature(null);
+    }
+  };
+
+  const handleTitleChange = (featureKey: string, newTitle: string) => {
+    setScreenshots(prev => prev.map(screenshot => 
+      screenshot.feature_key === featureKey 
+        ? { ...screenshot, title: newTitle }
+        : screenshot
+    ));
+  };
+
+  const handleScreenshotSave = async (featureKey: string) => {
+    const screenshot = screenshots.find(s => s.feature_key === featureKey);
+    if (!screenshot) return;
+
+    setSavingFeature(featureKey);
+    try {
+      await FeatureScreenshotService.updateFeatureScreenshot(
+        featureKey, 
+        screenshot.image_url, 
+        screenshot.title
+      );
+      
+      toast.success(`${screenshot.title} updated successfully`);
+    } catch (error) {
+      console.error('Error saving screenshot:', error);
+      toast.error('Failed to save changes');
+    } finally {
+      setSavingFeature(null);
     }
   };
 
@@ -151,23 +241,97 @@ const AdminAboutFastNowApp = () => {
                     className="w-full p-3 border rounded-md"
                   />
                 </div>
-                <div className="mt-4 p-4 bg-gray-50 rounded-md">
-                  <p className="text-sm text-gray-600 mb-2">
-                    <strong>Note:</strong> To manage individual feature content and screenshots, visit the{' '}
-                    <a href="/admin/feature-screenshots" className="text-blue-600 hover:underline">
-                      Feature Screenshots page
-                    </a>.
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Features include: Fasting Timer, Walking Tracker, Food Log, Motivators, and AI Assistant.
-                  </p>
-                </div>
+              </CardContent>
+            </Card>
+
+            {/* Feature Screenshots Management */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Camera size={20} />
+                  Feature Screenshots
+                </CardTitle>
+                <CardDescription>
+                  Upload and manage screenshots for each app feature displayed on this page.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-8">
+                {screenshots.map((screenshot) => (
+                  <div key={screenshot.feature_key} className="border rounded-lg p-6 space-y-4">
+                    <h3 className="text-lg font-semibold">{FEATURE_LABELS[screenshot.feature_key as keyof typeof FEATURE_LABELS]}</h3>
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      {/* Left side - Controls */}
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor={`title-${screenshot.feature_key}`}>Feature Title</Label>
+                          <Input
+                            id={`title-${screenshot.feature_key}`}
+                            value={screenshot.title}
+                            onChange={(e) => handleTitleChange(screenshot.feature_key, e.target.value)}
+                            placeholder="Enter feature title"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor={`file-${screenshot.feature_key}`}>Screenshot</Label>
+                          <div className="flex gap-2">
+                            <Input
+                              id={`file-${screenshot.feature_key}`}
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleFileUpload(screenshot.feature_key, e)}
+                              disabled={uploadingFeature === screenshot.feature_key}
+                              className="flex-1"
+                            />
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="icon"
+                              disabled={uploadingFeature === screenshot.feature_key}
+                            >
+                              <Upload size={16} />
+                            </Button>
+                          </div>
+                        </div>
+
+                        <Button
+                          onClick={() => handleScreenshotSave(screenshot.feature_key)}
+                          disabled={savingFeature === screenshot.feature_key}
+                          variant="outline"
+                          className="w-full"
+                        >
+                          <Save size={16} className="mr-2" />
+                          {savingFeature === screenshot.feature_key ? 'Saving...' : 'Save Screenshot'}
+                        </Button>
+                      </div>
+
+                      {/* Right side - Preview */}
+                      <div className="flex justify-center">
+                        <div className="w-48">
+                          <FeatureScreenshotMockup
+                            imageUrl={screenshot.image_url}
+                            altText={`${screenshot.title} screenshot`}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {screenshots.length === 0 && (
+                  <Alert>
+                    <AlertDescription>
+                      No feature screenshots found. They should be automatically created when the database is set up.
+                    </AlertDescription>
+                  </Alert>
+                )}
               </CardContent>
             </Card>
 
             <div className="flex justify-end">
               <Button onClick={handleSave} disabled={isSaving}>
-                {isSaving ? 'Saving...' : 'Save Changes'}
+                {isSaving ? 'Saving...' : 'Save Content Changes'}
               </Button>
             </div>
           </div>
