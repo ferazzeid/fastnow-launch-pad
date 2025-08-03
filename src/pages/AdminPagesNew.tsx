@@ -75,9 +75,9 @@ const AdminPagesNew = () => {
     {
       title: 'About Me',
       description: 'Edit the personal/creator page',
-      route: '/admin/edit-about-me',
+      route: '/admin/about-me',
       liveUrl: '/about-me',
-      hasEditor: false // TODO: Create editor
+      hasEditor: true
     },
     {
       title: 'FAQ',

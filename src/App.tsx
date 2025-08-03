@@ -26,6 +26,7 @@ import AdminHomepageSettings from "./pages/AdminHomepageSettings";
 import FAQ from "./pages/FAQ";
 import AdminFAQ from "./pages/AdminFAQ";
 import AdminEmail from "./pages/AdminEmail";
+import AdminAboutMeEditor from "./pages/AdminAboutMeEditor";
 import ContentPage from "./pages/ContentPage";
 import UserManagement from "./pages/UserManagement";
 import FastingTimeline from "./pages/FastingTimeline";
@@ -75,7 +76,8 @@ const AppRoutes = () => {
       <Route path="/admin/homepage-settings" element={<AdminHomepageSettings />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/admin/faq" element={<AdminFAQ />} />
-        <Route path="/admin/email" element={<AdminEmail />} />
+          <Route path="/admin/about-me" element={<AdminAboutMeEditor />} />
+          <Route path="/admin/email" element={<AdminEmail />} />
       <Route path="/admin/users" element={<UserManagement />} />
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />
