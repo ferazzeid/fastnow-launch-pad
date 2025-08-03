@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '@/components/admin/LoginForm';
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { toast } from "@/components/ui/sonner";
 
-const AdminLogin = () => {
+const AdminLoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -65,4 +64,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default AdminLoginPage;

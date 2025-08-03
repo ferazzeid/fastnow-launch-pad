@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminLogin from './AdminLogin';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -25,20 +24,24 @@ const Admin = () => {
             setIsAuthenticated(true);
           } else {
             setIsAuthenticated(false);
+            navigate('/');
+            toast.error("Access denied. Admin privileges required.");
           }
         } else {
           setIsAuthenticated(false);
+          navigate('/admin/login');
         }
       } catch (error) {
         console.error('Auth check error:', error);
         setIsAuthenticated(false);
+        navigate('/admin/login');
       } finally {
         setIsLoading(false);
       }
     };
     
     checkAuth();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = async () => {
     const success = await SupabaseAuthService.signOut();
@@ -58,7 +61,7 @@ const Admin = () => {
   }
 
   if (!isAuthenticated) {
-    return <AdminLogin />;
+    return null; // Will be redirected by useEffect
   }
 
   return (

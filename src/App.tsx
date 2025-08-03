@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
-import AdminLogin from "./pages/AdminLogin";
+import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminPageEditor from "./pages/AdminPageEditor";
 import AdminGeneral from "./pages/AdminGeneral";
 import AdminPages from "./pages/AdminPages";
@@ -62,7 +62,7 @@ const AppRoutes = () => {
       
       {/* Admin routes */}
       <Route path="/admin" element={<Admin />} />
-      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route path="/admin/general" element={<AdminGeneral />} />
       <Route path="/admin/pages" element={<AdminPages />} />
       <Route path="/admin/design" element={<AdminDesign />} />

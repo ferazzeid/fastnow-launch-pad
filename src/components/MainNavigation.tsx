@@ -12,23 +12,20 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
 import { LogOut, User, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+import { useAuth } from "@/hooks/useAuth";
+import { SupabaseAuthService } from "@/services/SupabaseAuthService";
 
 const MainNavigation = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { isAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    // Check admin status on mount
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    setIsAdmin(authStatus === 'true');
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('fastingApp_auth');
-    setIsAdmin(false);
-    toast.success("Logged out successfully");
+  const handleLogout = async () => {
+    const success = await SupabaseAuthService.signOut();
+    if (success) {
+      toast.success("Logged out successfully");
+      navigate('/');
+    }
   };
 
   return (
