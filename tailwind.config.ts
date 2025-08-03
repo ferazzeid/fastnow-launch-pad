@@ -42,9 +42,9 @@ export default {
         
         // Green accents
         'accent-green': {
-          light: "var(--accent-green-light)",
-          DEFAULT: "var(--accent-green)",
-          dark: "var(--accent-green-dark)",
+          light: "hsl(var(--accent-green-light))",
+          DEFAULT: "hsl(var(--accent-green))",
+          dark: "hsl(var(--accent-green-dark))",
         },
         
         // Ceramic colors

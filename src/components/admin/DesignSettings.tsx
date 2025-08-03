@@ -125,10 +125,13 @@ const DesignSettings: React.FC = () => {
     // Update primary color (used by buttons and accent elements)
     root.style.setProperty('--primary', `${mintDarkHsl.h} ${mintDarkHsl.s}% ${mintDarkHsl.l}%`);
     
-    // Update accent green colors
-    root.style.setProperty('--accent-green-light', colorValues.mintLight);
-    root.style.setProperty('--accent-green', colorValues.mintDark);
-    root.style.setProperty('--accent-green-dark', calculateDarkerShade(colorValues.mintDark, 0.1));
+    // Update accent green colors in HSL format
+    root.style.setProperty('--accent-green-light', `${mintLightHsl.h} ${mintLightHsl.s}% ${mintLightHsl.l}%`);
+    root.style.setProperty('--accent-green', `${mintDarkHsl.h} ${mintDarkHsl.s}% ${mintDarkHsl.l}%`);
+    
+    // Calculate darker version for hover states
+    const darkHsl = hexToHsl(calculateDarkerShade(colorValues.mintDark, 0.1));
+    root.style.setProperty('--accent-green-dark', `${darkHsl.h} ${darkHsl.s}% ${darkHsl.l}%`);
     
     // Update background colors if cream is being used as background
     if (colorValues.creamBase !== '#F2F0E6') {

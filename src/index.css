@@ -33,9 +33,9 @@
     --gray-900: #111827;
     
     /* Accent green (preserved from original) */
-    --accent-green-light: #A3D9B1;
-    --accent-green: #6A8D74;
-    --accent-green-dark: #57735F;
+    --accent-green-light: 140 35% 65%;
+    --accent-green: 140 20% 42%;
+    --accent-green-dark: 140 20% 35%;
     
     /* Borders */
     --border-primary: #e5e7eb;
