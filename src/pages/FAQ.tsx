@@ -78,8 +78,8 @@ const FAQ = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-primary mb-4">Frequently Asked Questions</h1>
-            <p className="text-xl text-muted-foreground">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-6">Frequently Asked Questions</h1>
+            <p className="text-xl text-gray-600">
               Get answers to common questions about FastNow and intermittent fasting
             </p>
           </div>

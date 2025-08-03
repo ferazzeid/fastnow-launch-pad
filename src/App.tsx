@@ -32,6 +32,7 @@ import FastingTimelineBlog from "./pages/FastingTimelineBlog";
 import FastingTimelinePost from "./pages/FastingTimelinePost";
 import FastNowProtocol from "./pages/FastNowProtocol";
 import AboutFastNowApp from "./pages/AboutFastNowApp";
+import AboutMe from "./pages/AboutMe";
 import MyWeightStory from "./pages/MyWeightStory";
 import MyFoodSelection from "./pages/MyFoodSelection";
 
@@ -51,6 +52,7 @@ const AppRoutes = () => {
       {/* FastNow Protocol */}
       <Route path="/fastnow-protocol" element={<FastNowProtocol />} />
       <Route path="/about-fastnow-app" element={<AboutFastNowApp />} />
+      <Route path="/about-me" element={<AboutMe />} />
       <Route path="/my-weight-story" element={<MyWeightStory />} />
       <Route path="/my-food-selection" element={<MyFoodSelection />} />
       

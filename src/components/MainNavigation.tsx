@@ -8,15 +8,9 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
-import { LogOut, User, ArrowRight, ChevronDown } from "lucide-react";
+import { LogOut, User, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 
@@ -94,34 +88,17 @@ const MainNavigation = () => {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger 
+          <Link to="/about-me">
+            <NavigationMenuLink 
               className={cn(
                 navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50 flex items-center gap-1"
+                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                location.pathname === "/about-me" && "text-accent-green bg-gray-50"
               )}
-              onMouseEnter={(e) => {
-                // Open dropdown on hover
-                const trigger = e.currentTarget;
-                setTimeout(() => trigger.click(), 0);
-              }}
             >
               About Me
-              <ChevronDown size={14} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50">
-              <DropdownMenuItem asChild>
-                <Link to="/my-weight-story" className="text-gray-700 hover:text-accent-green">
-                  My Weight Story
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/my-food-selection" className="text-gray-700 hover:text-accent-green">
-                  My Food Selection
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
         {/* Blog temporarily hidden */}
         {false && (

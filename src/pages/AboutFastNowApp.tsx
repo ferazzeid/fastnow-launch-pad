@@ -20,10 +20,10 @@ const AboutFastNowApp = () => {
       <div className="container py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-mint-600 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-6">
             About FastNow App
           </h1>
-          <p className="text-xl text-mint-500 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Your ultimate companion for intermittent fasting, health tracking, and achieving your wellness goals. 
             FastNow combines science-backed fasting protocols with modern technology to help you transform your health.
           </p>
@@ -36,7 +36,7 @@ const AboutFastNowApp = () => {
 
         {/* Features Tabs */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center text-mint-600 mb-12">
+          <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-12">
             Discover FastNow Features
           </h2>
           
@@ -238,7 +238,7 @@ const AboutFastNowApp = () => {
 
         {/* Download Section */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-mint-600 mb-8">Get FastNow App</h2>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-accent-green to-mint-600 bg-clip-text text-transparent mb-8">Get FastNow App</h2>
           <p className="text-lg text-gray-600 mb-8">
             Available on all your favorite platforms
           </p>
