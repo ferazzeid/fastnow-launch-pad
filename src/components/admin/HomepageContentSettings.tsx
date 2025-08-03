@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/sonner";
 import { FileText, Save } from "lucide-react";
+import { pageContentService, PageContent } from '@/services/PageContentService';
 
 const HomepageContentSettings = () => {
   const [heroTitle, setHeroTitle] = useState<string>('');
@@ -13,34 +14,54 @@ const HomepageContentSettings = () => {
   const [heroDescription, setHeroDescription] = useState<string>('');
   const [ctaText, setCtaText] = useState<string>('Launch App');
   const [ctaUrl, setCtaUrl] = useState<string>('https://go.fastnow.app');
-  
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Load existing content
-    const savedHeroTitle = localStorage.getItem('fastingApp_homepageHeroTitle');
-    const savedHeroSubtitle = localStorage.getItem('fastingApp_homepageHeroSubtitle');
-    const savedHeroDescription = localStorage.getItem('fastingApp_homepageHeroDescription');
-    const savedCtaText = localStorage.getItem('fastingApp_homepageCtaText');
-    const savedCtaUrl = localStorage.getItem('fastingApp_homepageCtaUrl');
-    
-
-    if (savedHeroTitle) setHeroTitle(savedHeroTitle);
-    if (savedHeroSubtitle) setHeroSubtitle(savedHeroSubtitle);
-    if (savedHeroDescription) setHeroDescription(savedHeroDescription);
-    if (savedCtaText) setCtaText(savedCtaText);
-    if (savedCtaUrl) setCtaUrl(savedCtaUrl);
-    
+    loadContent();
   }, []);
 
-  const saveContent = () => {
-    localStorage.setItem('fastingApp_homepageHeroTitle', heroTitle);
-    localStorage.setItem('fastingApp_homepageHeroSubtitle', heroSubtitle);
-    localStorage.setItem('fastingApp_homepageHeroDescription', heroDescription);
-    localStorage.setItem('fastingApp_homepageCtaText', ctaText);
-    localStorage.setItem('fastingApp_homepageCtaUrl', ctaUrl);
-    
-    
-    toast.success('Homepage content saved successfully');
+  const loadContent = async () => {
+    try {
+      const content = await pageContentService.getPageContent('home');
+      if (content) {
+        setHeroTitle(content.title || '');
+        setHeroSubtitle(content.subtitle || '');
+        setHeroDescription(content.content || '');
+        setCtaText(content.button_text || 'Launch App');
+        setCtaUrl(content.button_url || 'https://go.fastnow.app');
+      }
+    } catch (error) {
+      console.error('Error loading homepage content:', error);
+    }
+  };
+
+  const saveContent = async () => {
+    setLoading(true);
+    try {
+      const content: PageContent = {
+        page_key: 'home',
+        title: heroTitle,
+        subtitle: heroSubtitle,
+        content: heroDescription,
+        button_text: ctaText,
+        button_url: ctaUrl,
+        meta_title: `${heroTitle} - FastNow`,
+        meta_description: heroSubtitle,
+        is_published: true
+      };
+
+      const success = await pageContentService.savePageContent(content);
+      if (success) {
+        toast.success('Homepage content saved successfully');
+      } else {
+        toast.error('Failed to save homepage content');
+      }
+    } catch (error) {
+      console.error('Error saving homepage content:', error);
+      toast.error('Failed to save homepage content');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -118,9 +139,9 @@ const HomepageContentSettings = () => {
           </div>
 
 
-          <Button onClick={saveContent} className="w-full">
+          <Button onClick={saveContent} className="w-full" disabled={loading}>
             <Save size={16} className="mr-2" />
-            Save Homepage Content
+            {loading ? 'Saving...' : 'Save Homepage Content'}
           </Button>
         </CardContent>
       </Card>
