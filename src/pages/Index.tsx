@@ -220,7 +220,7 @@ const Index = () => {
       
       {/* Hero Section */}
       <section className="py-12 lg:py-20 relative z-10">
-        <div className="container">
+        <div className="container max-w-4xl mx-auto">
           <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
             {/* Content Section */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">

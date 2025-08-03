@@ -42,8 +42,8 @@ const FastNowProtocol = () => {
       </Helmet>
       
       <main className="flex-1 py-12">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
+        <div className="container max-w-4xl mx-auto">
+          <div>
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
