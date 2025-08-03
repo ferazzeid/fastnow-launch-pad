@@ -2,20 +2,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MainNavigation from '../MainNavigation';
+import { HomepageSettingsService, type HomepageLogoSettings } from "@/services/HomepageSettingsService";
 
 const Header = () => {
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
   const [logoSize, setLogoSize] = React.useState<number>(32);
   const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
 
-  // Load logo and favicon from localStorage on mount
+  // Load logo and favicon from database (with localStorage fallback)
   React.useEffect(() => {
-    const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
-    if (savedLogoUrl) setLogoUrl(savedLogoUrl);
-    
-    const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
-    if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
+    const loadLogoSettings = async () => {
+      try {
+        // First try to migrate from localStorage
+        await HomepageSettingsService.migrateFromLocalStorage();
+        
+        // Load from database
+        const logoSettings = await HomepageSettingsService.getLogoSettings();
+        if (logoSettings?.url) {
+          setLogoUrl(logoSettings.url);
+          setLogoSize(logoSettings.height || 40);
+        }
+      } catch (error) {
+        console.error('Error loading logo settings:', error);
+        
+        // Fallback to localStorage if database fails
+        const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
+        if (savedLogoUrl) setLogoUrl(savedLogoUrl);
+        
+        const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
+        if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
+      }
+    };
 
+    // Load favicon from localStorage (keeping this separate for now)
     const savedFaviconUrl = localStorage.getItem('fastingApp_faviconUrl');
     if (savedFaviconUrl) {
       setFaviconUrl(savedFaviconUrl);
@@ -30,6 +49,8 @@ const Header = () => {
         document.head.appendChild(newLink);
       }
     }
+
+    loadLogoSettings();
   }, []);
 
   return (

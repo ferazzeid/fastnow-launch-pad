@@ -5,41 +5,50 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/sonner";
 import { Upload, X, RefreshCw } from "lucide-react";
-import { ImageUploadService } from "@/services/ImageUploadService";
+import { HomepageSettingsService, type HomepageImageSettings, type HomepageLogoSettings } from "@/services/HomepageSettingsService";
 
 const HomepageLogoSettings = () => {
-  const [logoUrl, setLogoUrl] = useState<string>('');
-  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoSettings, setLogoSettings] = useState<HomepageLogoSettings | null>(null);
   const [logoPreview, setLogoPreview] = useState<string>('');
-  const [logoSize, setLogoSize] = useState<number>(32);
   const [uploading, setUploading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [homeImageUrl, setHomeImageUrl] = useState<string>('');
-  const [homeImageFile, setHomeImageFile] = useState<File | null>(null);
-  const [homeImagePreview, setHomeImagePreview] = useState<string>('');
-  const [homeImageSize, setHomeImageSize] = useState<number>(300);
-  const [homeImageAlt, setHomeImageAlt] = useState<string>('Fasting app interface preview');
+  const [heroImageSettings, setHeroImageSettings] = useState<HomepageImageSettings | null>(null);
+  const [heroImagePreview, setHeroImagePreview] = useState<string>('');
 
   useEffect(() => {
-    // Load existing settings
-    const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
-    const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
-    const savedHomeImageUrl = localStorage.getItem('fastingApp_mockupUrl');
-    const savedHomeImageSize = localStorage.getItem('fastingApp_imageSize');
-    const savedHomeImageAlt = localStorage.getItem('fastingApp_imageAlt');
-
-    if (savedLogoUrl) {
-      setLogoUrl(savedLogoUrl);
-      setLogoPreview(savedLogoUrl);
-    }
-    if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
-    if (savedHomeImageUrl) {
-      setHomeImageUrl(savedHomeImageUrl);
-      setHomeImagePreview(savedHomeImageUrl);
-    }
-    if (savedHomeImageSize) setHomeImageSize(parseInt(savedHomeImageSize));
-    if (savedHomeImageAlt) setHomeImageAlt(savedHomeImageAlt);
+    loadSettings();
   }, []);
+
+  const loadSettings = async () => {
+    try {
+      setIsLoading(true);
+      
+      // Try to migrate from localStorage first
+      await HomepageSettingsService.migrateFromLocalStorage();
+      
+      // Load settings from database
+      const [logoData, heroImageData] = await Promise.all([
+        HomepageSettingsService.getLogoSettings(),
+        HomepageSettingsService.getHeroImageSettings()
+      ]);
+
+      if (logoData?.url) {
+        setLogoSettings(logoData);
+        setLogoPreview(logoData.url);
+      }
+
+      if (heroImageData?.url) {
+        setHeroImageSettings(heroImageData);
+        setHeroImagePreview(heroImageData.url);
+      }
+    } catch (error) {
+      console.error('Error loading settings:', error);
+      toast.error('Failed to load settings');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -50,15 +59,19 @@ const HomepageLogoSettings = () => {
       return;
     }
 
-    setLogoFile(file);
     setLogoPreview(URL.createObjectURL(file));
-
     setUploading(true);
+    
     try {
-      const result = await ImageUploadService.uploadImage(file, 'logos');
-      setLogoUrl(result.url);
-      localStorage.setItem('fastingApp_logoUrl', result.url);
-      toast.success('Logo uploaded successfully');
+      const success = await HomepageSettingsService.uploadAndSetLogo(file, logoSettings?.height || 40);
+      
+      if (success) {
+        // Reload settings to get updated data
+        await loadSettings();
+        toast.success('Logo uploaded successfully and cache cleared');
+      } else {
+        toast.error('Failed to upload logo');
+      }
     } catch (error) {
       console.error('Error uploading logo:', error);
       toast.error('Failed to upload logo');
@@ -67,7 +80,7 @@ const HomepageLogoSettings = () => {
     }
   };
 
-  const handleHomeImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleHeroImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -76,73 +89,124 @@ const HomepageLogoSettings = () => {
       return;
     }
 
-    setHomeImageFile(file);
-    setHomeImagePreview(URL.createObjectURL(file));
-
+    setHeroImagePreview(URL.createObjectURL(file));
     setUploading(true);
+    
     try {
-      const result = await ImageUploadService.uploadImage(file, 'homepage');
-      setHomeImageUrl(result.url);
-      localStorage.setItem('fastingApp_mockupUrl', result.url);
-      toast.success('Homepage image uploaded successfully');
+      const success = await HomepageSettingsService.uploadAndSetHeroImage(
+        file, 
+        heroImageSettings?.maxWidth || 500, 
+        heroImageSettings?.altText || 'Hero Image'
+      );
+      
+      if (success) {
+        // Reload settings to get updated data
+        await loadSettings();
+        toast.success('Hero image uploaded successfully and cache cleared');
+      } else {
+        toast.error('Failed to upload hero image');
+      }
     } catch (error) {
-      console.error('Error uploading homepage image:', error);
-      toast.error('Failed to upload homepage image');
+      console.error('Error uploading hero image:', error);
+      toast.error('Failed to upload hero image');
     } finally {
       setUploading(false);
     }
   };
 
-  const handleLogoSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const size = parseInt(e.target.value);
-    setLogoSize(size);
-    localStorage.setItem('fastingApp_logoSize', size.toString());
-  };
-
-  const handleHomeImageSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const size = parseInt(e.target.value);
-    setHomeImageSize(size);
-    localStorage.setItem('fastingApp_imageSize', size.toString());
-  };
-
-  const handleHomeImageAltChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const alt = e.target.value;
-    setHomeImageAlt(alt);
-    localStorage.setItem('fastingApp_imageAlt', alt);
-  };
-
-  const removeLogo = () => {
-    setLogoUrl('');
-    setLogoPreview('');
-    setLogoFile(null);
-    localStorage.removeItem('fastingApp_logoUrl');
-    toast.success('Logo removed');
-  };
-
-  const removeHomeImage = () => {
-    setHomeImageUrl('');
-    setHomeImagePreview('');
-    setHomeImageFile(null);
-    localStorage.removeItem('fastingApp_mockupUrl');
-    toast.success('Homepage image removed');
-  };
-
-  const clearAllCache = () => {
-    // Clear all logo and image related localStorage items
-    localStorage.removeItem('fastingApp_logoUrl');
-    localStorage.removeItem('fastingApp_mockupUrl');
-    localStorage.removeItem('fastingApp_customElements');
+  const handleLogoSizeChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const height = parseInt(e.target.value);
     
-    // Reset state
-    setLogoUrl('');
-    setLogoPreview('');
-    setLogoFile(null);
-    setHomeImageUrl('');
-    setHomeImagePreview('');
-    setHomeImageFile(null);
-    
-    toast.success('All cached images cleared. Please refresh the page to see changes.');
+    if (logoSettings) {
+      const updatedSettings = { ...logoSettings, height };
+      setLogoSettings(updatedSettings);
+      
+      const success = await HomepageSettingsService.updateLogoSettings(updatedSettings);
+      if (!success) {
+        toast.error('Failed to update logo size');
+      }
+    }
   };
+
+  const handleHeroImageSizeChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const maxWidth = parseInt(e.target.value);
+    
+    if (heroImageSettings) {
+      const updatedSettings = { ...heroImageSettings, maxWidth };
+      setHeroImageSettings(updatedSettings);
+      
+      const success = await HomepageSettingsService.updateHeroImageSettings(updatedSettings);
+      if (!success) {
+        toast.error('Failed to update image size');
+      }
+    }
+  };
+
+  const handleHeroImageAltChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const altText = e.target.value;
+    
+    if (heroImageSettings) {
+      const updatedSettings = { ...heroImageSettings, altText };
+      setHeroImageSettings(updatedSettings);
+      
+      const success = await HomepageSettingsService.updateHeroImageSettings(updatedSettings);
+      if (!success) {
+        toast.error('Failed to update alt text');
+      }
+    }
+  };
+
+  const removeLogo = async () => {
+    const success = await HomepageSettingsService.updateLogoSettings({ url: '', height: 40 });
+    
+    if (success) {
+      setLogoSettings(null);
+      setLogoPreview('');
+      toast.success('Logo removed and cache cleared');
+    } else {
+      toast.error('Failed to remove logo');
+    }
+  };
+
+  const removeHeroImage = async () => {
+    const success = await HomepageSettingsService.updateHeroImageSettings({ 
+      url: '', 
+      maxWidth: 500, 
+      altText: 'Hero Image' 
+    });
+    
+    if (success) {
+      setHeroImageSettings(null);
+      setHeroImagePreview('');
+      toast.success('Hero image removed and cache cleared');
+    } else {
+      toast.error('Failed to remove hero image');
+    }
+  };
+
+  const clearAllCache = async () => {
+    const success = await HomepageSettingsService.clearAllSettings();
+    
+    if (success) {
+      setLogoSettings(null);
+      setLogoPreview('');
+      setHeroImageSettings(null);
+      setHeroImagePreview('');
+      toast.success('All cached images cleared and database reset');
+    } else {
+      toast.error('Failed to clear cache');
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center py-8">
+          <p className="text-sm text-muted-foreground">Loading settings...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -156,9 +220,10 @@ const HomepageLogoSettings = () => {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground mb-4">
-            If you're seeing old images that won't update, use this button to clear all cached images and start fresh.
+            If you're seeing old images that won't update, use this button to clear all cached images and start fresh. 
+            This will also clear browser cache by adding cache-busting parameters.
           </p>
-          <Button onClick={clearAllCache} variant="destructive">
+          <Button onClick={clearAllCache} variant="destructive" disabled={uploading}>
             <RefreshCw size={16} className="mr-2" />
             Clear All Cached Images
           </Button>
@@ -179,10 +244,10 @@ const HomepageLogoSettings = () => {
               <img 
                 src={logoPreview} 
                 alt="Logo preview" 
-                style={{ height: `${logoSize}px` }}
+                style={{ height: `${logoSettings?.height || 40}px` }}
                 className="border rounded"
               />
-              <Button onClick={removeLogo} variant="outline" size="sm">
+              <Button onClick={removeLogo} variant="outline" size="sm" disabled={uploading}>
                 <X size={16} className="mr-2" />
                 Remove
               </Button>
@@ -199,7 +264,7 @@ const HomepageLogoSettings = () => {
               disabled={uploading}
             />
             <p className="text-sm text-muted-foreground mt-1">
-              Recommended: PNG or SVG format, max 5MB
+              Recommended: PNG or SVG format, max 5MB. Cache will be automatically cleared.
             </p>
           </div>
 
@@ -208,10 +273,11 @@ const HomepageLogoSettings = () => {
             <Input
               id="logo-size"
               type="number"
-              value={logoSize}
+              value={logoSettings?.height || 40}
               onChange={handleLogoSizeChange}
               min="16"
               max="200"
+              disabled={uploading}
             />
           </div>
         </CardContent>
@@ -226,15 +292,15 @@ const HomepageLogoSettings = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {homeImagePreview && (
+          {heroImagePreview && (
             <div className="flex items-center gap-4">
               <img 
-                src={homeImagePreview} 
+                src={heroImagePreview} 
                 alt="Homepage image preview" 
-                style={{ maxWidth: `${homeImageSize}px` }}
+                style={{ maxWidth: `${heroImageSettings?.maxWidth || 500}px` }}
                 className="border rounded max-h-48 object-contain"
               />
-              <Button onClick={removeHomeImage} variant="outline" size="sm">
+              <Button onClick={removeHeroImage} variant="outline" size="sm" disabled={uploading}>
                 <X size={16} className="mr-2" />
                 Remove
               </Button>
@@ -247,11 +313,11 @@ const HomepageLogoSettings = () => {
               id="home-image-upload"
               type="file"
               accept="image/*"
-              onChange={handleHomeImageChange}
+              onChange={handleHeroImageChange}
               disabled={uploading}
             />
             <p className="text-sm text-muted-foreground mt-1">
-              This image appears on the right side of the homepage hero section. Max 10MB
+              This image appears on the right side of the homepage hero section. Max 10MB. Cache will be automatically cleared.
             </p>
           </div>
 
@@ -260,10 +326,11 @@ const HomepageLogoSettings = () => {
             <Input
               id="home-image-size"
               type="number"
-              value={homeImageSize}
-              onChange={handleHomeImageSizeChange}
+              value={heroImageSettings?.maxWidth || 500}
+              onChange={handleHeroImageSizeChange}
               min="200"
               max="800"
+              disabled={uploading}
             />
           </div>
 
@@ -272,9 +339,10 @@ const HomepageLogoSettings = () => {
             <Input
               id="home-image-alt"
               type="text"
-              value={homeImageAlt}
-              onChange={handleHomeImageAltChange}
+              value={heroImageSettings?.altText || ''}
+              onChange={handleHeroImageAltChange}
               placeholder="Describe the image for accessibility"
+              disabled={uploading}
             />
           </div>
         </CardContent>
@@ -282,7 +350,7 @@ const HomepageLogoSettings = () => {
 
       {uploading && (
         <div className="text-center py-4">
-          <p className="text-sm text-muted-foreground">Uploading...</p>
+          <p className="text-sm text-muted-foreground">Uploading and clearing cache...</p>
         </div>
       )}
     </div>

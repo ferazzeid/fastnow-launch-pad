@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import { HomepageSettingsService } from "@/services/HomepageSettingsService";
 
 interface AppMockupProps {
   customImageUrl?: string;
@@ -11,25 +12,45 @@ export const AppMockup: React.FC<AppMockupProps> = ({ customImageUrl, customSize
   const [size, setSize] = useState<number>(300);
   
   useEffect(() => {
-    // Handle custom image URL
-    if (customImageUrl) {
-      setImageUrl(customImageUrl);
-    } else {
-      const savedMockupUrl = localStorage.getItem('fastingApp_mockupUrl');
-      if (savedMockupUrl) {
-        setImageUrl(savedMockupUrl);
+    const loadSettings = async () => {
+      // Handle custom image URL
+      if (customImageUrl) {
+        setImageUrl(customImageUrl);
+      } else {
+        try {
+          // Load from database first
+          const heroImageSettings = await HomepageSettingsService.getHeroImageSettings();
+          if (heroImageSettings?.url) {
+            setImageUrl(heroImageSettings.url);
+          }
+        } catch (error) {
+          // Fallback to localStorage
+          const savedMockupUrl = localStorage.getItem('fastingApp_mockupUrl');
+          if (savedMockupUrl) {
+            setImageUrl(savedMockupUrl);
+          }
+        }
       }
-    }
 
-    // Handle custom size
-    if (customSize) {
-      setSize(customSize);
-    } else {
-      const savedSize = localStorage.getItem('fastingApp_imageSize');
-      if (savedSize) {
-        setSize(parseInt(savedSize));
+      // Handle custom size
+      if (customSize) {
+        setSize(customSize);
+      } else {
+        try {
+          const heroImageSettings = await HomepageSettingsService.getHeroImageSettings();
+          if (heroImageSettings?.maxWidth) {
+            setSize(heroImageSettings.maxWidth);
+          }
+        } catch (error) {
+          const savedSize = localStorage.getItem('fastingApp_imageSize');
+          if (savedSize) {
+            setSize(parseInt(savedSize));
+          }
+        }
       }
-    }
+    };
+
+    loadSettings();
   }, [customImageUrl, customSize]);
 
   if (imageUrl) {

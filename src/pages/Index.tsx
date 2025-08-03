@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet-async';
 import { CeramicTimer } from '@/components/CeramicTimer';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeatureItem } from '@/components/FeatureItem';
+import { HomepageSettingsService } from "@/services/HomepageSettingsService";
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -65,28 +66,52 @@ const Index = () => {
   const [showDefaultDesign, setShowDefaultDesign] = useState(true);
   const [googlePlayLink, setGooglePlayLink] = useState('https://play.google.com');
 
-  // Load content from localStorage on component mount
+  // Load content from database and localStorage
   useEffect(() => {
-    try {
-      // Logo
-      const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
-      if (savedLogoUrl) setLogoUrl(savedLogoUrl);
-      
-      // Logo Size
-      const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
-      if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
-      
-      // App Image
-      const savedMockupUrl = localStorage.getItem('fastingApp_mockupUrl');
-      if (savedMockupUrl) setMockupUrl(savedMockupUrl);
+    const loadSettings = async () => {
+      try {
+        // First try to migrate from localStorage
+        await HomepageSettingsService.migrateFromLocalStorage();
+        
+        // Load logo from database
+        const logoSettings = await HomepageSettingsService.getLogoSettings();
+        if (logoSettings?.url) {
+          setLogoUrl(logoSettings.url);
+          setLogoSize(logoSettings.height || 40);
+        }
+        
+        // Load hero image from database
+        const heroImageSettings = await HomepageSettingsService.getHeroImageSettings();
+        if (heroImageSettings?.url) {
+          setMockupUrl(heroImageSettings.url);
+          setImageSize(heroImageSettings.maxWidth || 500);
+          setImageAlt(heroImageSettings.altText || 'Hero Image');
+        }
+      } catch (error) {
+        console.error('Error loading settings from database:', error);
+        
+        // Fallback to localStorage if database fails
+        const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
+        if (savedLogoUrl) setLogoUrl(savedLogoUrl);
+        
+        const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
+        if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
+        
+        const savedMockupUrl = localStorage.getItem('fastingApp_mockupUrl');
+        if (savedMockupUrl) setMockupUrl(savedMockupUrl);
 
-      // Image Size
-      const savedImageSize = localStorage.getItem('fastingApp_imageSize');
-      if (savedImageSize) setImageSize(parseInt(savedImageSize));
-      
-      // Image Alt Text
-      const savedImageAlt = localStorage.getItem('fastingApp_imageAlt');
-      if (savedImageAlt) setImageAlt(savedImageAlt);
+        const savedImageSize = localStorage.getItem('fastingApp_imageSize');
+        if (savedImageSize) setImageSize(parseInt(savedImageSize));
+        
+        const savedImageAlt = localStorage.getItem('fastingApp_imageAlt');
+        if (savedImageAlt) setImageAlt(savedImageAlt);
+      }
+    };
+
+    // Load database settings
+    loadSettings();
+
+    try {
       
       // Hero content
       const savedHeroTitle = localStorage.getItem('fastingApp_homepageHeroTitle');
