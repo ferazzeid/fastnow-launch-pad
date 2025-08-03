@@ -147,6 +147,23 @@ const MainNavigation = () => {
           </>
         )}
         
+        {!isAdmin && (
+          <NavigationMenuItem>
+            <Link to="/admin/login">
+              <NavigationMenuLink 
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                  location.pathname === "/admin/login" && "text-accent-green bg-gray-50"
+                )}
+              >
+                <User size={16} className="mr-1" />
+                Admin Login
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        )}
+        
       </NavigationMenuList>
     </NavigationMenu>
   );
