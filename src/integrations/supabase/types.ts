@@ -79,6 +79,8 @@ export type Database = {
       }
       chat_conversations: {
         Row: {
+          archived: boolean
+          conversation_type: string | null
           created_at: string
           id: string
           last_message_at: string
@@ -88,6 +90,8 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          archived?: boolean
+          conversation_type?: string | null
           created_at?: string
           id?: string
           last_message_at?: string
@@ -97,6 +101,8 @@ export type Database = {
           user_id: string
         }
         Update: {
+          archived?: boolean
+          conversation_type?: string | null
           created_at?: string
           id?: string
           last_message_at?: string
@@ -128,6 +134,122 @@ export type Database = {
           id?: string
           token?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      daily_activity_overrides: {
+        Row: {
+          activity_level: string
+          created_at: string
+          date: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activity_level: string
+          created_at?: string
+          date?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activity_level?: string
+          created_at?: string
+          date?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      default_food_favorites: {
+        Row: {
+          created_at: string
+          default_food_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          default_food_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          default_food_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "default_food_favorites_default_food_id_fkey"
+            columns: ["default_food_id"]
+            isOneToOne: false
+            referencedRelation: "default_foods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      default_foods: {
+        Row: {
+          calories_per_100g: number
+          carbs_per_100g: number
+          created_at: string
+          id: string
+          image_url: string | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          calories_per_100g: number
+          carbs_per_100g: number
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          calories_per_100g?: number
+          carbs_per_100g?: number
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      faqs: {
+        Row: {
+          answer: string
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          question?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -206,6 +328,33 @@ export type Database = {
         }
         Relationships: []
       }
+      manual_calorie_burns: {
+        Row: {
+          activity_name: string
+          calories_burned: number
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activity_name: string
+          calories_burned: number
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activity_name?: string
+          calories_burned?: number
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       motivators: {
         Row: {
           category: string | null
@@ -242,23 +391,103 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_provider_configs: {
+        Row: {
+          config_data: Json
+          created_at: string
+          id: string
+          is_active: boolean
+          provider: string
+          updated_at: string
+        }
+        Insert: {
+          config_data?: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          provider: string
+          updated_at?: string
+        }
+        Update: {
+          config_data?: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          provider?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      payment_receipts: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string | null
+          provider: string
+          receipt_data: Json
+          subscription_id: string | null
+          transaction_id: string | null
+          updated_at: string
+          user_id: string
+          validation_response: Json | null
+          validation_status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id?: string | null
+          provider: string
+          receipt_data: Json
+          subscription_id?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_id: string
+          validation_response?: Json | null
+          validation_status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string | null
+          provider?: string
+          receipt_data?: Json
+          subscription_id?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_id?: string
+          validation_response?: Json | null
+          validation_status?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           activity_level: string | null
           age: number | null
           ai_requests_reset_date: string | null
+          apple_transaction_id: string | null
           created_at: string
           daily_calorie_goal: number | null
           daily_carb_goal: number | null
+          default_walking_speed: number | null
+          deletion_reason: string | null
+          deletion_scheduled_at: string | null
           display_name: string | null
+          goal_weight: number | null
+          google_play_purchase_token: string | null
           height: number | null
           id: string
           is_paid_user: boolean | null
+          last_activity_at: string | null
           monthly_ai_requests: number | null
           openai_api_key: string | null
+          payment_method: string | null
+          payment_provider: string | null
+          platform_subscription_id: string | null
           speech_model: string | null
           stripe_customer_id: string | null
           subscription_end_date: string | null
+          subscription_product_id: string | null
           subscription_status: string | null
           subscription_tier: string | null
           transcription_model: string | null
@@ -268,24 +497,36 @@ export type Database = {
           updated_at: string
           use_own_api_key: boolean | null
           user_id: string
+          user_tier: Database["public"]["Enums"]["user_tier"] | null
           weight: number | null
         }
         Insert: {
           activity_level?: string | null
           age?: number | null
           ai_requests_reset_date?: string | null
+          apple_transaction_id?: string | null
           created_at?: string
           daily_calorie_goal?: number | null
           daily_carb_goal?: number | null
+          default_walking_speed?: number | null
+          deletion_reason?: string | null
+          deletion_scheduled_at?: string | null
           display_name?: string | null
+          goal_weight?: number | null
+          google_play_purchase_token?: string | null
           height?: number | null
           id?: string
           is_paid_user?: boolean | null
+          last_activity_at?: string | null
           monthly_ai_requests?: number | null
           openai_api_key?: string | null
+          payment_method?: string | null
+          payment_provider?: string | null
+          platform_subscription_id?: string | null
           speech_model?: string | null
           stripe_customer_id?: string | null
           subscription_end_date?: string | null
+          subscription_product_id?: string | null
           subscription_status?: string | null
           subscription_tier?: string | null
           transcription_model?: string | null
@@ -295,24 +536,36 @@ export type Database = {
           updated_at?: string
           use_own_api_key?: boolean | null
           user_id: string
+          user_tier?: Database["public"]["Enums"]["user_tier"] | null
           weight?: number | null
         }
         Update: {
           activity_level?: string | null
           age?: number | null
           ai_requests_reset_date?: string | null
+          apple_transaction_id?: string | null
           created_at?: string
           daily_calorie_goal?: number | null
           daily_carb_goal?: number | null
+          default_walking_speed?: number | null
+          deletion_reason?: string | null
+          deletion_scheduled_at?: string | null
           display_name?: string | null
+          goal_weight?: number | null
+          google_play_purchase_token?: string | null
           height?: number | null
           id?: string
           is_paid_user?: boolean | null
+          last_activity_at?: string | null
           monthly_ai_requests?: number | null
           openai_api_key?: string | null
+          payment_method?: string | null
+          payment_provider?: string | null
+          platform_subscription_id?: string | null
           speech_model?: string | null
           stripe_customer_id?: string | null
           subscription_end_date?: string | null
+          subscription_product_id?: string | null
           subscription_status?: string | null
           subscription_tier?: string | null
           transcription_model?: string | null
@@ -322,6 +575,7 @@ export type Database = {
           updated_at?: string
           use_own_api_key?: boolean | null
           user_id?: string
+          user_tier?: Database["public"]["Enums"]["user_tier"] | null
           weight?: number | null
         }
         Relationships: []
@@ -383,6 +637,7 @@ export type Database = {
           carbs_per_100g: number
           created_at: string
           id: string
+          image_url: string | null
           is_favorite: boolean | null
           name: string
           updated_at: string
@@ -394,6 +649,7 @@ export type Database = {
           carbs_per_100g: number
           created_at?: string
           id?: string
+          image_url?: string | null
           is_favorite?: boolean | null
           name: string
           updated_at?: string
@@ -405,6 +661,7 @@ export type Database = {
           carbs_per_100g?: number
           created_at?: string
           id?: string
+          image_url?: string | null
           is_favorite?: boolean | null
           name?: string
           updated_at?: string
@@ -441,6 +698,7 @@ export type Database = {
           deleted_at: string | null
           distance: number | null
           end_time: string | null
+          estimated_steps: number | null
           id: string
           pause_start_time: string | null
           session_state: string | null
@@ -457,6 +715,7 @@ export type Database = {
           deleted_at?: string | null
           distance?: number | null
           end_time?: string | null
+          estimated_steps?: number | null
           id?: string
           pause_start_time?: string | null
           session_state?: string | null
@@ -473,6 +732,7 @@ export type Database = {
           deleted_at?: string | null
           distance?: number | null
           end_time?: string | null
+          estimated_steps?: number | null
           id?: string
           pause_start_time?: string | null
           session_state?: string | null
@@ -490,6 +750,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_payment_provider_for_platform: {
+        Args: { _platform: string }
+        Returns: string
+      }
       has_role: {
         Args: {
           _user_id: string
@@ -506,9 +770,25 @@ export type Database = {
         }
         Returns: undefined
       }
+      update_subscription_from_receipt: {
+        Args: {
+          _user_id: string
+          _provider: string
+          _subscription_id: string
+          _product_id: string
+          _status: string
+          _expires_at?: string
+        }
+        Returns: undefined
+      }
+      update_user_tier: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["user_tier"]
+      }
     }
     Enums: {
       app_role: "admin" | "user"
+      user_tier: "api_user" | "paid_user" | "granted_user" | "free_user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -637,6 +917,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      user_tier: ["api_user", "paid_user", "granted_user", "free_user"],
     },
   },
 } as const
