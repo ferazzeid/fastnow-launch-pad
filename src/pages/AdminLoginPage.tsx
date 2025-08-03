@@ -29,25 +29,34 @@ const AdminLoginPage = () => {
     setIsLoading(true);
     
     try {
+      console.log('Starting login process...');
       const result = await SupabaseAuthService.signIn(email, password);
+      console.log('SignIn result:', result);
       
       if (result.success && result.user) {
+        console.log('Login successful, checking admin role for user:', result.user.id);
         const isAdmin = await SupabaseAuthService.hasAdminRole(result.user.id);
+        console.log('Admin role check result:', isAdmin);
         
         if (isAdmin) {
+          console.log('User is admin, attempting navigation...');
           toast.success("Login successful!");
           navigate('/admin');
+          console.log('Navigation called');
         } else {
+          console.log('User is not admin');
           toast.error("Access denied. Admin privileges required.");
           await SupabaseAuthService.signOut();
         }
       } else {
+        console.log('Login failed:', result.error);
         toast.error(result.error || "Authentication failed");
       }
     } catch (error) {
       console.error('Login error:', error);
       toast.error("An unexpected error occurred");
     } finally {
+      console.log('Setting loading to false');
       setIsLoading(false);
     }
   };
