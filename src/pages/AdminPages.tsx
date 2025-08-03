@@ -355,14 +355,19 @@ United States`
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container flex justify-between items-center py-4">
-          <div className="flex items-center gap-4">
-            <Link to="/admin">
-              <Button variant="outline" size="sm">
-                <ArrowLeft size={16} className="mr-2" />
-                Back to Admin
-              </Button>
+          <div className="flex justify-between items-center w-full">
+            <Link to="/" className="text-2xl font-bold text-accent-green hover:opacity-80 transition-opacity">
+              FastNow
             </Link>
-            <h1 className="text-2xl font-bold">Page Content Management</h1>
+            <div className="flex items-center gap-4">
+              <h1 className="text-2xl font-bold">Page Content Management</h1>
+              <Link to="/admin">
+                <Button variant="outline" size="sm">
+                  <ArrowLeft size={16} className="mr-2" />
+                  Back to Admin
+                </Button>
+              </Link>
+            </div>
           </div>
           <Button onClick={handleSaveAll} disabled={isLoading}>
             <Save size={16} className="mr-2" />

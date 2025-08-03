@@ -74,19 +74,22 @@ const AdminBlog = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container flex justify-between items-center py-4">
-          <div>
-            <h1 className="text-2xl font-bold">Blog Management</h1>
-            <p className="text-muted-foreground">Manage your blog posts and content</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link to="/admin">
-              <Button variant="outline">Back to Admin</Button>
-            </Link>
+          <Link to="/" className="text-2xl font-bold text-accent-green hover:opacity-80 transition-opacity">
+            FastNow
+          </Link>
+          <div className="flex items-center gap-4">
+            <div className="text-center">
+              <h1 className="text-3xl font-bold">Blog Management</h1>
+              <p className="text-muted-foreground">Manage your blog posts and content</p>
+            </div>
             <Link to="/admin/blog/new">
               <Button>
                 <Plus className="w-4 h-4 mr-2" />
                 New Post
               </Button>
+            </Link>
+            <Link to="/admin">
+              <Button variant="outline">Back to Admin</Button>
             </Link>
           </div>
         </div>
