@@ -15,27 +15,50 @@ const AboutMe = () => {
 
   const loadContent = async () => {
     try {
+      console.log('Loading about me content...');
       const { data, error } = await supabase
         .from('site_settings')
         .select('setting_key, setting_value')
         .in('setting_key', ['about_me_title', 'about_me_subtitle', 'about_me_content']);
 
-      if (error) throw error;
+      console.log('Site settings query result:', { data, error });
+
+      if (error) {
+        console.error('Database error:', error);
+        throw error;
+      }
 
       if (data && data.length > 0) {
         const settings = data.reduce((acc, item) => {
           const value = item.setting_value;
-          acc[item.setting_key] = typeof value === 'string' ? JSON.parse(value || '""') : '';
+          // Handle both string and object values properly
+          if (typeof value === 'string') {
+            try {
+              const parsed = JSON.parse(value);
+              acc[item.setting_key] = typeof parsed === 'string' ? parsed : String(parsed);
+            } catch {
+              acc[item.setting_key] = value;
+            }
+          } else if (typeof value === 'object' && value !== null) {
+            acc[item.setting_key] = String(value);
+          } else {
+            acc[item.setting_key] = value ? String(value) : '';
+          }
           return acc;
         }, {} as Record<string, string>);
+
+        console.log('Parsed settings:', settings);
 
         if (settings.about_me_title) setTitle(settings.about_me_title);
         if (settings.about_me_subtitle) setSubtitle(settings.about_me_subtitle);
         if (settings.about_me_content) setContent(settings.about_me_content);
+      } else {
+        console.log('No about me content found in database, using defaults');
       }
     } catch (error) {
       console.error('Error loading content:', error);
     } finally {
+      console.log('Setting loading to false');
       setIsLoading(false);
     }
   };
