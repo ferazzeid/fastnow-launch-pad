@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Settings } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 
 interface GeneralSettings {
@@ -199,6 +199,48 @@ const AdminGeneral = () => {
                   onChange={(e) => handleInputChange('defaultTimezone', e.target.value)}
                   placeholder="UTC"
                 />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* SEO & Analytics */}
+          <Card>
+            <CardHeader>
+              <CardTitle>SEO & Analytics</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="text-sm text-muted-foreground p-4 bg-muted rounded-lg">
+                <p className="mb-2">Configure your website's search engine optimization and analytics tracking.</p>
+                <p>Set meta titles, descriptions, Google Analytics, and more to improve your site's visibility.</p>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" asChild className="flex-1">
+                  <Link to="/admin/seo">
+                    <Settings size={16} className="mr-2" />
+                    SEO Settings
+                  </Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Contact Form Settings */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Contact Form Settings</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="text-sm text-muted-foreground p-4 bg-muted rounded-lg">
+                <p className="mb-2">Configure how contact form submissions are handled.</p>
+                <p>Set up email notifications and manage form settings.</p>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" asChild className="flex-1">
+                  <Link to="/admin/contact">
+                    <Settings size={16} className="mr-2" />
+                    Contact Settings
+                  </Link>
+                </Button>
               </div>
             </CardContent>
           </Card>

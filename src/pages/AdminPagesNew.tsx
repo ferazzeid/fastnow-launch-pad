@@ -54,9 +54,9 @@ const AdminPagesNew = () => {
     {
       title: 'Home Page',
       description: 'Edit the main landing page content',
-      route: '/admin/edit-home',
+      route: '/admin/homepage-settings',
       liveUrl: '/',
-      hasEditor: false // TODO: Create editor
+      hasEditor: true
     },
     {
       title: 'FastNow Protocol',

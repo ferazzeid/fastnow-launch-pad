@@ -97,6 +97,12 @@ const Admin = () => {
                   General Settings
                 </Button>
               </Link>
+              <Link to="/admin/homepage-settings">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings size={16} className="mr-2" />
+                  Homepage Settings
+                </Button>
+              </Link>
               <Link to="/admin/pages">
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
@@ -109,28 +115,10 @@ const Admin = () => {
                   Design Settings
                 </Button>
               </Link>
-              <Link to="/admin/about-fastnow-app">
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText size={16} className="mr-2" />
-                  About FastNow App
-                </Button>
-              </Link>
               <Link to="/admin/feature-screenshots">
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
                   Feature Screenshots
-                </Button>
-              </Link>
-              <Link to="/admin/homepage-settings">
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings size={16} className="mr-2" />
-                  Homepage & Logo Settings
-                </Button>
-              </Link>
-              <Link to="/admin/faq">
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText size={16} className="mr-2" />
-                  FAQ Management
                 </Button>
               </Link>
             </CardContent>
@@ -173,31 +161,6 @@ const Admin = () => {
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
                   Create New Post
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-
-          {/* SEO Management */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings size={20} />
-                SEO & Analytics
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link to="/admin/seo">
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings size={16} className="mr-2" />
-                  SEO Settings
-                </Button>
-              </Link>
-              <Link to="/admin/contact">
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings size={16} className="mr-2" />
-                  Contact Form Settings
                 </Button>
               </Link>
             </CardContent>
