@@ -106,7 +106,7 @@ We may update this privacy policy periodically. We will notify users of signific
 
 ## Contact Us
 
-For privacy-related questions, contact us at: [Your Contact Email]
+For privacy-related questions, contact us at: fastnowapp@pm.me
 
 ---
 
@@ -193,7 +193,7 @@ You agree to indemnify and hold us harmless from claims arising from your use of
 
 ## Governing Law
 
-These Terms are governed by the laws of [Your Jurisdiction], without regard to conflict of law principles.
+These Terms are governed by the laws of the United States, without regard to conflict of law principles.
 
 ## Changes to Terms
 
@@ -201,7 +201,7 @@ We may update these Terms periodically. Continued use constitutes acceptance of 
 
 ## Contact Information
 
-For questions about these Terms, contact us at: [Your Contact Email]
+For questions about these Terms, contact us at: fastnowapp@pm.me
 
 ---
 

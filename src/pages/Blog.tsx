@@ -69,7 +69,7 @@ const Blog = () => {
       <div className="container py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-mint-600 mb-4">FastNow Blog</h1>
+          <h1 className="text-4xl font-bold text-mint-600 mb-4">FastNow Insights</h1>
           <p className="text-xl text-mint-500 max-w-2xl mx-auto">
             Discover the latest insights on intermittent fasting, health tips, and wellness advice.
           </p>

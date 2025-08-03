@@ -41,33 +41,6 @@ const MainNavigation = () => {
     <NavigationMenu className="bg-white">
       <NavigationMenuList className="flex items-center gap-4">
         <NavigationMenuItem>
-          <NavigationMenuLink 
-            className={cn(
-              navigationMenuTriggerStyle(),
-              "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green"
-            )}
-            asChild
-          >
-            <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-              Access Fast Now App
-              <ArrowRight size={14} />
-            </a>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/about-fast-now-app">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname === "/about-fast-now-app" && "text-accent-green bg-gray-50"
-              )}
-            >
-              About Fast Now App
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
           <Link to="/fastnow-protocol">
             <NavigationMenuLink 
               className={cn(
@@ -79,6 +52,46 @@ const MainNavigation = () => {
               The FastNow Protocol
             </NavigationMenuLink>
           </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link to="/faq">
+            <NavigationMenuLink 
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                location.pathname === "/faq" && "text-accent-green bg-gray-50"
+              )}
+            >
+              FAQ
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link to="/about-fastnow-app">
+            <NavigationMenuLink 
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                location.pathname === "/about-fastnow-app" && "text-accent-green bg-gray-50"
+              )}
+            >
+              About FastNow App
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink 
+            className={cn(
+              navigationMenuTriggerStyle(),
+              "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green"
+            )}
+            asChild
+          >
+            <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+              Access FastNow App
+              <ArrowRight size={14} />
+            </a>
+          </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <DropdownMenu>
@@ -110,19 +123,22 @@ const MainNavigation = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/blog">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname.startsWith("/blog") && "text-accent-green bg-gray-50"
-              )}
-            >
-              Blog
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
+        {/* Blog temporarily hidden */}
+        {false && (
+          <NavigationMenuItem>
+            <Link to="/blog">
+              <NavigationMenuLink 
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "text-gray-700 hover:text-accent-green hover:bg-gray-50",
+                  location.pathname.startsWith("/blog") && "text-accent-green bg-gray-50"
+                )}
+              >
+                FastNow Insights
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        )}
         
         {isAdmin && (
           <>

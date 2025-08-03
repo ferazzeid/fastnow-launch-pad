@@ -36,8 +36,8 @@ const ContactForm = () => {
 
     try {
       // Get contact settings from localStorage
-      const contactEmail = localStorage.getItem('fastingApp_contactEmail') || 'contact@fastnow.app';
-      const webhookUrl = localStorage.getItem('fastingApp_contactWebhook');
+      const contactEmail = localStorage.getItem('fastingApp_contactEmail') || 'fastnowapp@pm.me';
+      const resendApiKey = localStorage.getItem('fastingApp_resendApiKey');
 
       // Prepare email content
       const emailContent = `
@@ -52,25 +52,28 @@ ${formData.message}
 Sent via Fast Now App Contact Form
       `.trim();
 
-      if (webhookUrl) {
-        // Send to webhook (Zapier or similar)
-        await fetch(webhookUrl, {
+      if (resendApiKey) {
+        // Send via Resend API through our edge function
+        const response = await fetch('https://texnkijwcygodtywgedm.supabase.co/functions/v1/send-contact-email', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${resendApiKey}`,
           },
-          mode: 'no-cors',
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
             subject: formData.subject || 'Contact Form Submission',
             message: formData.message,
-            timestamp: new Date().toISOString(),
-            to: contactEmail
+            resendApiKey: resendApiKey
           }),
         });
 
-        toast.success('Message sent successfully! We\'ll get back to you soon.');
+        if (response.ok) {
+          toast.success('Message sent successfully! We\'ll get back to you soon.');
+        } else {
+          throw new Error('Failed to send email');
+        }
       } else {
         // Fallback: Create mailto link
         const mailtoLink = `mailto:${contactEmail}?subject=${encodeURIComponent(formData.subject || 'Contact Form Submission')}&body=${encodeURIComponent(emailContent)}`;

@@ -18,6 +18,9 @@ import AdminDesign from "./pages/AdminDesign";
 import AdminSeo from "./pages/AdminSeo";
 import AdminContactSettings from "./pages/AdminContactSettings";
 import AdminPageImages from "./pages/AdminPageImages";
+import FAQ from "./pages/FAQ";
+import AdminFAQ from "./pages/AdminFAQ";
+import AdminEmail from "./pages/AdminEmail";
 import ContentPage from "./pages/ContentPage";
 import UserManagement from "./pages/UserManagement";
 import FastingTimeline from "./pages/FastingTimeline";
@@ -47,7 +50,7 @@ const AppRoutes = () => {
       
       {/* FastNow Protocol */}
       <Route path="/fastnow-protocol" element={<FastNowProtocol />} />
-      <Route path="/about-fast-now-app" element={<AboutFastNowApp />} />
+      <Route path="/about-fastnow-app" element={<AboutFastNowApp />} />
       <Route path="/my-weight-story" element={<MyWeightStory />} />
       <Route path="/my-food-selection" element={<MyFoodSelection />} />
       
@@ -64,7 +67,10 @@ const AppRoutes = () => {
       <Route path="/admin/design" element={<AdminDesign />} />
       <Route path="/admin/seo" element={<AdminSeo />} />
       <Route path="/admin/contact" element={<AdminContactSettings />} />
-      <Route path="/admin/page-images" element={<AdminPageImages />} />
+        <Route path="/admin/page-images" element={<AdminPageImages />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/admin/faq" element={<AdminFAQ />} />
+        <Route path="/admin/email" element={<AdminEmail />} />
       <Route path="/admin/users" element={<UserManagement />} />
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />

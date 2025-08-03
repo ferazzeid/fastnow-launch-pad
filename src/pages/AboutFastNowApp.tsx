@@ -1,220 +1,250 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { FeatureItem } from '@/components/FeatureItem';
+import { AppMockup } from '@/components/AppMockup';
+import { AppStoreButton } from '@/components/AppStoreButton';
+import { GooglePlayButton } from '@/components/GooglePlayButton';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Timer, Activity, MapPin, MessageSquare, Users, Shield, Clock, Utensils, Bot, Target, TrendingUp } from 'lucide-react';
 
 const AboutFastNowApp = () => {
   return (
     <PageLayout>
       <Helmet>
-        <title>About Fast Now App - Your Complete Fasting Protocol Companion</title>
-        <meta name="description" content="Learn about the Fast Now app - access the complete fasting protocol with AI support, tracking tools, and structured guidance for your health journey." />
+        <title>About FastNow App | fastnow.app</title>
+        <meta name="description" content="Learn about the FastNow app - your ultimate companion for intermittent fasting, health tracking, and wellness goals." />
       </Helmet>
 
-      <div className="container py-16">
-        <div className="max-w-4xl mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              About Fast Now App
-            </h1>
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
-              <p className="text-amber-800 font-medium text-center">
-                📱 This is a web app specifically designed for mobile devices
-              </p>
-            </div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              A supportive tool designed to help you implement and follow my personal Fast Now Protocol - 
-              combining structured fasting, smart nutrition, and daily movement with optional AI assistance.
-            </p>
-          </div>
+      <div className="container py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold text-mint-600 mb-6">
+            About FastNow App
+          </h1>
+          <p className="text-xl text-mint-500 max-w-3xl mx-auto leading-relaxed">
+            Your ultimate companion for intermittent fasting, health tracking, and achieving your wellness goals. 
+            FastNow combines science-backed fasting protocols with modern technology to help you transform your health.
+          </p>
+        </div>
 
-          {/* Philosophy Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Why You Need a Dedicated Tool</h2>
-            <div className="bg-gray-50 rounded-lg p-8">
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                My key philosophy is that you need a certain level of immersion into something like this for it to work. 
-                It needs to have a certain level of priority in your subconscious, and there are many ways of doing this.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                One way is to have a dedicated app that you can access to deal with this and spend a certain amount of 
-                energy and time per day on it, so it stays important in your head. It's competing against all of the 
-                other things that are happening during the day.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                It's important to have some kind of tool that you can regularly go back to and interact with, 
-                staying in touch with this whole topic that will get you the results you want. All you need is 
-                just a bit of clarity, a bit of structure, and an example that works - and that's what we are 
-                providing here, and that's what the app does.
-              </p>
-            </div>
-          </div>
+        {/* App Mockup Section */}
+        <div className="mb-16">
+          <AppMockup />
+        </div>
 
-          {/* What the App Does */}
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">How the App Supports the Protocol</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <div className="w-12 h-12 bg-accent-green/10 rounded-lg flex items-center justify-center mb-4">
-                  <CheckCircle className="w-6 h-6 text-accent-green" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Initiation Fast Support</h3>
-                <p className="text-gray-600">
-                  Supports you through the 3-day water fast with timer tracking, safety reminders, 
-                  and guidance to help you successfully complete this crucial first phase.
-                </p>
-              </div>
+        {/* Features Tabs */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-center text-mint-600 mb-12">
+            Discover FastNow Features
+          </h2>
+          
+          <Tabs defaultValue="fasting-timer" className="max-w-6xl mx-auto">
+            <TabsList className="grid w-full grid-cols-5">
+              <TabsTrigger value="fasting-timer">Fasting Timer</TabsTrigger>
+              <TabsTrigger value="walking-tracker">Walking Tracker</TabsTrigger>
+              <TabsTrigger value="food-log">Food Log</TabsTrigger>
+              <TabsTrigger value="motivators">Motivators</TabsTrigger>
+              <TabsTrigger value="ai-assistant">AI Assistant</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="fasting-timer" className="mt-8">
+              <Card>
+                <CardHeader className="text-center">
+                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <Clock className="w-8 h-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-2xl">Smart Fasting Timer</CardTitle>
+                  <CardDescription className="text-lg">
+                    Track your fasting windows with precision and intelligence
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold mb-2">✨ Key Features:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Multiple fasting protocols (16:8, 18:6, OMAD, and more)</li>
+                        <li>• Visual countdown timer with progress rings</li>
+                        <li>• Smart notifications for start/end times</li>
+                        <li>• Historical fasting data and streaks</li>
+                        <li>• Customizable fasting goals</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">🎯 Benefits:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Stay consistent with your fasting schedule</li>
+                        <li>• Track progress and build healthy habits</li>
+                        <li>• Flexible timing to fit your lifestyle</li>
+                        <li>• Detailed insights and analytics</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <div className="w-12 h-12 bg-accent-green/10 rounded-lg flex items-center justify-center mb-4">
-                  <CheckCircle className="w-6 h-6 text-accent-green" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Food Protocol Tracking</h3>
-                <p className="text-gray-600">
-                  Helps you maintain simple calorie control with meal logging, 
-                  food suggestions, and deficit calculations.
-                </p>
-              </div>
+            <TabsContent value="walking-tracker" className="mt-8">
+              <Card>
+                <CardHeader className="text-center">
+                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <Activity className="w-8 h-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-2xl">Walking Tracker</CardTitle>
+                  <CardDescription className="text-lg">
+                    Monitor your daily activity and movement goals
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold mb-2">🚶 Features:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Step counting and distance tracking</li>
+                        <li>• Calorie burn estimation</li>
+                        <li>• Daily, weekly, and monthly goals</li>
+                        <li>• Walking route history</li>
+                        <li>• Integration with health apps</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">💪 Benefits:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Complement fasting with gentle exercise</li>
+                        <li>• Boost metabolism naturally</li>
+                        <li>• Improve mental clarity and mood</li>
+                        <li>• Build sustainable movement habits</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <div className="w-12 h-12 bg-accent-green/10 rounded-lg flex items-center justify-center mb-4">
-                  <CheckCircle className="w-6 h-6 text-accent-green" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Walking Protocol</h3>
-                <p className="text-gray-600">
-                  Tracks your daily walks, provides route suggestions, 
-                  and helps you build the movement habit that supports your goals.
-                </p>
-              </div>
-            </div>
-          </div>
+            <TabsContent value="food-log" className="mt-8">
+              <Card>
+                <CardHeader className="text-center">
+                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <Utensils className="w-8 h-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-2xl">Food Log</CardTitle>
+                  <CardDescription className="text-lg">
+                    Track your nutrition during eating windows
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold mb-2">🍽️ Features:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Easy meal logging with photos</li>
+                        <li>• Macro and calorie tracking</li>
+                        <li>• Extensive food database</li>
+                        <li>• Custom recipe creation</li>
+                        <li>• Eating window optimization</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">🎯 Benefits:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Maximize nutrition in eating windows</li>
+                        <li>• Identify food patterns and triggers</li>
+                        <li>• Make informed dietary choices</li>
+                        <li>• Support weight management goals</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          {/* AI Support */}
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Optional AI Implementation Support</h2>
-            <div className="bg-gray-50 rounded-lg p-8">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">With AI Support</h3>
-                  <ul className="space-y-3 text-gray-600">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-accent-green mt-0.5 shrink-0" />
-                      Voice chat for easy setup and progress tracking
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-accent-green mt-0.5 shrink-0" />
-                      Help navigating the protocol implementation
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-accent-green mt-0.5 shrink-0" />
-                      Quick answers to protocol-related questions
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-accent-green mt-0.5 shrink-0" />
-                      Facilitates easier app usage and interaction
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Without AI (Manual Mode)</h3>
-                  <ul className="space-y-3 text-gray-600">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-                      All core tracking and timer functions work
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-                      Manual data entry and progress tracking
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-                      Static protocol information and guidance
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-                      Perfect if you prefer complete control
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+            <TabsContent value="motivators" className="mt-8">
+              <Card>
+                <CardHeader className="text-center">
+                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <Target className="w-8 h-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-2xl">Motivators</CardTitle>
+                  <CardDescription className="text-lg">
+                    Stay inspired with personalized motivation and goals
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold mb-2">🌟 Features:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Personalized motivational messages</li>
+                        <li>• Achievement badges and rewards</li>
+                        <li>• Progress celebrations</li>
+                        <li>• Inspiring success stories</li>
+                        <li>• Custom goal setting</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">💫 Benefits:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Maintain long-term motivation</li>
+                        <li>• Overcome challenging moments</li>
+                        <li>• Celebrate milestones and progress</li>
+                        <li>• Build confidence and self-efficacy</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          {/* Access Options */}
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">How to Access</h2>
-            <div className="bg-white border border-gray-200 rounded-lg p-8">
-              <p className="text-lg text-gray-600 mb-6">
-                Fast Now is a web application - no download required. Simply access it through your browser 
-                and start implementing the protocol immediately.
-              </p>
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="border border-gray-200 rounded-lg p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Bring Your Own API Key</h3>
-                  <p className="text-gray-600 mb-4">
-                    If you already have an OpenAI API subscription, use your own key for unlimited AI features.
-                  </p>
-                  <ul className="text-sm text-gray-600 space-y-1">
-                    <li>• Full AI functionality</li>
-                    <li>• Use your existing OpenAI credits</li>
-                    <li>• Complete control over usage</li>
-                  </ul>
-                </div>
-                
-                <div className="border border-gray-200 rounded-lg p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Monthly Subscription</h3>
-                  <p className="text-gray-600 mb-4">
-                    Don't have an API key? Subscribe monthly and we'll handle the AI access for you.
-                  </p>
-                  <ul className="text-sm text-gray-600 space-y-1">
-                    <li>• No technical setup required</li>
-                    <li>• Pay-as-you-go simplicity</li>
-                    <li>• Cancel anytime</li>
-                  </ul>
-                </div>
-              </div>
+            <TabsContent value="ai-assistant" className="mt-8">
+              <Card>
+                <CardHeader className="text-center">
+                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <Bot className="w-8 h-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-2xl">AI Assistant</CardTitle>
+                  <CardDescription className="text-lg">
+                    Get personalized guidance from your intelligent fasting coach
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold mb-2">🤖 Features:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• 24/7 personalized fasting guidance</li>
+                        <li>• Science-based recommendations</li>
+                        <li>• Real-time answers to your questions</li>
+                        <li>• Adaptive protocol suggestions</li>
+                        <li>• Health insights and tips</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">🎓 Benefits:</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Get expert advice instantly</li>
+                        <li>• Learn about fasting science</li>
+                        <li>• Optimize your fasting approach</li>
+                        <li>• Troubleshoot challenges quickly</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
 
-              <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                <p className="text-sm text-amber-800">
-                  <strong>Free Trial:</strong> Test the app with limited AI requests to see if it works for you 
-                  before committing to any payment option.
-                </p>
-              </div>
-              
-              <div className="mt-8 text-center">
-                <Button 
-                  size="lg" 
-                  className="bg-accent-green hover:bg-accent-green-dark text-white"
-                  asChild
-                >
-                  <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    Access Fast Now App
-                    <ArrowRight size={16} />
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to Transform Your Health?</h2>
-            <p className="text-lg text-gray-600 mb-8">
-              Access the Fast Now app and start your structured protocol journey today.
-            </p>
-            <Button 
-              size="lg" 
-              className="bg-accent-green hover:bg-accent-green-dark text-white"
-              asChild
-            >
-              <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                Access Fast Now App
-                <ArrowRight size={16} />
-              </a>
-            </Button>
+        {/* Download Section */}
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-mint-600 mb-8">Get FastNow App</h2>
+          <p className="text-lg text-gray-600 mb-8">
+            Available on all your favorite platforms
+          </p>
+          <div className="flex justify-center gap-4">
+            <AppStoreButton />
+            <GooglePlayButton />
           </div>
         </div>
       </div>

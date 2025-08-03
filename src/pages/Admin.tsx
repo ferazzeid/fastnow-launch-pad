@@ -115,6 +115,18 @@ const Admin = () => {
                   Page Featured Images
                 </Button>
               </Link>
+              <Link to="/admin/faq">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText size={16} className="mr-2" />
+                  FAQ Management
+                </Button>
+              </Link>
+              <Link to="/admin/email">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText size={16} className="mr-2" />
+                  Email Settings
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
