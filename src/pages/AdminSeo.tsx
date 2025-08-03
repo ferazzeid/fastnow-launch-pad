@@ -157,23 +157,88 @@ const AdminSeo = () => {
             <CardHeader>
               <CardTitle>SEO Tools</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="enableSitemap">Enable XML Sitemap</Label>
-                <Switch
-                  id="enableSitemap"
-                  checked={enableSitemap}
-                  onCheckedChange={setEnableSitemap}
-                />
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="enableRobotsTxt">Enable Robots.txt</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Currently using static robots.txt file
+                    </p>
+                  </div>
+                  <Switch
+                    id="enableRobotsTxt"
+                    checked={enableRobotsTxt}
+                    onCheckedChange={setEnableRobotsTxt}
+                  />
+                </div>
+                
+                <div className="pl-4 space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    📄 <strong>Current robots.txt:</strong>
+                  </p>
+                  <div className="bg-muted p-3 rounded-md text-sm font-mono">
+                    <div>User-agent: *</div>
+                    <div>Allow: /</div>
+                    <div>Disallow: /admin/</div>
+                    <div className="text-muted-foreground">
+                      (Static file in public/robots.txt)
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => window.open('/robots.txt', '_blank')}
+                  >
+                    🔗 View Current robots.txt
+                  </Button>
+                </div>
               </div>
-              
-              <div className="flex items-center justify-between">
-                <Label htmlFor="enableRobotsTxt">Enable Robots.txt</Label>
-                <Switch
-                  id="enableRobotsTxt"
-                  checked={enableRobotsTxt}
-                  onCheckedChange={setEnableRobotsTxt}
-                />
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="enableSitemap">Enable XML Sitemap</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Auto-generate sitemap.xml for search engines
+                    </p>
+                  </div>
+                  <Switch
+                    id="enableSitemap"
+                    checked={enableSitemap}
+                    onCheckedChange={setEnableSitemap}
+                  />
+                </div>
+                
+                {enableSitemap && (
+                  <div className="pl-4 space-y-2">
+                    <p className="text-sm text-success-foreground">
+                      ✅ <strong>Sitemap Status:</strong> {enableSitemap ? 'Enabled' : 'Disabled'}
+                    </p>
+                    <div className="space-x-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => window.open('/sitemap.xml', '_blank')}
+                      >
+                        🔗 View Sitemap.xml
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => {
+                          navigator.clipboard.writeText(`${window.location.origin}/sitemap.xml`);
+                          toast.success('Sitemap URL copied to clipboard!');
+                        }}
+                      >
+                        📋 Copy Sitemap URL
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Note: Sitemap generation needs to be implemented
+                    </p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
