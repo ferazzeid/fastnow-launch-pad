@@ -11,6 +11,9 @@ import { FeatureItem } from '@/components/FeatureItem';
 import { pageContentService } from '@/services/PageContentService';
 import { AppStoreButton } from '@/components/AppStoreButton';
 import { GooglePlayButton } from '@/components/GooglePlayButton';
+import PANsExplainer from '@/components/home/PANsExplainer';
+import InstallPWA from '@/components/home/InstallPWA';
+import InlineFAQ from '@/components/home/InlineFAQ';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -68,6 +71,8 @@ const Index = () => {
   const [showDefaultDesign, setShowDefaultDesign] = useState(true);
   const [googlePlayLink, setGooglePlayLink] = useState('https://play.google.com');
   const [canonicalUrl, setCanonicalUrl] = useState<string>('');
+  const inlineFaqQuestion = 'How do I track progress using clothing fit?';
+  const inlineFaqAnswer = 'Choose one pair of jeans or a t-shirt and use it as your reference.\nWear it weekly at the same time of day. Notice how it fits—tighter, same, or looser.\nThis keeps focus on real-world change rather than daily scale swings.';
   // Load content from database and localStorage
   useEffect(() => {
     const loadContent = async () => {
@@ -216,6 +221,22 @@ const Index = () => {
             description: metaDescription,
           })}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: inlineFaqQuestion,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: inlineFaqAnswer
+                }
+              }
+            ]
+          })}
+        </script>
       </Helmet>
       
       {/* Background 3D Element if available */}
@@ -319,6 +340,10 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <PANsExplainer />
+      <InstallPWA />
+      <InlineFAQ />
 
     </PageLayout>
   );
