@@ -4,6 +4,7 @@ import { Clock, Utensils, Activity, AlertTriangle, CheckCircle } from 'lucide-re
 import PageLayout from '@/components/layout/PageLayout';
 import { pageContentService } from '@/services/PageContentService';
 import InlineFAQ from '@/components/home/InlineFAQ';
+import { Button } from '@/components/ui/button';
 
 const FastNowProtocol = () => {
   const [pageContent, setPageContent] = useState({
@@ -12,9 +13,16 @@ const FastNowProtocol = () => {
     metaTitle: 'The FastNow Protocol | FastNow',
     metaDescription: 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol'
   });
+  const [canonicalUrl, setCanonicalUrl] = useState<string>('');
 
   useEffect(() => {
     loadContent();
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCanonicalUrl(window.location.href);
+    }
   }, []);
 
   const loadContent = async () => {
@@ -50,19 +58,45 @@ const FastNowProtocol = () => {
     }
   ];
 
+  const howToJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: pageContent.title,
+    description: pageContent.metaDescription,
+    step: [
+      {
+        '@type': 'HowToStep',
+        name: 'Phase 1: 3-Day Initiation Water Fast',
+        text: 'Fast for 60–72 hours with water and black coffee only. Expect a difficult Night 2; getting past it triggers the shift.'
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Phase 2: Strict Simple Diet + Daily Calorie Limit',
+        text: 'For 30–60 days, cap carbs at 20–30g and maintain ~1,000 kcal daily deficit. Track everything you eat.'
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Phase 3: Daily Walking',
+        text: 'Walk 1.5 hours every day. Use walking as a recovery lever to stay on target.'
+      }
+    ]
+  } as const;
+
   return (
     <PageLayout>
       <Helmet>
         <title>{pageContent.metaTitle}</title>
         <meta name="description" content={pageContent.metaDescription} />
+        {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+        <script type="application/ld+json">{JSON.stringify(howToJsonLd)}</script>
       </Helmet>
-      
-      <main className="flex-1 py-12">
+
+      <main className="flex-1 py-12 pb-28">
         <div className="container max-w-4xl mx-auto">
           <div>
           {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
               {pageContent.title}
             </h1>
             <p className="text-xl text-muted-foreground">
@@ -70,8 +104,59 @@ const FastNowProtocol = () => {
             </p>
           </div>
 
+          {/* Quick nav */}
+          <nav aria-label="On this page" className="mb-10">
+            <ul className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+              <li><a href="#at-a-glance" className="story-link">At a glance</a></li>
+              <li><a href="#start-today" className="story-link">Start today</a></li>
+              <li><a href="#phase-1" className="story-link">Phase 1</a></li>
+              <li><a href="#phase-2" className="story-link">Phase 2</a></li>
+              <li><a href="#phase-3" className="story-link">Phase 3</a></li>
+              <li><a href="#pitfalls" className="story-link">Common pitfalls</a></li>
+              <li><a href="#faq" className="story-link">FAQ</a></li>
+            </ul>
+          </nav>
+
+          {/* At a glance */}
+          <section id="at-a-glance" className="mb-12">
+            <div className="bg-card rounded-lg border shadow-soft p-6">
+              <h2 className="text-2xl font-semibold mb-4">At a glance</h2>
+              <div className="grid gap-4 md:grid-cols-3">
+                <div className="rounded-md border p-4">
+                  <p className="text-sm text-muted-foreground">Kickstart</p>
+                  <p className="text-lg font-medium">60–72h water fast</p>
+                </div>
+                <div className="rounded-md border p-4">
+                  <p className="text-sm text-muted-foreground">Engine</p>
+                  <p className="text-lg font-medium">~1,000 kcal daily deficit</p>
+                </div>
+                <div className="rounded-md border p-4">
+                  <p className="text-sm text-muted-foreground">Movement</p>
+                  <p className="text-lg font-medium">1.5h walk every day</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Start today in 3 steps */}
+          <section id="start-today" className="mb-12">
+            <div className="bg-muted/40 rounded-lg p-6 border">
+              <h2 className="text-2xl font-semibold mb-4">Start today in 3 steps</h2>
+              <ol className="list-decimal pl-5 space-y-3 text-muted-foreground">
+                <li>Pick your fast start time. Clear your kitchen of high-carb snacks.</li>
+                <li>Choose a simple food list for Phase 2 and set your daily calorie cap.</li>
+                <li>Schedule your 1.5h walking slots for the next 7 days on your calendar.</li>
+              </ol>
+              <div className="mt-5">
+                <Button asChild>
+                  <a href="/">Get FastNow free</a>
+                </Button>
+              </div>
+            </div>
+          </section>
+
           {/* Phase 1: 3-Day Initiation Water Fast */}
-          <div className="mb-12">
+          <section id="phase-1" className="mb-12">
             <div className="bg-card rounded-lg shadow-soft p-8 border-l-4 border-blue-500">
               <div className="flex items-center gap-4 mb-6">
                 <div className="bg-blue-500/10 p-3 rounded-full">
@@ -131,10 +216,10 @@ const FastNowProtocol = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Phase 2: Strict Simple Diet + Daily Calorie Limit */}
-          <div className="mb-12">
+          <section id="phase-2" className="mb-12">
             <div className="bg-card rounded-lg shadow-soft p-8 border-l-4 border-green-500">
               <div className="flex items-center gap-4 mb-6">
                 <div className="bg-green-500/10 p-3 rounded-full">
@@ -232,10 +317,10 @@ const FastNowProtocol = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Phase 3: Daily Walking */}
-          <div className="mb-12">
+          <section id="phase-3" className="mb-12">
             <div className="bg-card rounded-lg shadow-soft p-8 border-l-4 border-orange-500">
               <div className="flex items-center gap-4 mb-6">
                 <div className="bg-orange-500/10 p-3 rounded-full">
@@ -273,11 +358,33 @@ const FastNowProtocol = () => {
                 </div>
               </div>
             </div>
-          </div>
+          {/* Common pitfalls */}
+          <section id="pitfalls" className="mb-12">
+            <div className="bg-card rounded-lg border p-6">
+              <h2 className="text-2xl font-semibold mb-4">Common pitfalls</h2>
+              <ul className="space-y-3 text-muted-foreground">
+                <li className="flex gap-2"><span className="mt-1 h-2 w-2 rounded-full bg-destructive"></span><span>"Eyeballing" calories — track everything, even "healthy" extras.</span></li>
+                <li className="flex gap-2"><span className="mt-1 h-2 w-2 rounded-full bg-destructive"></span><span>Skipping walks — the easiest lever that keeps momentum.</span></li>
+                <li className="flex gap-2"><span className="mt-1 h-2 w-2 rounded-full bg-destructive"></span><span>Going too flexible too soon — keep Phase 2 simple for 30–60 days.</span></li>
+              </ul>
+            </div>
+          </section>
+          </section>
           </div>
         </div>
 
         <InlineFAQ title="Protocol FAQ" items={faqItems} />
+        {/* Mobile sticky CTA */}
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden">
+          <div className="container mx-auto py-3 px-4">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm text-muted-foreground">Ready to start?</p>
+              <Button asChild>
+                <a href="/">Get FastNow</a>
+              </Button>
+            </div>
+          </div>
+        </div>
       </main>
     </PageLayout>
   );
