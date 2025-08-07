@@ -9,6 +9,8 @@ import { CeramicTimer } from '@/components/CeramicTimer';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeatureItem } from '@/components/FeatureItem';
 import { pageContentService } from '@/services/PageContentService';
+import { AppStoreButton } from '@/components/AppStoreButton';
+import { GooglePlayButton } from '@/components/GooglePlayButton';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -34,17 +36,17 @@ const Index = () => {
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<number>(300);
   const [imageAlt, setImageAlt] = useState<string>('Fasting app interface preview');
-  const [heroTitle, setHeroTitle] = useState<string>('My Protocol for Fat Loss');
-  const [heroSubtitle, setHeroSubtitle] = useState<string>('Transform your body with our scientifically-backed fasting approach');
-  const [heroDescription, setHeroDescription] = useState<string>('Discover the power of intermittent fasting with our comprehensive timeline and personalized guidance.');
+  const [heroTitle, setHeroTitle] = useState<string>('Real weight loss. Simple fasting protocol.');
+  const [heroSubtitle, setHeroSubtitle] = useState<string>("Made for real people who've been overweight too long—ready to act.");
+  const [heroDescription, setHeroDescription] = useState<string>('FastNow is a tool that powers a proven, direct 80/20 method. No workouts required. No wellness fluff.');
   const [ctaText, setCtaText] = useState<string>('Download FastNow');
   const [ctaUrl, setCtaUrl] = useState<string>('#');
   
   const [ctaTitle, setCtaTitle] = useState<string>('Ready to start your fasting journey?');
   const [ctaSubtitle, setCtaSubtitle] = useState<string>('Download fastnow.app today and transform your health through fasting.');
   const [featuresTitle, setFeaturesTitle] = useState<string>('Why choose fastnow.app?');
-  const [metaTitle, setMetaTitle] = useState<string>('FastNow - My Protocol for Fat Loss');
-  const [metaDescription, setMetaDescription] = useState<string>('Transform your body with scientifically-backed intermittent fasting protocols and personalized guidance.');
+  const [metaTitle, setMetaTitle] = useState<string>('FastNow – Simple Fasting Protocol for Real Weight Loss');
+  const [metaDescription, setMetaDescription] = useState<string>('A simple, proven fasting protocol for real people. Not a fitness app—honest, direct, results-focused.');
   const [features, setFeatures] = useState([
     {
       title: "Intermittent Fasting", 
@@ -65,7 +67,7 @@ const Index = () => {
   
   const [showDefaultDesign, setShowDefaultDesign] = useState(true);
   const [googlePlayLink, setGooglePlayLink] = useState('https://play.google.com');
-
+  const [canonicalUrl, setCanonicalUrl] = useState<string>('');
   // Load content from database and localStorage
   useEffect(() => {
     const loadContent = async () => {
@@ -177,6 +179,7 @@ const Index = () => {
     } catch (error) {
       console.error('Error loading localStorage data:', error);
     }
+    setCanonicalUrl(window.location.href);
   }, []);
 
   // Helper function to safely split hero title
@@ -203,6 +206,16 @@ const Index = () => {
         <meta property="og:description" content={metaDescription} />
         <meta name="twitter:title" content={metaTitle} />
         <meta name="twitter:description" content={metaDescription} />
+        <link rel="canonical" href={canonicalUrl || undefined} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "FastNow",
+            url: canonicalUrl || (typeof window !== 'undefined' ? window.location.origin : ''),
+            description: metaDescription,
+          })}
+        </script>
       </Helmet>
       
       {/* Background 3D Element if available */}
@@ -235,13 +248,18 @@ const Index = () => {
                 </p>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-start mb-8">
+              <div className="flex flex-col gap-4 justify-start mb-6">
                 <Button asChild size="lg" className="text-base lg:text-lg px-6 lg:px-8 py-3 lg:py-4">
                   <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                     {ctaText}
                     <ArrowRight size={16} />
                   </a>
                 </Button>
+                <div className="flex flex-wrap gap-3">
+                  <AppStoreButton />
+                  <GooglePlayButton />
+                </div>
+                <p className="text-sm text-muted-foreground">Priced lower than a Starbucks coffee.</p>
               </div>
             </div>
             
@@ -266,6 +284,37 @@ const Index = () => {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Who it's for */}
+      <section aria-labelledby="who-its-for" className="py-12 border-t">
+        <div className="container max-w-4xl mx-auto">
+          <h2 id="who-its-for" className="text-2xl md:text-3xl font-semibold mb-4">Built for real people ready to act</h2>
+          <p className="text-muted-foreground mb-4">If you've been overweight too long and want a simple, direct plan—FastNow is for you.</p>
+          <ul className="list-disc pl-6 space-y-2 text-sm md:text-base">
+            <li>No workouts required. Not a fitness app.</li>
+            <li>Clear, honest guidance—no wellness fluff.</li>
+            <li>A tool that powers a proven 80/20 protocol.</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* Contrast section */}
+      <section aria-labelledby="not-for" className="py-12">
+        <div className="container max-w-4xl mx-auto">
+          <h2 id="not-for" className="text-2xl md:text-3xl font-semibold mb-4">This is not for fitness models</h2>
+          <p className="text-muted-foreground mb-4">Forget flashy influencer programs. FastNow is simple, grounded, and built for real-world results.</p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-lg border p-4">
+              <h3 className="font-medium mb-1">Comfort and simplicity</h3>
+              <p className="text-sm text-muted-foreground">Straightforward steps that fit daily life.</p>
+            </div>
+            <div className="rounded-lg border p-4">
+              <h3 className="font-medium mb-1">Honest results</h3>
+              <p className="text-sm text-muted-foreground">Track progress without hype or guesswork.</p>
             </div>
           </div>
         </div>
