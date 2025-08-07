@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 import EditableTimelineSection from '@/components/fasting/EditableTimelineSection';
 import PageLayout from '@/components/layout/PageLayout';
+import InlineFAQ from '@/components/home/InlineFAQ';
 
 export interface TimelineEntry {
   hour: number;
@@ -91,6 +92,21 @@ const FastingTimeline = () => {
     };
   });
 
+  const faqItems = [
+    {
+      q: "How should I use this timeline?",
+      a: "Use it as a guide to understand what typically happens. Personal experience varies—focus on trends, not perfection."
+    },
+    {
+      q: "Do I need to fast the full 72 hours?",
+      a: "No. Start where you are. Even shorter fasts help. Build up gradually and listen to your body."
+    },
+    {
+      q: "What if I feel low energy?",
+      a: "Walk, hydrate, and keep electrolytes in check. Reduce intensity, not momentum."
+    }
+  ];
+
   return (
     <PageLayout>
       <Helmet>
@@ -118,6 +134,8 @@ const FastingTimeline = () => {
           ))}
         </div>
       </div>
+
+      <InlineFAQ title="Fasting Timeline FAQ" items={faqItems} />
     </PageLayout>
   );
 };

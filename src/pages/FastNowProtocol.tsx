@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Clock, Utensils, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { pageContentService } from '@/services/PageContentService';
+import InlineFAQ from '@/components/home/InlineFAQ';
 
 const FastNowProtocol = () => {
   const [pageContent, setPageContent] = useState({
@@ -33,6 +34,21 @@ const FastNowProtocol = () => {
       console.error('Error loading FastNow Protocol page content:', error);
     }
   };
+
+  const faqItems = [
+    {
+      q: "Do I have to fast for exactly 72 hours?",
+      a: "No. Many start with shorter fasts and build up. The goal is momentum and consistency, not a perfect number."
+    },
+    {
+      q: "Can I drink anything during Phase 1?",
+      a: "Water and black coffee are the defaults. Keep it simple to reduce decision fatigue."
+    },
+    {
+      q: "What if I overeat in Phase 2?",
+      a: "Use Phase 3 (walking) as a recovery lever and get back on plan the same day."
+    }
+  ];
 
   return (
     <PageLayout>
@@ -260,6 +276,8 @@ const FastNowProtocol = () => {
           </div>
           </div>
         </div>
+
+        <InlineFAQ title="Protocol FAQ" items={faqItems} />
       </main>
     </PageLayout>
   );
