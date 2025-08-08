@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { ImageUploadService } from '@/services/ImageUploadService';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -91,14 +91,17 @@ const AdminAboutMeEditor = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    console.log('Starting image upload for file:', file.name);
     setIsUploading(true);
     try {
+      console.log('Calling ImageUploadService.uploadImage...');
       const result = await ImageUploadService.uploadImage(file, 'page-images');
+      console.log('Upload result:', result);
       setFeaturedImage(result.url);
       toast.success('Image uploaded successfully!');
     } catch (error) {
       console.error('Error uploading image:', error);
-      toast.error('Failed to upload image');
+      toast.error('Failed to upload image: ' + (error instanceof Error ? error.message : 'Unknown error'));
     } finally {
       setIsUploading(false);
     }
