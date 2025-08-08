@@ -39,7 +39,11 @@ const AdminAboutMeEditor = () => {
 
       const settings = data?.reduce((acc, item) => {
         const value = item.setting_value;
-        acc[item.setting_key] = typeof value === 'string' ? JSON.parse(value || '""') : '';
+        try {
+          acc[item.setting_key] = typeof value === 'string' ? JSON.parse(value || '""') : String(value || '');
+        } catch {
+          acc[item.setting_key] = String(value || '');
+        }
         return acc;
       }, {} as Record<string, string>) || {};
 
