@@ -5,6 +5,9 @@ import { ArrowLeft } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import HomepageLogoSettings from "@/components/admin/HomepageLogoSettings";
 import HomepageContentSettings from "@/components/admin/HomepageContentSettings";
+import HomeStepsSettings from "@/components/admin/HomeStepsSettings";
+import TestimonialsSettings from "@/components/admin/TestimonialsSettings";
+import SocialProofSettings from "@/components/admin/SocialProofSettings";
 
 const AdminHomepageSettings = () => {
   const navigate = useNavigate();
@@ -53,9 +56,12 @@ const AdminHomepageSettings = () => {
             <h1 className="text-3xl font-bold">Homepage Settings</h1>
           </div>
           <Tabs defaultValue="logo-images" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="logo-images">Logo & Images</TabsTrigger>
-              <TabsTrigger value="content">Homepage Content</TabsTrigger>
+              <TabsTrigger value="content">Hero Content</TabsTrigger>
+              <TabsTrigger value="steps">Steps</TabsTrigger>
+              <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
+              <TabsTrigger value="social-proof">Social Proof</TabsTrigger>
             </TabsList>
             
             <TabsContent value="logo-images" className="space-y-6">
@@ -64,6 +70,18 @@ const AdminHomepageSettings = () => {
             
             <TabsContent value="content" className="space-y-6">
               <HomepageContentSettings />
+            </TabsContent>
+
+            <TabsContent value="steps" className="space-y-6">
+              <HomeStepsSettings />
+            </TabsContent>
+
+            <TabsContent value="testimonials" className="space-y-6">
+              <TestimonialsSettings />
+            </TabsContent>
+
+            <TabsContent value="social-proof" className="space-y-6">
+              <SocialProofSettings />
             </TabsContent>
           </Tabs>
         </div>

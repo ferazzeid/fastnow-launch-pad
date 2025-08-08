@@ -17,6 +17,9 @@ import ProtocolContent from '@/components/home/ProtocolContent';
 import AboutMeSection from '@/components/home/AboutMeSection';
 import FAQFull from '@/components/home/FAQFull';
 import AboutAppSections from '@/components/home/AboutAppSections';
+import SocialProofStrip from '@/components/home/SocialProofStrip';
+import HowItWorks from '@/components/home/HowItWorks';
+import Testimonials from '@/components/home/Testimonials';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -347,7 +350,11 @@ If you’re ready to make a real change, with a protocol that actually works—s
           </div>
         </div>
       </section>
-      {/* Consolidated sections */}
+      {/* New sections */}
+      <SocialProofStrip />
+      <HowItWorks />
+      <Testimonials />
+      {/* Legacy sections retained */}
       <AboutMeSection />
       <FAQFull />
       <AboutAppSections />
