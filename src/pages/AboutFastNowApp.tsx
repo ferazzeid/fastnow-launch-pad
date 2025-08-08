@@ -6,10 +6,12 @@ import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Clock, Activity, Utensils, Target, Bot } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
 
 const AboutFastNowApp = () => {
+  const isMobile = useIsMobile();
   const [content, setContent] = useState({
     heroTitle: 'About FastNow App',
     heroDescription: 'Your ultimate companion for intermittent fasting, health tracking, and achieving your wellness goals.',
@@ -149,65 +151,103 @@ const AboutFastNowApp = () => {
             {content.featuresTitle}
           </h2>
           
-          <Tabs defaultValue="fasting-timer" className="max-w-4xl mx-auto">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1">
+          {isMobile ? (
+            // Mobile: Stack cards vertically with collapsible sections
+            <div className="space-y-4">
               {features.map((feature) => (
-                <TabsTrigger 
-                  key={feature.key} 
-                  value={feature.key}
-                  className="text-xs sm:text-sm py-2 px-2 sm:px-3"
-                >
-                  <span className="hidden sm:inline">{feature.title}</span>
-                  <span className="sm:hidden">{feature.title.split(' ')[0]}</span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            
-            {features.map((feature) => (
-              <TabsContent key={feature.key} value={feature.key} className="mt-8">
-                <Card>
-                  <CardContent className="p-8">
-                    <div className="grid lg:grid-cols-2 gap-12 items-start">
-                      {/* Left side - Feature content */}
-                      <div className="space-y-6">
-                        <div className="text-center lg:text-left">
-                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto lg:mx-0">
-                            {feature.icon}
-                          </div>
-                          <h3 className="text-3xl font-bold mb-2">{feature.title}</h3>
-                          <p className="text-lg text-muted-foreground">
-                            {feature.subtitle}
-                          </p>
-                        </div>
-                        
-                        <div>
-                          <h4 className="font-semibold text-lg mb-4">✨ Features:</h4>
-                          <ul className="space-y-3">
-                            {feature.features.map((item, index) => (
-                              <li key={index} className="flex items-start gap-3">
-                                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                                <span className="text-muted-foreground">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                <Card key={feature.key} className="overflow-hidden">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                        {feature.icon}
                       </div>
-
-                      {/* Right side - App mockup */}
-                      <div className="flex justify-center lg:justify-end">
-                        <div className="w-64">
-                          <FeatureScreenshotMockup
-                            imageUrl={getScreenshotForFeature(feature.key)}
-                            altText={`${feature.title} screenshot`}
-                          />
-                        </div>
+                      <div>
+                        <CardTitle className="text-xl">{feature.title}</CardTitle>
+                        <CardDescription>{feature.subtitle}</CardDescription>
                       </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="flex justify-center mb-6">
+                      <div className="w-48">
+                        <FeatureScreenshotMockup
+                          imageUrl={getScreenshotForFeature(feature.key)}
+                          altText={`${feature.title} screenshot`}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-lg mb-4">✨ Features:</h4>
+                      <ul className="space-y-3">
+                        {feature.features.map((item, index) => (
+                          <li key={index} className="flex items-start gap-3">
+                            <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                            <span className="text-muted-foreground">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </CardContent>
                 </Card>
-              </TabsContent>
-            ))}
-          </Tabs>
+              ))}
+            </div>
+          ) : (
+            // Desktop: Use horizontal tabs
+            <Tabs defaultValue="fasting-timer" className="max-w-4xl mx-auto">
+              <TabsList className="grid w-full grid-cols-5">
+                {features.map((feature) => (
+                  <TabsTrigger key={feature.key} value={feature.key}>
+                    {feature.title}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              
+              {features.map((feature) => (
+                <TabsContent key={feature.key} value={feature.key} className="mt-8">
+                  <Card>
+                    <CardContent className="p-8">
+                      <div className="grid lg:grid-cols-2 gap-12 items-start">
+                        {/* Left side - Feature content */}
+                        <div className="space-y-6">
+                          <div className="text-center lg:text-left">
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto lg:mx-0">
+                              {feature.icon}
+                            </div>
+                            <h3 className="text-3xl font-bold mb-2">{feature.title}</h3>
+                            <p className="text-lg text-muted-foreground">
+                              {feature.subtitle}
+                            </p>
+                          </div>
+                          
+                          <div>
+                            <h4 className="font-semibold text-lg mb-4">✨ Features:</h4>
+                            <ul className="space-y-3">
+                              {feature.features.map((item, index) => (
+                                <li key={index} className="flex items-start gap-3">
+                                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                                  <span className="text-muted-foreground">{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+                        {/* Right side - App mockup */}
+                        <div className="flex justify-center lg:justify-end">
+                          <div className="w-64">
+                            <FeatureScreenshotMockup
+                              imageUrl={getScreenshotForFeature(feature.key)}
+                              altText={`${feature.title} screenshot`}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              ))}
+            </Tabs>
+          )}
         </div>
         </div>
       </div>
