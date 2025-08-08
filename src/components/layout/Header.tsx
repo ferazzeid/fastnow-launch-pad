@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import MainNavigation from '../MainNavigation';
 import { pageContentService } from '@/services/PageContentService';
+import { supabase } from '@/integrations/supabase/client';
 
 const Header = () => {
   const location = useLocation();
@@ -16,14 +17,23 @@ const Header = () => {
   React.useEffect(() => {
     const loadSettings = async () => {
       try {
-        // Load site identity settings for logo
-        const siteIdentity = await pageContentService.getGeneralSetting('site_identity');
-        if (siteIdentity?.setting_value) {
-          const { logoUrl: dbLogoUrl } = siteIdentity.setting_value;
-          if (dbLogoUrl) {
-            setLogoUrl(dbLogoUrl);
-            setLogoSize(40); // Default size
+        // Load logo settings from homepage_settings table
+        try {
+          const { data: logoData } = await supabase
+            .from('homepage_settings')
+            .select('setting_value')
+            .eq('setting_key', 'logo')
+            .single();
+          
+          if (logoData?.setting_value && typeof logoData.setting_value === 'object') {
+            const logoSettings = logoData.setting_value as { url?: string; height?: number };
+            if (logoSettings.url) {
+              setLogoUrl(logoSettings.url);
+              setLogoSize(logoSettings.height || 40);
+            }
           }
+        } catch (error) {
+          console.error('Error loading logo from homepage settings:', error);
         }
 
         // Load navigation transparency settings
