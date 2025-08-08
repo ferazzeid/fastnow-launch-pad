@@ -42,9 +42,9 @@ const Index = () => {
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<number>(300);
   const [imageAlt, setImageAlt] = useState<string>('Fasting app interface preview');
-  const [heroTitle, setHeroTitle] = useState<string>('Real weight loss. Simple fasting protocol.');
-  const [heroSubtitle, setHeroSubtitle] = useState<string>("Made for real people who've been overweight too long—ready to act.");
-  const [heroDescription, setHeroDescription] = useState<string>('FastNow is a tool that powers a proven, direct 80/20 method. No workouts required. No wellness fluff.');
+  const [heroTitle, setHeroTitle] = useState<string>('Fat Loss App for Real People: The Protocol That Cuts Through the Noise');
+  const [heroSubtitle, setHeroSubtitle] = useState<string>("Transform your body with a concentrated, results-driven weight loss protocol—built for everyday people, not fitness models.");
+  const [heroDescription, setHeroDescription] = useState<string>('If you\'ve been gaining weight through normal life and you\'re done with fad diets, overcomplicated routines, or "influencer" gimmicks—this protocol is for you. FastNow is the distilled essence of what truly works for sustainable fat loss: three clear steps, rigorously tested and refined through real experience.<br><br>This isn\'t about shortcuts or starving yourself. It\'s about focusing on what actually delivers results, cutting out all the distractions, and helping you take real, daily action for lasting change.<br><br>I built this app after trying everything myself—and finally succeeding. It\'s designed for those who want maximum progress from honest effort, without wasting time on noise.<br><br>If you\'re ready to make a real change, with a protocol that actually works—start here.');
   const [ctaText, setCtaText] = useState<string>('Download FastNow');
   const [ctaUrl, setCtaUrl] = useState<string>('#');
   const [appStoreUrl, setAppStoreUrl] = useState<string>('');
@@ -269,11 +269,10 @@ const Index = () => {
                 {heroSubtitle}
               </div>
               
-              <div className="prose prose-lg max-w-none text-gray-600 dark:text-gray-300 mb-6 lg:mb-8">
-                <p className="text-base md:text-lg lg:text-xl mb-4">
-                  {heroDescription}
-                </p>
-              </div>
+               <div className="prose prose-lg max-w-none text-gray-600 dark:text-gray-300 mb-6 lg:mb-8">
+                 <p className="text-base md:text-lg lg:text-xl mb-4" dangerouslySetInnerHTML={{ __html: heroDescription }}>
+                 </p>
+               </div>
               
               <div className="flex flex-col gap-4 justify-start mb-6">
                 <Button asChild size="lg" className="text-base lg:text-lg px-6 lg:px-8 py-3 lg:py-4">
