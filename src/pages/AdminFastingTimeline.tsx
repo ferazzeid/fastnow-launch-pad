@@ -28,25 +28,25 @@ import {
   Edit, 
   Plus, 
   Download, 
-  Upload, 
   Search,
   Clock,
   Trash2
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { databaseFastingTimelineService } from '@/services/DatabaseFastingTimelineService';
-import { FastingTimelineService } from '@/services/FastingTimelineService';
-import { FastingTimelinePost } from '@/types/fastingTimeline';
+import { fastingHoursService } from '@/services/FastingHoursService';
+import { FastingHour, FastingHourUpdate } from '@/types/fastingHours';
 import { useAuth } from '@/hooks/useAuth';
 
 const AdminFastingTimeline = () => {
   const navigate = useNavigate();
-  const { isAdmin, isLoading } = useAuth();
-  const [posts, setPosts] = useState<FastingTimelinePost[]>([]);
+  const { isAdmin, isLoading, user } = useAuth();
+  const [hours, setHours] = useState<FastingHour[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [editingPost, setEditingPost] = useState<FastingTimelinePost | null>(null);
+  const [editingHour, setEditingHour] = useState<FastingHour | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  console.log('AdminFastingTimeline - isAdmin:', isAdmin, 'isLoading:', isLoading, 'user:', user?.email);
 
   useEffect(() => {
     if (!isLoading && !isAdmin) {
@@ -55,109 +55,78 @@ const AdminFastingTimeline = () => {
     }
     
     if (isAdmin) {
-      loadPosts();
+      loadHours();
     }
   }, [isAdmin, isLoading, navigate]);
 
-  const loadPosts = async () => {
+  const loadHours = async () => {
     setLoading(true);
     try {
-      // First try to get from database (admin gets all posts including drafts)
-      const dbPosts = await databaseFastingTimelineService.getAllPostsForAdmin();
-      console.log('Database posts loaded:', dbPosts.length);
+      const fastingHours = await fastingHoursService.getAllHours();
+      console.log('Fasting hours loaded:', fastingHours.length);
+      setHours(fastingHours);
       
-      if (dbPosts.length === 0) {
-        // Check localStorage for any existing data
-        const localPosts = FastingTimelineService.getAllPosts();
-        console.log('localStorage posts found:', localPosts.length);
-        if (localPosts.length > 0) {
-          toast.info(`Found ${localPosts.length} posts in localStorage. Consider migrating to database.`);
-        }
-        setPosts(localPosts);
-      } else {
-        setPosts(dbPosts);
+      if (fastingHours.length > 0) {
+        toast.success(`Loaded ${fastingHours.length} fasting timeline hours successfully!`);
       }
     } catch (error) {
-      console.error('Error loading posts:', error);
-      toast.error('Failed to load timeline posts');
+      console.error('Error loading fasting hours:', error);
+      toast.error('Failed to load fasting timeline hours');
     } finally {
       setLoading(false);
     }
   };
 
-  const migrateFromLocalStorage = async () => {
-    try {
-      await databaseFastingTimelineService.migrateFromLocalStorage();
-      toast.success('Migration completed successfully!');
-      loadPosts();
-    } catch (error) {
-      console.error('Migration error:', error);
-      toast.error('Migration failed');
-    }
-  };
-
   const createMissingHours = async () => {
-    const existingHours = new Set(posts.map(p => p.hour));
-    const missingPosts: FastingTimelinePost[] = [];
+    const existingHours = new Set(hours.map(h => h.hour));
+    const missingHours: number[] = [];
     
-    for (let hour = 0; hour <= 72; hour++) {
+    for (let hour = 1; hour <= 72; hour++) {
       if (!existingHours.has(hour)) {
-        const now = new Date().toISOString();
-        const title = hour === 0 ? 'Starting Your Fast - Hour 0' : `Fasting Hour ${hour}`;
-        
-        const post: FastingTimelinePost = {
-          id: databaseFastingTimelineService.generateId(),
-          hour,
-          title,
-          slug: databaseFastingTimelineService.generateSlug(title, hour),
-          content: '',
-          excerpt: `Hour ${hour} of your fasting journey`,
-          author: 'FastNow Team',
-          categories: hour <= 16 ? ['Beginner'] : hour <= 24 ? ['Intermediate'] : hour <= 48 ? ['Advanced'] : ['Extended'],
-          tags: ['fasting', `hour-${hour}`, 'timeline'],
-          status: 'draft',
-          createdAt: now,
-          updatedAt: now,
-          publishedAt: now,
-          metaDescription: `Learn about hour ${hour} of fasting`,
-          whatsHappening: '',
-          howYoureFeeling: ''
-        };
-        
-        missingPosts.push(post);
+        missingHours.push(hour);
       }
     }
     
-    if (missingPosts.length > 0) {
-      for (const post of missingPosts) {
-        await databaseFastingTimelineService.savePost(post);
+    if (missingHours.length > 0) {
+      let successCount = 0;
+      for (const hour of missingHours) {
+        const success = await fastingHoursService.createHour(hour, {
+          title: `Hour ${hour}`,
+          body_state: 'Details coming soon',
+          encouragement: "You're doing great — keep going!"
+        });
+        if (success) successCount++;
       }
-      toast.success(`Created ${missingPosts.length} missing hour entries`);
-      loadPosts();
+      toast.success(`Created ${successCount} missing hour entries`);
+      loadHours();
     } else {
-      toast.info('All hours (0-72) already exist');
+      toast.info('All hours (1-72) already exist');
     }
   };
 
   const exportToCSV = () => {
     const headers = [
-      'Hour', 'Title', 'Status', 'What\'s Happening', 'How You\'re Feeling', 
-      'Content', 'Categories', 'Tags', 'Created At', 'Updated At'
+      'Hour', 'Title', 'Body State', 'Encouragement', 'Positive Symptoms', 
+      'Challenging Symptoms', 'Common Feelings', 'Tips', 'Difficulty', 'Phase',
+      'Scientific Info', 'Created At', 'Updated At'
     ];
     
     const csvContent = [
       headers.join(','),
-      ...posts.map(post => [
-        post.hour,
-        `"${post.title.replace(/"/g, '""')}"`,
-        post.status,
-        `"${(post.whatsHappening || '').replace(/"/g, '""')}"`,
-        `"${(post.howYoureFeeling || '').replace(/"/g, '""')}"`,
-        `"${post.content.replace(/"/g, '""')}"`,
-        `"${post.categories.join('; ')}"`,
-        `"${post.tags.join('; ')}"`,
-        post.createdAt,
-        post.updatedAt
+      ...hours.map(hour => [
+        hour.hour,
+        `"${hour.title.replace(/"/g, '""')}"`,
+        `"${hour.body_state.replace(/"/g, '""')}"`,
+        `"${(hour.encouragement || '').replace(/"/g, '""')}"`,
+        `"${hour.positive_symptoms.join('; ')}"`,
+        `"${hour.challenging_symptoms.join('; ')}"`,
+        `"${hour.common_feelings.join('; ')}"`,
+        `"${hour.tips.join('; ')}"`,
+        hour.difficulty,
+        hour.phase,
+        `"${(hour.scientific_info || '').replace(/"/g, '""')}"`,
+        hour.created_at,
+        hour.updated_at
       ].join(','))
     ].join('\n');
     
@@ -165,63 +134,64 @@ const AdminFastingTimeline = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `fasting-timeline-export-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `fasting-hours-export-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     URL.revokeObjectURL(url);
     
-    toast.success('Timeline data exported to CSV');
+    toast.success('Fasting hours data exported to CSV');
   };
 
   const exportToJSON = () => {
-    const blob = new Blob([JSON.stringify(posts, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(hours, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `fasting-timeline-export-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `fasting-hours-export-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
     
-    toast.success('Timeline data exported to JSON');
+    toast.success('Fasting hours data exported to JSON');
   };
 
-  const savePost = async (post: FastingTimelinePost) => {
+  const saveHour = async (hour: FastingHour, updates: FastingHourUpdate) => {
     try {
-      const success = await databaseFastingTimelineService.savePost(post);
+      const success = await fastingHoursService.updateHour(hour.id, updates);
       if (success) {
-        toast.success('Post saved successfully');
-        loadPosts();
+        toast.success('Hour updated successfully');
+        loadHours();
         setIsDialogOpen(false);
-        setEditingPost(null);
+        setEditingHour(null);
       } else {
-        toast.error('Failed to save post');
+        toast.error('Failed to update hour');
       }
     } catch (error) {
-      console.error('Error saving post:', error);
-      toast.error('Failed to save post');
+      console.error('Error saving hour:', error);
+      toast.error('Failed to update hour');
     }
   };
 
-  const deletePost = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this post?')) return;
+  const deleteHour = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this hour?')) return;
     
     try {
-      const success = await databaseFastingTimelineService.deletePost(id);
+      const success = await fastingHoursService.deleteHour(id);
       if (success) {
-        toast.success('Post deleted successfully');
-        loadPosts();
+        toast.success('Hour deleted successfully');
+        loadHours();
       } else {
-        toast.error('Failed to delete post');
+        toast.error('Failed to delete hour');
       }
     } catch (error) {
-      console.error('Error deleting post:', error);
-      toast.error('Failed to delete post');
+      console.error('Error deleting hour:', error);
+      toast.error('Failed to delete hour');
     }
   };
 
-  const filteredPosts = posts.filter(post =>
-    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.hour.toString().includes(searchTerm) ||
-    post.status.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredHours = hours.filter(hour =>
+    hour.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    hour.hour.toString().includes(searchTerm) ||
+    hour.body_state.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    hour.phase.toLowerCase().includes(searchTerm.toLowerCase())
   ).sort((a, b) => a.hour - b.hour);
 
   if (isLoading || loading) {
@@ -254,8 +224,8 @@ const AdminFastingTimeline = () => {
               <CardContent className="p-4">
                 <div className="text-center space-y-2">
                   <Clock className="mx-auto h-8 w-8 text-muted-foreground" />
-                  <p className="text-sm font-medium">Total Posts</p>
-                  <p className="text-2xl font-bold">{posts.length}</p>
+                  <p className="text-sm font-medium">Total Hours</p>
+                  <p className="text-2xl font-bold">{hours.length}</p>
                 </div>
               </CardContent>
             </Card>
@@ -263,9 +233,9 @@ const AdminFastingTimeline = () => {
             <Card>
               <CardContent className="p-4">
                 <div className="text-center space-y-2">
-                  <Badge variant="secondary" className="mx-auto">Published</Badge>
-                  <p className="text-sm font-medium">Published Posts</p>
-                  <p className="text-2xl font-bold">{posts.filter(p => p.status === 'published').length}</p>
+                  <Badge variant="secondary" className="mx-auto">Complete</Badge>
+                  <p className="text-sm font-medium">Hours with Content</p>
+                  <p className="text-2xl font-bold">{hours.filter(h => h.body_state !== 'Details coming soon').length}</p>
                 </div>
               </CardContent>
             </Card>
@@ -273,9 +243,9 @@ const AdminFastingTimeline = () => {
             <Card>
               <CardContent className="p-4">
                 <div className="text-center space-y-2">
-                  <Badge variant="outline" className="mx-auto">Draft</Badge>
-                  <p className="text-sm font-medium">Draft Posts</p>
-                  <p className="text-2xl font-bold">{posts.filter(p => p.status === 'draft').length}</p>
+                  <Badge variant="outline" className="mx-auto">Incomplete</Badge>
+                  <p className="text-sm font-medium">Hours Need Content</p>
+                  <p className="text-2xl font-bold">{hours.filter(h => h.body_state === 'Details coming soon').length}</p>
                 </div>
               </CardContent>
             </Card>
@@ -285,7 +255,7 @@ const AdminFastingTimeline = () => {
                 <div className="text-center space-y-2">
                   <Badge variant="destructive" className="mx-auto">Missing</Badge>
                   <p className="text-sm font-medium">Missing Hours</p>
-                  <p className="text-2xl font-bold">{73 - new Set(posts.map(p => p.hour)).size}</p>
+                  <p className="text-2xl font-bold">{72 - new Set(hours.map(h => h.hour)).size}</p>
                 </div>
               </CardContent>
             </Card>
@@ -293,10 +263,6 @@ const AdminFastingTimeline = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-2">
-            <Button onClick={migrateFromLocalStorage} variant="outline">
-              <Upload className="mr-2 h-4 w-4" />
-              Migrate from localStorage
-            </Button>
             <Button onClick={createMissingHours} variant="outline">
               <Plus className="mr-2 h-4 w-4" />
               Create Missing Hours
@@ -316,7 +282,7 @@ const AdminFastingTimeline = () => {
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
-                placeholder="Search by hour, title, or status..."
+                placeholder="Search by hour, title, or content..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-9"
@@ -324,10 +290,10 @@ const AdminFastingTimeline = () => {
             </div>
           </div>
 
-          {/* Posts Table */}
+          {/* Hours Table */}
           <Card>
             <CardHeader>
-              <CardTitle>Timeline Posts ({filteredPosts.length}) - {posts.length === 0 ? 'No data found. Try creating missing hours or migrating from localStorage.' : 'Data loaded successfully'}</CardTitle>
+              <CardTitle>Fasting Timeline Hours ({filteredHours.length}) - {hours.length === 0 ? 'No data found.' : `Found ${hours.length} hours in database!`}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
@@ -335,56 +301,53 @@ const AdminFastingTimeline = () => {
                   <TableRow>
                     <TableHead className="w-16">Hour</TableHead>
                     <TableHead>Title</TableHead>
-                    <TableHead className="w-24">Status</TableHead>
+                    <TableHead className="w-24">Day</TableHead>
                     <TableHead className="w-32">Content Status</TableHead>
                     <TableHead className="w-32">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredPosts.map((post) => (
-                    <TableRow key={post.id}>
-                      <TableCell className="font-mono">{post.hour}</TableCell>
-                      <TableCell className="font-medium">{post.title}</TableCell>
-                      <TableCell>
-                        <Badge variant={post.status === 'published' ? 'default' : 'secondary'}>
-                          {post.status}
-                        </Badge>
-                      </TableCell>
+                  {filteredHours.map((hour) => (
+                    <TableRow key={hour.id}>
+                      <TableCell className="font-mono">{hour.hour}</TableCell>
+                      <TableCell className="font-medium">{hour.title}</TableCell>
+                      <TableCell>Day {hour.day}</TableCell>
                       <TableCell>
                         <div className="space-y-1">
-                          {post.whatsHappening && <Badge variant="outline" className="text-xs">What's Happening</Badge>}
-                          {post.howYoureFeeling && <Badge variant="outline" className="text-xs">How You Feel</Badge>}
-                          {post.content && <Badge variant="outline" className="text-xs">Content</Badge>}
+                          {hour.body_state !== 'Details coming soon' && <Badge variant="outline" className="text-xs">Body State</Badge>}
+                          {hour.encouragement && <Badge variant="outline" className="text-xs">Encouragement</Badge>}
+                          {hour.tips.length > 0 && <Badge variant="outline" className="text-xs">Tips</Badge>}
+                          {hour.positive_symptoms.length > 0 && <Badge variant="outline" className="text-xs">Symptoms</Badge>}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-1">
-                          <Dialog open={isDialogOpen && editingPost?.id === post.id} onOpenChange={(open) => {
+                          <Dialog open={isDialogOpen && editingHour?.id === hour.id} onOpenChange={(open) => {
                             setIsDialogOpen(open);
-                            if (!open) setEditingPost(null);
+                            if (!open) setEditingHour(null);
                           }}>
                             <DialogTrigger asChild>
                               <Button 
                                 size="sm" 
                                 variant="outline"
-                                onClick={() => setEditingPost(post)}
+                                onClick={() => setEditingHour(hour)}
                               >
                                 <Edit className="h-3 w-3" />
                               </Button>
                             </DialogTrigger>
-                            <TimelinePostEditor 
-                              post={editingPost}
-                              onSave={savePost}
+                            <FastingHourEditor 
+                              hour={editingHour}
+                              onSave={saveHour}
                               onCancel={() => {
                                 setIsDialogOpen(false);
-                                setEditingPost(null);
+                                setEditingHour(null);
                               }}
                             />
                           </Dialog>
                           <Button 
                             size="sm" 
                             variant="outline"
-                            onClick={() => deletePost(post.id)}
+                            onClick={() => deleteHour(hour.id)}
                           >
                             <Trash2 className="h-3 w-3" />
                           </Button>
@@ -402,33 +365,46 @@ const AdminFastingTimeline = () => {
   );
 };
 
-// Timeline Post Editor Component
-const TimelinePostEditor: React.FC<{
-  post: FastingTimelinePost | null;
-  onSave: (post: FastingTimelinePost) => void;
+// Fasting Hour Editor Component
+const FastingHourEditor: React.FC<{
+  hour: FastingHour | null;
+  onSave: (hour: FastingHour, updates: FastingHourUpdate) => void;
   onCancel: () => void;
-}> = ({ post, onSave, onCancel }) => {
-  const [formData, setFormData] = useState<FastingTimelinePost | null>(null);
+}> = ({ hour, onSave, onCancel }) => {
+  const [formData, setFormData] = useState<Partial<FastingHour>>({});
 
   useEffect(() => {
-    if (post) {
-      setFormData({ ...post });
+    if (hour) {
+      setFormData({ ...hour });
     }
-  }, [post]);
+  }, [hour]);
 
-  if (!formData) return null;
+  if (!hour || !formData) return null;
 
   const handleSave = () => {
-    onSave({
-      ...formData,
-      updatedAt: new Date().toISOString()
-    });
+    const updates: FastingHourUpdate = {
+      title: formData.title,
+      body_state: formData.body_state,
+      encouragement: formData.encouragement,
+      positive_symptoms: formData.positive_symptoms,
+      challenging_symptoms: formData.challenging_symptoms,
+      common_feelings: formData.common_feelings,
+      tips: formData.tips,
+      difficulty: formData.difficulty,
+      phase: formData.phase,
+      scientific_info: formData.scientific_info,
+      image_url: formData.image_url,
+      autophagy_milestone: formData.autophagy_milestone,
+      ketosis_milestone: formData.ketosis_milestone,
+      fat_burning_milestone: formData.fat_burning_milestone
+    };
+    onSave(hour, updates);
   };
 
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle>Edit Hour {formData.hour} - {formData.title}</DialogTitle>
+        <DialogTitle>Edit Hour {hour.hour} - {hour.title}</DialogTitle>
       </DialogHeader>
       
       <div className="space-y-4">
@@ -437,89 +413,88 @@ const TimelinePostEditor: React.FC<{
             <Label htmlFor="title">Title</Label>
             <Input
               id="title"
-              value={formData.title}
+              value={formData.title || ''}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             />
           </div>
           <div>
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="difficulty">Difficulty</Label>
             <Select 
-              value={formData.status} 
-              onValueChange={(value: 'draft' | 'published') => 
-                setFormData({ ...formData, status: value })
-              }
+              value={formData.difficulty || ''} 
+              onValueChange={(value) => setFormData({ ...formData, difficulty: value })}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
+                <SelectItem value="easy">Easy</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="hard">Hard</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
         <div>
-          <Label htmlFor="excerpt">Excerpt</Label>
+          <Label htmlFor="body_state">What's Happening in Your Body</Label>
           <Textarea
-            id="excerpt"
-            value={formData.excerpt || ''}
-            onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-            rows={2}
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="whatsHappening">What's Happening in Your Body</Label>
-          <Textarea
-            id="whatsHappening"
-            value={formData.whatsHappening || ''}
-            onChange={(e) => setFormData({ ...formData, whatsHappening: e.target.value })}
+            id="body_state"
+            value={formData.body_state || ''}
+            onChange={(e) => setFormData({ ...formData, body_state: e.target.value })}
             rows={4}
             placeholder="Describe what's happening in the body during this hour..."
           />
         </div>
 
         <div>
-          <Label htmlFor="howYoureFeeling">How You Might Be Feeling</Label>
+          <Label htmlFor="encouragement">Encouragement Message</Label>
           <Textarea
-            id="howYoureFeeling"
-            value={formData.howYoureFeeling || ''}
-            onChange={(e) => setFormData({ ...formData, howYoureFeeling: e.target.value })}
-            rows={4}
-            placeholder="Describe how someone might feel during this hour..."
+            id="encouragement"
+            value={formData.encouragement || ''}
+            onChange={(e) => setFormData({ ...formData, encouragement: e.target.value })}
+            rows={2}
+            placeholder="Motivational message for this hour..."
           />
         </div>
 
         <div>
-          <Label htmlFor="content">Full Content (Markdown)</Label>
+          <Label htmlFor="scientific_info">Scientific Information</Label>
           <Textarea
-            id="content"
-            value={formData.content}
-            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-            rows={8}
-            placeholder="Write the full content in markdown format..."
+            id="scientific_info"
+            value={formData.scientific_info || ''}
+            onChange={(e) => setFormData({ ...formData, scientific_info: e.target.value })}
+            rows={4}
+            placeholder="Scientific details about this stage of fasting..."
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="metaDescription">Meta Description</Label>
-            <Textarea
-              id="metaDescription"
-              value={formData.metaDescription || ''}
-              onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
-              rows={2}
+        <div className="grid grid-cols-3 gap-4">
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="autophagy_milestone"
+              checked={formData.autophagy_milestone || false}
+              onChange={(e) => setFormData({ ...formData, autophagy_milestone: e.target.checked })}
             />
+            <Label htmlFor="autophagy_milestone">Autophagy Milestone</Label>
           </div>
-          <div>
-            <Label htmlFor="featuredImage">Featured Image URL</Label>
-            <Input
-              id="featuredImage"
-              value={formData.featuredImage || ''}
-              onChange={(e) => setFormData({ ...formData, featuredImage: e.target.value })}
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="ketosis_milestone"
+              checked={formData.ketosis_milestone || false}
+              onChange={(e) => setFormData({ ...formData, ketosis_milestone: e.target.checked })}
             />
+            <Label htmlFor="ketosis_milestone">Ketosis Milestone</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="fat_burning_milestone"
+              checked={formData.fat_burning_milestone || false}
+              onChange={(e) => setFormData({ ...formData, fat_burning_milestone: e.target.checked })}
+            />
+            <Label htmlFor="fat_burning_milestone">Fat Burning Milestone</Label>
           </div>
         </div>
 
