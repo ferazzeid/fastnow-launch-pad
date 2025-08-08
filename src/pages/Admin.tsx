@@ -16,10 +16,14 @@ const Admin = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
+      console.log('Starting auth check...');
       try {
         const session = await SupabaseAuthService.getCurrentSession();
+        console.log('Session:', session);
         if (session?.user) {
+          console.log('User found, checking admin role...');
           const isAdmin = await SupabaseAuthService.hasAdminRole(session.user.id);
+          console.log('Admin check result:', isAdmin);
           if (isAdmin) {
             setIsAuthenticated(true);
           } else {
@@ -28,6 +32,7 @@ const Admin = () => {
             toast.error("Access denied. Admin privileges required.");
           }
         } else {
+          console.log('No session, redirecting to login');
           setIsAuthenticated(false);
           navigate('/admin/login');
         }
@@ -36,6 +41,7 @@ const Admin = () => {
         setIsAuthenticated(false);
         navigate('/admin/login');
       } finally {
+        console.log('Auth check complete, setting loading to false');
         setIsLoading(false);
       }
     };
