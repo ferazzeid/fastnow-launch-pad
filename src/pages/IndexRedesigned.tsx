@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -35,7 +34,7 @@ const getCustomElementImage = (elementId: string): string | null => {
   }
 };
 
-const Index = () => {
+const IndexRedesigned = () => {
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [logoSize, setLogoSize] = useState<number>(32);
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
@@ -73,10 +72,8 @@ const Index = () => {
   });
   
   const [showDefaultDesign, setShowDefaultDesign] = useState(true);
-  const [googlePlayLink, setGooglePlayLink] = useState('https://play.google.com');
   const [canonicalUrl, setCanonicalUrl] = useState<string>('');
-  const inlineFaqQuestion = 'How do I track progress using clothing fit?';
-  const inlineFaqAnswer = 'Choose one pair of jeans or a t-shirt and use it as your reference.\nWear it weekly at the same time of day. Notice how it fits—tighter, same, or looser.\nThis keeps focus on real-world change rather than daily scale swings.';
+  
   // Load content from database and localStorage
   useEffect(() => {
     const loadContent = async () => {
@@ -117,13 +114,13 @@ const Index = () => {
           // New hero copy to be saved centrally in Supabase
           const newHeroTitle = 'Fat Loss App for Real People: The Protocol That Cuts Through the Noise';
           const newHeroSubtitle = 'Transform your body with a concentrated, results-driven weight loss protocol—built for everyday people, not fitness models.';
-          const newHeroDescription = `If you’ve been gaining weight through normal life and you’re done with fad diets, overcomplicated routines, or “influencer” gimmicks—this protocol is for you. FastNow is the distilled essence of what truly works for sustainable fat loss: three clear steps, rigorously tested and refined through real experience.
+          const newHeroDescription = `If you've been gaining weight through normal life and you're done with fad diets, overcomplicated routines, or "influencer" gimmicks—this protocol is for you. FastNow is the distilled essence of what truly works for sustainable fat loss: three clear steps, rigorously tested and refined through real experience.
 
-This isn’t about shortcuts or starving yourself. It’s about focusing on what actually delivers results, cutting out all the distractions, and helping you take real, daily action for lasting change.
+This isn't about shortcuts or starving yourself. It's about focusing on what actually delivers results, cutting out all the distractions, and helping you take real, daily action for lasting change.
 
-I built this app after trying everything myself—and finally succeeding. It’s designed for those who want maximum progress from honest effort, without wasting time on noise.
+I built this app after trying everything myself—and finally succeeding. It's designed for those who want maximum progress from honest effort, without wasting time on noise.
 
-If you’re ready to make a real change, with a protocol that actually works—start here.`;
+If you're ready to make a real change, with a protocol that actually works—start here.`;
 
           await pageContentService.savePageContent({
             page_key: 'home',
@@ -168,8 +165,6 @@ If you’re ready to make a real change, with a protocol that actually works—s
     loadContent();
 
     try {
-      
-      
       // CTA content
       const savedCtaTitle = localStorage.getItem('fastingApp_ctaTitle');
       if (savedCtaTitle && typeof savedCtaTitle === 'string') setCtaTitle(savedCtaTitle);
@@ -224,21 +219,6 @@ If you’re ready to make a real change, with a protocol that actually works—s
     setCanonicalUrl(window.location.href);
   }, []);
 
-  // Helper function to safely split hero title
-  const renderHeroTitle = () => {
-    if (!heroTitle || typeof heroTitle !== 'string') {
-      return 'Get things done, faster than ever.';
-    }
-    
-    const lines = heroTitle.split('\\n');
-    return lines.map((line, i) => (
-      <span key={i}>
-        {line}
-        {i < lines.length - 1 && <br />}
-      </span>
-    ));
-  };
-
   return (
     <PageLayout>
       <Helmet>
@@ -256,22 +236,6 @@ If you’re ready to make a real change, with a protocol that actually works—s
             name: "FastNow",
             url: canonicalUrl || (typeof window !== 'undefined' ? window.location.origin : ''),
             description: metaDescription,
-          })}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: [
-              {
-                "@type": "Question",
-                name: inlineFaqQuestion,
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: inlineFaqAnswer
-                }
-              }
-            ]
           })}
         </script>
       </Helmet>
@@ -352,10 +316,9 @@ If you’re ready to make a real change, with a protocol that actually works—s
       <AboutMeSectionRedesigned />
       <FAQReorganized />
       <AboutAppSectionsRedesigned />
-
       <InstallPWA />
     </PageLayout>
   );
 };
 
-export default Index;
+export default IndexRedesigned;
