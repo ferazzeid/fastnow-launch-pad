@@ -17,7 +17,15 @@ const FAQFull: React.FC = () => {
           .select('*')
           .eq('is_active', true)
           .order('display_order', { ascending: true });
-        if (!error) setFaqs(data || []);
+        
+        console.log('FAQ data loaded:', data);
+        console.log('FAQ error:', error);
+        
+        if (!error && data) {
+          setFaqs(data || []);
+        } else if (error) {
+          console.error('FAQ load error:', error);
+        }
       } catch (e) {
         console.error('FAQ load error:', e);
       }

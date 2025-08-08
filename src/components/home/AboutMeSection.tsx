@@ -17,18 +17,30 @@ const AboutMeSection: React.FC = () => {
           .select('setting_key, setting_value')
           .in('setting_key', ['about_me_title', 'about_me_subtitle', 'about_me_content', 'about_me_image_url']);
         if (!error && data) {
+          console.log('About me data loaded:', data);
           const map = data.reduce((acc, item) => {
-            const v = item.setting_value;
+            let v = item.setting_value;
+            // Handle different data formats
             if (typeof v === 'string') {
-              try { acc[item.setting_key] = JSON.parse(v); } catch { acc[item.setting_key] = v; }
-            } else if (v && typeof v === 'object') { acc[item.setting_key] = String(v); }
-            else { acc[item.setting_key] = v ? String(v) : ''; }
+              try { 
+                // Try to parse JSON, but if it fails, use the string directly
+                v = JSON.parse(v); 
+              } catch { 
+                // If JSON parsing fails, use the string as-is
+              }
+            }
+            acc[item.setting_key] = v;
             return acc;
-          }, {} as Record<string, string>);
-          setTitle(map.about_me_title || title);
-          setSubtitle(map.about_me_subtitle || subtitle);
-          setContent(map.about_me_content || content);
-          setImageUrl(map.about_me_image_url || null);
+          }, {} as Record<string, any>);
+          
+          console.log('Processed about me map:', map);
+          
+          if (map.about_me_title) setTitle(map.about_me_title);
+          if (map.about_me_subtitle) setSubtitle(map.about_me_subtitle);
+          if (map.about_me_content) setContent(map.about_me_content);
+          if (map.about_me_image_url) setImageUrl(map.about_me_image_url);
+        } else if (error) {
+          console.error('About me load error:', error);
         }
       } catch (e) {
         console.error('About me load error:', e);
