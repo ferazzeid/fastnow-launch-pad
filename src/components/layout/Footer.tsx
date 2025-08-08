@@ -33,12 +33,12 @@ const Footer = () => {
       {/* Footer Links */}
       <div className="py-8 bg-white">
         <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-sm text-gray-600 mb-4 md:mb-0">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
+            <div className="text-sm text-gray-600">
               © {new Date().getFullYear()} fastnow.app. All rights reserved.
             </div>
-            <div className="flex items-center gap-6">
-              <div className="flex gap-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 w-full md:w-auto">
+              <div className="flex flex-wrap gap-4 md:gap-6">
                 <Link to="/privacy" className="text-sm text-gray-600 hover:text-accent-green">
                   Privacy Policy
                 </Link>
@@ -76,7 +76,7 @@ const Footer = () => {
               </div>
               
               {/* Social Media Links */}
-              <div className="flex items-center gap-4 ml-4 border-l border-gray-300 pl-4">
+              <div className="flex items-center gap-4 md:border-l md:border-gray-300 md:pl-4">
                 <a 
                   href="https://www.tiktok.com/@fastnowapp" 
                   target="_blank" 

@@ -216,7 +216,7 @@ const Index = () => {
           <div className="container max-w-6xl mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Content Section - Left aligned */}
-              <div className="text-center lg:text-left">
+              <div className="text-left">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
                   {heroTitle}
                 </h1>
@@ -224,13 +224,13 @@ const Index = () => {
                   {heroSubtitle}
                 </div>
                 
-                <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg mx-auto lg:mx-0">
+                <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg">
                   <p className="drop-shadow-md">
                     {heroDescription}
                   </p>
                 </div>
                 
-                <div className="flex justify-center lg:justify-start">
+                <div className="flex justify-start">
                   <Button asChild size="lg" className="text-lg px-8 py-4 bg-accent-green hover:bg-accent-green-dark text-white font-semibold shadow-lg">
                     <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                       {ctaText}
