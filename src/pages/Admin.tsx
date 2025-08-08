@@ -97,12 +97,6 @@ const Admin = () => {
                   General Settings
                 </Button>
               </Link>
-              <Link to="/admin/pages">
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText size={16} className="mr-2" />
-                  Page Content Manager
-                </Button>
-              </Link>
             </CardContent>
           </Card>
 
@@ -115,6 +109,13 @@ const Admin = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
+              <Link to="/admin/homepage">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  Homepage
+                </Button>
+              </Link>
+              
               <Link to="/admin/about-me">
                 <Button variant="outline" className="w-full justify-start">
                   <Edit size={16} className="mr-2" />
@@ -133,6 +134,34 @@ const Admin = () => {
                 <Button variant="outline" className="w-full justify-start">
                   <Edit size={16} className="mr-2" />
                   About FastNow App
+                </Button>
+              </Link>
+
+              <Link to="/admin/faq">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  FAQ Page
+                </Button>
+              </Link>
+
+              <Link to="/admin/contact">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  Contact Page
+                </Button>
+              </Link>
+
+              <Link to="/admin/privacy-policy">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  Privacy Policy
+                </Button>
+              </Link>
+
+              <Link to="/admin/terms-of-service">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  Terms of Service
                 </Button>
               </Link>
             </CardContent>

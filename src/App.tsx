@@ -23,6 +23,11 @@ import AdminSeo from "./pages/AdminSeo";
 import AdminContactSettings from "./pages/AdminContactSettings";
 import AdminPageImages from "./pages/AdminPageImages";
 import AdminHomepageSettings from "./pages/AdminHomepageSettings";
+import AdminHomepage from "./pages/AdminHomepage";
+import AdminFAQEditor from "./pages/AdminFAQEditor";
+import AdminPrivacyPolicy from "./pages/AdminPrivacyPolicy";
+import AdminTermsOfService from "./pages/AdminTermsOfService";
+import AdminContactEditor from "./pages/AdminContactEditor";
 import FAQ from "./pages/FAQ";
 import AdminFAQ from "./pages/AdminFAQ";
 import AdminEmail from "./pages/AdminEmail";
@@ -70,27 +75,22 @@ const AppRoutes = () => {
       {/* Admin routes */}
       <Route path="/admin" element={<Admin />} />
       <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route path="/admin/users" element={<UserManagement />} />
       <Route path="/admin/general" element={<AdminGeneral />} />
-      <Route path="/admin/pages" element={<AdminPagesNew />} />
-      <Route path="/admin/pages-old" element={<AdminPages />} />
-      <Route path="/admin/design" element={<AdminDesign />} />
-      <Route path="/admin/seo" element={<AdminSeo />} />
-      <Route path="/admin/contact" element={<AdminContactSettings />} />
-      <Route path="/admin/page-images" element={<AdminPageImages />} />
-      <Route path="/admin/homepage-settings" element={<AdminHomepageSettings />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/admin/faq" element={<AdminFAQ />} />
-          <Route path="/admin/about-me" element={<AdminAboutMeEditor />} />
-      <Route path="/admin/email" element={<AdminEmail />} />
+      <Route path="/admin/homepage" element={<AdminHomepage />} />
+      <Route path="/admin/about-me" element={<AdminAboutMeEditor />} />
+      <Route path="/admin/fast-now-protocol" element={<AdminFastNowProtocol />} />
+      <Route path="/admin/about-fastnow-app" element={<AdminAboutFastNowApp />} />
+      <Route path="/admin/faq" element={<AdminFAQEditor />} />
+      <Route path="/admin/privacy-policy" element={<AdminPrivacyPolicy />} />
+      <Route path="/admin/terms-of-service" element={<AdminTermsOfService />} />
+      <Route path="/admin/contact" element={<AdminContactEditor />} />
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
-      <Route path="/admin/about-fastnow-app" element={<AdminAboutFastNowApp />} />
-      <Route path="/admin/fast-now-protocol" element={<AdminFastNowProtocol />} />
       <Route path="/admin/feature-screenshots" element={<AdminFeatureScreenshots />} />
       <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
       <Route path="/admin/fasting-timeline/export" element={<AdminFastingTimelineExport />} />
-      <Route path="/admin/:pageType" element={<AdminPageEditor />} />
       
       {/* Content pages */}
       <Route path="/privacy" element={<ContentPage />} />
