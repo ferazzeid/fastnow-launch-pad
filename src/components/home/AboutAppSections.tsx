@@ -111,7 +111,7 @@ const AboutAppSections: React.FC = () => {
                 </ul>
               </div>
               <div className={idx % 2 === 1 ? 'lg:order-1' : ''}>
-                <div className="w-72 mx-auto">
+                <div className="w-36 mx-auto md:w-44">
                   <FeatureScreenshotMockup imageUrl={getShot(f.key)} altText={`${f.title} screenshot`} />
                 </div>
               </div>

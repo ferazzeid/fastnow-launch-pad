@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
 
 const AboutMeSection: React.FC = () => {
-  const [title, setTitle] = useState('About Me');
-  const [subtitle, setSubtitle] = useState('The story behind the FastNow Protocol');
+  const [title, setTitle] = useState('About Me — The personal journey behind FastNow');
+  const [subtitle, setSubtitle] = useState('The personal journey behind FastNow');
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-
+  const [showFull, setShowFull] = useState(false);
+  
   useEffect(() => {
     const load = async () => {
       try {
@@ -34,6 +36,9 @@ const AboutMeSection: React.FC = () => {
     };
     load();
   }, []);
+  const full = content || '';
+  const cutoff = Math.ceil(full.length / 3);
+  const shown = showFull ? full : full.slice(0, cutoff);
 
   return (
     <section id="about-me" className="py-12">
@@ -56,13 +61,20 @@ const AboutMeSection: React.FC = () => {
 
         {content ? (
           <div className="space-y-4">
-            {content.split('\n\n').map((p, i) => (
+            {shown.split('\n\n').map((p, i) => (
               <div key={i} className={i % 2 === 0 ? 'max-w-3xl' : 'max-w-3xl ml-auto'}>
                 <div className="rounded-2xl bg-muted p-5 shadow-sm animate-fade-in">
                   <p className="text-foreground leading-relaxed">{p}</p>
                 </div>
               </div>
             ))}
+            {full.length > cutoff && (
+              <div className="text-center mt-4">
+                <Button variant="secondary" onClick={() => setShowFull(!showFull)}>
+                  {showFull ? 'Show less' : 'Read full story'}
+                </Button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="text-center text-muted-foreground">Content coming soon.</div>

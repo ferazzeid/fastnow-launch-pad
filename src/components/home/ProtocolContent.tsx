@@ -41,10 +41,9 @@ const ProtocolContent: React.FC = () => {
             {[
               { id: 'at-a-glance', label: 'At a glance', Icon: CheckCircle },
               { id: 'start-today', label: 'Start today', Icon: CheckCircle },
-              { id: 'phase-1', label: 'Fast 60–72h', Icon: Clock },
+              { id: 'phase-1', label: 'Fast 60 hours', Icon: Clock },
               { id: 'phase-2', label: 'Simple diet + deficit', Icon: Utensils },
               { id: 'phase-3', label: 'Walk 1.5h/day', Icon: Activity },
-              { id: 'pitfalls', label: 'Pitfalls', Icon: AlertTriangle },
             ].map((step, i, arr) => (
               <React.Fragment key={step.id}>
                 <a href={`#${step.id}`} className="flex items-center gap-2">
@@ -62,10 +61,9 @@ const ProtocolContent: React.FC = () => {
             {[
               { id: 'at-a-glance', label: 'At a glance', Icon: CheckCircle },
               { id: 'start-today', label: 'Start today', Icon: CheckCircle },
-              { id: 'phase-1', label: 'Fast 60–72h', Icon: Clock },
+              { id: 'phase-1', label: 'Fast 60 hours', Icon: Clock },
               { id: 'phase-2', label: 'Simple diet + deficit', Icon: Utensils },
               { id: 'phase-3', label: 'Walk 1.5h/day', Icon: Activity },
-              { id: 'pitfalls', label: 'Pitfalls', Icon: AlertTriangle },
             ].map((step) => (
               <a key={step.id} href={`#${step.id}`} className="flex items-center gap-3 rounded-lg border p-3 bg-card">
                 <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -85,28 +83,14 @@ const ProtocolContent: React.FC = () => {
             <li><a href="#phase-1" className="story-link">Phase 1</a></li>
             <li><a href="#phase-2" className="story-link">Phase 2</a></li>
             <li><a href="#phase-3" className="story-link">Phase 3</a></li>
-            <li><a href="#pitfalls" className="story-link">Common pitfalls</a></li>
           </ul>
         </nav>
 
         {/* At a glance */}
         <section id="at-a-glance" className="mb-10">
           <div className="bg-card rounded-lg border p-6">
-            <h3 className="text-2xl font-semibold mb-4">At a glance</h3>
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="rounded-md border p-4">
-                <p className="text-sm text-muted-foreground">Kickstart</p>
-                <p className="text-lg font-medium">60–72h water fast</p>
-              </div>
-              <div className="rounded-md border p-4">
-                <p className="text-sm text-muted-foreground">Engine</p>
-                <p className="text-lg font-medium">~1,000 kcal daily deficit</p>
-              </div>
-              <div className="rounded-md border p-4">
-                <p className="text-sm text-muted-foreground">Movement</p>
-                <p className="text-lg font-medium">1.5h walk every day</p>
-              </div>
-            </div>
+            <h3 className="text-2xl font-semibold mb-2">At a glance</h3>
+            <p className="text-lg md:text-xl font-medium text-foreground">60-hour water fast</p>
           </div>
         </section>
 
@@ -131,12 +115,12 @@ const ProtocolContent: React.FC = () => {
               </div>
               <div>
                 <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
-                <h3 className="text-2xl md:text-3xl font-bold mt-2">3-Day Initiation Water Fast</h3>
+                <h3 className="text-2xl md:text-3xl font-bold mt-2">60-Hour Water Fast</h3>
               </div>
             </div>
             <div className="space-y-4 text-muted-foreground">
               <div className="bg-muted p-4 rounded-lg">
-                <p className="text-foreground"><strong>Duration:</strong> 60–72 hours (3 days). My sweet spot: 60 hours.</p>
+                <p className="text-foreground"><strong>Duration:</strong> 60 hours.</p>
               </div>
               <div>
                 <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><CheckCircle className="w-5 h-5 text-primary" />Purpose</h4>
@@ -212,17 +196,6 @@ const ProtocolContent: React.FC = () => {
           </div>
         </section>
 
-        {/* Pitfalls */}
-        <section id="pitfalls" className="mb-6">
-          <div className="bg-muted/30 rounded-lg p-6 border">
-            <h3 className="text-2xl font-semibold mb-4">Common pitfalls</h3>
-            <ul className="list-disc pl-6 space-y-2 text-muted-foreground text-sm">
-              <li>Not tracking intake—“healthy” extras erase the deficit.</li>
-              <li>Stopping at Night 2—push through to the shift.</li>
-              <li>Trying to do everything at once—keep it simple.</li>
-            </ul>
-          </div>
-        </section>
       </div>
     </section>
   );
