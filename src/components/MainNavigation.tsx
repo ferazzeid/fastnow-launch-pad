@@ -24,11 +24,14 @@ import {
 } from "@/components/ui/sheet";
 
 const MainNavigation = () => {
-  const { isAdmin } = useAuth();
+  const { isAdmin, isLoading, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Debug logging to help identify the issue
+  console.log('MainNavigation - isAdmin:', isAdmin, 'isLoading:', isLoading, 'user:', user?.email);
 
   const handleLogout = async () => {
     const success = await SupabaseAuthService.signOut();
@@ -98,7 +101,7 @@ const MainNavigation = () => {
         <ArrowRight size={14} />
       </a>
       
-      {isAdmin && (
+      {!isLoading && isAdmin && (
         <>
           <Link to="/admin" onClick={onLinkClick}>
             <div className={cn(
@@ -107,7 +110,7 @@ const MainNavigation = () => {
               location.pathname === "/admin" && "text-accent-green bg-gray-50"
             )}>
               <User size={16} />
-              Admin
+              Admin Dashboard
             </div>
           </Link>
           
@@ -127,7 +130,7 @@ const MainNavigation = () => {
         </>
       )}
       
-      {!isAdmin && (
+      {!isLoading && !isAdmin && (
         <Link to="/admin/login" onClick={onLinkClick}>
           <div className={cn(
             isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
@@ -232,7 +235,7 @@ const MainNavigation = () => {
           </a>
         </NavigationMenuItem>
         
-        {isAdmin && (
+        {!isLoading && isAdmin && (
           <>
             <NavigationMenuItem>
               <Link to="/admin">
@@ -244,7 +247,7 @@ const MainNavigation = () => {
                   )}
                 >
                   <User size={16} className="mr-1" />
-                  Admin
+                  Admin Dashboard
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
@@ -262,7 +265,7 @@ const MainNavigation = () => {
           </>
         )}
         
-        {!isAdmin && (
+        {!isLoading && !isAdmin && (
           <NavigationMenuItem>
             <Link to="/admin/login">
               <NavigationMenuLink 
