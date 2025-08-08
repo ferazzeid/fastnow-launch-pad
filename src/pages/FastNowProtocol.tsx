@@ -11,7 +11,35 @@ const FastNowProtocol = () => {
     subtitle: 'How I Lost Fat With a 3-Day Fast + Calorie Control',
     content: '',
     metaTitle: 'The FastNow Protocol | FastNow',
-    metaDescription: 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol'
+    metaDescription: 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol',
+    featuredImage: ''
+  });
+  
+  const [phaseContent, setPhaseContent] = useState({
+    phase1: {
+      title: '3-Day Initiation Water Fast',
+      duration: '72 hours (3 full days). My personal sweet spot is 60 hours.',
+      purpose: 'Flip the fat-burning switch (ketosis), break the carb/insulin cycle, dump water for momentum, and set the stage so Phase 2 actually works.',
+      instructions: 'Drink water and black coffee. No food.',
+      details: 'Day 1 / Night 1: most people can push through; you\'re mostly burning stored sugar.\n\nDay 2 / Night 2: this is the test. Sleep often goes bad, cravings scream, and you negotiate with yourself. Anyone who has quit a serious habit knows this night. Make it through Night 2 and you\'ve done the real work; this is where the shift happens.\n\n60 hours is my ignite point. Some go to 72. Past 60, everything else becomes child\'s play compared to Night 2.'
+    },
+    phase2: {
+      title: 'Strict Simple Diet + Daily Calorie Limit',
+      duration: '30–60 days minimum.',
+      carbCap: '≤ 20–30g net carbs/day.',
+      deficit: '~1,000 kcal',
+      whyDeficit: 'Because you need visible progress fast to keep going. With 250–500 kcal/day, a tiny misstep erases a week, clothes don\'t change, and motivation dies right when you need proof it\'s working. A bigger daily deficit gives you results you can feel in weeks 1–3, not in a year.',
+      howToSet: 'Baseline burn (BMR): from sex, age, height, weight.\nAdd activity: almost none / light / medium / high (daily life can add ~300–500+ kcal).\nIntake: (BMR + activity) – 1,000 = your calories to eat.\nExample: total burn ≈ 2,500 → eat ≈ 1,500 kcal',
+      whatToEat: 'OK: cheese, sausage, eggs, cold cuts, fish, meat; cucumbers, pickles, plain yogurt.\nDrinks: water, coffee. I personally use Coke Zero / Pepsi Max / Cola Light.\nAvoid: bread, rice, noodles, potatoes, fruit, carrots, tomatoes, oil, and everything else outside the above list.',
+      tracking: 'Track every single thing—in the app or on paper. If you "keep it in your head," you will drift. Example: you do everything right, then at night you add a salmon steak "because it\'s healthy." You just blew 600–700 kcal, and your perfect day became a 300 kcal deficit.',
+      recovery: 'If you overeat, you still have Phase 3. Walk it off to claw back the deficit the same day.'
+    },
+    phase3: {
+      title: 'Daily Walking',
+      rule: '1.5 hours every day (non-negotiable).',
+      why: '~500 kcal/day for many people, better mood, stable energy, and it\'s the simplest thing most people will actually do consistently.',
+      howToFit: 'Split it up: 45 minutes in the morning, 45 minutes in the evening. Listen to podcasts, audiobooks, or music. Make it your thinking time.'
+    }
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,7 +52,16 @@ const FastNowProtocol = () => {
       const { data, error } = await supabase
         .from('site_settings')
         .select('setting_key, setting_value')
-        .in('setting_key', ['protocol_title', 'protocol_subtitle', 'protocol_content']);
+        .in('setting_key', [
+          'protocol_title', 'protocol_subtitle', 'protocol_content', 'protocol_featured_image',
+          'protocol_meta_title', 'protocol_meta_description',
+          'protocol_phase1_title', 'protocol_phase1_duration', 'protocol_phase1_purpose', 
+          'protocol_phase1_instructions', 'protocol_phase1_details',
+          'protocol_phase2_title', 'protocol_phase2_duration', 'protocol_phase2_carb_cap',
+          'protocol_phase2_deficit', 'protocol_phase2_why_deficit', 'protocol_phase2_how_to_set',
+          'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery',
+          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_how_to_fit'
+        ]);
 
       if (error) throw error;
 
@@ -38,13 +75,42 @@ const FastNowProtocol = () => {
         return acc;
       }, {} as Record<string, string>) || {};
 
-      if (settings.protocol_title || settings.protocol_subtitle || settings.protocol_content) {
+      if (Object.keys(settings).length > 0) {
         setPageContent({
           title: settings.protocol_title || 'The FastNow Protocol',
           subtitle: settings.protocol_subtitle || 'How I Lost Fat With a 3-Day Fast + Calorie Control',
           content: settings.protocol_content || '',
-          metaTitle: `${settings.protocol_title || 'The FastNow Protocol'} | FastNow`,
-          metaDescription: settings.protocol_subtitle || 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol'
+          metaTitle: settings.protocol_meta_title || `${settings.protocol_title || 'The FastNow Protocol'} | FastNow`,
+          metaDescription: settings.protocol_meta_description || settings.protocol_subtitle || 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol',
+          featuredImage: settings.protocol_featured_image || ''
+        });
+        
+        // Update phase content with database values
+        setPhaseContent({
+          phase1: {
+            title: settings.protocol_phase1_title || '3-Day Initiation Water Fast',
+            duration: settings.protocol_phase1_duration || '72 hours (3 full days). My personal sweet spot is 60 hours.',
+            purpose: settings.protocol_phase1_purpose || 'Flip the fat-burning switch (ketosis), break the carb/insulin cycle, dump water for momentum, and set the stage so Phase 2 actually works.',
+            instructions: settings.protocol_phase1_instructions || 'Drink water and black coffee. No food.',
+            details: settings.protocol_phase1_details || 'Day 1 / Night 1: most people can push through; you\'re mostly burning stored sugar.\n\nDay 2 / Night 2: this is the test. Sleep often goes bad, cravings scream, and you negotiate with yourself. Anyone who has quit a serious habit knows this night. Make it through Night 2 and you\'ve done the real work; this is where the shift happens.\n\n60 hours is my ignite point. Some go to 72. Past 60, everything else becomes child\'s play compared to Night 2.'
+          },
+          phase2: {
+            title: settings.protocol_phase2_title || 'Strict Simple Diet + Daily Calorie Limit',
+            duration: settings.protocol_phase2_duration || '30–60 days minimum.',
+            carbCap: settings.protocol_phase2_carb_cap || '≤ 20–30g net carbs/day.',
+            deficit: settings.protocol_phase2_deficit || '~1,000 kcal',
+            whyDeficit: settings.protocol_phase2_why_deficit || 'Because you need visible progress fast to keep going. With 250–500 kcal/day, a tiny misstep erases a week, clothes don\'t change, and motivation dies right when you need proof it\'s working. A bigger daily deficit gives you results you can feel in weeks 1–3, not in a year.',
+            howToSet: settings.protocol_phase2_how_to_set || 'Baseline burn (BMR): from sex, age, height, weight.\nAdd activity: almost none / light / medium / high (daily life can add ~300–500+ kcal).\nIntake: (BMR + activity) – 1,000 = your calories to eat.\nExample: total burn ≈ 2,500 → eat ≈ 1,500 kcal',
+            whatToEat: settings.protocol_phase2_what_to_eat || 'OK: cheese, sausage, eggs, cold cuts, fish, meat; cucumbers, pickles, plain yogurt.\nDrinks: water, coffee. I personally use Coke Zero / Pepsi Max / Cola Light.\nAvoid: bread, rice, noodles, potatoes, fruit, carrots, tomatoes, oil, and everything else outside the above list.',
+            tracking: settings.protocol_phase2_tracking || 'Track every single thing—in the app or on paper. If you "keep it in your head," you will drift. Example: you do everything right, then at night you add a salmon steak "because it\'s healthy." You just blew 600–700 kcal, and your perfect day became a 300 kcal deficit.',
+            recovery: settings.protocol_phase2_recovery || 'If you overeat, you still have Phase 3. Walk it off to claw back the deficit the same day.'
+          },
+          phase3: {
+            title: settings.protocol_phase3_title || 'Daily Walking',
+            rule: settings.protocol_phase3_rule || '1.5 hours every day (non-negotiable).',
+            why: settings.protocol_phase3_why || '~500 kcal/day for many people, better mood, stable energy, and it\'s the simplest thing most people will actually do consistently.',
+            howToFit: settings.protocol_phase3_how_to_fit || 'Split it up: 45 minutes in the morning, 45 minutes in the evening. Listen to podcasts, audiobooks, or music. Make it your thinking time.'
+          }
         });
       }
     } catch (error) {
@@ -72,7 +138,11 @@ const FastNowProtocol = () => {
       
       {/* Hero Background Image */}
       <div className="absolute inset-0 w-full h-screen z-0">
-        <PageFeaturedImage pageKey="fast-now-protocol" className="w-full h-full object-cover" />
+        {pageContent.featuredImage ? (
+          <img src={pageContent.featuredImage} alt="FastNow Protocol" className="w-full h-full object-cover" />
+        ) : (
+          <PageFeaturedImage pageKey="fast-now-protocol" className="w-full h-full object-cover" />
+        )}
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
       
@@ -114,14 +184,14 @@ const FastNowProtocol = () => {
                       </div>
                       <div>
                         <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
-                        <h2 className="text-3xl font-bold mt-2 text-foreground">3-Day Initiation Water Fast</h2>
+                        <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase1.title}</h2>
                       </div>
                     </div>
                     
                     <div className="mb-6">
                       <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg mb-4">
                         <p className="text-lg text-foreground">
-                          <strong>Duration:</strong> <span className="bg-blue-500 text-white px-2 py-1 rounded text-sm font-bold">72 hours</span> (3 full days). My personal sweet spot is <span className="bg-blue-400 text-white px-2 py-1 rounded text-sm font-bold">60 hours</span>.
+                          <strong>Duration:</strong> {phaseContent.phase1.duration}
                         </p>
                       </div>
                       
@@ -131,7 +201,7 @@ const FastNowProtocol = () => {
                           Purpose:
                         </h3>
                         <p className="text-muted-foreground mb-4">
-                          Flip the fat-burning switch (ketosis), break the carb/insulin cycle, dump water for momentum, and set the stage so Phase 2 actually works.
+                          {phaseContent.phase1.purpose}
                         </p>
                         
                         <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
@@ -139,7 +209,7 @@ const FastNowProtocol = () => {
                           What to do:
                         </h3>
                         <p className="text-muted-foreground mb-6">
-                          Drink water and black coffee. No food.
+                          {phaseContent.phase1.instructions}
                         </p>
                         
                         <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
@@ -147,21 +217,15 @@ const FastNowProtocol = () => {
                           What really happens (and why it matters):
                         </h3>
                         <div className="space-y-4 text-muted-foreground">
-                          <div className="bg-gradient-to-r from-blue-50 to-transparent dark:from-blue-950/20 p-4 rounded-lg border-l-2 border-blue-300">
-                            <p>
-                              <strong className="text-blue-600">Day 1 / Night 1:</strong> most people can push through; you're mostly burning stored sugar.
-                            </p>
-                          </div>
-                          <div className="bg-gradient-to-r from-orange-50 to-transparent dark:from-orange-950/20 p-4 rounded-lg border-l-2 border-orange-300">
-                            <p>
-                              <strong className="text-orange-600">Day 2 / Night 2:</strong> this is the test. Sleep often goes bad, cravings scream, and you negotiate with yourself. Anyone who has quit a serious habit knows this night. Make it through Night 2 and you've done the real work; this is where the shift happens.
-                            </p>
-                          </div>
-                          <div className="bg-gradient-to-r from-green-50 to-transparent dark:from-green-950/20 p-4 rounded-lg border-l-2 border-green-300">
-                            <p>
-                              <strong className="text-green-600">60 hours</strong> is my ignite point. Some go to 72. Past 60, everything else becomes child's play compared to Night 2.
-                            </p>
-                          </div>
+                          {phaseContent.phase1.details.split('\n\n').map((paragraph, index) => (
+                            <div key={index} className={`bg-gradient-to-r ${
+                              index === 0 ? 'from-blue-50 to-transparent dark:from-blue-950/20 border-l-2 border-blue-300' :
+                              index === 1 ? 'from-orange-50 to-transparent dark:from-orange-950/20 border-l-2 border-orange-300' :
+                              'from-green-50 to-transparent dark:from-green-950/20 border-l-2 border-green-300'
+                            } p-4 rounded-lg`}>
+                              <p>{paragraph}</p>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -177,21 +241,21 @@ const FastNowProtocol = () => {
                       </div>
                       <div>
                         <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
-                        <h2 className="text-3xl font-bold mt-2 text-foreground">Strict Simple Diet + Daily Calorie Limit</h2>
+                        <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase2.title}</h2>
                       </div>
                     </div>
                     
                     <div className="mb-6">
-                      <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg mb-4">
+                        <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg mb-4">
                         <div className="grid md:grid-cols-3 gap-4 text-lg text-foreground">
                           <div>
-                            <strong>Duration:</strong> <span className="bg-green-500 text-white px-2 py-1 rounded text-sm font-bold">30–60 days</span> minimum.
+                            <strong>Duration:</strong> {phaseContent.phase2.duration}
                           </div>
                           <div>
-                            <strong>Carb cap:</strong> <span className="bg-green-400 text-white px-2 py-1 rounded text-sm font-bold">≤ 20–30g</span> net carbs/day.
+                            <strong>Carb cap:</strong> {phaseContent.phase2.carbCap}
                           </div>
                           <div>
-                            <strong>Daily deficit:</strong> <span className="bg-green-600 text-white px-2 py-1 rounded text-sm font-bold">~1,000 kcal</span>
+                            <strong>Daily deficit:</strong> {phaseContent.phase2.deficit}
                           </div>
                         </div>
                       </div>
@@ -202,7 +266,7 @@ const FastNowProtocol = () => {
                           Why 1,000—not 250 or 500?
                         </h3>
                         <p className="text-muted-foreground mb-6">
-                          Because you need visible progress fast to keep going. With 250–500 kcal/day, a tiny misstep erases a week, clothes don't change, and motivation dies right when you need proof it's working. A bigger daily deficit gives you results you can feel in weeks 1–3, not in a year.
+                          {phaseContent.phase2.whyDeficit}
                         </p>
                         
                         <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
@@ -210,21 +274,12 @@ const FastNowProtocol = () => {
                           How to set your limit:
                         </h3>
                         <div className="space-y-3 mb-6">
-                          <div className="flex items-start gap-3">
-                            <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p className="text-muted-foreground">Baseline burn (BMR): from sex, age, height, weight.</p>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p className="text-muted-foreground">Add activity: almost none / light / medium / high (daily life can add ~300–500+ kcal).</p>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p className="text-muted-foreground">Intake: (BMR + activity) – 1,000 = your calories to eat.</p>
-                          </div>
-                          <div className="bg-green-50 dark:bg-green-950/20 p-3 rounded-lg">
-                            <p className="text-foreground"><strong>Example:</strong> total burn ≈ <span className="bg-green-500 text-white px-2 py-1 rounded text-sm">2,500</span> → eat ≈ <span className="bg-green-400 text-white px-2 py-1 rounded text-sm">1,500 kcal</span></p>
-                          </div>
+                          {phaseContent.phase2.howToSet.split('\n').map((line, index) => (
+                            <div key={index} className="flex items-start gap-3">
+                              <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                              <p className="text-muted-foreground">{line}</p>
+                            </div>
+                          ))}
                         </div>
                         
                         <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
@@ -232,18 +287,26 @@ const FastNowProtocol = () => {
                           What to eat (because of carbs, not macros):
                         </h3>
                         <div className="mb-6 space-y-4">
-                          <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg">
-                            <p className="text-foreground mb-2"><strong className="text-green-600">OK:</strong></p>
-                            <p className="text-muted-foreground">cheese, sausage, eggs, cold cuts, fish, meat; cucumbers, pickles, plain yogurt.</p>
-                          </div>
-                          <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg">
-                            <p className="text-foreground mb-2"><strong className="text-blue-600">Drinks:</strong></p>
-                            <p className="text-muted-foreground">water, coffee. I personally use Coke Zero / Pepsi Max / Cola Light. I know some people hate sweeteners or say they're unhealthy. For me, they don't spike insulin and they keep me on track, so I use them. If you can do the same with just water/coffee/tea and stay motivated without overeating—great, do that.</p>
-                          </div>
-                          <div className="bg-red-50 dark:bg-red-950/20 p-4 rounded-lg">
-                            <p className="text-foreground mb-2"><strong className="text-red-600">Avoid:</strong></p>
-                            <p className="text-muted-foreground">bread, rice, noodles, potatoes, fruit, carrots, tomatoes, oil, and everything else outside the above list.</p>
-                          </div>
+                          {phaseContent.phase2.whatToEat.split('\n').map((section, index) => {
+                            const isOk = section.startsWith('OK:');
+                            const isDrinks = section.startsWith('Drinks:');
+                            const isAvoid = section.startsWith('Avoid:');
+                            const bgColor = isOk ? 'bg-green-50 dark:bg-green-950/20' : 
+                                           isDrinks ? 'bg-blue-50 dark:bg-blue-950/20' : 
+                                           'bg-red-50 dark:bg-red-950/20';
+                            const textColor = isOk ? 'text-green-600' : 
+                                            isDrinks ? 'text-blue-600' : 
+                                            'text-red-600';
+                            const label = isOk ? 'OK:' : isDrinks ? 'Drinks:' : 'Avoid:';
+                            const content = section.replace(/^(OK:|Drinks:|Avoid:)\s*/, '');
+                            
+                            return (
+                              <div key={index} className={`${bgColor} p-4 rounded-lg`}>
+                                <p className="text-foreground mb-2"><strong className={textColor}>{label}</strong></p>
+                                <p className="text-muted-foreground">{content}</p>
+                              </div>
+                            );
+                          })}
                         </div>
                         
                         <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
@@ -251,9 +314,8 @@ const FastNowProtocol = () => {
                           Tracking (do not skip this):
                         </h3>
                         <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg mb-4">
-                          <p className="text-foreground mb-3 font-medium">Track every single thing—in the app or on paper.</p>
                           <p className="text-muted-foreground">
-                            If you "keep it in your head," you will drift. Example: you do everything right, then at night you add a salmon steak "because it's healthy." You just blew 600–700 kcal, and your perfect day became a 300 kcal deficit. Do that a few nights and you stall, get frustrated, and quit.
+                            {phaseContent.phase2.tracking}
                           </p>
                         </div>
                         
@@ -262,7 +324,7 @@ const FastNowProtocol = () => {
                           Recovery lever:
                         </h3>
                         <p className="text-muted-foreground">
-                          If you overeat, you still have Phase 3. Walk it off to claw back the deficit the same day.
+                          {phaseContent.phase2.recovery}
                         </p>
                       </div>
                     </div>
@@ -278,14 +340,14 @@ const FastNowProtocol = () => {
                       </div>
                       <div>
                         <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
-                        <h2 className="text-3xl font-bold mt-2 text-foreground">Daily Walking</h2>
+                        <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase3.title}</h2>
                       </div>
                     </div>
                     
                     <div className="mb-6">
                       <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg mb-4">
                         <p className="text-lg text-foreground">
-                          <strong>Rule:</strong> <span className="bg-orange-500 text-white px-2 py-1 rounded text-sm font-bold">1.5 hours</span> every day (non-negotiable).
+                          <strong>Rule:</strong> {phaseContent.phase3.rule}
                         </p>
                       </div>
                       
@@ -295,7 +357,7 @@ const FastNowProtocol = () => {
                           Why:
                         </h3>
                         <p className="text-muted-foreground mb-6">
-                          <span className="bg-orange-500 text-white px-2 py-1 rounded text-sm font-bold">~500 kcal/day</span> for many people, better mood, stable energy, and it's the simplest thing most people will actually do consistently.
+                          {phaseContent.phase3.why}
                         </p>
                         
                         <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
@@ -303,7 +365,7 @@ const FastNowProtocol = () => {
                           How to fit it in:
                         </h3>
                         <p className="text-muted-foreground">
-                          End-of-day nature walks, lunch-break city loops, phone-call walks, errands on foot. Split it (<span className="bg-orange-400 text-white px-1 py-0.5 rounded text-xs">45 + 45</span>). Weekend hikes or 5-hour city days if you want extra. Walk—don't jog. Just hit 1.5 hours daily and let the math work.
+                          {phaseContent.phase3.howToFit}
                         </p>
                       </div>
                     </div>
