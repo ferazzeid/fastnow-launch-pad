@@ -210,6 +210,15 @@ const HomepageLogoSettings = () => {
       );
       
       setFaviconPreview(result.url);
+      
+      // Save to database instead of just localStorage
+      const { pageContentService } = await import('@/services/PageContentService');
+      await pageContentService.saveGeneralSetting({
+        setting_key: 'site_favicon',
+        setting_value: result.url
+      });
+      
+      // Keep localStorage as backup
       localStorage.setItem('fastingApp_faviconUrl', result.url);
       localStorage.setItem('fastingApp_faviconPath', result.path);
       
@@ -224,7 +233,7 @@ const HomepageLogoSettings = () => {
         document.head.appendChild(newLink);
       }
       
-      toast.success('Favicon uploaded successfully');
+      toast.success('Favicon uploaded and saved to database successfully');
     } catch (error) {
       console.error('Error uploading favicon:', error);
       toast.error('Failed to upload favicon');

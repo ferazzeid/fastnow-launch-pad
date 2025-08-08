@@ -63,23 +63,59 @@ const Header = () => {
       }
     };
 
-    // Load favicon from localStorage (keeping this separate for now)
-    const savedFaviconUrl = localStorage.getItem('fastingApp_faviconUrl');
-    if (savedFaviconUrl) {
-      setFaviconUrl(savedFaviconUrl);
-      // Update favicon in the document
-      const linkElement = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
-      if (linkElement) {
-        linkElement.href = savedFaviconUrl;
-      } else {
-        const newLink = document.createElement('link');
-        newLink.rel = 'icon';
-        newLink.href = savedFaviconUrl;
-        document.head.appendChild(newLink);
+    // Load favicon from database first, then localStorage fallback
+    const loadFavicon = async () => {
+      try {
+        const faviconData = await pageContentService.getGeneralSetting('site_favicon');
+        let faviconUrl = '';
+        
+        if (faviconData?.setting_value) {
+          if (typeof faviconData.setting_value === 'string') {
+            faviconUrl = faviconData.setting_value;
+          } else if (typeof faviconData.setting_value === 'object' && faviconData.setting_value.url) {
+            faviconUrl = faviconData.setting_value.url;
+          }
+        }
+        
+        // Fallback to localStorage if database doesn't have favicon
+        if (!faviconUrl) {
+          faviconUrl = localStorage.getItem('fastingApp_faviconUrl') || '';
+        }
+        
+        if (faviconUrl) {
+          setFaviconUrl(faviconUrl);
+          
+          // Update favicon in DOM
+          let linkElement = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+          if (!linkElement) {
+            linkElement = document.createElement('link');
+            linkElement.rel = 'icon';
+            document.head.appendChild(linkElement);
+          }
+          linkElement.href = faviconUrl;
+          linkElement.type = 'image/png';
+        }
+      } catch (error) {
+        console.error('Error loading favicon from database:', error);
+        // Fallback to localStorage
+        const fallbackFavicon = localStorage.getItem('fastingApp_faviconUrl');
+        if (fallbackFavicon) {
+          setFaviconUrl(fallbackFavicon);
+          
+          let linkElement = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+          if (!linkElement) {
+            linkElement = document.createElement('link');
+            linkElement.rel = 'icon';
+            document.head.appendChild(linkElement);
+          }
+          linkElement.href = fallbackFavicon;
+          linkElement.type = 'image/png';
+        }
       }
-    }
+    };
 
     loadSettings();
+    loadFavicon();
   }, []);
 
   // Handle scroll effect
