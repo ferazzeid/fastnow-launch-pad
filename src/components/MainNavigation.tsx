@@ -74,7 +74,13 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
     <>
       <Link to="/fast-now-protocol" onClick={onLinkClick}>
         <div className={getNavLinkClasses(location.pathname === "/fast-now-protocol")}>
-          The FastNow Protocol
+          The Protocol
+        </div>
+      </Link>
+      
+      <Link to="/about-fastnow-app" onClick={onLinkClick}>
+        <div className={getNavLinkClasses(location.pathname === "/about-fastnow-app")}>
+          About App
         </div>
       </Link>
       
@@ -86,13 +92,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
       
       <Link to="/about-me" onClick={onLinkClick}>
         <div className={getNavLinkClasses(location.pathname === "/about-me")}>
-          About Me
-        </div>
-      </Link>
-      
-      <Link to="/about-fastnow-app" onClick={onLinkClick}>
-        <div className={getNavLinkClasses(location.pathname === "/about-fastnow-app")}>
-          About FastNow App
+          Me
         </div>
       </Link>
       
@@ -106,7 +106,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
           "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green flex items-center gap-1"
         )}
       >
-        App
+        Launch App
         <ArrowRight size={14} />
       </a>
       
@@ -144,7 +144,14 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
         <NavigationMenuItem>
           <Link to="/fast-now-protocol">
             <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/fast-now-protocol")}>
-              The FastNow Protocol
+              The Protocol
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link to="/about-fastnow-app">
+            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/about-fastnow-app")}>
+              About App
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -158,14 +165,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
         <NavigationMenuItem>
           <Link to="/about-me">
             <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/about-me")}>
-              About Me
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/about-fastnow-app">
-            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/about-fastnow-app")}>
-              About FastNow App
+              Me
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -179,7 +179,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
               "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green flex items-center gap-1"
             )}
           >
-            App
+            Launch App
             <ArrowRight size={14} />
           </a>
         </NavigationMenuItem>
