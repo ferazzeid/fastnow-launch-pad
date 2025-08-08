@@ -13,6 +13,10 @@ import { AppStoreButton } from '@/components/AppStoreButton';
 import { GooglePlayButton } from '@/components/GooglePlayButton';
 import InstallPWA from '@/components/home/InstallPWA';
 import InlineFAQ from '@/components/home/InlineFAQ';
+import ProtocolContent from '@/components/home/ProtocolContent';
+import AboutMeSection from '@/components/home/AboutMeSection';
+import FAQFull from '@/components/home/FAQFull';
+import AboutAppSections from '@/components/home/AboutAppSections';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -158,17 +162,18 @@ const Index = () => {
         }
       }
       
-      // Google Play link
-      const savedGooglePlayLink = localStorage.getItem('fastingApp_googlePlayLink');
-      if (savedGooglePlayLink && typeof savedGooglePlayLink === 'string') setGooglePlayLink(savedGooglePlayLink);
-      
-      // SEO Settings
-      const savedMetaTitle = localStorage.getItem('fastingApp_metaTitle');
-      if (savedMetaTitle && typeof savedMetaTitle === 'string') setMetaTitle(savedMetaTitle);
-      
-      const savedMetaDescription = localStorage.getItem('fastingApp_metaDescription');
-      if (savedMetaDescription && typeof savedMetaDescription === 'string') setMetaDescription(savedMetaDescription);
-      
+      // App store links from Admin General settings
+      const generalSettings = localStorage.getItem('fastingApp_generalSettings');
+      if (generalSettings) {
+        try {
+          const parsed = JSON.parse(generalSettings);
+          if (parsed.appStoreUrl) setAppStoreUrl(parsed.appStoreUrl);
+          if (parsed.playStoreUrl) setPlayStoreUrl(parsed.playStoreUrl);
+        } catch (e) {
+          console.error('Error parsing general settings:', e);
+        }
+      }
+
       // Load custom UI elements
       const defaultDesignSetting = localStorage.getItem('fastingApp_showDefaultDesign');
       if (defaultDesignSetting !== null) {
@@ -311,13 +316,11 @@ const Index = () => {
           </div>
         </div>
       </section>
-      {/* FAQ Section */}
-      <section id="faq" className="py-12 border-t">
-        <div className="container max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-semibold mb-4">FAQ</h2>
-          <InlineFAQ />
-        </div>
-      </section>
+      {/* Consolidated sections */}
+      <ProtocolContent />
+      <AboutMeSection />
+      <FAQFull />
+      <AboutAppSections />
 
       <InstallPWA />
     </PageLayout>
