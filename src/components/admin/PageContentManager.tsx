@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,7 @@ interface PageContentManagerProps {
 }
 
 const PageContentManager: React.FC<PageContentManagerProps> = ({ selectedPage = 'home' }) => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [pageContent, setPageContent] = useState<PageContent>({
@@ -110,11 +112,86 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({ selectedPage = 
 
   const selectedPageInfo = availablePages.find(page => page.key === pageContent.page_key);
 
+  // Pages that have dedicated editors
+  const hasDedicatedEditor = (pageKey: string) => {
+    return ['fast-now-protocol', 'about-me'].includes(pageKey);
+  };
+
+  const getDedicatedEditorPath = (pageKey: string) => {
+    switch (pageKey) {
+      case 'fast-now-protocol':
+        return '/admin/fast-now-protocol';
+      case 'about-me':
+        return '/admin/about-me';
+      default:
+        return null;
+    }
+  };
+
   if (loading) {
     return (
       <Card>
         <CardContent className="p-6">
           <div className="text-center">Loading page content...</div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Show dedicated editor notice for pages with custom editors
+  if (hasDedicatedEditor(pageContent.page_key)) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Page Content Manager</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Manage content for your website pages
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Page Selection */}
+          <div className="space-y-2">
+            <Label htmlFor="page-select">Select Page</Label>
+            <Select value={pageContent.page_key} onValueChange={handlePageChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a page to edit" />
+              </SelectTrigger>
+              <SelectContent>
+                {availablePages.map((page) => (
+                  <SelectItem key={page.key} value={page.key}>
+                    {page.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Dedicated Editor Notice */}
+          <div className="flex items-center justify-between p-4 border rounded-lg bg-blue-50">
+            <div>
+              <h3 className="font-medium">{selectedPageInfo?.label}</h3>
+              <p className="text-sm text-muted-foreground">
+                This page has a dedicated editor with advanced features and image upload.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                onClick={() => navigate(getDedicatedEditorPath(pageContent.page_key)!)}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                Open Editor
+              </Button>
+              <Button variant="outline" asChild>
+                <a 
+                  href={`/${pageContent.page_key === 'home' ? '' : pageContent.page_key}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  Preview
+                </a>
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
     );
