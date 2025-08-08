@@ -110,41 +110,6 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
         <ArrowRight size={14} />
       </a>
       
-      {!isLoading && isAdmin && (
-        <>
-          <Link to="/admin" onClick={onLinkClick}>
-            <div className={getNavLinkClasses(location.pathname === "/admin")}>
-              <User size={16} />
-              Admin Dashboard
-            </div>
-          </Link>
-          
-          <button
-            onClick={() => {
-              handleLogout();
-              onLinkClick?.();
-            }}
-            className={cn(
-              isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg w-full text-left" : "flex items-center gap-1",
-              isTransparent && !isMobile
-                ? "text-white/90 hover:text-white hover:bg-white/20 backdrop-blur-sm px-3 py-2 rounded-md"
-                : "text-gray-700 hover:text-accent-green hover:bg-gray-50"
-            )}
-          >
-            <LogOut size={16} />
-            Logout
-          </button>
-        </>
-      )}
-      
-      {!isLoading && !isAdmin && (
-        <Link to="/admin/login" onClick={onLinkClick}>
-          <div className={getNavLinkClasses(location.pathname === "/admin/login")}>
-            <User size={16} />
-            Admin Login
-          </div>
-        </Link>
-      )}
     </>
   );
 
@@ -219,45 +184,6 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
           </a>
         </NavigationMenuItem>
         
-        {!isLoading && isAdmin && (
-          <>
-            <NavigationMenuItem>
-              <Link to="/admin">
-                <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/admin")}>
-                  <User size={16} className="mr-1" />
-                  Admin Dashboard
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={handleLogout} 
-                className={cn(
-                  "flex items-center gap-1",
-                  isTransparent 
-                    ? "text-white/90 hover:text-white hover:bg-white/20 backdrop-blur-sm" 
-                    : "text-gray-700 hover:text-accent-green hover:bg-gray-50"
-                )}
-              >
-                <LogOut size={16} />
-                Logout
-              </Button>
-            </NavigationMenuItem>
-          </>
-        )}
-        
-        {!isLoading && !isAdmin && (
-          <NavigationMenuItem>
-            <Link to="/admin/login">
-              <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/admin/login")}>
-                <User size={16} className="mr-1" />
-                Admin Login
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-        )}
         
       </NavigationMenuList>
     </NavigationMenu>

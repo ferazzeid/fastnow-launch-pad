@@ -212,7 +212,7 @@ const Index = () => {
       
       <main className="flex-1 relative">
         {/* Hero Section */}
-        <section className="relative z-10 min-h-screen flex items-center" style={{paddingTop: '6rem'}}>
+        <section className="relative z-10 h-screen flex items-center justify-start" style={{paddingTop: '2rem'}}>
           <div className="container max-w-6xl mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Content Section - Left aligned */}

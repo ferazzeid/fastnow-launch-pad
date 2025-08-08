@@ -1,10 +1,22 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+import { SupabaseAuthService } from '@/services/SupabaseAuthService';
+import { toast } from '@/components/ui/sonner';
+import { LogOut, User } from 'lucide-react';
 
 const Footer = () => {
+  const { isAdmin, isLoading } = useAuth();
   const [ctaTitle, setCtaTitle] = React.useState('Ready to start your health transformation?');
   const [ctaSubtitle, setCtaSubtitle] = React.useState('Access the Fast Now app and take control of your health through our structured protocol.');
+
+  const handleLogout = async () => {
+    const success = await SupabaseAuthService.signOut();
+    if (success) {
+      toast.success("Logged out successfully");
+    }
+  };
 
   // Load content from localStorage on mount
   React.useEffect(() => {
@@ -36,6 +48,31 @@ const Footer = () => {
                 <Link to="/contact" className="text-sm text-gray-600 hover:text-accent-green">
                   Contact
                 </Link>
+                
+                {/* Admin Links - Only visible to admins */}
+                {!isLoading && isAdmin && (
+                  <>
+                    <Link to="/admin" className="text-sm text-gray-600 hover:text-accent-green flex items-center gap-1">
+                      <User size={14} />
+                      Admin Dashboard
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="text-sm text-gray-600 hover:text-accent-green flex items-center gap-1"
+                    >
+                      <LogOut size={14} />
+                      Logout
+                    </button>
+                  </>
+                )}
+                
+                {/* Admin Login - Only visible to non-admins */}
+                {!isLoading && !isAdmin && (
+                  <Link to="/admin/login" className="text-sm text-gray-600 hover:text-accent-green flex items-center gap-1">
+                    <User size={14} />
+                    Admin Login
+                  </Link>
+                )}
               </div>
               
               {/* Social Media Links */}
