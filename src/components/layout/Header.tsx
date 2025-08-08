@@ -152,15 +152,19 @@ const Header = () => {
         : 'bg-transparent border-b border-transparent'
     }`}>
       <div className="container flex justify-between items-center">
-        {logoUrl ? (
-          <Link to="/">
-            <img src={logoUrl} alt="fastnow.app" style={{ height: `${logoSize}px` }} />
-          </Link>
-        ) : (
-          <Link to="/" className={`text-2xl font-bold transition-colors duration-300 ${
+        <Link to="/" className="flex items-center gap-2">
+          {logoUrl && (
+            <img 
+              src={logoUrl} 
+              alt="fastnow.app logo" 
+              style={{ height: `${logoSize}px` }}
+              className="rounded-full"
+            />
+          )}
+          <span className={`text-2xl font-bold transition-colors duration-300 ${
             shouldBeTransparent ? 'text-white drop-shadow-lg' : 'text-accent-green'
-          }`}>FastNow</Link>
-        )}
+          }`}>FastNow</span>
+        </Link>
         <MainNavigation isTransparent={shouldBeTransparent} />
       </div>
     </header>
