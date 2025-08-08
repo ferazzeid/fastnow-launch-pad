@@ -40,6 +40,8 @@ import FastNowProtocol from "./pages/FastNowProtocol";
 import AboutFastNowApp from "./pages/AboutFastNowApp";
 import AboutMe from "./pages/AboutMe";
 import AdminFeatureScreenshots from "./pages/AdminFeatureScreenshots";
+import AdminFastingTimeline from "./pages/AdminFastingTimeline";
+import AdminFastingTimelineExport from "./pages/AdminFastingTimelineExport";
 
 const queryClient = new QueryClient();
 
@@ -85,6 +87,8 @@ const AppRoutes = () => {
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
       <Route path="/admin/about-fastnow-app" element={<AdminAboutFastNowApp />} />
       <Route path="/admin/feature-screenshots" element={<AdminFeatureScreenshots />} />
+      <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
+      <Route path="/admin/fasting-timeline/export" element={<AdminFastingTimelineExport />} />
       <Route path="/admin/:pageType" element={<AdminPageEditor />} />
       
       {/* Content pages */}

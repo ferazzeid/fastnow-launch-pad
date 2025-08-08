@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut } from "lucide-react";
+import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import ContentExport from "@/components/admin/ContentExport";
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
@@ -143,6 +143,30 @@ const Admin = () => {
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
                   Create New Post
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Fasting Timeline Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TimerIcon size={20} />
+                Fasting Timeline
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/fasting-timeline">
+                <Button variant="outline" className="w-full justify-start">
+                  <Clock size={16} className="mr-2" />
+                  Manage Timeline Posts
+                </Button>
+              </Link>
+              <Link to="/admin/fasting-timeline/export">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText size={16} className="mr-2" />
+                  Export Timeline Data
                 </Button>
               </Link>
             </CardContent>

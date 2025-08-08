@@ -22,6 +22,26 @@ class DatabaseFastingTimelineService {
     }
   }
 
+  // Admin method to get all posts including drafts
+  async getAllPostsForAdmin(): Promise<FastingTimelinePost[]> {
+    try {
+      const { data, error } = await supabase
+        .from('fasting_timeline_posts')
+        .select('*')
+        .order('hour');
+
+      if (error) {
+        console.error('Error fetching admin timeline posts:', error);
+        return [];
+      }
+
+      return data?.map(this.mapDatabaseToTimelinePost) || [];
+    } catch (error) {
+      console.error('Error in getAllPostsForAdmin:', error);
+      return [];
+    }
+  }
+
   async getPostById(id: string): Promise<FastingTimelinePost | null> {
     try {
       const { data, error } = await supabase
