@@ -44,6 +44,8 @@ import AdminFastingTimeline from "./pages/AdminFastingTimeline";
 import AdminFastingTimelineExport from "./pages/AdminFastingTimelineExport";
 import AdminBackgroundImages from "./pages/AdminBackgroundImages";
 
+console.log('AdminBackgroundImages imported:', AdminBackgroundImages);
+
 const queryClient = new QueryClient();
 
 const AppRoutes = () => {
