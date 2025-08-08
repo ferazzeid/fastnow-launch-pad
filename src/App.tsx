@@ -79,6 +79,7 @@ const AppRoutes = () => {
       <Route path="/admin/users" element={<UserManagement />} />
       <Route path="/admin/general" element={<AdminGeneral />} />
       <Route path="/admin/homepage" element={<AdminHomepage />} />
+      <Route path="/admin/homepage-settings" element={<AdminHomepageSettings />} />
       <Route path="/admin/about-me" element={<AdminAboutMeEditor />} />
       <Route path="/admin/fast-now-protocol" element={<AdminFastNowProtocol />} />
       <Route path="/admin/about-fastnow-app" element={<AdminAboutFastNowApp />} />
