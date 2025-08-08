@@ -242,6 +242,12 @@ const Admin = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
+              <Link to="/admin/homepage-settings">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings size={16} className="mr-2" />
+                  Logo & Favicon Settings
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
