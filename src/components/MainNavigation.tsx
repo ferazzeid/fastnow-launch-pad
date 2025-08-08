@@ -118,12 +118,12 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="sm" className={cn(
-            "p-2",
+            "p-3",
             isTransparent 
               ? "text-white hover:text-white hover:bg-white/20" 
               : "text-gray-700 hover:text-gray-900"
           )}>
-            <Menu size={24} />
+            <Menu size={36} />
           </Button>
         </SheetTrigger>
         <SheetContent side="right" className="w-80">
