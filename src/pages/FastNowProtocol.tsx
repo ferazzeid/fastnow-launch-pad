@@ -49,6 +49,9 @@ const FastNowProtocol = () => {
 
   const loadContent = async () => {
     try {
+      // Initialize default content in database if it doesn't exist
+      await initializeDefaultContent();
+      
       const { data, error } = await supabase
         .from('site_settings')
         .select('setting_key, setting_value')
@@ -63,7 +66,11 @@ const FastNowProtocol = () => {
           'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_how_to_fit'
         ]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching protocol settings:', error);
+        setIsLoading(false);
+        return;
+      }
 
       const settings = data?.reduce((acc, item) => {
         const value = item.setting_value;
@@ -75,48 +82,104 @@ const FastNowProtocol = () => {
         return acc;
       }, {} as Record<string, string>) || {};
 
-      if (Object.keys(settings).length > 0) {
-        setPageContent({
-          title: settings.protocol_title || 'The FastNow Protocol',
-          subtitle: settings.protocol_subtitle || 'How I Lost Fat With a 3-Day Fast + Calorie Control',
-          content: settings.protocol_content || '',
-          metaTitle: settings.protocol_meta_title || `${settings.protocol_title || 'The FastNow Protocol'} | FastNow`,
-          metaDescription: settings.protocol_meta_description || settings.protocol_subtitle || 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol',
-          featuredImage: settings.protocol_featured_image || ''
-        });
-        
-        // Update phase content with database values
-        setPhaseContent({
-          phase1: {
-            title: settings.protocol_phase1_title || '3-Day Initiation Water Fast',
-            duration: settings.protocol_phase1_duration || '72 hours (3 full days). My personal sweet spot is 60 hours.',
-            purpose: settings.protocol_phase1_purpose || 'Flip the fat-burning switch (ketosis), break the carb/insulin cycle, dump water for momentum, and set the stage so Phase 2 actually works.',
-            instructions: settings.protocol_phase1_instructions || 'Drink water and black coffee. No food.',
-            details: settings.protocol_phase1_details || 'Day 1 / Night 1: most people can push through; you\'re mostly burning stored sugar.\n\nDay 2 / Night 2: this is the test. Sleep often goes bad, cravings scream, and you negotiate with yourself. Anyone who has quit a serious habit knows this night. Make it through Night 2 and you\'ve done the real work; this is where the shift happens.\n\n60 hours is my ignite point. Some go to 72. Past 60, everything else becomes child\'s play compared to Night 2.'
-          },
-          phase2: {
-            title: settings.protocol_phase2_title || 'Strict Simple Diet + Daily Calorie Limit',
-            duration: settings.protocol_phase2_duration || '30–60 days minimum.',
-            carbCap: settings.protocol_phase2_carb_cap || '≤ 20–30g net carbs/day.',
-            deficit: settings.protocol_phase2_deficit || '~1,000 kcal',
-            whyDeficit: settings.protocol_phase2_why_deficit || 'Because you need visible progress fast to keep going. With 250–500 kcal/day, a tiny misstep erases a week, clothes don\'t change, and motivation dies right when you need proof it\'s working. A bigger daily deficit gives you results you can feel in weeks 1–3, not in a year.',
-            howToSet: settings.protocol_phase2_how_to_set || 'Baseline burn (BMR): from sex, age, height, weight.\nAdd activity: almost none / light / medium / high (daily life can add ~300–500+ kcal).\nIntake: (BMR + activity) – 1,000 = your calories to eat.\nExample: total burn ≈ 2,500 → eat ≈ 1,500 kcal',
-            whatToEat: settings.protocol_phase2_what_to_eat || 'OK: cheese, sausage, eggs, cold cuts, fish, meat; cucumbers, pickles, plain yogurt.\nDrinks: water, coffee. I personally use Coke Zero / Pepsi Max / Cola Light.\nAvoid: bread, rice, noodles, potatoes, fruit, carrots, tomatoes, oil, and everything else outside the above list.',
-            tracking: settings.protocol_phase2_tracking || 'Track every single thing—in the app or on paper. If you "keep it in your head," you will drift. Example: you do everything right, then at night you add a salmon steak "because it\'s healthy." You just blew 600–700 kcal, and your perfect day became a 300 kcal deficit.',
-            recovery: settings.protocol_phase2_recovery || 'If you overeat, you still have Phase 3. Walk it off to claw back the deficit the same day.'
-          },
-          phase3: {
-            title: settings.protocol_phase3_title || 'Daily Walking',
-            rule: settings.protocol_phase3_rule || '1.5 hours every day (non-negotiable).',
-            why: settings.protocol_phase3_why || '~500 kcal/day for many people, better mood, stable energy, and it\'s the simplest thing most people will actually do consistently.',
-            howToFit: settings.protocol_phase3_how_to_fit || 'Split it up: 45 minutes in the morning, 45 minutes in the evening. Listen to podcasts, audiobooks, or music. Make it your thinking time.'
-          }
-        });
-      }
+      // Update page content - use database values if they exist, otherwise keep defaults
+      setPageContent({
+        title: settings.protocol_title || pageContent.title,
+        subtitle: settings.protocol_subtitle || pageContent.subtitle,
+        content: settings.protocol_content || '',
+        metaTitle: settings.protocol_meta_title || `${settings.protocol_title || pageContent.title} | FastNow`,
+        metaDescription: settings.protocol_meta_description || settings.protocol_subtitle || pageContent.metaDescription,
+        featuredImage: settings.protocol_featured_image || ''
+      });
+      
+      // Update phase content with database values
+      setPhaseContent({
+        phase1: {
+          title: settings.protocol_phase1_title || phaseContent.phase1.title,
+          duration: settings.protocol_phase1_duration || phaseContent.phase1.duration,
+          purpose: settings.protocol_phase1_purpose || phaseContent.phase1.purpose,
+          instructions: settings.protocol_phase1_instructions || phaseContent.phase1.instructions,
+          details: settings.protocol_phase1_details || phaseContent.phase1.details
+        },
+        phase2: {
+          title: settings.protocol_phase2_title || phaseContent.phase2.title,
+          duration: settings.protocol_phase2_duration || phaseContent.phase2.duration,
+          carbCap: settings.protocol_phase2_carb_cap || phaseContent.phase2.carbCap,
+          deficit: settings.protocol_phase2_deficit || phaseContent.phase2.deficit,
+          whyDeficit: settings.protocol_phase2_why_deficit || phaseContent.phase2.whyDeficit,
+          howToSet: settings.protocol_phase2_how_to_set || phaseContent.phase2.howToSet,
+          whatToEat: settings.protocol_phase2_what_to_eat || phaseContent.phase2.whatToEat,
+          tracking: settings.protocol_phase2_tracking || phaseContent.phase2.tracking,
+          recovery: settings.protocol_phase2_recovery || phaseContent.phase2.recovery
+        },
+        phase3: {
+          title: settings.protocol_phase3_title || phaseContent.phase3.title,
+          rule: settings.protocol_phase3_rule || phaseContent.phase3.rule,
+          why: settings.protocol_phase3_why || phaseContent.phase3.why,
+          howToFit: settings.protocol_phase3_how_to_fit || phaseContent.phase3.howToFit
+        }
+      });
     } catch (error) {
       console.error('Error loading FastNow Protocol page content:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const initializeDefaultContent = async () => {
+    try {
+      // Check if any protocol content exists
+      const { data: existingData } = await supabase
+        .from('site_settings')
+        .select('setting_key')
+        .eq('setting_key', 'protocol_title')
+        .maybeSingle();
+
+      // If no content exists, initialize with defaults
+      if (!existingData) {
+        const defaultSettings = [
+          { setting_key: 'protocol_title', setting_value: JSON.stringify(pageContent.title) },
+          { setting_key: 'protocol_subtitle', setting_value: JSON.stringify(pageContent.subtitle) },
+          { setting_key: 'protocol_meta_title', setting_value: JSON.stringify(pageContent.metaTitle) },
+          { setting_key: 'protocol_meta_description', setting_value: JSON.stringify(pageContent.metaDescription) },
+          { setting_key: 'protocol_content', setting_value: JSON.stringify('') },
+          { setting_key: 'protocol_featured_image', setting_value: JSON.stringify('') },
+          // Phase 1 defaults
+          { setting_key: 'protocol_phase1_title', setting_value: JSON.stringify(phaseContent.phase1.title) },
+          { setting_key: 'protocol_phase1_duration', setting_value: JSON.stringify(phaseContent.phase1.duration) },
+          { setting_key: 'protocol_phase1_purpose', setting_value: JSON.stringify(phaseContent.phase1.purpose) },
+          { setting_key: 'protocol_phase1_instructions', setting_value: JSON.stringify(phaseContent.phase1.instructions) },
+          { setting_key: 'protocol_phase1_details', setting_value: JSON.stringify(phaseContent.phase1.details) },
+          // Phase 2 defaults
+          { setting_key: 'protocol_phase2_title', setting_value: JSON.stringify(phaseContent.phase2.title) },
+          { setting_key: 'protocol_phase2_duration', setting_value: JSON.stringify(phaseContent.phase2.duration) },
+          { setting_key: 'protocol_phase2_carb_cap', setting_value: JSON.stringify(phaseContent.phase2.carbCap) },
+          { setting_key: 'protocol_phase2_deficit', setting_value: JSON.stringify(phaseContent.phase2.deficit) },
+          { setting_key: 'protocol_phase2_why_deficit', setting_value: JSON.stringify(phaseContent.phase2.whyDeficit) },
+          { setting_key: 'protocol_phase2_how_to_set', setting_value: JSON.stringify(phaseContent.phase2.howToSet) },
+          { setting_key: 'protocol_phase2_what_to_eat', setting_value: JSON.stringify(phaseContent.phase2.whatToEat) },
+          { setting_key: 'protocol_phase2_tracking', setting_value: JSON.stringify(phaseContent.phase2.tracking) },
+          { setting_key: 'protocol_phase2_recovery', setting_value: JSON.stringify(phaseContent.phase2.recovery) },
+          // Phase 3 defaults
+          { setting_key: 'protocol_phase3_title', setting_value: JSON.stringify(phaseContent.phase3.title) },
+          { setting_key: 'protocol_phase3_rule', setting_value: JSON.stringify(phaseContent.phase3.rule) },
+          { setting_key: 'protocol_phase3_why', setting_value: JSON.stringify(phaseContent.phase3.why) },
+          { setting_key: 'protocol_phase3_how_to_fit', setting_value: JSON.stringify(phaseContent.phase3.howToFit) }
+        ];
+
+        for (const setting of defaultSettings) {
+          await supabase
+            .from('site_settings')
+            .upsert(setting, { 
+              onConflict: 'setting_key',
+              ignoreDuplicates: false 
+            });
+        }
+        
+        console.log('Initialized default FastNow Protocol content in database');
+      }
+    } catch (error) {
+      console.error('Error initializing default content:', error);
     }
   };
 

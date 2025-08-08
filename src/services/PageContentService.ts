@@ -33,7 +33,7 @@ class PageContentService {
         .select('*')
         .eq('page_key', pageKey)
         .eq('is_published', true)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching page content:', error);
@@ -116,7 +116,7 @@ class PageContentService {
         .from('general_settings')
         .select('*')
         .eq('setting_key', settingKey)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching general setting:', error);
