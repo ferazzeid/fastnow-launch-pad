@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/sonner";
+import { ImageUploadService } from '@/services/ImageUploadService';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -16,6 +17,8 @@ const AdminAboutMeEditor = () => {
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [content, setContent] = useState('');
+  const [featuredImage, setFeaturedImage] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     if (!authLoading && (!user || !isAdmin)) {
@@ -33,7 +36,7 @@ const AdminAboutMeEditor = () => {
       const { data, error } = await supabase
         .from('site_settings')
         .select('setting_key, setting_value')
-        .in('setting_key', ['about_me_title', 'about_me_subtitle', 'about_me_content']);
+        .in('setting_key', ['about_me_title', 'about_me_subtitle', 'about_me_content', 'about_me_featured_image']);
 
       if (error) throw error;
 
@@ -50,6 +53,7 @@ const AdminAboutMeEditor = () => {
       setTitle(settings.about_me_title || '');
       setSubtitle(settings.about_me_subtitle || '');
       setContent(settings.about_me_content || '');
+      setFeaturedImage(settings.about_me_featured_image || '');
     } catch (error) {
       console.error('Error loading content:', error);
       toast.error('Failed to load content');
@@ -62,7 +66,8 @@ const AdminAboutMeEditor = () => {
       const updates = [
         { setting_key: 'about_me_title', setting_value: JSON.stringify(title) },
         { setting_key: 'about_me_subtitle', setting_value: JSON.stringify(subtitle) },
-        { setting_key: 'about_me_content', setting_value: JSON.stringify(content) }
+        { setting_key: 'about_me_content', setting_value: JSON.stringify(content) },
+        { setting_key: 'about_me_featured_image', setting_value: JSON.stringify(featuredImage) }
       ];
 
       for (const update of updates) {
@@ -80,6 +85,28 @@ const AdminAboutMeEditor = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const result = await ImageUploadService.uploadImage(file, 'page-images');
+      setFeaturedImage(result.url);
+      toast.success('Image uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast.error('Failed to upload image');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setFeaturedImage('');
+    toast.success('Image removed');
   };
 
   if (authLoading) {
@@ -137,8 +164,45 @@ const AdminAboutMeEditor = () => {
             </p>
           </div>
 
+          <div className="space-y-2">
+            <Label>Featured Image</Label>
+            {featuredImage ? (
+              <div className="space-y-2">
+                <img 
+                  src={featuredImage} 
+                  alt="Featured" 
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleRemoveImage}
+                  className="w-full"
+                >
+                  Remove Image
+                </Button>
+              </div>
+            ) : (
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={isUploading}
+                  className="hidden"
+                  id="featured-image"
+                />
+                <Label htmlFor="featured-image" className="cursor-pointer">
+                  <div className="text-gray-500">
+                    {isUploading ? 'Uploading...' : 'Click to upload featured image'}
+                  </div>
+                </Label>
+              </div>
+            )}
+          </div>
+
           <div className="flex gap-4">
-            <Button onClick={handleSave} disabled={isLoading}>
+            <Button onClick={handleSave} disabled={isLoading || isUploading}>
               {isLoading ? 'Saving...' : 'Save Changes'}
             </Button>
             <Button variant="outline" onClick={() => window.open('/about-me', '_blank')}>
