@@ -9,6 +9,7 @@ import { CeramicTimer } from '@/components/CeramicTimer';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeatureItem } from '@/components/FeatureItem';
 import { pageContentService } from '@/services/PageContentService';
+import { BackgroundImageService } from '@/services/BackgroundImageService';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -65,6 +66,7 @@ const Index = () => {
   
   const [showDefaultDesign, setShowDefaultDesign] = useState(true);
   const [googlePlayLink, setGooglePlayLink] = useState('https://play.google.com');
+  const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>('/lovable-uploads/068e5770-2c00-4164-a0e8-9df5eb13b422.png');
 
   // Load content from database and localStorage
   useEffect(() => {
@@ -107,6 +109,21 @@ const Index = () => {
 
     // Load database content
     loadContent();
+
+    // Load active background image
+    const loadBackgroundImage = async () => {
+      try {
+        const activeImage = await BackgroundImageService.getActiveImage();
+        if (activeImage) {
+          setBackgroundImageUrl(activeImage.image_url);
+        }
+      } catch (error) {
+        console.error('Error loading background image:', error);
+        // Keep default image if loading fails
+      }
+    };
+
+    loadBackgroundImage();
 
     try {
       
@@ -206,10 +223,10 @@ const Index = () => {
       </Helmet>
       
       {/* Hero Background Image */}
-      <div className="absolute inset-0 w-full h-[100vh] z-0">
+      <div className="absolute inset-0 w-full h-screen z-0">
         <img 
-          src="/lovable-uploads/068e5770-2c00-4164-a0e8-9df5eb13b422.png" 
-          alt="Professional background" 
+          src={backgroundImageUrl} 
+          alt="Hero background" 
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/40"></div>

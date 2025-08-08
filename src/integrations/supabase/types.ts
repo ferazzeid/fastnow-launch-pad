@@ -146,6 +146,33 @@ export type Database = {
         }
         Relationships: []
       }
+      background_images: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string
+          is_active: boolean | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url: string
+          is_active?: boolean | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           author: string
@@ -282,6 +309,45 @@ export type Database = {
           created_at?: string
           date?: string
           id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      daily_food_templates: {
+        Row: {
+          calories: number
+          carbs: number
+          created_at: string
+          id: string
+          image_url: string | null
+          name: string
+          serving_size: number
+          sort_order: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          calories: number
+          carbs: number
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name: string
+          serving_size?: number
+          sort_order?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          calories?: number
+          carbs?: number
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          serving_size?: number
+          sort_order?: number | null
           updated_at?: string
           user_id?: string
         }
@@ -581,6 +647,7 @@ export type Database = {
           image_url: string | null
           name: string
           serving_size: number | null
+          source_date: string | null
           updated_at: string
           user_id: string
         }
@@ -593,6 +660,7 @@ export type Database = {
           image_url?: string | null
           name: string
           serving_size?: number | null
+          source_date?: string | null
           updated_at?: string
           user_id: string
         }
@@ -605,6 +673,7 @@ export type Database = {
           image_url?: string | null
           name?: string
           serving_size?: number | null
+          source_date?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -630,6 +699,39 @@ export type Database = {
           id?: string
           setting_key?: string
           setting_value?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      home_steps: {
+        Row: {
+          created_at: string
+          description: string
+          display_order: number
+          icon_name: string | null
+          id: string
+          is_active: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          display_order?: number
+          icon_name?: string | null
+          id?: string
+          is_active?: boolean
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          display_order?: number
+          icon_name?: string | null
+          id?: string
+          is_active?: boolean
+          title?: string
           updated_at?: string
         }
         Relationships: []
@@ -680,6 +782,54 @@ export type Database = {
           calories_burned?: number
           created_at?: string
           id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      motivator_image_generations: {
+        Row: {
+          bucket: string | null
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          filename: string
+          id: string
+          image_url: string | null
+          motivator_id: string
+          prompt: string
+          requested_at: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          bucket?: string | null
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          filename: string
+          id?: string
+          image_url?: string | null
+          motivator_id: string
+          prompt: string
+          requested_at?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          bucket?: string | null
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          filename?: string
+          id?: string
+          image_url?: string | null
+          motivator_id?: string
+          prompt?: string
+          requested_at?: string
+          status?: string
           updated_at?: string
           user_id?: string
         }
@@ -851,6 +1001,10 @@ export type Database = {
           deletion_reason: string | null
           deletion_scheduled_at: string | null
           display_name: string | null
+          enable_daily_reset: boolean | null
+          enable_fasting_slideshow: boolean | null
+          enable_food_image_generation: boolean | null
+          enable_walking_slideshow: boolean | null
           goal_weight: number | null
           google_play_purchase_token: string | null
           height: number | null
@@ -858,10 +1012,12 @@ export type Database = {
           is_paid_user: boolean | null
           last_activity_at: string | null
           monthly_ai_requests: number | null
+          onboarding_completed: boolean | null
           openai_api_key: string | null
           payment_method: string | null
           payment_provider: string | null
           platform_subscription_id: string | null
+          sex: string | null
           speech_model: string | null
           stripe_customer_id: string | null
           subscription_end_date: string | null
@@ -890,6 +1046,10 @@ export type Database = {
           deletion_reason?: string | null
           deletion_scheduled_at?: string | null
           display_name?: string | null
+          enable_daily_reset?: boolean | null
+          enable_fasting_slideshow?: boolean | null
+          enable_food_image_generation?: boolean | null
+          enable_walking_slideshow?: boolean | null
           goal_weight?: number | null
           google_play_purchase_token?: string | null
           height?: number | null
@@ -897,10 +1057,12 @@ export type Database = {
           is_paid_user?: boolean | null
           last_activity_at?: string | null
           monthly_ai_requests?: number | null
+          onboarding_completed?: boolean | null
           openai_api_key?: string | null
           payment_method?: string | null
           payment_provider?: string | null
           platform_subscription_id?: string | null
+          sex?: string | null
           speech_model?: string | null
           stripe_customer_id?: string | null
           subscription_end_date?: string | null
@@ -929,6 +1091,10 @@ export type Database = {
           deletion_reason?: string | null
           deletion_scheduled_at?: string | null
           display_name?: string | null
+          enable_daily_reset?: boolean | null
+          enable_fasting_slideshow?: boolean | null
+          enable_food_image_generation?: boolean | null
+          enable_walking_slideshow?: boolean | null
           goal_weight?: number | null
           google_play_purchase_token?: string | null
           height?: number | null
@@ -936,10 +1102,12 @@ export type Database = {
           is_paid_user?: boolean | null
           last_activity_at?: string | null
           monthly_ai_requests?: number | null
+          onboarding_completed?: boolean | null
           openai_api_key?: string | null
           payment_method?: string | null
           payment_provider?: string | null
           platform_subscription_id?: string | null
+          sex?: string | null
           speech_model?: string | null
           stripe_customer_id?: string | null
           subscription_end_date?: string | null
@@ -1002,6 +1170,84 @@ export type Database = {
           id?: string
           setting_key?: string
           setting_value?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      social_proof: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          logo_url: string | null
+          metric_label: string
+          metric_value: string
+          source_name: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          logo_url?: string | null
+          metric_label: string
+          metric_value: string
+          source_name: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          logo_url?: string | null
+          metric_label?: string
+          metric_value?: string
+          source_name?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          author_name: string
+          author_role: string | null
+          avatar_url: string | null
+          content: string
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          rating: number | null
+          updated_at: string
+        }
+        Insert: {
+          author_name: string
+          author_role?: string | null
+          avatar_url?: string | null
+          content: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          rating?: number | null
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          author_role?: string | null
+          avatar_url?: string | null
+          content?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          rating?: number | null
           updated_at?: string
         }
         Relationships: []
@@ -1099,9 +1345,12 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           distance: number | null
+          edit_reason: string | null
           end_time: string | null
           estimated_steps: number | null
           id: string
+          is_edited: boolean | null
+          original_duration_minutes: number | null
           pause_start_time: string | null
           session_state: string | null
           speed_mph: number | null
@@ -1116,9 +1365,12 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           distance?: number | null
+          edit_reason?: string | null
           end_time?: string | null
           estimated_steps?: number | null
           id?: string
+          is_edited?: boolean | null
+          original_duration_minutes?: number | null
           pause_start_time?: string | null
           session_state?: string | null
           speed_mph?: number | null
@@ -1133,9 +1385,12 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           distance?: number | null
+          edit_reason?: string | null
           end_time?: string | null
           estimated_steps?: number | null
           id?: string
+          is_edited?: boolean | null
+          original_duration_minutes?: number | null
           pause_start_time?: string | null
           session_state?: string | null
           speed_mph?: number | null

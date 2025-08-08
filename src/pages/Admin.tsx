@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon } from "lucide-react";
+import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, PaintBucket } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import ContentExport from "@/components/admin/ContentExport";
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
@@ -167,6 +167,24 @@ const Admin = () => {
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
                   Export Timeline Data
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Design & Media Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <PaintBucket size={20} />
+                Design & Media
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/background-images">
+                <Button variant="outline" className="w-full justify-start">
+                  <PaintBucket size={16} className="mr-2" />
+                  Background Images
                 </Button>
               </Link>
             </CardContent>
