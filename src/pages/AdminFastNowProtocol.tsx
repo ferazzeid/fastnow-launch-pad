@@ -159,11 +159,15 @@ const AdminFastNowProtocol = () => {
       ];
 
       for (const update of updates) {
+        console.log('Saving setting:', update.setting_key, 'with value:', update.setting_value);
         const { error } = await supabase
           .from('site_settings')
           .upsert(update);
         
-        if (error) throw error;
+        if (error) {
+          console.error('Failed to save setting:', update.setting_key, 'Error:', error);
+          throw error;
+        }
       }
 
       toast.success('Protocol content updated successfully!');
