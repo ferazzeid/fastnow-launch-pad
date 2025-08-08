@@ -162,7 +162,10 @@ const AdminFastNowProtocol = () => {
         console.log('Saving setting:', update.setting_key, 'with value:', update.setting_value);
         const { error } = await supabase
           .from('site_settings')
-          .upsert(update);
+          .upsert(update, { 
+            onConflict: 'setting_key',
+            ignoreDuplicates: false 
+          });
         
         if (error) {
           console.error('Failed to save setting:', update.setting_key, 'Error:', error);
