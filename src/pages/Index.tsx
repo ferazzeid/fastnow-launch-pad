@@ -3,11 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import { Icons } from '@/components/icons/IconSelector';
 import { Helmet } from 'react-helmet-async';
-import { CeramicTimer } from '@/components/CeramicTimer';
 import PageLayout from '@/components/layout/PageLayout';
-import { FeatureItem } from '@/components/FeatureItem';
 import { pageContentService } from '@/services/PageContentService';
 import { BackgroundImageService } from '@/services/BackgroundImageService';
 
@@ -40,24 +37,10 @@ const Index = () => {
   const [heroDescription, setHeroDescription] = useState<string>('Discover the power of intermittent fasting with our comprehensive timeline and personalized guidance.');
   const [ctaText, setCtaText] = useState<string>('Download FastNow');
   const [ctaUrl, setCtaUrl] = useState<string>('#');
-  
   const [ctaTitle, setCtaTitle] = useState<string>('Ready to start your fasting journey?');
   const [ctaSubtitle, setCtaSubtitle] = useState<string>('Download fastnow.app today and transform your health through fasting.');
-  const [featuresTitle, setFeaturesTitle] = useState<string>('Why choose fastnow.app?');
   const [metaTitle, setMetaTitle] = useState<string>('FastNow - My Protocol for Fat Loss');
   const [metaDescription, setMetaDescription] = useState<string>('Transform your body with scientifically-backed intermittent fasting protocols and personalized guidance.');
-  const [features, setFeatures] = useState([
-    {
-      title: "Intermittent Fasting", 
-      description: "Easily track your fasting periods with our intuitive timer interface.",
-      iconName: "SpeedIcon"
-    },
-    {
-      title: "Private & Secure", 
-      description: "Your health data is encrypted and never shared with third parties.",
-      iconName: "SecurityIcon"
-    }
-  ]);
   
   // State for custom UI elements
   const [customElementsImages, setCustomElementsImages] = useState<{[key: string]: string | null}>({
@@ -151,22 +134,6 @@ const Index = () => {
       const savedCtaSubtitle = localStorage.getItem('fastingApp_ctaSubtitle');
       if (savedCtaSubtitle && typeof savedCtaSubtitle === 'string') setCtaSubtitle(savedCtaSubtitle);
       
-      // Features
-      const savedFeaturesTitle = localStorage.getItem('fastingApp_featuresTitle');
-      if (savedFeaturesTitle && typeof savedFeaturesTitle === 'string') setFeaturesTitle(savedFeaturesTitle);
-      
-      const savedFeatures = localStorage.getItem('fastingApp_features');
-      if (savedFeatures) {
-        try {
-          const parsedFeatures = JSON.parse(savedFeatures);
-          if (Array.isArray(parsedFeatures)) {
-            setFeatures(parsedFeatures.slice(0, 2));
-          }
-        } catch (error) {
-          console.error('Error parsing features:', error);
-        }
-      }
-      
       // Google Play link
       const savedGooglePlayLink = localStorage.getItem('fastingApp_googlePlayLink');
       if (savedGooglePlayLink && typeof savedGooglePlayLink === 'string') setGooglePlayLink(savedGooglePlayLink);
@@ -247,9 +214,9 @@ const Index = () => {
         {/* Hero Section */}
         <section className="relative z-10 min-h-screen flex items-center" style={{paddingTop: '6rem'}}>
           <div className="container max-w-6xl mx-auto px-4">
-            <div className="flex justify-center">
-              {/* Content Section - Centered */}
-              <div className="text-center max-w-4xl">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Content Section - Left aligned */}
+              <div className="text-center lg:text-left">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
                   {heroTitle}
                 </h1>
@@ -257,13 +224,13 @@ const Index = () => {
                   {heroSubtitle}
                 </div>
                 
-                <div className="text-lg md:text-xl text-white/80 mb-8 max-w-3xl mx-auto">
+                <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg mx-auto lg:mx-0">
                   <p className="drop-shadow-md">
                     {heroDescription}
                   </p>
                 </div>
                 
-                <div className="flex justify-center">
+                <div className="flex justify-center lg:justify-start">
                   <Button asChild size="lg" className="text-lg px-8 py-4 bg-accent-green hover:bg-accent-green-dark text-white font-semibold shadow-lg">
                     <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                       {ctaText}
@@ -272,29 +239,13 @@ const Index = () => {
                   </Button>
                 </div>
               </div>
+              
+              {/* Empty space on the right for visual balance */}
+              <div className="hidden lg:block"></div>
             </div>
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-16 bg-background">
-          <div className="container max-w-6xl mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{featuresTitle}</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              {features.map((feature, index) => {
-                const IconComponent = Icons[feature.iconName as keyof typeof Icons];
-                return (
-                  <FeatureItem 
-                    key={index}
-                    title={feature.title}
-                    description={feature.description}
-                    icon={IconComponent ? <IconComponent className="w-8 h-8 text-accent-green" /> : undefined}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        </section>
       </main>
     </PageLayout>
   );
