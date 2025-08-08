@@ -243,80 +243,81 @@ const Index = () => {
         </div>
       )}
       
-      {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center" style={{paddingTop: '6rem'}}>
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Content Section */}
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
-                {heroTitle}
-              </h1>
-              <div className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-6 drop-shadow-md">
-                {heroSubtitle}
+      <main className="flex-1 relative">
+        {/* Hero Section */}
+        <section className="relative z-10 min-h-screen flex items-center" style={{paddingTop: '6rem'}}>
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Content Section */}
+              <div className="text-center lg:text-left">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+                  {heroTitle}
+                </h1>
+                <div className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-6 drop-shadow-md">
+                  {heroSubtitle}
+                </div>
+                
+                <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg mx-auto lg:mx-0">
+                  <p className="drop-shadow-md">
+                    {heroDescription}
+                  </p>
+                </div>
+                
+                <div className="flex justify-center lg:justify-start">
+                  <Button asChild size="lg" className="text-lg px-8 py-4 bg-accent-green hover:bg-accent-green-dark text-white font-semibold shadow-lg">
+                    <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                      {ctaText}
+                      <ArrowRight size={18} />
+                    </a>
+                  </Button>
+                </div>
               </div>
               
-              <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg mx-auto lg:mx-0">
-                <p className="drop-shadow-md">
-                  {heroDescription}
-                </p>
-              </div>
-              
-              <div className="flex justify-center lg:justify-start">
-                <Button asChild size="lg" className="text-lg px-8 py-4 bg-accent-green hover:bg-accent-green-dark text-white font-semibold shadow-lg">
-                  <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    {ctaText}
-                    <ArrowRight size={18} />
-                  </a>
-                </Button>
-              </div>
-            </div>
-            
-            {/* Timer Section */}
-            <div className="flex justify-center lg:justify-end">
-              <div className="w-80 h-80 lg:w-96 lg:h-96">
-                {mockupUrl ? (
-                  <img 
-                    src={mockupUrl} 
-                    alt={imageAlt} 
-                    className="w-full h-full object-contain" 
-                  />
-                ) : (
-                  <div className="w-full h-full flex justify-center items-center">
-                    <CeramicTimer 
-                      progress={75}
-                      displayTime="23:59"
-                      isActive={true}
-                      className="scale-125 lg:scale-150"
+              {/* Timer Section */}
+              <div className="flex justify-center lg:justify-end">
+                <div className="w-80 h-80 lg:w-96 lg:h-96">
+                  {mockupUrl ? (
+                    <img 
+                      src={mockupUrl} 
+                      alt={imageAlt} 
+                      className="w-full h-full object-contain" 
                     />
-                  </div>
-                )}
+                  ) : (
+                    <div className="w-full h-full flex justify-center items-center">
+                      <CeramicTimer 
+                        progress={75}
+                        displayTime="23:59"
+                        isActive={true}
+                        className="scale-125 lg:scale-150"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Features Section */}
-      <section className="py-16 bg-background">
-        <div className="container max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{featuresTitle}</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {features.map((feature, index) => {
-              const IconComponent = Icons[feature.iconName as keyof typeof Icons];
-              return (
-                <FeatureItem 
-                  key={index}
-                  title={feature.title}
-                  description={feature.description}
-                  icon={IconComponent ? <IconComponent className="w-8 h-8 text-accent-green" /> : undefined}
-                />
-              );
-            })}
+        {/* Features Section */}
+        <section className="py-16 bg-background">
+          <div className="container max-w-6xl mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{featuresTitle}</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              {features.map((feature, index) => {
+                const IconComponent = Icons[feature.iconName as keyof typeof Icons];
+                return (
+                  <FeatureItem 
+                    key={index}
+                    title={feature.title}
+                    description={feature.description}
+                    icon={IconComponent ? <IconComponent className="w-8 h-8 text-accent-green" /> : undefined}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+      </main>
     </PageLayout>
   );
 };

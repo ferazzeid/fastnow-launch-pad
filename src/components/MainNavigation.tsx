@@ -55,24 +55,25 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
     if (isTransparent && !isMobile) {
       return cn(
         baseClasses,
+        "bg-transparent border-transparent",
         isActive 
-          ? "text-accent-green bg-white/20 backdrop-blur-sm" 
-          : "text-white/90 hover:text-white hover:bg-white/20 backdrop-blur-sm"
+          ? "text-white bg-white/10 backdrop-blur-sm border-white/20" 
+          : "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm border-transparent hover:border-white/20"
       );
     }
     
     return cn(
       baseClasses,
       isActive 
-        ? "text-accent-green bg-gray-50" 
-        : "text-gray-700 hover:text-accent-green hover:bg-gray-50"
+        ? "text-accent-green bg-accent-green/10" 
+        : "text-foreground hover:text-accent-green hover:bg-accent-green/5"
     );
   };
 
   const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => (
     <>
-      <Link to="/fastnow-protocol" onClick={onLinkClick}>
-        <div className={getNavLinkClasses(location.pathname === "/fastnow-protocol")}>
+      <Link to="/fast-now-protocol" onClick={onLinkClick}>
+        <div className={getNavLinkClasses(location.pathname === "/fast-now-protocol")}>
           The FastNow Protocol
         </div>
       </Link>
@@ -176,8 +177,8 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
     <NavigationMenu className={isTransparent ? "bg-transparent" : "bg-white"}>
       <NavigationMenuList className="flex items-center gap-4">
         <NavigationMenuItem>
-          <Link to="/fastnow-protocol">
-            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/fastnow-protocol")}>
+          <Link to="/fast-now-protocol">
+            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/fast-now-protocol")}>
               The FastNow Protocol
             </NavigationMenuLink>
           </Link>
