@@ -55,19 +55,6 @@ const features = [
       'Inspiring success stories',
       'Custom goal setting'
     ]
-  },
-  {
-    key: 'ai-assistant',
-    title: 'AI Assistant',
-    subtitle: 'Get personalized guidance from your intelligent fasting coach',
-    icon: <Bot className="w-8 h-8 text-primary" />,
-    bullets: [
-      '24/7 personalized fasting guidance',
-      'Science-based recommendations',
-      'Real-time answers to your questions',
-      'Adaptive protocol suggestions',
-      'Health insights and tips'
-    ]
   }
 ];
 
