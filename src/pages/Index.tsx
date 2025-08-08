@@ -94,15 +94,63 @@ const Index = () => {
 
         // Load homepage content from database
         const homeContent = await pageContentService.getPageContent('home');
-        
-        if (homeContent) {
-          setHeroTitle(homeContent.title || 'My Protocol for Fat Loss');
-          setHeroSubtitle(homeContent.subtitle || 'Transform your body with our scientifically-backed fasting approach');
-          setHeroDescription(homeContent.content || 'Discover the power of intermittent fasting with our comprehensive timeline and personalized guidance.');
-          setCtaText(homeContent.button_text || 'Download FastNow');
-          setCtaUrl(homeContent.button_url || '#');
-          setMetaTitle(homeContent.meta_title || 'FastNow - My Protocol for Fat Loss');
-          setMetaDescription(homeContent.meta_description || 'Transform your body with scientifically-backed intermittent fasting protocols and personalized guidance.');
+
+        // One-off centralized update guard using Supabase general settings
+        const heroVersion = '2025-08-08-1';
+        const currentVersion = await pageContentService.getGeneralSetting('home_hero_copy_version');
+
+        if (currentVersion?.setting_value === heroVersion) {
+          // Use existing DB content
+          if (homeContent) {
+            setHeroTitle(homeContent.title || 'FastNow');
+            setHeroSubtitle(homeContent.subtitle || '');
+            setHeroDescription(homeContent.content || '');
+            setCtaText(homeContent.button_text || 'Launch App');
+            setCtaUrl(homeContent.button_url || 'https://go.fastnow.app');
+            setMetaTitle(homeContent.meta_title || 'FastNow — Fat Loss App for Real People');
+            setMetaDescription(homeContent.meta_description || (homeContent.subtitle || ''));
+          }
+        } else {
+          // Preserve existing CTA values if present
+          const preserveButtonText = homeContent?.button_text || 'Launch App';
+          const preserveButtonUrl = homeContent?.button_url || 'https://go.fastnow.app';
+
+          // New hero copy to be saved centrally in Supabase
+          const newHeroTitle = 'Fat Loss App for Real People: The Protocol That Cuts Through the Noise';
+          const newHeroSubtitle = 'Transform your body with a concentrated, results-driven weight loss protocol—built for everyday people, not fitness models.';
+          const newHeroDescription = `If you’ve been gaining weight through normal life and you’re done with fad diets, overcomplicated routines, or “influencer” gimmicks—this protocol is for you. FastNow is the distilled essence of what truly works for sustainable fat loss: three clear steps, rigorously tested and refined through real experience.
+
+This isn’t about shortcuts or starving yourself. It’s about focusing on what actually delivers results, cutting out all the distractions, and helping you take real, daily action for lasting change.
+
+I built this app after trying everything myself—and finally succeeding. It’s designed for those who want maximum progress from honest effort, without wasting time on noise.
+
+If you’re ready to make a real change, with a protocol that actually works—start here.`;
+
+          await pageContentService.savePageContent({
+            page_key: 'home',
+            title: newHeroTitle,
+            subtitle: newHeroSubtitle,
+            content: newHeroDescription,
+            button_text: preserveButtonText,
+            button_url: preserveButtonUrl,
+            meta_title: 'FastNow — Fat Loss App for Real People',
+            meta_description: newHeroSubtitle,
+            is_published: true,
+          });
+
+          await pageContentService.saveGeneralSetting({
+            setting_key: 'home_hero_copy_version',
+            setting_value: heroVersion,
+          });
+
+          // Reflect saved content in UI state
+          setHeroTitle(newHeroTitle);
+          setHeroSubtitle(newHeroSubtitle);
+          setHeroDescription(newHeroDescription);
+          setCtaText(preserveButtonText);
+          setCtaUrl(preserveButtonUrl);
+          setMetaTitle('FastNow — Fat Loss App for Real People');
+          setMetaDescription(newHeroSubtitle);
         }
 
         // Load site identity settings for logo
@@ -121,22 +169,6 @@ const Index = () => {
     loadContent();
 
     try {
-      
-      // Hero content
-      const savedHeroTitle = localStorage.getItem('fastingApp_homepageHeroTitle');
-      if (savedHeroTitle && typeof savedHeroTitle === 'string') setHeroTitle(savedHeroTitle);
-      
-      const savedHeroSubtitle = localStorage.getItem('fastingApp_homepageHeroSubtitle');
-      if (savedHeroSubtitle && typeof savedHeroSubtitle === 'string') setHeroSubtitle(savedHeroSubtitle);
-      
-      const savedHeroDescription = localStorage.getItem('fastingApp_homepageHeroDescription');
-      if (savedHeroDescription && typeof savedHeroDescription === 'string') setHeroDescription(savedHeroDescription);
-      
-      const savedCtaText = localStorage.getItem('fastingApp_homepageCtaText');
-      if (savedCtaText && typeof savedCtaText === 'string') setCtaText(savedCtaText);
-      
-      const savedCtaUrl = localStorage.getItem('fastingApp_homepageCtaUrl');
-      if (savedCtaUrl && typeof savedCtaUrl === 'string') setCtaUrl(savedCtaUrl);
       
       
       // CTA content
@@ -270,7 +302,7 @@ const Index = () => {
               </div>
               
                <div className="prose prose-lg max-w-none text-gray-600 dark:text-gray-300 mb-6 lg:mb-8">
-                 <p className="text-base md:text-lg lg:text-xl mb-4" dangerouslySetInnerHTML={{ __html: heroDescription }}>
+                 <p className="text-base md:text-lg lg:text-xl mb-4" dangerouslySetInnerHTML={{ __html: (heroDescription || '').replace(/\n/g, '<br />') }}>
                  </p>
                </div>
               
