@@ -64,10 +64,12 @@ const AdminFastingTimeline = () => {
     try {
       // First try to get from database (admin gets all posts including drafts)
       const dbPosts = await databaseFastingTimelineService.getAllPostsForAdmin();
+      console.log('Database posts loaded:', dbPosts.length);
       
       if (dbPosts.length === 0) {
         // Check localStorage for any existing data
         const localPosts = FastingTimelineService.getAllPosts();
+        console.log('localStorage posts found:', localPosts.length);
         if (localPosts.length > 0) {
           toast.info(`Found ${localPosts.length} posts in localStorage. Consider migrating to database.`);
         }
@@ -325,7 +327,7 @@ const AdminFastingTimeline = () => {
           {/* Posts Table */}
           <Card>
             <CardHeader>
-              <CardTitle>Timeline Posts ({filteredPosts.length})</CardTitle>
+              <CardTitle>Timeline Posts ({filteredPosts.length}) - {posts.length === 0 ? 'No data found. Try creating missing hours or migrating from localStorage.' : 'Data loaded successfully'}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>

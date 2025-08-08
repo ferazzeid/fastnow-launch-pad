@@ -43,10 +43,12 @@ const AdminFastingTimelineExport = () => {
     try {
       // Load from database (admin gets all posts including drafts)
       const dbPosts = await databaseFastingTimelineService.getAllPostsForAdmin();
+      console.log('Export page - Database posts loaded:', dbPosts.length);
       setPosts(dbPosts);
       
       // Load from localStorage
       const localStoragePosts = FastingTimelineService.getAllPosts();
+      console.log('Export page - localStorage posts found:', localStoragePosts.length);
       setLocalPosts(localStoragePosts);
     } catch (error) {
       console.error('Error loading data:', error);
