@@ -150,10 +150,15 @@ const AboutFastNowApp = () => {
           </h2>
           
           <Tabs defaultValue="fasting-timer" className="max-w-4xl mx-auto">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1">
               {features.map((feature) => (
-                <TabsTrigger key={feature.key} value={feature.key}>
-                  {feature.title}
+                <TabsTrigger 
+                  key={feature.key} 
+                  value={feature.key}
+                  className="text-xs sm:text-sm py-2 px-2 sm:px-3"
+                >
+                  <span className="hidden sm:inline">{feature.title}</span>
+                  <span className="sm:hidden">{feature.title.split(' ')[0]}</span>
                 </TabsTrigger>
               ))}
             </TabsList>
