@@ -11,7 +11,6 @@ import { FeatureItem } from '@/components/FeatureItem';
 import { pageContentService } from '@/services/PageContentService';
 import { AppStoreButton } from '@/components/AppStoreButton';
 import { GooglePlayButton } from '@/components/GooglePlayButton';
-import PANsExplainer from '@/components/home/PANsExplainer';
 import InstallPWA from '@/components/home/InstallPWA';
 import InlineFAQ from '@/components/home/InlineFAQ';
 
@@ -44,6 +43,8 @@ const Index = () => {
   const [heroDescription, setHeroDescription] = useState<string>('FastNow is a tool that powers a proven, direct 80/20 method. No workouts required. No wellness fluff.');
   const [ctaText, setCtaText] = useState<string>('Download FastNow');
   const [ctaUrl, setCtaUrl] = useState<string>('#');
+  const [appStoreUrl, setAppStoreUrl] = useState<string>('');
+  const [playStoreUrl, setPlayStoreUrl] = useState<string>('');
   
   const [ctaTitle, setCtaTitle] = useState<string>('Ready to start your fasting journey?');
   const [ctaSubtitle, setCtaSubtitle] = useState<string>('Download fastnow.app today and transform your health through fasting.');
@@ -276,11 +277,12 @@ const Index = () => {
                     <ArrowRight size={16} />
                   </a>
                 </Button>
-                <div className="flex flex-wrap gap-3">
-                  <AppStoreButton />
-                  <GooglePlayButton />
-                </div>
-                <p className="text-sm text-muted-foreground">Priced lower than a Starbucks coffee.</p>
+                {(appStoreUrl || playStoreUrl) && (
+                  <div className="flex flex-wrap gap-3">
+                    {appStoreUrl && <AppStoreButton href={appStoreUrl} />}
+                    {playStoreUrl && <GooglePlayButton href={playStoreUrl} />}
+                  </div>
+                )}
               </div>
             </div>
             
@@ -309,42 +311,15 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* Who it's for */}
-      <section aria-labelledby="who-its-for" className="py-12 border-t">
+      {/* FAQ Section */}
+      <section id="faq" className="py-12 border-t">
         <div className="container max-w-4xl mx-auto">
-          <h2 id="who-its-for" className="text-2xl md:text-3xl font-semibold mb-4">Built for real people ready to act</h2>
-          <p className="text-muted-foreground mb-4">If you've been overweight too long and want a simple, direct plan—FastNow is for you.</p>
-          <ul className="list-disc pl-6 space-y-2 text-sm md:text-base">
-            <li>No workouts required. Not a fitness app.</li>
-            <li>Clear, honest guidance—no wellness fluff.</li>
-            <li>A tool that powers a proven 80/20 protocol.</li>
-          </ul>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-4">FAQ</h2>
+          <InlineFAQ />
         </div>
       </section>
 
-      {/* Contrast section */}
-      <section aria-labelledby="not-for" className="py-12">
-        <div className="container max-w-4xl mx-auto">
-          <h2 id="not-for" className="text-2xl md:text-3xl font-semibold mb-4">This is not for fitness models</h2>
-          <p className="text-muted-foreground mb-4">Forget flashy influencer programs. FastNow is simple, grounded, and built for real-world results.</p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-lg border p-4">
-              <h3 className="font-medium mb-1">Comfort and simplicity</h3>
-              <p className="text-sm text-muted-foreground">Straightforward steps that fit daily life.</p>
-            </div>
-            <div className="rounded-lg border p-4">
-              <h3 className="font-medium mb-1">Honest results</h3>
-              <p className="text-sm text-muted-foreground">Track progress without hype or guesswork.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <PANsExplainer />
       <InstallPWA />
-      <InlineFAQ />
-
     </PageLayout>
   );
 };
