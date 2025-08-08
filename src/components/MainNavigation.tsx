@@ -123,7 +123,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
               ? "text-white hover:text-white hover:bg-white/20" 
               : "text-gray-700 hover:text-gray-900"
           )}>
-            <Menu size={36} />
+            <Menu size={72} />
           </Button>
         </SheetTrigger>
         <SheetContent side="right" className="w-80">
