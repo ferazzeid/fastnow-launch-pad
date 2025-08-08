@@ -95,40 +95,51 @@ const AboutMe = () => {
         <meta name="description" content={subtitle} />
       </Helmet>
 
-      <div className="container py-16">
-        <div className="max-w-4xl mx-auto">
-          {/* Featured Image */}
-          <PageFeaturedImage pageKey="about-me" className="w-full h-64 md:h-80 object-cover rounded-lg mb-12" />
-          
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
+      {/* Hero Background Image */}
+      <div className="absolute inset-0 w-full h-screen z-0">
+        <PageFeaturedImage pageKey="about-me" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative z-10 min-h-screen flex items-center justify-start">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-left max-w-3xl">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
               {title}
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl text-white/90 mb-8 drop-shadow-md">
               {subtitle}
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="space-y-8">
-            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/60 mx-auto rounded-full"></div>
-            
-            <div className="prose prose-lg max-w-none text-muted-foreground space-y-8">
-              {content ? (
-                <div className="space-y-6">
-                  {content.split('\n\n').map((paragraph, index) => (
-                    <div key={index} className="relative">
-                      <div className="absolute left-0 top-2 w-2 h-2 bg-primary/20 rounded-full"></div>
-                      <p className="pl-6 leading-relaxed">
-                        {paragraph}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12 bg-muted/20 rounded-lg">
-                  <p>Content is being updated. Please check back soon.</p>
-                </div>
-              )}
+      {/* Content Section */}
+      <div className="relative z-10 bg-background">
+        <div className="container py-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="space-y-8">
+              <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/60 mx-auto rounded-full"></div>
+              
+              <div className="prose prose-lg max-w-none text-muted-foreground space-y-8">
+                {content ? (
+                  <div className="space-y-6">
+                    {content.split('\n\n').map((paragraph, index) => (
+                      <div key={index} className="relative">
+                        <div className="absolute left-0 top-2 w-2 h-2 bg-primary/20 rounded-full"></div>
+                        <p className="pl-6 leading-relaxed">
+                          {paragraph}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 bg-muted/20 rounded-lg">
+                    <p>Content is being updated. Please check back soon.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

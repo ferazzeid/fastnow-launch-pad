@@ -70,28 +70,37 @@ const FastNowProtocol = () => {
         <meta name="description" content={pageContent.metaDescription} />
       </Helmet>
       
-      <main className="flex-1 py-12">
-        <div className="container max-w-4xl mx-auto">
-          <div>
-            {/* Featured Image */}
-            <PageFeaturedImage pageKey="fast-now-protocol" className="w-full h-64 md:h-80 object-cover rounded-lg mb-12" />
-            
-            {/* Header */}
-            <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                {pageContent.title}
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                {pageContent.subtitle}
-              </p>
-            </div>
+      {/* Hero Background Image */}
+      <div className="absolute inset-0 w-full h-screen z-0">
+        <PageFeaturedImage pageKey="fast-now-protocol" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
+      
+      {/* Hero Section */}
+      <section className="relative z-10 min-h-screen flex items-center justify-start">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-left max-w-3xl">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
+              {pageContent.title}
+            </h1>
+            <p className="text-xl text-white/90 mb-8 drop-shadow-md">
+              {pageContent.subtitle}
+            </p>
+          </div>
+        </div>
+      </section>
 
-            {/* Dynamic Content */}
-            {pageContent.content && (
-              <div className="prose prose-lg max-w-none mb-12">
-                {formatContent(pageContent.content)}
-              </div>
-            )}
+      {/* Content Section */}
+      <div className="relative z-10 bg-background">
+        <main className="flex-1 py-12">
+          <div className="container max-w-4xl mx-auto">
+            <div>
+              {/* Dynamic Content */}
+              {pageContent.content && (
+                <div className="prose prose-lg max-w-none mb-12">
+                  {formatContent(pageContent.content)}
+                </div>
+              )}
 
             {/* Default content if no custom content is provided */}
             {!pageContent.content && (
@@ -304,7 +313,8 @@ const FastNowProtocol = () => {
             )}
           </div>
         </div>
-      </main>
+        </main>
+      </div>
     </PageLayout>
   );
 };

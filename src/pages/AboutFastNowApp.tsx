@@ -119,19 +119,29 @@ const AboutFastNowApp = () => {
         <meta name="description" content="Learn about the FastNow app - your ultimate companion for intermittent fasting, health tracking, and wellness goals." />
       </Helmet>
 
-      <div className="container py-12">
-        {/* Featured Image */}
-        <PageFeaturedImage pageKey="about-fastnow-app" className="w-full h-64 md:h-80 object-cover rounded-lg mb-12" />
-        
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
-            {content.heroTitle}
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            {content.heroDescription}
-          </p>
+      {/* Hero Background Image */}
+      <div className="absolute inset-0 w-full h-screen z-0">
+        <PageFeaturedImage pageKey="about-fastnow-app" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative z-10 min-h-screen flex items-center justify-start">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-left max-w-3xl">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
+              {content.heroTitle}
+            </h1>
+            <p className="text-xl text-white/90 mb-8 drop-shadow-md">
+              {content.heroDescription}
+            </p>
+          </div>
         </div>
+      </section>
+
+      {/* Content Section */}
+      <div className="relative z-10 bg-background">
+        <div className="container py-12">
 
         {/* Features Tabs */}
         <div className="mb-16">
@@ -193,6 +203,7 @@ const AboutFastNowApp = () => {
               </TabsContent>
             ))}
           </Tabs>
+        </div>
         </div>
       </div>
     </PageLayout>

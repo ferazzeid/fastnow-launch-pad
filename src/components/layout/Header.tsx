@@ -31,13 +31,14 @@ const Header = () => {
         if (navSettings?.setting_value) {
           setNavigationSettings(navSettings.setting_value);
         } else {
-          // Default settings - only homepage transparent
+          // Default settings - transparent nav for hero pages
           setNavigationSettings({
             homepage_transparent_nav: true,
-            about_transparent_nav: false,
+            about_transparent_nav: true,
             faq_transparent_nav: false,
-            protocol_transparent_nav: false,
+            protocol_transparent_nav: true,
             timeline_transparent_nav: false,
+            about_app_transparent_nav: true,
           });
         }
       } catch (error) {
@@ -53,10 +54,11 @@ const Header = () => {
         // Default navigation settings
         setNavigationSettings({
           homepage_transparent_nav: true,
-          about_transparent_nav: false,
+          about_transparent_nav: true,
           faq_transparent_nav: false,
-          protocol_transparent_nav: false,
+          protocol_transparent_nav: true,
           timeline_transparent_nav: false,
+          about_app_transparent_nav: true,
         });
       }
     };
@@ -100,6 +102,7 @@ const Header = () => {
     if (path === '/faq') return navigationSettings.faq_transparent_nav;
     if (path === '/fast-now-protocol') return navigationSettings.protocol_transparent_nav;
     if (path === '/fasting-timeline') return navigationSettings.timeline_transparent_nav;
+    if (path === '/about-fastnow-app') return navigationSettings.about_app_transparent_nav;
     
     return false; // Default to non-transparent for other pages
   };
