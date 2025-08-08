@@ -20,39 +20,34 @@ const Footer = () => {
   const { isAdmin } = useAuth();
 
   return (
-    <footer className="border-t border-gray-200 bg-gray-50">
-      {/* Footer Links */}
-      <div className="py-8 bg-white">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-sm text-gray-600 mb-4 md:mb-0">
+    <footer className="bg-background">
+      <div className="py-8">
+        <div className="container max-w-5xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} fastnow.app. All rights reserved.
             </div>
             <div className="flex items-center gap-6">
               <div className="flex gap-6 items-center">
-                {isAdmin && (
-                  <Link to="/admin" className="text-sm text-gray-600 hover:text-accent-green">
-                    Admin
-                  </Link>
-                )}
-                <Link to="/privacy" className="text-sm text-gray-600 hover:text-accent-green">
+                <Link to="/admin" className="text-sm text-foreground hover:text-primary">
+                  Admin
+                </Link>
+                <Link to="/privacy" className="text-sm text-foreground hover:text-primary">
                   Privacy Policy
                 </Link>
-                <Link to="/terms" className="text-sm text-gray-600 hover:text-accent-green">
+                <Link to="/terms" className="text-sm text-foreground hover:text-primary">
                   Terms of Service
                 </Link>
-                <Link to="/contact" className="text-sm text-gray-600 hover:text-accent-green">
+                <Link to="/contact" className="text-sm text-foreground hover:text-primary">
                   Contact
                 </Link>
               </div>
-              
-              {/* Social Media Links */}
-              <div className="flex items-center gap-4 ml-4 border-l border-gray-300 pl-4">
+              <div className="flex items-center gap-4">
                 <a 
                   href="https://www.tiktok.com/@fastnowapp" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-accent-green transition-colors"
+                  className="text-muted-foreground hover:text-primary transition-colors"
                   aria-label="Follow us on TikTok"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">

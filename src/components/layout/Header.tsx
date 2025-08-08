@@ -54,8 +54,8 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="py-6 border-b border-gray-200 bg-white relative z-10">
-      <div className="container mx-auto px-4 flex justify-between items-center">
+    <header className="py-6 bg-background relative z-10">
+      <div className="container max-w-5xl mx-auto flex justify-between items-center">
         {logoUrl ? (
           <Link to="/">
             <img src={logoUrl} alt="fastnow.app" style={{ height: `${logoSize}px` }} />

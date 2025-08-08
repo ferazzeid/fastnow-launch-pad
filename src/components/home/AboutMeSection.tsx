@@ -5,6 +5,7 @@ const AboutMeSection: React.FC = () => {
   const [title, setTitle] = useState('About Me');
   const [subtitle, setSubtitle] = useState('The story behind the FastNow Protocol');
   const [content, setContent] = useState('');
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -12,7 +13,7 @@ const AboutMeSection: React.FC = () => {
         const { data, error } = await supabase
           .from('site_settings')
           .select('setting_key, setting_value')
-          .in('setting_key', ['about_me_title', 'about_me_subtitle', 'about_me_content']);
+          .in('setting_key', ['about_me_title', 'about_me_subtitle', 'about_me_content', 'about_me_image_url']);
         if (!error && data) {
           const map = data.reduce((acc, item) => {
             const v = item.setting_value;
@@ -25,6 +26,7 @@ const AboutMeSection: React.FC = () => {
           setTitle(map.about_me_title || title);
           setSubtitle(map.about_me_subtitle || subtitle);
           setContent(map.about_me_content || content);
+          setImageUrl(map.about_me_image_url || null);
         }
       } catch (e) {
         console.error('About me load error:', e);
@@ -34,16 +36,32 @@ const AboutMeSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="about-me" className="py-12 border-t">
+    <section id="about-me" className="py-12">
       <div className="container max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-2">{title}</h2>
           <p className="text-muted-foreground">{subtitle}</p>
         </div>
+
+        {imageUrl && (
+          <div className="flex justify-center mb-8">
+            <img
+              src={imageUrl}
+              alt={`${title} photo`}
+              className="w-24 h-24 rounded-full object-cover shadow-md"
+              loading="lazy"
+            />
+          </div>
+        )}
+
         {content ? (
-          <div className="prose max-w-none text-muted-foreground">
+          <div className="space-y-4">
             {content.split('\n\n').map((p, i) => (
-              <p key={i}>{p}</p>
+              <div key={i} className={i % 2 === 0 ? 'max-w-3xl' : 'max-w-3xl ml-auto'}>
+                <div className="rounded-2xl bg-muted p-5 shadow-sm animate-fade-in">
+                  <p className="text-foreground leading-relaxed">{p}</p>
+                </div>
+              </div>
             ))}
           </div>
         ) : (

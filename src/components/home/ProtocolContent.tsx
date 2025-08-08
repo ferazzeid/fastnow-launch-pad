@@ -27,11 +27,54 @@ const ProtocolContent: React.FC = () => {
   }, []);
 
   return (
-    <section id="fastnow-protocol" className="py-12 border-t">
+    <section id="fastnow-protocol" className="py-12">
       <div className="container max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-2">{pageContent.title}</h2>
           <p className="text-muted-foreground">{pageContent.subtitle}</p>
+        </div>
+
+        {/* Visual map of the protocol */}
+        <div className="mb-10">
+          {/* Desktop horizontal stepper */}
+          <div className="hidden md:flex items-center gap-3">
+            {[
+              { id: 'at-a-glance', label: 'At a glance', Icon: CheckCircle },
+              { id: 'start-today', label: 'Start today', Icon: CheckCircle },
+              { id: 'phase-1', label: 'Fast 60–72h', Icon: Clock },
+              { id: 'phase-2', label: 'Simple diet + deficit', Icon: Utensils },
+              { id: 'phase-3', label: 'Walk 1.5h/day', Icon: Activity },
+              { id: 'pitfalls', label: 'Pitfalls', Icon: AlertTriangle },
+            ].map((step, i, arr) => (
+              <React.Fragment key={step.id}>
+                <a href={`#${step.id}`} className="flex items-center gap-2">
+                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary shadow-sm">
+                    <step.Icon className="w-4 h-4" />
+                  </div>
+                  <span className="text-sm text-foreground">{step.label}</span>
+                </a>
+                {i < arr.length - 1 && <div className="flex-1 border-t border-dashed border-border" />}
+              </React.Fragment>
+            ))}
+          </div>
+          {/* Mobile vertical list */}
+          <div className="md:hidden grid grid-cols-1 gap-3">
+            {[
+              { id: 'at-a-glance', label: 'At a glance', Icon: CheckCircle },
+              { id: 'start-today', label: 'Start today', Icon: CheckCircle },
+              { id: 'phase-1', label: 'Fast 60–72h', Icon: Clock },
+              { id: 'phase-2', label: 'Simple diet + deficit', Icon: Utensils },
+              { id: 'phase-3', label: 'Walk 1.5h/day', Icon: Activity },
+              { id: 'pitfalls', label: 'Pitfalls', Icon: AlertTriangle },
+            ].map((step) => (
+              <a key={step.id} href={`#${step.id}`} className="flex items-center gap-3 rounded-lg border p-3 bg-card">
+                <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <step.Icon className="w-4 h-4" />
+                </div>
+                <span className="text-sm text-foreground">{step.label}</span>
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Quick nav */}
@@ -81,34 +124,34 @@ const ProtocolContent: React.FC = () => {
 
         {/* Phase 1 */}
         <section id="phase-1" className="mb-10">
-          <div className="bg-card rounded-lg p-8 border-l-4 border-blue-500">
+          <div className="bg-card rounded-lg p-8 border-l-4 border-primary">
             <div className="flex items-center gap-4 mb-6">
-              <div className="bg-blue-500/10 p-3 rounded-full">
-                <Clock className="w-6 h-6 text-blue-600" />
+              <div className="bg-primary/10 p-3 rounded-full">
+                <Clock className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
+                <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
                 <h3 className="text-2xl md:text-3xl font-bold mt-2">3-Day Initiation Water Fast</h3>
               </div>
             </div>
             <div className="space-y-4 text-muted-foreground">
-              <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg">
+              <div className="bg-muted p-4 rounded-lg">
                 <p className="text-foreground"><strong>Duration:</strong> 60–72 hours (3 days). My sweet spot: 60 hours.</p>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><CheckCircle className="w-5 h-5 text-blue-500" />Purpose</h4>
+                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><CheckCircle className="w-5 h-5 text-primary" />Purpose</h4>
                 <p>Flip the fat-burning switch (ketosis), break the carb/insulin cycle, dump water for momentum.</p>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><CheckCircle className="w-5 h-5 text-blue-500" />What to do</h4>
+                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><CheckCircle className="w-5 h-5 text-primary" />What to do</h4>
                 <p>Drink water and black coffee. No food.</p>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-blue-500" />What really happens</h4>
+                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-primary" />What really happens</h4>
                 <ul className="space-y-2">
-                  <li><strong className="text-blue-600">Day 1 / Night 1:</strong> you burn stored sugar. Manageable.</li>
-                  <li><strong className="text-orange-600">Day 2 / Night 2:</strong> the test. Cravings scream. Get past Night 2—the shift happens here.</li>
-                  <li><strong className="text-green-600">60 hours:</strong> ignite point. Past 60, everything else is easier.</li>
+                  <li><strong className="text-foreground">Day 1 / Night 1:</strong> you burn stored sugar. Manageable.</li>
+                  <li><strong className="text-foreground">Day 2 / Night 2:</strong> the test. Cravings scream. Get past Night 2—the shift happens here.</li>
+                  <li><strong className="text-foreground">60 hours:</strong> ignite point. Past 60, everything else is easier.</li>
                 </ul>
               </div>
             </div>
@@ -117,26 +160,26 @@ const ProtocolContent: React.FC = () => {
 
         {/* Phase 2 */}
         <section id="phase-2" className="mb-10">
-          <div className="bg-card rounded-lg p-8 border-l-4 border-green-500">
+          <div className="bg-card rounded-lg p-8 border-l-4 border-primary">
             <div className="flex items-center gap-4 mb-6">
-              <div className="bg-green-500/10 p-3 rounded-full">
-                <Utensils className="w-6 h-6 text-green-600" />
+              <div className="bg-primary/10 p-3 rounded-full">
+                <Utensils className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
+                <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
                 <h3 className="text-2xl md:text-3xl font-bold mt-2">Strict Simple Diet + Daily Calorie Limit</h3>
               </div>
             </div>
             <div className="space-y-4 text-muted-foreground">
-              <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg">
+              <div className="bg-muted p-4 rounded-lg">
                 <p><strong>Duration:</strong> 30–60 days • <strong>Carb cap:</strong> ≤ 20–30g • <strong>Deficit:</strong> ~1,000 kcal/day</p>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-green-500" />Why 1,000—not 250 or 500?</h4>
+                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-primary" />Why 1,000—not 250 or 500?</h4>
                 <p>Small deficits hide progress. A bigger daily deficit gives results you can feel in weeks 1–3.</p>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><CheckCircle className="w-5 h-5 text-green-500" />What to eat (because of carbs, not macros)</h4>
+                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><CheckCircle className="w-5 h-5 text-primary" />What to eat (because of carbs, not macros)</h4>
                 <ul className="list-disc pl-6 space-y-1">
                   <li><strong>OK:</strong> cheese, sausage, eggs, cold cuts, fish, meat; cucumbers, pickles, plain yogurt.</li>
                   <li><strong>Drinks:</strong> water, coffee; I use cola zero types to stay on track.</li>
@@ -144,7 +187,7 @@ const ProtocolContent: React.FC = () => {
                 </ul>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-orange-500" />Tracking (do not skip this)</h4>
+                <h4 className="text-lg font-semibold mb-2 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-primary" />Tracking (do not skip this)</h4>
                 <p>Track every single thing—app or paper. If you keep it in your head, you drift and stall.</p>
               </div>
             </div>
@@ -153,13 +196,13 @@ const ProtocolContent: React.FC = () => {
 
         {/* Phase 3 */}
         <section id="phase-3" className="mb-10">
-          <div className="bg-card rounded-lg p-8 border-l-4 border-orange-500">
+          <div className="bg-card rounded-lg p-8 border-l-4 border-primary">
             <div className="flex items-center gap-4 mb-6">
-              <div className="bg-orange-500/10 p-3 rounded-full">
-                <Activity className="w-6 h-6 text-orange-600" />
+              <div className="bg-primary/10 p-3 rounded-full">
+                <Activity className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
+                <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
                 <h3 className="text-2xl md:text-3xl font-bold mt-2">Daily Walking</h3>
               </div>
             </div>
