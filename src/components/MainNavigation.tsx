@@ -43,21 +43,7 @@ const MainNavigation = () => {
   };
 
   const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => (
-    <>
-      <a 
-        href="https://go.fastnow.app" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        onClick={onLinkClick}
-        className={cn(
-          isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
-          "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green flex items-center gap-1"
-        )}
-      >
-        App
-        <ArrowRight size={14} />
-      </a>
-    </>
+    <></>
   );
 
   if (isMobile) {
@@ -83,20 +69,6 @@ const MainNavigation = () => {
   return (
     <NavigationMenu className="bg-white">
       <NavigationMenuList className="flex items-center gap-4">
-        <NavigationMenuItem>
-          <a 
-            href="https://go.fastnow.app" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className={cn(
-              navigationMenuTriggerStyle(),
-              "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green flex items-center gap-1"
-            )}
-          >
-            App
-            <ArrowRight size={14} />
-          </a>
-        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );

@@ -291,8 +291,8 @@ const Index = () => {
               </div>
             </div>
             
-            {/* Image Section */}
-            <div className="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center">
+            {/* Image Section - Hidden on mobile */}
+            <div className="hidden lg:flex w-full lg:w-1/2 order-1 lg:order-2 justify-center">
               <div className="w-full max-w-sm lg:max-w-md">
                 {mockupUrl ? (
                   <img 
