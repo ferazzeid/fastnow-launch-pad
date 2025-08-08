@@ -348,7 +348,6 @@ If you’re ready to make a real change, with a protocol that actually works—s
         </div>
       </section>
       {/* Consolidated sections */}
-      <ProtocolContent />
       <AboutMeSection />
       <FAQFull />
       <AboutAppSections />
