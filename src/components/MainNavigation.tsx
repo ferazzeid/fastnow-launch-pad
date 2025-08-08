@@ -112,11 +112,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
       {!isLoading && isAdmin && (
         <>
           <Link to="/admin" onClick={onLinkClick}>
-            <div className={cn(
-              isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
-              "text-gray-700 hover:text-accent-green hover:bg-gray-50 flex items-center gap-1",
-              location.pathname === "/admin" && "text-accent-green bg-gray-50"
-            )}>
+            <div className={getNavLinkClasses(location.pathname === "/admin")}>
               <User size={16} />
               Admin Dashboard
             </div>
@@ -129,7 +125,9 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
             }}
             className={cn(
               isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg w-full text-left" : "flex items-center gap-1",
-              "text-gray-700 hover:text-accent-green hover:bg-gray-50"
+              isTransparent && !isMobile
+                ? "text-white/90 hover:text-white hover:bg-white/20 backdrop-blur-sm px-3 py-2 rounded-md"
+                : "text-gray-700 hover:text-accent-green hover:bg-gray-50"
             )}
           >
             <LogOut size={16} />
@@ -140,11 +138,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
       
       {!isLoading && !isAdmin && (
         <Link to="/admin/login" onClick={onLinkClick}>
-          <div className={cn(
-            isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
-            "text-gray-700 hover:text-accent-green hover:bg-gray-50 flex items-center gap-1",
-            location.pathname === "/admin/login" && "text-accent-green bg-gray-50"
-          )}>
+          <div className={getNavLinkClasses(location.pathname === "/admin/login")}>
             <User size={16} />
             Admin Login
           </div>
@@ -242,7 +236,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
                 className={cn(
                   "flex items-center gap-1",
                   isTransparent 
-                    ? "text-white/90 hover:text-white hover:bg-white/20" 
+                    ? "text-white/90 hover:text-white hover:bg-white/20 backdrop-blur-sm" 
                     : "text-gray-700 hover:text-accent-green hover:bg-gray-50"
                 )}
               >

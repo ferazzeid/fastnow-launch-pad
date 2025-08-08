@@ -227,56 +227,75 @@ const Index = () => {
       )}
       
       {/* Hero Section */}
-      <section className="py-12 lg:py-20 relative z-10 min-h-[100vh] flex items-center" style={{paddingTop: '6rem'}}>
-        <div className="container max-w-4xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
+      <section className="relative z-10 min-h-screen flex items-center" style={{paddingTop: '6rem'}}>
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Content Section */}
-            <div className="w-full lg:w-1/2 order-2 lg:order-1">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 lg:mb-6 leading-tight text-white drop-shadow-lg">
+            <div className="text-center lg:text-left">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
                 {heroTitle}
               </h1>
-              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-6 drop-shadow-md">
+              <div className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-6 drop-shadow-md">
                 {heroSubtitle}
               </div>
               
-              <div className="prose prose-lg max-w-none text-white/80 mb-6 lg:mb-8">
-                <p className="text-base md:text-lg lg:text-xl mb-4 drop-shadow-md">
+              <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg mx-auto lg:mx-0">
+                <p className="drop-shadow-md">
                   {heroDescription}
                 </p>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-start mb-8">
-                <Button asChild size="lg" className="text-base lg:text-lg px-6 lg:px-8 py-3 lg:py-4">
+              <div className="flex justify-center lg:justify-start">
+                <Button asChild size="lg" className="text-lg px-8 py-4 bg-accent-green hover:bg-accent-green-dark text-white font-semibold shadow-lg">
                   <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                     {ctaText}
-                    <ArrowRight size={16} />
+                    <ArrowRight size={18} />
                   </a>
                 </Button>
               </div>
             </div>
             
-            {/* Image Section */}
-            <div className="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center">
-              <div className="w-full max-w-sm lg:max-w-md">
+            {/* Timer Section */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="w-80 h-80 lg:w-96 lg:h-96">
                 {mockupUrl ? (
                   <img 
                     src={mockupUrl} 
                     alt={imageAlt} 
-                    className="w-full h-auto object-contain" 
-                    style={{ maxWidth: `${imageSize}px` }}
+                    className="w-full h-full object-contain" 
                   />
                 ) : (
-                  <div className="relative flex justify-center items-center p-8">
+                  <div className="w-full h-full flex justify-center items-center">
                     <CeramicTimer 
                       progress={75}
                       displayTime="23:59"
                       isActive={true}
-                      className="scale-110 lg:scale-125"
+                      className="scale-125 lg:scale-150"
                     />
                   </div>
                 )}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 bg-background">
+        <div className="container max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{featuresTitle}</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {features.map((feature, index) => {
+              const IconComponent = Icons[feature.iconName as keyof typeof Icons];
+              return (
+                <FeatureItem 
+                  key={index}
+                  title={feature.title}
+                  description={feature.description}
+                  icon={IconComponent ? <IconComponent className="w-8 h-8 text-accent-green" /> : undefined}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
