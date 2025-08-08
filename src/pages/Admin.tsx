@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, PaintBucket } from "lucide-react";
+import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, PaintBucket, Edit } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import ContentExport from "@/components/admin/ContentExport";
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
@@ -101,6 +101,38 @@ const Admin = () => {
                 <Button variant="outline" className="w-full justify-start">
                   <FileText size={16} className="mr-2" />
                   Page Content Manager
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Page Editors */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Edit size={20} />
+                Page Editors
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/about-me">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  About Me
+                </Button>
+              </Link>
+              
+              <Link to="/admin/fast-now-protocol">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  FastNow Protocol
+                </Button>
+              </Link>
+
+              <Link to="/admin/about-fastnow-app">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  About FastNow App
                 </Button>
               </Link>
             </CardContent>

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft } from "lucide-react";
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -24,8 +24,10 @@ const AdminAboutFastNowApp = () => {
     heroDescription: 'Your ultimate companion for intermittent fasting, health tracking, and achieving your wellness goals. FastNow combines science-backed fasting protocols with modern technology to help you transform your health.',
     featuresTitle: 'Discover FastNow Features',
     downloadTitle: 'Download FastNow App',
-    downloadDescription: 'Start your intermittent fasting journey today with FastNow - the most comprehensive fasting companion.'
+    downloadDescription: 'Start your intermittent fasting journey today with FastNow - the most comprehensive fasting companion.',
+    featuredImage: ''
   });
+  const [isUploadingFeatured, setIsUploadingFeatured] = useState(false);
   const [screenshots, setScreenshots] = useState<FeatureScreenshot[]>([]);
   const [uploadingFeature, setUploadingFeature] = useState<string | null>(null);
   const [savingFeature, setSavingFeature] = useState<string | null>(null);
@@ -102,6 +104,28 @@ const AdminAboutFastNowApp = () => {
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleFeaturedImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingFeatured(true);
+    try {
+      const result = await ImageUploadService.uploadImage(file, 'page-images');
+      setContent({ ...content, featuredImage: result.url });
+      toast.success('Featured image uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading featured image:', error);
+      toast.error('Failed to upload featured image');
+    } finally {
+      setIsUploadingFeatured(false);
+    }
+  };
+
+  const handleRemoveFeaturedImage = () => {
+    setContent({ ...content, featuredImage: '' });
+    toast.success('Featured image removed');
   };
 
   const handleFileUpload = async (featureKey: string, event: React.ChangeEvent<HTMLInputElement>) => {
@@ -241,6 +265,48 @@ const AdminAboutFastNowApp = () => {
                     className="w-full p-3 border rounded-md"
                   />
                 </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Featured Image</CardTitle>
+                <CardDescription>Upload a featured image for the About FastNow App page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {content.featuredImage ? (
+                  <div className="space-y-2">
+                    <img 
+                      src={content.featuredImage} 
+                      alt="Featured" 
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleRemoveFeaturedImage}
+                      className="w-full"
+                    >
+                      Remove Featured Image
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFeaturedImageUpload}
+                      disabled={isUploadingFeatured}
+                      className="hidden"
+                      id="featured-image"
+                    />
+                    <Label htmlFor="featured-image" className="cursor-pointer">
+                      <div className="text-gray-500">
+                        {isUploadingFeatured ? 'Uploading...' : 'Click to upload featured image'}
+                      </div>
+                    </Label>
+                  </div>
+                )}
               </CardContent>
             </Card>
 

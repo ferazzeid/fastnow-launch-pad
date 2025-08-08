@@ -31,7 +31,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({ selectedPage = 
 
   const [availablePages] = useState([
     { key: 'home', label: 'Home Page' },
-    { key: 'fastnow-protocol', label: 'FastNow Protocol' },
+    { key: 'fast-now-protocol', label: 'FastNow Protocol' },
     { key: 'faq', label: 'FAQ Page' },
     { key: 'about-me', label: 'About Me' },
     { key: 'privacy-policy', label: 'Privacy Policy' },

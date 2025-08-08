@@ -37,6 +37,7 @@ import BlogEditor from "./pages/BlogEditor";
 import FastingTimelineBlog from "./pages/FastingTimelineBlog";
 import FastingTimelinePost from "./pages/FastingTimelinePost";
 import FastNowProtocol from "./pages/FastNowProtocol";
+import AdminFastNowProtocol from "./pages/AdminFastNowProtocol";
 import AboutFastNowApp from "./pages/AboutFastNowApp";
 import AboutMe from "./pages/AboutMe";
 import AdminFeatureScreenshots from "./pages/AdminFeatureScreenshots";
@@ -85,6 +86,7 @@ const AppRoutes = () => {
       <Route path="/admin/blog/new" element={<BlogEditor />} />
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
       <Route path="/admin/about-fastnow-app" element={<AdminAboutFastNowApp />} />
+      <Route path="/admin/fast-now-protocol" element={<AdminFastNowProtocol />} />
       <Route path="/admin/feature-screenshots" element={<AdminFeatureScreenshots />} />
       <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
       <Route path="/admin/fasting-timeline/export" element={<AdminFastingTimelineExport />} />
