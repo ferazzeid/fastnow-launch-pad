@@ -1,18 +1,20 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MainNavigation from '../MainNavigation';
 import { pageContentService } from '@/services/PageContentService';
 
 const Header = () => {
+  const location = useLocation();
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
   const [logoSize, setLogoSize] = React.useState<number>(32);
   const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const [navigationSettings, setNavigationSettings] = React.useState<Record<string, boolean>>({});
 
-  // Load logo and favicon from database (with localStorage fallback)
+  // Load logo, favicon and navigation settings from database (with localStorage fallback)
   React.useEffect(() => {
-    const loadLogoSettings = async () => {
+    const loadSettings = async () => {
       try {
         // Load site identity settings for logo
         const siteIdentity = await pageContentService.getGeneralSetting('site_identity');
@@ -23,8 +25,23 @@ const Header = () => {
             setLogoSize(40); // Default size
           }
         }
+
+        // Load navigation transparency settings
+        const navSettings = await pageContentService.getGeneralSetting('navigation_transparency');
+        if (navSettings?.setting_value) {
+          setNavigationSettings(navSettings.setting_value);
+        } else {
+          // Default settings - only homepage transparent
+          setNavigationSettings({
+            homepage_transparent_nav: true,
+            about_transparent_nav: false,
+            faq_transparent_nav: false,
+            protocol_transparent_nav: false,
+            timeline_transparent_nav: false,
+          });
+        }
       } catch (error) {
-        console.error('Error loading logo settings:', error);
+        console.error('Error loading settings:', error);
         
         // Fallback to localStorage if database fails
         const savedLogoUrl = localStorage.getItem('fastingApp_logoUrl');
@@ -32,6 +49,15 @@ const Header = () => {
         
         const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
         if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
+        
+        // Default navigation settings
+        setNavigationSettings({
+          homepage_transparent_nav: true,
+          about_transparent_nav: false,
+          faq_transparent_nav: false,
+          protocol_transparent_nav: false,
+          timeline_transparent_nav: false,
+        });
       }
     };
 
@@ -51,7 +77,7 @@ const Header = () => {
       }
     }
 
-    loadLogoSettings();
+    loadSettings();
   }, []);
 
   // Handle scroll effect
@@ -65,9 +91,24 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Determine if current page should have transparent navigation
+  const getCurrentPageTransparency = () => {
+    const path = location.pathname;
+    
+    if (path === '/') return navigationSettings.homepage_transparent_nav;
+    if (path === '/about-me') return navigationSettings.about_transparent_nav;
+    if (path === '/faq') return navigationSettings.faq_transparent_nav;
+    if (path === '/fast-now-protocol') return navigationSettings.protocol_transparent_nav;
+    if (path === '/fasting-timeline') return navigationSettings.timeline_transparent_nav;
+    
+    return false; // Default to non-transparent for other pages
+  };
+
+  const shouldBeTransparent = getCurrentPageTransparency() && !isScrolled;
+
   return (
     <header className={`fixed top-0 left-0 right-0 py-6 transition-all duration-300 z-50 ${
-      isScrolled 
+      isScrolled || !getCurrentPageTransparency()
         ? 'bg-background/95 backdrop-blur-sm border-b border-border shadow-sm' 
         : 'bg-transparent border-b border-transparent'
     }`}>
@@ -78,10 +119,10 @@ const Header = () => {
           </Link>
         ) : (
           <Link to="/" className={`text-2xl font-bold transition-colors duration-300 ${
-            isScrolled ? 'text-accent-green' : 'text-white drop-shadow-lg'
+            shouldBeTransparent ? 'text-white drop-shadow-lg' : 'text-accent-green'
           }`}>FastNow</Link>
         )}
-        <MainNavigation isTransparent={!isScrolled} />
+        <MainNavigation isTransparent={shouldBeTransparent} />
       </div>
     </header>
   );

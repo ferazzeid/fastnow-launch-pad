@@ -187,6 +187,13 @@ const Admin = () => {
                   Background Images
                 </Button>
               </Link>
+
+              <Link to="/admin/navigation">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings size={16} className="mr-2" />
+                  Navigation Settings
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>

@@ -43,8 +43,7 @@ import AdminFeatureScreenshots from "./pages/AdminFeatureScreenshots";
 import AdminFastingTimeline from "./pages/AdminFastingTimeline";
 import AdminFastingTimelineExport from "./pages/AdminFastingTimelineExport";
 import AdminBackgroundImages from "./pages/AdminBackgroundImages";
-
-console.log('AdminBackgroundImages imported:', AdminBackgroundImages);
+import AdminNavigationSettings from "./pages/AdminNavigationSettings";
 
 const queryClient = new QueryClient();
 
@@ -84,7 +83,8 @@ const AppRoutes = () => {
         <Route path="/admin/faq" element={<AdminFAQ />} />
           <Route path="/admin/about-me" element={<AdminAboutMeEditor />} />
       <Route path="/admin/email" element={<AdminEmail />} />
-      <Route path="/admin/background-images" element={<AdminBackgroundImages />} />
+            <Route path="/admin/background-images" element={<AdminBackgroundImages />} />
+            <Route path="/admin/navigation" element={<AdminNavigationSettings />} />
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
