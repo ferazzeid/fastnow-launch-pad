@@ -10,26 +10,43 @@ const AboutMe = () => {
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     if (!hasLoaded) {
-      loadContent();
+      // Add timeout to prevent infinite loading
+      const loadTimeout = setTimeout(() => {
+        if (isLoading) {
+          console.log('Loading timeout reached, forcing load complete');
+          setIsLoading(false);
+          setHasLoaded(true);
+          setHasError(true);
+        }
+      }, 10000); // 10 second timeout
+
+      loadContent().finally(() => {
+        clearTimeout(loadTimeout);
+      });
+
+      return () => clearTimeout(loadTimeout);
     }
-  }, [hasLoaded]);
+  }, [hasLoaded, isLoading]);
 
   const loadContent = async () => {
     try {
       console.log('Loading about me content...');
+      setIsLoading(true);
+      
       const { data, error } = await supabase
         .from('site_settings')
         .select('setting_key, setting_value')
         .in('setting_key', ['about_me_title', 'about_me_subtitle', 'about_me_content']);
 
-      console.log('Site settings query result:', { data, error });
+      console.log('About me query result:', { data, error });
 
       if (error) {
-        console.error('Database error:', error);
-        throw error;
+        console.error('Database error loading about me:', error);
+        // Don't throw, just use defaults
       }
 
       if (data && data.length > 0) {
@@ -51,7 +68,7 @@ const AboutMe = () => {
           return acc;
         }, {} as Record<string, string>);
 
-        console.log('Parsed settings:', settings);
+        console.log('Parsed about me settings:', settings);
 
         if (settings.about_me_title) setTitle(settings.about_me_title);
         if (settings.about_me_subtitle) setSubtitle(settings.about_me_subtitle);
@@ -60,9 +77,11 @@ const AboutMe = () => {
         console.log('No about me content found in database, using defaults');
       }
     } catch (error) {
-      console.error('Error loading content:', error);
+      console.error('Error loading about me content:', error);
+      setHasError(true);
+      // Continue with defaults instead of failing
     } finally {
-      console.log('Setting loading to false');
+      console.log('About me content loading complete');
       setIsLoading(false);
       setHasLoaded(true);
     }
@@ -81,7 +100,10 @@ const AboutMe = () => {
       <PageLayout>
         <div className="container py-16">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="animate-pulse">Loading...</div>
+            <div className="animate-pulse">
+              <div className="text-lg mb-4">Loading About Me...</div>
+              {hasError && <div className="text-red-500">Having trouble loading content. Using defaults...</div>}
+            </div>
           </div>
         </div>
       </PageLayout>

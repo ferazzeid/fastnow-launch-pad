@@ -66,6 +66,7 @@ const AppRoutes = () => {
       <Route path="/fast-now-protocol" element={<FastNowProtocol />} />
       <Route path="/about-fastnow-app" element={<AboutFastNowApp />} />
       <Route path="/about-me" element={<AboutMe />} />
+      <Route path="/faq" element={<FAQ />} />
       
       {/* Fasting Timeline routes */}
       <Route path="/fasting-timeline" element={<FastingTimelineBlog />} />
