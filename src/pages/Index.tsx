@@ -205,6 +205,16 @@ const Index = () => {
         <meta name="twitter:description" content={metaDescription} />
       </Helmet>
       
+      {/* Hero Background Image */}
+      <div className="absolute inset-0 w-full h-[100vh] z-0">
+        <img 
+          src="/lovable-uploads/068e5770-2c00-4164-a0e8-9df5eb13b422.png" 
+          alt="Professional background" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
+      
       {/* Background 3D Element if available */}
       {customElementsImages.background3d && (
         <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
@@ -217,20 +227,20 @@ const Index = () => {
       )}
       
       {/* Hero Section */}
-      <section className="py-12 lg:py-20 relative z-10">
+      <section className="py-12 lg:py-20 relative z-10 min-h-[100vh] flex items-center" style={{paddingTop: '6rem'}}>
         <div className="container max-w-4xl mx-auto">
           <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
             {/* Content Section */}
             <div className="w-full lg:w-1/2 order-2 lg:order-1">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 lg:mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 lg:mb-6 leading-tight text-white drop-shadow-lg">
                 {heroTitle}
               </h1>
-              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-6">
+              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 mb-6 drop-shadow-md">
                 {heroSubtitle}
               </div>
               
-              <div className="prose prose-lg max-w-none text-gray-600 dark:text-gray-300 mb-6 lg:mb-8">
-                <p className="text-base md:text-lg lg:text-xl mb-4">
+              <div className="prose prose-lg max-w-none text-white/80 mb-6 lg:mb-8">
+                <p className="text-base md:text-lg lg:text-xl mb-4 drop-shadow-md">
                   {heroDescription}
                 </p>
               </div>

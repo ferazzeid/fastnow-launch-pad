@@ -23,7 +23,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-const MainNavigation = () => {
+interface MainNavigationProps {
+  isTransparent?: boolean;
+}
+
+const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
   const { isAdmin, isLoading, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,44 +49,48 @@ const MainNavigation = () => {
     setIsOpen(false);
   };
 
+  const getNavLinkClasses = (isActive: boolean) => {
+    const baseClasses = isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle();
+    
+    if (isTransparent && !isMobile) {
+      return cn(
+        baseClasses,
+        isActive 
+          ? "text-accent-green bg-white/20 backdrop-blur-sm" 
+          : "text-white/90 hover:text-white hover:bg-white/20 backdrop-blur-sm"
+      );
+    }
+    
+    return cn(
+      baseClasses,
+      isActive 
+        ? "text-accent-green bg-gray-50" 
+        : "text-gray-700 hover:text-accent-green hover:bg-gray-50"
+    );
+  };
+
   const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => (
     <>
       <Link to="/fastnow-protocol" onClick={onLinkClick}>
-        <div className={cn(
-          isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
-          "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-          location.pathname === "/fastnow-protocol" && "text-accent-green bg-gray-50"
-        )}>
+        <div className={getNavLinkClasses(location.pathname === "/fastnow-protocol")}>
           The FastNow Protocol
         </div>
       </Link>
       
       <Link to="/faq" onClick={onLinkClick}>
-        <div className={cn(
-          isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
-          "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-          location.pathname === "/faq" && "text-accent-green bg-gray-50"
-        )}>
+        <div className={getNavLinkClasses(location.pathname === "/faq")}>
           FAQ
         </div>
       </Link>
       
       <Link to="/about-me" onClick={onLinkClick}>
-        <div className={cn(
-          isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
-          "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-          location.pathname === "/about-me" && "text-accent-green bg-gray-50"
-        )}>
+        <div className={getNavLinkClasses(location.pathname === "/about-me")}>
           About Me
         </div>
       </Link>
       
       <Link to="/about-fastnow-app" onClick={onLinkClick}>
-        <div className={cn(
-          isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
-          "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-          location.pathname === "/about-fastnow-app" && "text-accent-green bg-gray-50"
-        )}>
+        <div className={getNavLinkClasses(location.pathname === "/about-fastnow-app")}>
           About FastNow App
         </div>
       </Link>
@@ -149,7 +157,12 @@ const MainNavigation = () => {
     return (
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="sm" className="p-2">
+          <Button variant="ghost" size="sm" className={cn(
+            "p-2",
+            isTransparent 
+              ? "text-white hover:text-white hover:bg-white/20" 
+              : "text-gray-700 hover:text-gray-900"
+          )}>
             <Menu size={24} />
           </Button>
         </SheetTrigger>
@@ -166,56 +179,32 @@ const MainNavigation = () => {
   }
 
   return (
-    <NavigationMenu className="bg-white">
+    <NavigationMenu className={isTransparent ? "bg-transparent" : "bg-white"}>
       <NavigationMenuList className="flex items-center gap-4">
         <NavigationMenuItem>
           <Link to="/fastnow-protocol">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname === "/fastnow-protocol" && "text-accent-green bg-gray-50"
-              )}
-            >
+            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/fastnow-protocol")}>
               The FastNow Protocol
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link to="/faq">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname === "/faq" && "text-accent-green bg-gray-50"
-              )}
-            >
+            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/faq")}>
               FAQ
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link to="/about-me">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname === "/about-me" && "text-accent-green bg-gray-50"
-              )}
-            >
+            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/about-me")}>
               About Me
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link to="/about-fastnow-app">
-            <NavigationMenuLink 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                location.pathname === "/about-fastnow-app" && "text-accent-green bg-gray-50"
-              )}
-            >
+            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/about-fastnow-app")}>
               About FastNow App
             </NavigationMenuLink>
           </Link>
@@ -239,13 +228,7 @@ const MainNavigation = () => {
           <>
             <NavigationMenuItem>
               <Link to="/admin">
-                <NavigationMenuLink 
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                    location.pathname === "/admin" && "text-accent-green bg-gray-50"
-                  )}
-                >
+                <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/admin")}>
                   <User size={16} className="mr-1" />
                   Admin Dashboard
                 </NavigationMenuLink>
@@ -256,7 +239,12 @@ const MainNavigation = () => {
                 variant="ghost" 
                 size="sm" 
                 onClick={handleLogout} 
-                className="flex items-center gap-1 text-gray-700 hover:text-accent-green hover:bg-gray-50"
+                className={cn(
+                  "flex items-center gap-1",
+                  isTransparent 
+                    ? "text-white/90 hover:text-white hover:bg-white/20" 
+                    : "text-gray-700 hover:text-accent-green hover:bg-gray-50"
+                )}
               >
                 <LogOut size={16} />
                 Logout
@@ -268,13 +256,7 @@ const MainNavigation = () => {
         {!isLoading && !isAdmin && (
           <NavigationMenuItem>
             <Link to="/admin/login">
-              <NavigationMenuLink 
-                className={cn(
-                  navigationMenuTriggerStyle(),
-                  "text-gray-700 hover:text-accent-green hover:bg-gray-50",
-                  location.pathname === "/admin/login" && "text-accent-green bg-gray-50"
-                )}
-              >
+              <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/admin/login")}>
                 <User size={16} className="mr-1" />
                 Admin Login
               </NavigationMenuLink>

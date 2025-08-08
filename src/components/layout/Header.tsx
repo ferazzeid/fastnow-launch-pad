@@ -8,6 +8,7 @@ const Header = () => {
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
   const [logoSize, setLogoSize] = React.useState<number>(32);
   const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = React.useState(false);
 
   // Load logo and favicon from database (with localStorage fallback)
   React.useEffect(() => {
@@ -53,17 +54,34 @@ const Header = () => {
     loadLogoSettings();
   }, []);
 
+  // Handle scroll effect
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="py-6 border-b border-gray-200 bg-white relative z-10">
+    <header className={`fixed top-0 left-0 right-0 py-6 transition-all duration-300 z-50 ${
+      isScrolled 
+        ? 'bg-background/95 backdrop-blur-sm border-b border-border shadow-sm' 
+        : 'bg-transparent border-b border-transparent'
+    }`}>
       <div className="container flex justify-between items-center">
         {logoUrl ? (
           <Link to="/">
             <img src={logoUrl} alt="fastnow.app" style={{ height: `${logoSize}px` }} />
           </Link>
         ) : (
-          <Link to="/" className="text-2xl font-bold text-accent-green">FastNow</Link>
+          <Link to="/" className={`text-2xl font-bold transition-colors duration-300 ${
+            isScrolled ? 'text-accent-green' : 'text-white drop-shadow-lg'
+          }`}>FastNow</Link>
         )}
-        <MainNavigation />
+        <MainNavigation isTransparent={!isScrolled} />
       </div>
     </header>
   );
