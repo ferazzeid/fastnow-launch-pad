@@ -73,7 +73,10 @@ const AdminAboutMeEditor = () => {
       for (const update of updates) {
         const { error } = await supabase
           .from('site_settings')
-          .upsert(update);
+          .upsert(update, { 
+            onConflict: 'setting_key',
+            ignoreDuplicates: false 
+          });
         
         if (error) throw error;
       }
