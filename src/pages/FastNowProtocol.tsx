@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Clock, Utensils, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
+import PageFeaturedImage from '@/components/PageFeaturedImage';
 import { pageContentService } from '@/services/PageContentService';
 
 const FastNowProtocol = () => {
@@ -44,6 +45,9 @@ const FastNowProtocol = () => {
       <main className="flex-1 py-12">
         <div className="container max-w-4xl mx-auto">
           <div>
+          {/* Featured Image */}
+          <PageFeaturedImage pageKey="fast-now-protocol" className="w-full h-64 md:h-80 object-cover rounded-lg mb-12" />
+          
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">

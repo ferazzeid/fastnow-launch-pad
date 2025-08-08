@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
+import PageFeaturedImage from '@/components/PageFeaturedImage';
 import { supabase } from '@/integrations/supabase/client';
 
 const AboutMe = () => {
@@ -96,6 +97,9 @@ const AboutMe = () => {
 
       <div className="container py-16">
         <div className="max-w-4xl mx-auto">
+          {/* Featured Image */}
+          <PageFeaturedImage pageKey="about-me" className="w-full h-64 md:h-80 object-cover rounded-lg mb-12" />
+          
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
               {title}

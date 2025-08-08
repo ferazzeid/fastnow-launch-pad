@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
+import PageFeaturedImage from '@/components/PageFeaturedImage';
 import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -119,6 +120,9 @@ const AboutFastNowApp = () => {
       </Helmet>
 
       <div className="container py-12">
+        {/* Featured Image */}
+        <PageFeaturedImage pageKey="about-fastnow-app" className="w-full h-64 md:h-80 object-cover rounded-lg mb-12" />
+        
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">

@@ -11,10 +11,11 @@ interface PageImageSettings {
 }
 
 const PAGES = [
-  { key: 'aboutFastNowApp', label: 'About Fast Now App' },
-  { key: 'fastNowProtocol', label: 'FastNow Protocol' },
-  { key: 'home', label: 'Home Page' },
-  { key: 'blog', label: 'Blog Page' }
+  { key: 'fast-now-protocol', label: 'The Protocol Page' },
+  { key: 'about-fastnow-app', label: 'About App Page' },
+  { key: 'about-me', label: 'Me Page' },
+  { key: 'faq', label: 'FAQ Page' },
+  { key: 'blog', label: 'Blog Page' },
 ];
 
 const PageImageSettings: React.FC = () => {
