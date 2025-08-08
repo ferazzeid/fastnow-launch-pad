@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const Footer = () => {
   const [ctaTitle, setCtaTitle] = React.useState('Ready to start your health transformation?');
@@ -16,6 +17,8 @@ const Footer = () => {
     if (savedCtaSubtitle) setCtaSubtitle(savedCtaSubtitle);
   }, []);
 
+  const { isAdmin } = useAuth();
+
   return (
     <footer className="border-t border-gray-200 bg-gray-50">
       {/* Footer Links */}
@@ -26,7 +29,12 @@ const Footer = () => {
               © {new Date().getFullYear()} fastnow.app. All rights reserved.
             </div>
             <div className="flex items-center gap-6">
-              <div className="flex gap-6">
+              <div className="flex gap-6 items-center">
+                {isAdmin && (
+                  <Link to="/admin" className="text-sm text-gray-600 hover:text-accent-green">
+                    Admin
+                  </Link>
+                )}
                 <Link to="/privacy" className="text-sm text-gray-600 hover:text-accent-green">
                   Privacy Policy
                 </Link>
