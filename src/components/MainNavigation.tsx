@@ -37,6 +37,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
   // Debug logging to help identify the issue
   console.log('MainNavigation - isAdmin:', isAdmin, 'isLoading:', isLoading, 'user:', user?.email);
   console.log('MainNavigation - isMobile:', isMobile, 'window width:', typeof window !== 'undefined' ? window.innerWidth : 'undefined');
+  console.log('MainNavigation - rendering mobile menu:', isMobile, 'Menu icon size should be 72px');
 
   const handleLogout = async () => {
     const success = await SupabaseAuthService.signOut();
@@ -119,12 +120,12 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="sm" className={cn(
-            "p-3",
+            "p-6 w-20 h-20",
             isTransparent 
               ? "text-white hover:text-white hover:bg-white/20" 
               : "text-gray-700 hover:text-gray-900"
           )}>
-            <Menu size={72} />
+            <Menu size={72} style={{ width: '72px', height: '72px', minWidth: '72px', minHeight: '72px' }} />
           </Button>
         </SheetTrigger>
         <SheetContent side="right" className="w-80">
