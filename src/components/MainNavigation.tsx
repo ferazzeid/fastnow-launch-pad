@@ -36,6 +36,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
 
   // Debug logging to help identify the issue
   console.log('MainNavigation - isAdmin:', isAdmin, 'isLoading:', isLoading, 'user:', user?.email);
+  console.log('MainNavigation - isMobile:', isMobile, 'window width:', typeof window !== 'undefined' ? window.innerWidth : 'undefined');
 
   const handleLogout = async () => {
     const success = await SupabaseAuthService.signOut();
