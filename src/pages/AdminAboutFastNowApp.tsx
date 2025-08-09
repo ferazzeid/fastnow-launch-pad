@@ -97,6 +97,29 @@ const AdminAboutFastNowApp = () => {
     setIsSaving(true);
     try {
       await SiteSettingsService.setSetting('aboutAppContent', content);
+      
+      // Clear image cache to force reload on frontend
+      if (typeof window !== 'undefined') {
+        try {
+          const pageImages = localStorage.getItem('fastingApp_pageImages');
+          if (pageImages) {
+            const images = JSON.parse(pageImages);
+            if (content.featuredImage) {
+              images['about-fastnow-app'] = content.featuredImage;
+            } else {
+              delete images['about-fastnow-app'];
+            }
+            localStorage.setItem('fastingApp_pageImages', JSON.stringify(images));
+          } else if (content.featuredImage) {
+            localStorage.setItem('fastingApp_pageImages', JSON.stringify({
+              'about-fastnow-app': content.featuredImage
+            }));
+          }
+        } catch (e) {
+          console.error('Error updating image cache:', e);
+        }
+      }
+      
       toast.success('About App content saved successfully!');
     } catch (error) {
       console.error('Error saving content:', error);
@@ -113,8 +136,22 @@ const AdminAboutFastNowApp = () => {
     setIsUploadingFeatured(true);
     try {
       const result = await ImageUploadService.uploadImage(file, 'page-images');
-      setContent({ ...content, featuredImage: result.url });
-      toast.success('Featured image uploaded successfully!');
+      const newContent = { ...content, featuredImage: result.url };
+      setContent(newContent);
+      
+      // Update localStorage immediately for preview
+      if (typeof window !== 'undefined') {
+        try {
+          const pageImages = localStorage.getItem('fastingApp_pageImages');
+          const images = pageImages ? JSON.parse(pageImages) : {};
+          images['about-fastnow-app'] = result.url;
+          localStorage.setItem('fastingApp_pageImages', JSON.stringify(images));
+        } catch (e) {
+          console.error('Error updating image cache:', e);
+        }
+      }
+      
+      toast.success('Featured image uploaded successfully! Don\'t forget to save your changes.');
     } catch (error) {
       console.error('Error uploading featured image:', error);
       toast.error('Failed to upload featured image');
@@ -125,7 +162,22 @@ const AdminAboutFastNowApp = () => {
 
   const handleRemoveFeaturedImage = () => {
     setContent({ ...content, featuredImage: '' });
-    toast.success('Featured image removed');
+    
+    // Remove from localStorage cache immediately
+    if (typeof window !== 'undefined') {
+      try {
+        const pageImages = localStorage.getItem('fastingApp_pageImages');
+        if (pageImages) {
+          const images = JSON.parse(pageImages);
+          delete images['about-fastnow-app'];
+          localStorage.setItem('fastingApp_pageImages', JSON.stringify(images));
+        }
+      } catch (e) {
+        console.error('Error updating image cache:', e);
+      }
+    }
+    
+    toast.success('Featured image removed. Don\'t forget to save your changes.');
   };
 
   const handleFileUpload = async (featureKey: string, event: React.ChangeEvent<HTMLInputElement>) => {
