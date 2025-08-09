@@ -30,7 +30,7 @@ My protocol isn't about reaching some arbitrary number on a scale. It's about ge
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center justify-start">
+      <section className="relative z-10 min-h-screen flex items-center justify-start pt-28 md:pt-32">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-left max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">

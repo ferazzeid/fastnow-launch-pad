@@ -100,7 +100,7 @@ const FAQ = () => {
         </script>
       </Helmet>
 
-      <div className="container max-w-4xl mx-auto py-12">
+      <div className="container max-w-4xl mx-auto pt-8 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
