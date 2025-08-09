@@ -301,6 +301,17 @@ const FastNowProtocol = () => {
                         </div>
                       </div>
                     </div>
+                    
+                    {/* My Tip Section */}
+                    <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-6">
+                      <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
+                        <CheckCircle className="w-5 h-5 text-yellow-600" />
+                        My Tip:
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Start your fast at night after dinner. Eat your last meal, then immediately go to sleep. The hours you sleep count towards your fast, plus the hours before bed. By morning, you're already 10-12 hours deep into the fast—that's serious momentum. You don't want to lose that head start by starting fresh in the morning.
+                      </p>
+                    </div>
                   </div>
                 </div>
 
