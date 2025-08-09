@@ -4,8 +4,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
 import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Clock, Activity, Utensils, Target, Bot } from 'lucide-react';
+import { Clock, Activity, Utensils, Target } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
@@ -72,19 +71,6 @@ const AboutFastNowApp = () => {
         'Inspiring success stories',
         'Custom goal setting'
       ]
-    },
-    {
-      key: 'ai-assistant',
-      title: 'AI Assistant',
-      subtitle: 'Get personalized guidance from your intelligent fasting coach',
-      icon: <Bot className="w-8 h-8 text-primary" />,
-      features: [
-        '24/7 personalized fasting guidance',
-        'Science-based recommendations',
-        'Real-time answers to your questions',
-        'Adaptive protocol suggestions',
-        'Health insights and tips'
-      ]
     }
   ];
 
@@ -130,24 +116,37 @@ const AboutFastNowApp = () => {
       {/* Hero Section */}
       <section className="relative z-10 min-h-screen flex items-center justify-start">
         <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-left max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
-              {content.heroTitle}
-            </h1>
-            <p className="text-xl text-white/90 mb-8 drop-shadow-md">
-              {content.heroDescription}
-            </p>
-            <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
-              <h2 className="text-2xl md:text-3xl font-semibold">Why the App Matters</h2>
-              <p>
-                You could track this program on paper and still succeed. But the app keeps you immersed in the process — which is critical.
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left side - Content */}
+            <div className="text-left">
+              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
+                {content.heroTitle}
+              </h1>
+              <p className="text-xl text-white/90 mb-8 drop-shadow-md">
+                {content.heroDescription}
               </p>
-              <p>
-                Immersion makes your brain assign higher priority to what you're doing. It keeps the program front and center, helps you focus, and reveals how easy it is to sabotage yourself without even realizing it.
-              </p>
-              <p>
-                The app removes those blind spots, keeps you accountable, and gives you the momentum to see the program through.
-              </p>
+              <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
+                <h2 className="text-2xl md:text-3xl font-semibold">Why the App Matters</h2>
+                <p>
+                  You could track this program on paper and still succeed. But the app keeps you immersed in the process — which is critical.
+                </p>
+                <p>
+                  Immersion makes your brain assign higher priority to what you're doing. It keeps the program front and center, helps you focus, and reveals how easy it is to sabotage yourself without even realizing it.
+                </p>
+                <p>
+                  The app removes those blind spots, keeps you accountable, and gives you the momentum to see the program through.
+                </p>
+              </div>
+            </div>
+
+            {/* Right side - App mockup */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="w-64">
+                <FeatureScreenshotMockup
+                  imageUrl={getScreenshotForFeature('fasting-timer')}
+                  altText="FastNow App Screenshot"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -157,109 +156,55 @@ const AboutFastNowApp = () => {
       <div className="relative z-10 bg-background">
         <div className="container py-12">
 
-        {/* Features Tabs */}
+        {/* Features Sections */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-12">
             {content.featuresTitle}
           </h2>
           
-          {isMobile ? (
-            // Mobile: Stack cards vertically with collapsible sections
-            <div className="space-y-4">
-              {features.map((feature) => (
-                <Card key={feature.key} className="overflow-hidden">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+          {/* Stacked Feature Sections */}
+          <div className="space-y-16 max-w-4xl mx-auto">
+            {features.map((feature, index) => (
+              <div key={feature.key} className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
+                {/* Content Side */}
+                <div className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
+                  <div className="text-center lg:text-left">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto lg:mx-0">
+                      {feature.icon}
+                    </div>
+                    <h3 className="text-3xl font-bold mb-2">{feature.title}</h3>
+                    <p className="text-lg text-muted-foreground mb-6">
+                      {feature.subtitle}
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-lg mb-4">✨ Features:</h4>
+                    <ul className="space-y-3">
+                      {feature.features.map((item, featureIndex) => (
+                        <li key={featureIndex} className="flex items-start gap-3">
+                          <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                          <span className="text-muted-foreground">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Visual Side - Placeholder for now since we're removing screenshots */}
+                <div className={`flex justify-center ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
+                  <div className="w-64 h-40 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center border border-primary/20">
+                    <div className="text-center">
+                      <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-2 mx-auto">
                         {feature.icon}
                       </div>
-                      <div>
-                        <CardTitle className="text-xl">{feature.title}</CardTitle>
-                        <CardDescription>{feature.subtitle}</CardDescription>
-                      </div>
+                      <p className="text-sm text-muted-foreground">{feature.title}</p>
                     </div>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="flex justify-center mb-6">
-                      <div className="w-48">
-                        <FeatureScreenshotMockup
-                          imageUrl={getScreenshotForFeature(feature.key)}
-                          altText={`${feature.title} screenshot`}
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-lg mb-4">✨ Features:</h4>
-                      <ul className="space-y-3">
-                        {feature.features.map((item, index) => (
-                          <li key={index} className="flex items-start gap-3">
-                            <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                            <span className="text-muted-foreground">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            // Desktop: Use horizontal tabs
-            <Tabs defaultValue="fasting-timer" className="max-w-4xl mx-auto">
-              <TabsList className="grid w-full grid-cols-5">
-                {features.map((feature) => (
-                  <TabsTrigger key={feature.key} value={feature.key}>
-                    {feature.title}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-              
-              {features.map((feature) => (
-                <TabsContent key={feature.key} value={feature.key} className="mt-8">
-                  <Card>
-                    <CardContent className="p-8">
-                      <div className="grid lg:grid-cols-2 gap-12 items-start">
-                        {/* Left side - Feature content */}
-                        <div className="space-y-6">
-                          <div className="text-center lg:text-left">
-                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto lg:mx-0">
-                              {feature.icon}
-                            </div>
-                            <h3 className="text-3xl font-bold mb-2">{feature.title}</h3>
-                            <p className="text-lg text-muted-foreground">
-                              {feature.subtitle}
-                            </p>
-                          </div>
-                          
-                          <div>
-                            <h4 className="font-semibold text-lg mb-4">✨ Features:</h4>
-                            <ul className="space-y-3">
-                              {feature.features.map((item, index) => (
-                                <li key={index} className="flex items-start gap-3">
-                                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                                  <span className="text-muted-foreground">{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-
-                        {/* Right side - App mockup */}
-                        <div className="flex justify-center lg:justify-end">
-                          <div className="w-64">
-                            <FeatureScreenshotMockup
-                              imageUrl={getScreenshotForFeature(feature.key)}
-                              altText={`${feature.title} screenshot`}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              ))}
-            </Tabs>
-          )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         </div>
       </div>
