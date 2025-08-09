@@ -892,6 +892,33 @@ export type Database = {
         }
         Relationships: []
       }
+      navigation_settings: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          is_visible: boolean
+          page_key: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_visible?: boolean
+          page_key: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_visible?: boolean
+          page_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       page_content: {
         Row: {
           button_text: string | null
@@ -1034,7 +1061,6 @@ export type Database = {
           last_activity_at: string | null
           monthly_ai_requests: number | null
           onboarding_completed: boolean | null
-          openai_api_key: string | null
           payment_method: string | null
           payment_provider: string | null
           platform_subscription_id: string | null
@@ -1046,11 +1072,12 @@ export type Database = {
           subscription_status: string | null
           subscription_tier: string | null
           transcription_model: string | null
+          trial_ends_at: string | null
+          trial_started_at: string | null
           tts_model: string | null
           tts_voice: string | null
           units: string | null
           updated_at: string
-          use_own_api_key: boolean | null
           user_id: string
           user_tier: Database["public"]["Enums"]["user_tier"] | null
           weight: number | null
@@ -1079,7 +1106,6 @@ export type Database = {
           last_activity_at?: string | null
           monthly_ai_requests?: number | null
           onboarding_completed?: boolean | null
-          openai_api_key?: string | null
           payment_method?: string | null
           payment_provider?: string | null
           platform_subscription_id?: string | null
@@ -1091,11 +1117,12 @@ export type Database = {
           subscription_status?: string | null
           subscription_tier?: string | null
           transcription_model?: string | null
+          trial_ends_at?: string | null
+          trial_started_at?: string | null
           tts_model?: string | null
           tts_voice?: string | null
           units?: string | null
           updated_at?: string
-          use_own_api_key?: boolean | null
           user_id: string
           user_tier?: Database["public"]["Enums"]["user_tier"] | null
           weight?: number | null
@@ -1124,7 +1151,6 @@ export type Database = {
           last_activity_at?: string | null
           monthly_ai_requests?: number | null
           onboarding_completed?: boolean | null
-          openai_api_key?: string | null
           payment_method?: string | null
           payment_provider?: string | null
           platform_subscription_id?: string | null
@@ -1136,11 +1162,12 @@ export type Database = {
           subscription_status?: string | null
           subscription_tier?: string | null
           transcription_model?: string | null
+          trial_ends_at?: string | null
+          trial_started_at?: string | null
           tts_model?: string | null
           tts_voice?: string | null
           units?: string | null
           updated_at?: string
-          use_own_api_key?: boolean | null
           user_id?: string
           user_tier?: Database["public"]["Enums"]["user_tier"] | null
           weight?: number | null
@@ -1150,21 +1177,18 @@ export type Database = {
       shared_settings: {
         Row: {
           created_at: string
-          id: string
           setting_key: string
           setting_value: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
-          id?: string
           setting_key: string
           setting_value?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
-          id?: string
           setting_key?: string
           setting_value?: string | null
           updated_at?: string

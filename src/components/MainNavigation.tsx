@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { SupabaseAuthService } from "@/services/SupabaseAuthService";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { NavigationSettingsService, NavigationSetting } from "@/services/NavigationSettingsService";
 import {
   Sheet,
   SheetContent,
@@ -33,6 +34,17 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
+  const [navigationSettings, setNavigationSettings] = useState<NavigationSetting[]>([]);
+
+  // Load navigation settings from database
+  useEffect(() => {
+    const loadNavigationSettings = async () => {
+      const settings = await NavigationSettingsService.getNavigationSettings();
+      setNavigationSettings(settings);
+    };
+
+    loadNavigationSettings();
+  }, []);
 
   // Debug logging to help identify the issue
   console.log('MainNavigation - isAdmin:', isAdmin, 'isLoading:', isLoading, 'user:', user?.email);
@@ -72,31 +84,32 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
     );
   };
 
+  const getPageInfo = (pageKey: string) => {
+    const pages = {
+      'fast-now-protocol': { path: '/fast-now-protocol', title: 'The Protocol' },
+      'about-fastnow-app': { path: '/about-fastnow-app', title: 'About App' },
+      'faq': { path: '/faq', title: 'FAQ' },
+      'about-me': { path: '/about-me', title: 'Me' }
+    };
+    return pages[pageKey as keyof typeof pages];
+  };
+
   const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => (
     <>
-      <Link to="/fast-now-protocol" onClick={onLinkClick}>
-        <div className={getNavLinkClasses(location.pathname === "/fast-now-protocol")}>
-          The Protocol
-        </div>
-      </Link>
-      
-      <Link to="/about-fastnow-app" onClick={onLinkClick}>
-        <div className={getNavLinkClasses(location.pathname === "/about-fastnow-app")}>
-          About App
-        </div>
-      </Link>
-      
-      <Link to="/faq" onClick={onLinkClick}>
-        <div className={getNavLinkClasses(location.pathname === "/faq")}>
-          FAQ
-        </div>
-      </Link>
-      
-      <Link to="/about-me" onClick={onLinkClick}>
-        <div className={getNavLinkClasses(location.pathname === "/about-me")}>
-          Me
-        </div>
-      </Link>
+      {navigationSettings
+        .filter(setting => setting.is_visible)
+        .map((setting) => {
+          const pageInfo = getPageInfo(setting.page_key);
+          if (!pageInfo) return null;
+
+          return (
+            <Link key={setting.page_key} to={pageInfo.path} onClick={onLinkClick}>
+              <div className={getNavLinkClasses(location.pathname === pageInfo.path)}>
+                {pageInfo.title}
+              </div>
+            </Link>
+          );
+        })}
       
       <a 
         href="https://go.fastnow.app" 
@@ -111,7 +124,6 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
         Launch App
         <ArrowRight size={14} />
       </a>
-      
     </>
   );
 
@@ -143,34 +155,23 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
   return (
     <NavigationMenu className={isTransparent ? "bg-transparent" : "bg-white"}>
       <NavigationMenuList className="flex items-center gap-4">
-        <NavigationMenuItem>
-          <Link to="/fast-now-protocol">
-            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/fast-now-protocol")}>
-              The Protocol
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/about-fastnow-app">
-            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/about-fastnow-app")}>
-              About App
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/faq">
-            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/faq")}>
-              FAQ
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/about-me">
-            <NavigationMenuLink className={getNavLinkClasses(location.pathname === "/about-me")}>
-              Me
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
+        {navigationSettings
+          .filter(setting => setting.is_visible)
+          .map((setting) => {
+            const pageInfo = getPageInfo(setting.page_key);
+            if (!pageInfo) return null;
+
+            return (
+              <NavigationMenuItem key={setting.page_key}>
+                <Link to={pageInfo.path}>
+                  <NavigationMenuLink className={getNavLinkClasses(location.pathname === pageInfo.path)}>
+                    {pageInfo.title}
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            );
+          })}
+        
         <NavigationMenuItem>
           <a 
             href="https://go.fastnow.app" 
@@ -185,8 +186,6 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
             <ArrowRight size={14} />
           </a>
         </NavigationMenuItem>
-        
-        
       </NavigationMenuList>
     </NavigationMenu>
   );
