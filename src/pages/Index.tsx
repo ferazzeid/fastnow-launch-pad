@@ -325,8 +325,9 @@ const Index = () => {
                   <p>
                     There’s no magic here. Just logic, math, action, and reaction.
                   </p>
+                  </div>
                 </div>
-              </div>
+               </div>
 
               {/* Spacer on right for balance */}
               <div className="hidden lg:block"></div>
