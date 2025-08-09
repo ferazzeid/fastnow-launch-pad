@@ -26,50 +26,55 @@ const AboutFastNowApp = () => {
       subtitle: '',
       icon: <Clock className="w-8 h-8 text-primary" />,
       features: [
-        'Multiple fasting protocols (16:8, 18:6, OMAD, and more)',
-        'Visual countdown timer with progress rings',
-        'Smart notifications for start/end times',
-        'Historical fasting data and streaks',
-        'Customizable fasting goals'
+        'Built for water fasting only — no intermittent fasting or refeed windows',
+        'Count up or count down to your fasting goal',
+        'Pre-set 60-hour fast, plus other standard and custom lengths (including beyond 72 hours)',
+        'Clean, distraction-free design to help you stay immersed in the fasted state',
+        'See exactly how much time you\'ve completed or have left',
+        'Hour-by-hour fasting state descriptions, showing what\'s likely happening in your body',
+        'Planned feature: personal hourly comments from the creator to guide your journey'
       ]
     },
     {
       key: 'walking-tracker',
       title: 'Walking Tracker',
-      subtitle: 'Monitor your daily activity and movement goals',
+      subtitle: 'Your "Joker card" for creating extra calorie burn without exhausting yourself.',
       icon: <Activity className="w-8 h-8 text-primary" />,
       features: [
-        'Step counting and distance tracking',
-        'Calorie burn estimation',
-        'Daily, weekly, and monthly goals',
-        'Walking route history',
-        'Integration with health apps'
+        'Track walking time, distance, and estimated calories burned',
+        'See estimated fat burned (in grams) for each walk',
+        'Integrated into your daily deficit overview for a complete progress picture',
+        'Keeps you immersed in your weight-loss process',
+        'Builds a real-world sense of how movement affects calorie balance — showing exactly how much walking it takes to offset extra food'
       ]
     },
     {
       key: 'food-log',
       title: 'Food Log',
-      subtitle: 'Track your nutrition during eating windows',
+      subtitle: 'The most important tool in the app — because what you eat decides whether you succeed or fail.',
       icon: <Utensils className="w-8 h-8 text-primary" />,
       features: [
-        'Easy meal logging with photos',
-        'Macro and calorie tracking',
-        'Extensive food database',
-        'Custom recipe creation',
-        'Eating window optimization'
+        'Track calories and carbs for every food you eat',
+        'Built to support a significant daily deficit (around 1,500 kcal and ~30g carbs for most people)',
+        'Manual and AI-assisted food entry options',
+        'Save foods to your personal library for quick reuse',
+        'Create and reuse daily food templates to keep your diet simple and consistent',
+        'Includes a starter library of foods from the creator\'s own diet for easy copying and adjustment',
+        'Helps you learn food values and spot mistakes that could stall progress — even a small error can cost you a day\'s results'
       ]
     },
     {
       key: 'motivators',
       title: 'Motivators',
-      subtitle: 'Stay inspired with personalized motivation and goals',
+      subtitle: 'The reasons you start — and the reminders that keep you going.',
       icon: <Target className="w-8 h-8 text-primary" />,
       features: [
-        'Personalized motivational messages',
-        'Achievement badges and rewards',
-        'Progress celebrations',
-        'Inspiring success stories',
-        'Custom goal setting'
+        'Capture the 3–4 real reasons you\'re taking action — in as much detail as possible',
+        'Add personal photos or AI-generated symbolic images (real images are most powerful)',
+        'Use motivators during water fasts, restricted dieting, and walks to stay on track',
+        'Access a library of example motivators from the creator for inspiration and easy customization',
+        'Record both positive drivers (events, goals, clothes you want to wear) and difficult truths (health issues, criticism, wake-up moments)',
+        'AI-assisted entry makes it quick to start — with manual fine-tuning for maximum personal impact'
       ]
     }
   ];
@@ -123,7 +128,6 @@ const AboutFastNowApp = () => {
                 {content.heroTitle}
               </h1>
               <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
-                <h2 className="text-2xl md:text-3xl font-semibold">Why the App Matters</h2>
                 <p>
                   You could track this program on paper and still succeed. But the app keeps you immersed in the process — which is critical.
                 </p>
