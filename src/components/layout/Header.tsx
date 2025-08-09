@@ -156,7 +156,7 @@ const Header = () => {
             />
           )}
           <span className={`text-2xl font-bold transition-colors duration-300 ${
-            shouldBeTransparent ? 'text-white drop-shadow-lg' : 'text-accent-green'
+            shouldBeTransparent ? 'text-white drop-shadow-lg' : 'text-foreground'
           }`}>FastNow</span>
         </Link>
         <MainNavigation isTransparent={shouldBeTransparent} />

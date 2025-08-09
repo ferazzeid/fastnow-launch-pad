@@ -110,7 +110,7 @@ const App = () => {
   useEffect(() => {
     // Apply defaults immediately to prevent blocking
     SiteSettingsService.applyDesignColors({
-      primary: '#10B981',
+      primary: '#000000',
       secondary: '#6B7280'
     });
     

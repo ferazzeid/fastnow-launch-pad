@@ -129,6 +129,13 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
           );
         })}
       
+      {/* Admin access */}
+      <Link to="/admin/login" onClick={onLinkClick}>
+        <div className={getNavLinkClasses(location.pathname.startsWith('/admin'))}>
+          Admin
+        </div>
+      </Link>
+      
       <a 
         href="https://go.fastnow.app" 
         target="_blank" 
@@ -193,6 +200,14 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
               </NavigationMenuItem>
             );
           })}
+        
+        <NavigationMenuItem>
+          <Link to="/admin/login">
+            <NavigationMenuLink className={getNavLinkClasses(location.pathname.startsWith('/admin'))}>
+              Admin
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
         
         <NavigationMenuItem>
           <a 

@@ -39,26 +39,32 @@ const Footer = () => {
             </div>
             <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 w-full md:w-auto">
               <div className="flex flex-wrap gap-4 md:gap-6">
-                <Link to="/privacy" className="text-sm text-gray-600 hover:text-accent-green">
+                <Link to="/privacy" className="text-sm text-gray-600 hover:text-foreground">
                   Privacy Policy
                 </Link>
-                <Link to="/terms" className="text-sm text-gray-600 hover:text-accent-green">
+                <Link to="/terms" className="text-sm text-gray-600 hover:text-foreground">
                   Terms of Service
                 </Link>
-                <Link to="/contact" className="text-sm text-gray-600 hover:text-accent-green">
+                <Link to="/contact" className="text-sm text-gray-600 hover:text-foreground">
                   Contact
+                </Link>
+                
+                {/* Always-visible Admin access */}
+                <Link to="/admin/login" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
+                  <User size={14} />
+                  Admin
                 </Link>
                 
                 {/* Admin Links - Only visible to admins */}
                 {!isLoading && isAdmin && (
                   <>
-                    <Link to="/admin" className="text-sm text-gray-600 hover:text-accent-green flex items-center gap-1">
+                    <Link to="/admin" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
                       <User size={14} />
                       Admin Dashboard
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="text-sm text-gray-600 hover:text-accent-green flex items-center gap-1"
+                      className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1"
                     >
                       <LogOut size={14} />
                       Logout
@@ -68,7 +74,7 @@ const Footer = () => {
                 
                 {/* Admin Login - Only visible to non-admins */}
                 {!isLoading && !isAdmin && (
-                  <Link to="/admin/login" className="text-sm text-gray-600 hover:text-accent-green flex items-center gap-1">
+                  <Link to="/admin/login" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
                     <User size={14} />
                     Admin Login
                   </Link>
@@ -81,7 +87,7 @@ const Footer = () => {
                   href="https://www.tiktok.com/@fastnowapp" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-accent-green transition-colors"
+                  className="text-gray-600 hover:text-foreground transition-colors"
                   aria-label="Follow us on TikTok"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
