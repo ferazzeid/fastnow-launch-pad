@@ -246,6 +246,51 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Second Section - This Isn't for Fitness Models */}
+        <section className="relative z-10 min-h-screen flex items-center justify-end">
+          {/* Background Image */}
+          <div className="absolute inset-0 w-full h-full z-0">
+            <img 
+              src="/lovable-uploads/a8e0ce55-c025-4334-8015-d5d1387ec222.png" 
+              alt="Professional background" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/50"></div>
+          </div>
+          
+          <div className="container max-w-6xl mx-auto px-4 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Empty space on the left for visual balance */}
+              <div className="hidden lg:block"></div>
+              
+              {/* Content Section - Right aligned */}
+              <div className="text-left lg:text-left">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+                  This Isn't for Fitness Models
+                </h2>
+                
+                <div className="text-lg md:text-xl text-white/90 mb-6 space-y-4 drop-shadow-md max-w-2xl">
+                  <p>
+                    Most weight loss ads feature people in perfect shape, selling programs they "used" to get there. That's not this.
+                  </p>
+                  
+                  <p>
+                    This is for regular people who are tired of being overweight. Maybe you want to walk into a store and buy clothes off the rack. Maybe you're tired of airline seats feeling too small. Maybe a blood test woke you up. Or maybe you've simply noticed you blend into the crowd in a way you didn't before.
+                  </p>
+                  
+                  <p>
+                    You don't need a six-pack. You just need to turn the ship around.
+                  </p>
+                  
+                  <p>
+                    Over 90 days, this protocol gives you the momentum to move in a better direction—fast. After that, if you want to chase the perfect body, that's up to you. But if you want to get back to feeling good in your own skin, this is where you start.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
     </PageLayout>
   );
