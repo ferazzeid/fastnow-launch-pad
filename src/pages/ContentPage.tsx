@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
 import ContactForm from '@/components/ContactForm';
+import { pageContentService } from '@/services/PageContentService';
 
 const ContentPage = () => {
   const { pageType: urlPageType } = useParams<{ pageType: string }>();
@@ -25,38 +26,74 @@ const ContentPage = () => {
   const pageType = getPageTypeFromPath();
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Set the page title based on the page type
-    switch(pageType) {
-      case 'privacy':
-        setTitle('Privacy Policy');
-        break;
-      case 'terms':
-        setTitle('Terms of Service');
-        break;
-      case 'contact':
-        setTitle('Contact Us');
-        return; // Don't load content for contact page
-      default:
-        setTitle('fastnow.app');
-    }
+    const loadContent = async () => {
+      try {
+        // Set the page title based on the page type
+        switch(pageType) {
+          case 'privacy':
+            setTitle('Privacy Policy');
+            break;
+          case 'terms':
+            setTitle('Terms of Service');
+            break;
+          case 'contact':
+            setTitle('Contact Us');
+            setIsLoading(false);
+            return; // Don't load content for contact page
+          default:
+            setTitle('fastnow.app');
+        }
 
-    // Load the content from localStorage for non-contact pages
-    const savedContent = localStorage.getItem(`fastingApp_${pageType}Content`);
-    
-    if (savedContent) {
-      setContent(savedContent);
-    } else {
-      // Set default content based on page type
-      if (pageType === 'privacy') {
-        setContent(getDefaultPrivacyPolicy());
-      } else if (pageType === 'terms') {
-        setContent(getDefaultTermsOfService());
-      } else {
-        setContent('Content for this page has not been created yet.');
+        // Try to load content from database first
+        let loadedContent = '';
+        try {
+          const pageContent = await pageContentService.getPageContent(pageType || '');
+          if (pageContent?.content) {
+            loadedContent = pageContent.content;
+          }
+        } catch (error) {
+          console.error('Failed to load content from database:', error);
+        }
+
+        // Fallback to localStorage if database fails
+        if (!loadedContent) {
+          const savedContent = localStorage.getItem(`fastingApp_${pageType}Content`);
+          if (savedContent) {
+            loadedContent = savedContent;
+          }
+        }
+
+        // Final fallback to default content
+        if (!loadedContent) {
+          if (pageType === 'privacy') {
+            loadedContent = getDefaultPrivacyPolicy();
+          } else if (pageType === 'terms') {
+            loadedContent = getDefaultTermsOfService();
+          } else {
+            loadedContent = 'Content for this page has not been created yet.';
+          }
+        }
+
+        setContent(loadedContent);
+      } catch (error) {
+        console.error('Error loading content:', error);
+        // Set fallback content even on error
+        if (pageType === 'privacy') {
+          setContent(getDefaultPrivacyPolicy());
+        } else if (pageType === 'terms') {
+          setContent(getDefaultTermsOfService());
+        } else {
+          setContent('Content for this page has not been created yet.');
+        }
+      } finally {
+        setIsLoading(false);
       }
-    }
+    };
+
+    loadContent();
   }, [pageType]);
 
   const getDefaultPrivacyPolicy = () => {
@@ -179,7 +216,11 @@ Questions? Email us at: **fastnowapp@pm.me**
       
       <main className="flex-1 py-12">
         <div className="container max-w-4xl">
-          {pageType === 'contact' ? (
+          {isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="text-muted-foreground">Loading content...</div>
+            </div>
+          ) : pageType === 'contact' ? (
             <div className="space-y-8">
               <div className="text-center">
                 <h1 className="text-3xl font-bold mb-6">{title}</h1>

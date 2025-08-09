@@ -36,11 +36,22 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [navigationSettings, setNavigationSettings] = useState<NavigationSetting[]>([]);
 
-  // Load navigation settings from database
+  // Load navigation settings from database with error handling
   useEffect(() => {
     const loadNavigationSettings = async () => {
-      const settings = await NavigationSettingsService.getNavigationSettings();
-      setNavigationSettings(settings);
+      try {
+        const settings = await NavigationSettingsService.getNavigationSettings();
+        setNavigationSettings(settings);
+      } catch (error) {
+        console.error('Failed to load navigation settings:', error);
+        // Use fallback navigation if database fails
+        setNavigationSettings([
+          { id: '1', page_key: 'fast-now-protocol', is_visible: true, display_order: 1, created_at: '', updated_at: '' },
+          { id: '2', page_key: 'about-fastnow-app', is_visible: true, display_order: 2, created_at: '', updated_at: '' },
+          { id: '3', page_key: 'faq', is_visible: true, display_order: 3, created_at: '', updated_at: '' },
+          { id: '4', page_key: 'about-me', is_visible: true, display_order: 4, created_at: '', updated_at: '' }
+        ]);
+      }
     };
 
     loadNavigationSettings();

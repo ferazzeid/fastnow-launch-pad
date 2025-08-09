@@ -106,25 +106,17 @@ const AppRoutes = () => {
 };
 
 const App = () => {
-  // Load and apply design colors immediately before render
-  const [colorsLoaded, setColorsLoaded] = useState(false);
-
+  // Apply default colors immediately, then load database colors asynchronously
   useEffect(() => {
-    const loadColors = async () => {
-      await SiteSettingsService.loadAndApplyDesignColors();
-      setColorsLoaded(true);
-    };
-    loadColors();
+    // Apply defaults immediately to prevent blocking
+    SiteSettingsService.applyDesignColors({
+      primary: '#10B981',
+      secondary: '#6B7280'
+    });
+    
+    // Load database colors asynchronously without blocking render
+    SiteSettingsService.loadAndApplyDesignColors().catch(console.error);
   }, []);
-
-  // Don't render until colors are loaded to prevent flash
-  if (!colorsLoaded) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-gray-600">Loading...</div>
-      </div>
-    );
-  }
 
   return (
     <QueryClientProvider client={queryClient}>
