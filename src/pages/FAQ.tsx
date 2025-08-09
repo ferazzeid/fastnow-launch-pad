@@ -107,7 +107,7 @@ const FAQ = () => {
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Q&A
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-white/80">
               {pageContent.description}
             </p>
           </div>
@@ -134,7 +134,7 @@ const FAQ = () => {
                         <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm font-semibold text-primary">
                           {index + 1}
                         </div>
-                        <h3 className="text-lg font-semibold text-foreground pr-4">
+                        <h3 className="text-lg font-semibold text-white font-playfair pr-4">
                           {faq.question}
                         </h3>
                       </div>
@@ -146,10 +146,10 @@ const FAQ = () => {
                     </div>
                   </button>
                   {openItems.has(faq.id) && (
-                    <CardContent className="pt-0 pb-6">
-                      <div className="ml-11 prose prose-sm max-w-none text-muted-foreground">
+                    <CardContent className="pt-4 pb-6 border-t border-white/10">
+                      <div className="ml-11 prose prose-sm max-w-none text-white/80">
                         {faq.answer.split('\n').map((paragraph, index) => (
-                          <p key={index} className="mb-2 last:mb-0">
+                          <p key={index} className="mb-3 last:mb-0">
                             {paragraph}
                           </p>
                         ))}
@@ -158,6 +158,58 @@ const FAQ = () => {
                   )}
                 </Card>
               ))}
+
+              {/* Static FAQ: Install like an app */}
+              <Card className="overflow-hidden border-l-4 border-l-primary/30 bg-white/5 hover:bg-white/10 border-white/10 transition-colors">
+                <button
+                  onClick={() => toggleItem('install-app')}
+                  className="w-full p-6 text-left hover:bg-white/10 transition-colors"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm font-semibold text-primary">
+                        i
+                      </div>
+                      <h3 className="text-lg font-semibold text-white font-playfair pr-4">
+                        How do I install FastNow like an app on my phone?
+                      </h3>
+                    </div>
+                    {openItems.has('install-app') ? (
+                      <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
+                    )}
+                  </div>
+                </button>
+                {openItems.has('install-app') && (
+                  <CardContent className="pt-4 pb-6 border-t border-white/10">
+                    <div className="ml-11 max-w-none text-white/80 space-y-4">
+                      <p className="text-white/90 font-semibold">FastNow – Install the App on Your Phone</p>
+                      <p>Even though FastNow runs in your browser, you can add it to your home screen so it works like a real app — full screen, fast, and easy to open.</p>
+
+                      <h4 className="text-white/90 font-semibold mt-4">For Android Users</h4>
+                      <ol className="list-decimal list-inside space-y-2">
+                        <li><span className="font-medium">Step 1 – Open FastNow in Chrome:</span> Use Google Chrome (or Samsung Internet) on your phone. Go to fastnow.app (or your site URL).</li>
+                        <li><span className="font-medium">Step 2 – Add to Home Screen:</span> Tap the ⋮ menu (top right in Chrome). Select “Add to Home screen”. Confirm the name FastNow and tap Add.</li>
+                        <li><span className="font-medium">Step 3 – Put It in Your Main Navigation Bar (optional):</span> Press and hold the new FastNow icon. Drag it to your main dock/navigation bar so it’s always visible.</li>
+                      </ol>
+
+                      <h4 className="text-white/90 font-semibold mt-4">For iPhone & iPad Users</h4>
+                      <ol className="list-decimal list-inside space-y-2">
+                        <li><span className="font-medium">Step 1 – Open FastNow in Safari:</span> Use Safari (Apple’s browser). Go to fastnow.app (or your site URL).</li>
+                        <li><span className="font-medium">Step 2 – Add to Home Screen:</span> Tap the Share icon (square with arrow up). Scroll and tap “Add to Home Screen”. Confirm the name FastNow and tap Add.</li>
+                      </ol>
+
+                      <h4 className="text-white/90 font-semibold mt-4">Why Install?</h4>
+                      <ul className="list-disc list-inside space-y-1">
+                        <li>One-tap access — no need to type the address.</li>
+                        <li>Full screen — looks and feels like a native app.</li>
+                        <li>Faster startup — loads instantly from your phone.</li>
+                      </ul>
+                    </div>
+                  </CardContent>
+                )}
+              </Card>
             </div>
           )}
         </div>

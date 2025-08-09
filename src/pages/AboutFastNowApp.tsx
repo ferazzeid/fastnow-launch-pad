@@ -279,6 +279,42 @@ const AboutFastNowApp = () => {
           </div>
         </section>
 
+        {/* Install App instructions */}
+        <section className="py-16">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-6">FastNow – Install the App on Your Phone</h2>
+            <p className="text-center text-muted-foreground mb-10">Even though FastNow runs in your browser, you can add it to your home screen so it works like a real app — full screen, fast, and easy to open.</p>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-semibold mb-3">For Android Users</h3>
+                <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                  <li><span className="font-medium">Step 1 – Open FastNow in Chrome:</span> Use Google Chrome (or Samsung Internet) on your phone. Go to fastnow.app (or your site URL).</li>
+                  <li><span className="font-medium">Step 2 – Add to Home Screen:</span> Tap the ⋮ menu (top right in Chrome). Select “Add to Home screen”. Confirm the name FastNow and tap Add.</li>
+                  <li><span className="font-medium">Step 3 – Put It in Your Main Navigation Bar (optional):</span> Press and hold the new FastNow icon. Drag it to your main dock/navigation bar so it’s always visible.</li>
+                </ol>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold mb-3">For iPhone & iPad Users</h3>
+                <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                  <li><span className="font-medium">Step 1 – Open FastNow in Safari:</span> Use Safari (Apple’s browser). Go to fastnow.app (or your site URL).</li>
+                  <li><span className="font-medium">Step 2 – Add to Home Screen:</span> Tap the Share icon (square with arrow up). Scroll and tap “Add to Home Screen”. Confirm the name FastNow and tap Add.</li>
+                </ol>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-3">Why Install?</h3>
+              <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                <li>One-tap access — no need to type the address.</li>
+                <li>Full screen — looks and feels like a native app.</li>
+                <li>Faster startup — loads instantly from your phone.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         </div>
       </div>
     </PageLayout>
