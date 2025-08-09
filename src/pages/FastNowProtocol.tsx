@@ -202,20 +202,7 @@ const FastNowProtocol = () => {
       
       {/* Hero Background Image */}
       <div className="absolute inset-0 w-full h-screen z-0">
-        {pageContent.featuredImage ? (
-          <div className="relative w-full h-full">
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700" />
-            <img 
-              src={pageContent.featuredImage} 
-              alt="FastNow Protocol" 
-              className="absolute inset-0 w-full h-full object-cover opacity-0 animate-fade-in" 
-              loading="eager"
-              onLoad={(e) => e.currentTarget.classList.replace('opacity-0', 'opacity-100')}
-            />
-          </div>
-        ) : (
-          <PageFeaturedImage pageKey="fast-now-protocol" className="w-full h-full object-cover" showDarkBackground={true} />
-        )}
+        <PageFeaturedImage pageKey="fast-now-protocol" className="w-full h-full object-cover" showDarkBackground={true} />
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
       

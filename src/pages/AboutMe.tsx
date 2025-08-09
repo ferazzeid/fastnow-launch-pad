@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
+import PageFeaturedImage from '@/components/PageFeaturedImage';
 
 const AboutMe = () => {
   const title = "Close Not Scales";
@@ -24,7 +25,7 @@ My protocol isn't about reaching some arbitrary number on a scale. It's about ge
 
       {/* Hero Background Image */}
       <div className="absolute inset-0 w-full h-screen z-0">
-        <div className="w-full h-full bg-gradient-to-br from-slate-900 to-slate-700"></div>
+        <PageFeaturedImage pageKey="about-me" className="w-full h-full object-cover" showDarkBackground={true} />
         <div className="absolute inset-0 bg-black/20"></div>
       </div>
 
