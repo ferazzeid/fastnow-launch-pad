@@ -272,6 +272,77 @@ const FastNowProtocol = () => {
                       </div>
                     </div>
                     
+                    {/* Fasting Timeline */}
+                    <div className="bg-blue-50 dark:bg-blue-950/20 p-6 rounded-lg mb-6">
+                      <h3 className="text-lg font-semibold mb-4 text-center text-foreground">60-Hour Fast Timeline</h3>
+                      <div className="relative">
+                        {/* Timeline line */}
+                        <div className="absolute top-8 left-0 right-0 h-0.5 bg-blue-300"></div>
+                        
+                        {/* Timeline points */}
+                        <div className="flex justify-between items-start relative">
+                          {/* Start 8 PM - 0h */}
+                          <div className="flex flex-col items-center text-center">
+                            <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-sm z-10"></div>
+                            <div className="mt-2 text-2xl">🍽</div>
+                            <div className="mt-1 text-xs font-medium text-foreground">Start 8 PM</div>
+                            <div className="text-xs text-muted-foreground">0h</div>
+                          </div>
+                          
+                          {/* Night Zero - 12h */}
+                          <div className="flex flex-col items-center text-center">
+                            <div className="w-4 h-4 bg-blue-400 rounded-full border-2 border-white shadow-sm z-10"></div>
+                            <div className="mt-2 text-2xl">🌙</div>
+                            <div className="mt-1 text-xs font-medium text-foreground">Night Zero</div>
+                            <div className="text-xs text-muted-foreground">12h</div>
+                          </div>
+                          
+                          {/* Day 1 - 24h */}
+                          <div className="flex flex-col items-center text-center">
+                            <div className="w-4 h-4 bg-orange-400 rounded-full border-2 border-white shadow-sm z-10"></div>
+                            <div className="mt-2 text-2xl">☀️</div>
+                            <div className="mt-1 text-xs font-medium text-foreground">Day 1</div>
+                            <div className="text-xs text-muted-foreground">24h</div>
+                          </div>
+                          
+                          {/* Night One - 36h */}
+                          <div className="flex flex-col items-center text-center">
+                            <div className="w-4 h-4 bg-orange-500 rounded-full border-2 border-white shadow-sm z-10"></div>
+                            <div className="mt-2 text-2xl">🌙</div>
+                            <div className="mt-1 text-xs font-medium text-foreground">Night One</div>
+                            <div className="text-xs text-muted-foreground">36h</div>
+                          </div>
+                          
+                          {/* Day 2 - 48h */}
+                          <div className="flex flex-col items-center text-center">
+                            <div className="w-4 h-4 bg-red-400 rounded-full border-2 border-white shadow-sm z-10"></div>
+                            <div className="mt-2 text-2xl">☀️</div>
+                            <div className="mt-1 text-xs font-medium text-foreground">Day 2</div>
+                            <div className="text-xs text-muted-foreground">48h</div>
+                          </div>
+                          
+                          {/* Night Two - 60h */}
+                          <div className="flex flex-col items-center text-center">
+                            <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-sm z-10"></div>
+                            <div className="mt-2 text-2xl">🌙</div>
+                            <div className="mt-1 text-xs font-medium text-foreground">Night Two</div>
+                            <div className="text-xs text-muted-foreground">60h</div>
+                          </div>
+                          
+                          {/* Finish 8 AM - 60h */}
+                          <div className="flex flex-col items-center text-center">
+                            <div className="w-4 h-4 bg-green-500 rounded-full border-2 border-white shadow-sm z-10"></div>
+                            <div className="mt-2 text-2xl">🍽</div>
+                            <div className="mt-1 text-xs font-medium text-foreground">Finish 8 AM</div>
+                            <div className="text-xs text-muted-foreground">60h</div>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-center text-xs text-muted-foreground mt-4">
+                        Night Two is the critical turning point — push through and everything else becomes easier.
+                      </p>
+                    </div>
+                    
                     <div className="mb-6">
                       <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg mb-4">
                         <p className="text-lg text-foreground">
