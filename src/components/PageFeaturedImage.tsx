@@ -6,9 +6,14 @@ const imageCache: Record<string, string> = {};
 interface PageFeaturedImageProps {
   pageKey: string;
   className?: string;
+  showDarkBackground?: boolean;
 }
 
-const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, className = "w-full h-64 object-cover rounded-lg mb-8" }) => {
+const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ 
+  pageKey, 
+  className = "w-full h-64 object-cover rounded-lg mb-8",
+  showDarkBackground = true
+}) => {
   const [imageUrl, setImageUrl] = useState<string | null>(() => {
     // Initialize from memory cache or localStorage for instant paint
     if (imageCache[pageKey]) return imageCache[pageKey];
@@ -24,6 +29,10 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, classNam
     } catch {}
     return null;
   });
+  
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const loadFeaturedImage = async () => {
       try {
@@ -125,23 +134,52 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, classNam
           imageCache[pageKey] = pageImages[pageKey];
         }
       }
+      
+      setIsLoading(false);
     };
 
     loadFeaturedImage();
   }, [pageKey]);
 
-  if (!imageUrl) {
-    // Render a lightweight placeholder to avoid layout jumps and gray flashes
-    return <div className={className} aria-hidden="true" />;
-  }
+  // Handle image load
+  const handleImageLoad = () => {
+    setIsLoaded(true);
+    setIsLoading(false);
+  };
+
+  // Handle image error
+  const handleImageError = () => {
+    setIsLoading(false);
+  };
 
   return (
-    <img 
-      src={imageUrl} 
-      alt="Featured image"
-      className={className}
-      loading="eager"
-    />
+    <div className={`relative ${className}`}>
+      {/* Dark gradient background - always visible */}
+      {showDarkBackground && (
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700" />
+      )}
+      
+      {/* Image with fade-in animation */}
+      {imageUrl && (
+        <img 
+          src={imageUrl} 
+          alt="Featured image"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          loading="eager"
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+        />
+      )}
+      
+      {/* Loading animation overlay */}
+      {isLoading && showDarkBackground && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
+        </div>
+      )}
+    </div>
   );
 };
 

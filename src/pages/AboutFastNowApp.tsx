@@ -114,7 +114,7 @@ const AboutFastNowApp = () => {
 
       {/* Hero Background Image */}
       <div className="absolute inset-0 w-full h-screen z-0">
-        <PageFeaturedImage pageKey="about-fastnow-app" className="w-full h-full object-cover" />
+        <PageFeaturedImage pageKey="about-fastnow-app" className="w-full h-full object-cover" showDarkBackground={true} />
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
