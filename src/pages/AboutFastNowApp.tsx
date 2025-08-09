@@ -119,7 +119,7 @@ const AboutFastNowApp = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center justify-start">
+      <section className="relative z-10 min-h-screen flex items-center justify-start pt-28 md:pt-32">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left side - Content */}
