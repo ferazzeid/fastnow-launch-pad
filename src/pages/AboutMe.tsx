@@ -21,7 +21,8 @@ My protocol isn't about reaching some arbitrary number on a scale. It's about ge
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    loadContent();
+    // Don't load from database for now to avoid RLS issues - use defaults
+    // loadContent();
   }, []);
 
   const loadContent = async () => {
