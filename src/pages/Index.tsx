@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -257,7 +256,7 @@ const Index = () => {
               alt="Professional background" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/50"></div>
+            <div className="absolute inset-0 bg-black/60"></div>
           </div>
           
           <div className="container max-w-6xl mx-auto px-4 relative z-10">
@@ -267,7 +266,7 @@ const Index = () => {
               
               {/* Content Section - Right aligned */}
               <div className="text-left lg:text-left">
-                <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
+                <div className="bg-black/60 rounded-xl p-8 border border-white/10">
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
                     This Isn't for Fitness Models
                   </h2>
@@ -295,7 +294,7 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Third Section - Nothing New — And That’s the Point */}
+        {/* Third Section - Nothing New — And That's the Point */}
         <section className="relative z-10 min-h-screen flex items-center justify-start">
           <div className="absolute inset-0 w-full h-full z-0">
             <img
@@ -304,27 +303,29 @@ const Index = () => {
               loading="lazy"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/50"></div>
+            <div className="absolute inset-0 bg-black/60"></div>
           </div>
 
           <div className="container max-w-6xl mx-auto px-4 relative z-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Content - Left aligned */}
               <div className="text-left">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
-                  Nothing New — And That’s the Point
-                </h2>
+                <div className="bg-black/60 rounded-xl p-8 border border-white/10">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+                    Nothing New — And That's the Point
+                  </h2>
 
-                <div className="text-lg md:text-xl text-white/90 mb-6 space-y-4 drop-shadow-md max-w-2xl">
-                  <p>
-                    If you’ve tried losing weight before, you’ve already heard most of what’s in this program. That’s exactly the problem — there’s too much information.
-                  </p>
-                  <p>
-                    This is a stripped-down, 3-step path for a fixed period of time. It’s the sweet spot between doing just enough and getting the maximum benefit. Simple enough to fit into daily life, structured enough to keep you moving, and powerful enough to deliver results — if you follow through.
-                  </p>
-                  <p>
-                    There’s no magic here. Just logic, math, action, and reaction.
-                  </p>
+                  <div className="text-lg md:text-xl text-white/90 mb-6 space-y-4 drop-shadow-md max-w-2xl">
+                    <p>
+                      If you've tried losing weight before, you've already heard most of what's in this program. That's exactly the problem — there's too much information.
+                    </p>
+                    <p>
+                      This is a stripped-down, 3-step path for a fixed period of time. It's the sweet spot between doing just enough and getting the maximum benefit. Simple enough to fit into daily life, structured enough to keep you moving, and powerful enough to deliver results — if you follow through.
+                    </p>
+                    <p>
+                      There's no magic here. Just logic, math, action, and reaction.
+                    </p>
+                  </div>
                 </div>
                </div>
 

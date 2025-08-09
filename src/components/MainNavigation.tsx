@@ -69,15 +69,16 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
     if (isTransparent && !isMobile) {
       return cn(
         baseClasses,
-        "bg-transparent border-transparent",
+        "bg-transparent border-transparent !opacity-100 !text-white",
         isActive 
           ? "text-white bg-white/10 backdrop-blur-sm border-white/20" 
-          : "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm border-transparent hover:border-white/20"
+          : "text-white hover:text-white hover:bg-white/10 backdrop-blur-sm border-transparent hover:border-white/20"
       );
     }
     
     return cn(
       baseClasses,
+      "!opacity-100",
       isActive 
         ? "text-accent-green bg-accent-green/10" 
         : "text-foreground hover:text-accent-green hover:bg-accent-green/5"

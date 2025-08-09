@@ -218,7 +218,6 @@ const FastNowProtocol = () => {
                 {pageContent.subtitle}
               </p>
               <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
-                <h2 className="text-2xl md:text-3xl font-semibold">Quick Wins Create Momentum</h2>
                 <p>
                   Most programs tell you to do a little bit every day, wait a year or two, and call it "healthy and steady." The logic is fine — but if I don't see results quickly, I lose interest.
                 </p>
