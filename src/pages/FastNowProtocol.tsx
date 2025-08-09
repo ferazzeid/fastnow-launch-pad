@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Clock, Utensils, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
+import ProtocolPhasesIntro from '@/components/fasting/ProtocolPhasesIntro';
 import { supabase } from '@/integrations/supabase/client';
 
 const FastNowProtocol = () => {
@@ -231,6 +232,9 @@ const FastNowProtocol = () => {
           </div>
         </div>
       </section>
+
+      {/* Protocol Phases Introduction */}
+      <ProtocolPhasesIntro />
 
       {/* Content Section */}
       <div className="relative z-10 bg-background">
