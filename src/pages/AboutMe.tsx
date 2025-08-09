@@ -5,8 +5,8 @@ import PageFeaturedImage from '@/components/PageFeaturedImage';
 import { supabase } from '@/integrations/supabase/client';
 
 const AboutMe = () => {
-  const [title, setTitle] = useState('About Me');
-  const [subtitle, setSubtitle] = useState('The personal journey behind the Fast Now Protocol - years of struggle, discovery, and finally finding what works.');
+  const [title, setTitle] = useState("Close Not Scales");
+  const [subtitle, setSubtitle] = useState("My measure of progress is clothes, not numbers. Real-world results over daily weight fluctuations.");
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -113,8 +113,8 @@ const AboutMe = () => {
   return (
     <PageLayout>
       <Helmet>
-        <title>{title} - Personal Journey with Weight Loss and Fasting</title>
-        <meta name="description" content={subtitle} />
+        <title>Close Not Scales - My Weight Loss Journey | FastNow</title>
+        <meta name="description" content="My measure of progress is clothes, not numbers. Learn why I track real-world results over daily weight fluctuations and how it changed my approach to weight loss." />
       </Helmet>
 
       {/* Hero Background Image */}
@@ -134,7 +134,7 @@ const AboutMe = () => {
               {subtitle}
             </p>
             <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
-              <h2 className="text-2xl md:text-3xl font-semibold">Clothes, Not Scales</h2>
+              <h2 className="text-2xl md:text-3xl font-semibold">The Real Measurement</h2>
               <p>
                 I don't use a scale. I don't care about a number that changes for a hundred reasons. I care about real-world results.
               </p>
