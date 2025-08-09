@@ -12,8 +12,8 @@ import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureS
 const AboutFastNowApp = () => {
   const isMobile = useIsMobile();
   const [content, setContent] = useState({
-    heroTitle: 'About FastNow App',
-    heroDescription: 'Your ultimate companion for intermittent fasting, health tracking, and achieving your wellness goals.',
+    heroTitle: 'Why the App Matters',
+    heroDescription: '',
     featuresTitle: 'Discover FastNow Features'
   });
 
@@ -22,8 +22,8 @@ const AboutFastNowApp = () => {
   const features = [
     {
       key: 'fasting-timer',
-      title: 'Smart Fasting Timer',
-      subtitle: 'Track your fasting windows with precision and intelligence',
+      title: 'Fasting Timer',
+      subtitle: '',
       icon: <Clock className="w-8 h-8 text-primary" />,
       features: [
         'Multiple fasting protocols (16:8, 18:6, OMAD, and more)',
@@ -122,9 +122,6 @@ const AboutFastNowApp = () => {
               <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
                 {content.heroTitle}
               </h1>
-              <p className="text-xl text-white/90 mb-8 drop-shadow-md">
-                {content.heroDescription}
-              </p>
               <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
                 <h2 className="text-2xl md:text-3xl font-semibold">Why the App Matters</h2>
                 <p>
@@ -140,7 +137,7 @@ const AboutFastNowApp = () => {
             </div>
 
             {/* Right side - App mockup */}
-            <div className="flex justify-center lg:justify-end">
+            <div className="flex justify-center lg:justify-start lg:pl-8">
               <div className="w-64">
                 <FeatureScreenshotMockup
                   imageUrl={getScreenshotForFeature('fasting-timer')}
@@ -169,13 +166,17 @@ const AboutFastNowApp = () => {
                 {/* Content Side */}
                 <div className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                   <div className="text-center lg:text-left">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto lg:mx-0">
-                      {feature.icon}
+                    <div className="flex items-center gap-3 mb-4 justify-center lg:justify-start">
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                        {feature.icon}
+                      </div>
+                      <h3 className="text-3xl font-bold">{feature.title}</h3>
                     </div>
-                    <h3 className="text-3xl font-bold mb-2">{feature.title}</h3>
-                    <p className="text-lg text-muted-foreground mb-6">
-                      {feature.subtitle}
-                    </p>
+                    {feature.subtitle && (
+                      <p className="text-lg text-muted-foreground mb-6">
+                        {feature.subtitle}
+                      </p>
+                    )}
                   </div>
                   
                   <div>
