@@ -325,7 +325,6 @@ const Index = () => {
                   <p>
                     There’s no magic here. Just logic, math, action, and reaction.
                   </p>
-                  </div>
                 </div>
                </div>
 
