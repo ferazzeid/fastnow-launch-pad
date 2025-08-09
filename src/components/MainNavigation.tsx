@@ -80,7 +80,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
     if (isTransparent && !isMobile) {
       return cn(
         baseClasses,
-        "bg-transparent border-transparent !opacity-100 !text-white",
+        "bg-transparent border-transparent !opacity-100",
         isActive 
           ? "text-white bg-white/10 backdrop-blur-sm border-white/20" 
           : "text-white hover:text-white hover:bg-white/10 backdrop-blur-sm border-transparent hover:border-white/20"
@@ -91,8 +91,8 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
       baseClasses,
       "!opacity-100",
       isActive 
-        ? "text-accent-green bg-accent-green/10" 
-        : "text-foreground hover:text-accent-green hover:bg-accent-green/5"
+        ? "text-black bg-black/10" 
+        : "text-foreground hover:text-black hover:bg-black/5"
     );
   };
 
@@ -137,7 +137,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
         className={cn(
           isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : "inline-flex items-center justify-center gap-1 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2",
           isTransparent 
-            ? "text-black hover:text-black hover:bg-black/10 bg-transparent border border-black/20 hover:border-black/40" 
+            ? "text-white hover:text-white hover:bg-white/10 bg-transparent border border-white/20 hover:border-white/40" 
             : "text-black hover:text-black hover:bg-black/10 bg-transparent border border-black/20 hover:border-black/40"
         )}
       >
@@ -202,7 +202,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
             className={cn(
               "inline-flex items-center justify-center gap-1 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2",
               isTransparent 
-                ? "text-black hover:text-black hover:bg-black/10 bg-transparent border border-black/20 hover:border-black/40" 
+                ? "text-white hover:text-white hover:bg-white/10 bg-transparent border border-white/20 hover:border-white/40" 
                 : "text-black hover:text-black hover:bg-black/10 bg-transparent border border-black/20 hover:border-black/40"
             )}
           >
