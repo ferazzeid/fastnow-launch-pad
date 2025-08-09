@@ -10,7 +10,6 @@ const Header = () => {
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
   const [logoSize, setLogoSize] = React.useState<number>(32);
   const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
-  const [isScrolled, setIsScrolled] = React.useState(false);
   const [navigationSettings, setNavigationSettings] = React.useState<Record<string, boolean>>({});
 
   // Load logo, favicon and navigation settings from database (with localStorage fallback)
@@ -128,17 +127,6 @@ const Header = () => {
     loadFavicon();
   }, []);
 
-  // Handle scroll effect
-  React.useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   // Determine if current page should have transparent navigation
   const getCurrentPageTransparency = () => {
     const path = location.pathname;
@@ -153,14 +141,10 @@ const Header = () => {
     return false; // Default to non-transparent for other pages
   };
 
-  const shouldBeTransparent = getCurrentPageTransparency() && !isScrolled;
+  const shouldBeTransparent = getCurrentPageTransparency();
 
   return (
-    <header className={`fixed top-0 left-0 right-0 py-6 transition-all duration-300 z-50 ${
-      isScrolled || !getCurrentPageTransparency()
-        ? 'bg-background backdrop-blur-sm border-b border-border shadow-sm' 
-        : 'bg-transparent border-b border-transparent'
-    }`}>
+    <header className="absolute top-0 left-0 right-0 py-6 z-50 bg-transparent border-b border-transparent">
       <div className="container flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           {logoUrl && (
