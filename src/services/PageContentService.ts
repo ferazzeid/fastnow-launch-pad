@@ -262,3 +262,4 @@ class PageContentService {
 }
 
 export const pageContentService = new PageContentService();
+export { PageContentService };
