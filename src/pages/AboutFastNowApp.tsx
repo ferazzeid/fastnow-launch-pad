@@ -140,6 +140,16 @@ const AboutFastNowApp = () => {
                     The app removes those blind spots, keeps you accountable, and gives you the momentum to see the program through.
                   </p>
                 </div>
+                
+                {/* Launch App Button */}
+                <div className="mt-8 pt-6 border-t border-white/20">
+                  <button className="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2 backdrop-blur-sm border border-white/20">
+                    Launch App
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -227,12 +237,12 @@ const AboutFastNowApp = () => {
 
             <div className="grid md:grid-cols-2 gap-6">
               {/* Free Plan */}
-              <div className="bg-card rounded-xl shadow-soft border border-primary/10 p-6">
+              <div className="bg-card rounded-xl shadow-soft border border-primary/10 p-6 flex flex-col">
                 <div className="flex items-baseline justify-between mb-4">
                   <h3 className="text-2xl font-semibold">Free</h3>
                   <span className="text-lg text-muted-foreground">$0</span>
                 </div>
-                <ul className="space-y-3 text-muted-foreground mb-6">
+                <ul className="space-y-3 text-muted-foreground mb-6 flex-grow">
                   <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Fasting Timer</li>
                   <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Walking Tracker</li>
                   <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Motivators</li>
@@ -246,16 +256,14 @@ const AboutFastNowApp = () => {
               </div>
 
               {/* Premium Plan */}
-              <div className="bg-card rounded-xl shadow-soft border border-primary/20 p-6 relative">
-                <div className="absolute top-4 right-4 text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">Most popular</div>
+              <div className="bg-card rounded-xl shadow-soft border border-primary/20 p-6 flex flex-col">
                 <div className="flex items-baseline justify-between mb-4">
                   <h3 className="text-2xl font-semibold">Premium</h3>
                   <span className="text-lg text-foreground">$9/month</span>
                 </div>
-                <ul className="space-y-3 text-muted-foreground mb-6">
+                <ul className="space-y-3 text-muted-foreground mb-6 flex-grow">
                   <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Everything in Free</li>
                   <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Food Log unlocked after trial</li>
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Full protocol experience</li>
                 </ul>
                 <div className="text-center">
                   <Button asChild>
