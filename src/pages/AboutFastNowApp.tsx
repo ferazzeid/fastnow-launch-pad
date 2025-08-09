@@ -124,19 +124,21 @@ const AboutFastNowApp = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left side - Content */}
             <div className="text-left">
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
-                {content.heroTitle}
-              </h1>
-              <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
-                <p>
-                  You could track this program on paper and still succeed. But the app keeps you immersed in the process — which is critical.
-                </p>
-                <p>
-                  Immersion makes your brain assign higher priority to what you're doing. It keeps the program front and center, helps you focus, and reveals how easy it is to sabotage yourself without even realizing it.
-                </p>
-                <p>
-                  The app removes those blind spots, keeps you accountable, and gives you the momentum to see the program through.
-                </p>
+              <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
+                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
+                  {content.heroTitle}
+                </h1>
+                <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
+                  <p>
+                    You could track this program on paper and still succeed. But the app keeps you immersed in the process — which is critical.
+                  </p>
+                  <p>
+                    Immersion makes your brain assign higher priority to what you're doing. It keeps the program front and center, helps you focus, and reveals how easy it is to sabotage yourself without even realizing it.
+                  </p>
+                  <p>
+                    The app removes those blind spots, keeps you accountable, and gives you the momentum to see the program through.
+                  </p>
+                </div>
               </div>
             </div>
 

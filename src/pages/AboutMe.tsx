@@ -33,19 +33,21 @@ My protocol isn't about reaching some arbitrary number on a scale. It's about ge
       <section className="relative z-10 min-h-screen flex items-center justify-start pt-28 md:pt-32">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-left max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
-              {title}
-            </h1>
-            <p className="text-xl text-white/90 mb-8 drop-shadow-md">
-              {subtitle}
-            </p>
-            <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
-              <p>
-                I don't use a scale. I don't care about a number that changes for a hundred reasons. I care about real-world results.
+            <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
+              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
+                {title}
+              </h1>
+              <p className="text-xl text-white/90 mb-8 drop-shadow-md">
+                {subtitle}
               </p>
-              <p>
-                My measure of progress is clothes. Some are brand new with tags still on. Others I haven't fit into for years. I keep them on a rack, in order of which I want to wear next. No numbers. No "target weight." Just the moment I can walk outside in something I couldn't even close a few weeks ago.
-              </p>
+              <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
+                <p>
+                  I don't use a scale. I don't care about a number that changes for a hundred reasons. I care about real-world results.
+                </p>
+                <p>
+                  My measure of progress is clothes. Some are brand new with tags still on. Others I haven't fit into for years. I keep them on a rack, in order of which I want to wear next. No numbers. No "target weight." Just the moment I can walk outside in something I couldn't even close a few weeks ago.
+                </p>
+              </div>
             </div>
           </div>
         </div>

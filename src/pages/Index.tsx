@@ -217,17 +217,19 @@ const Index = () => {
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Content Section - Left aligned */}
               <div className="text-left">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
-                  {heroTitle}
-                </h1>
-                <div className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-6 drop-shadow-md">
-                  {heroSubtitle}
-                </div>
-                
-                <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg">
-                  <p className="drop-shadow-md">
-                    {heroDescription}
-                  </p>
+                <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+                    {heroTitle}
+                  </h1>
+                  <div className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-6 drop-shadow-md">
+                    {heroSubtitle}
+                  </div>
+                  
+                  <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg">
+                    <p className="drop-shadow-md">
+                      {heroDescription}
+                    </p>
+                  </div>
                 </div>
                 
                 <div className="flex justify-start">
@@ -265,26 +267,28 @@ const Index = () => {
               
               {/* Content Section - Right aligned */}
               <div className="text-left lg:text-left">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
-                  This Isn't for Fitness Models
-                </h2>
-                
-                <div className="text-lg md:text-xl text-white/90 mb-6 space-y-4 drop-shadow-md max-w-2xl">
-                  <p>
-                    Most weight loss ads feature people in perfect shape, selling programs they "used" to get there. That's not this.
-                  </p>
+                <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+                    This Isn't for Fitness Models
+                  </h2>
                   
-                  <p>
-                    This is for regular people who are tired of being overweight. Maybe you want to walk into a store and buy clothes off the rack. Maybe you're tired of airline seats feeling too small. Maybe a blood test woke you up. Or maybe you've simply noticed you blend into the crowd in a way you didn't before.
-                  </p>
-                  
-                  <p>
-                    You don't need a six-pack. You just need to turn the ship around.
-                  </p>
-                  
-                  <p>
-                    Over 90 days, this protocol gives you the momentum to move in a better direction—fast. After that, if you want to chase the perfect body, that's up to you. But if you want to get back to feeling good in your own skin, this is where you start.
-                  </p>
+                  <div className="text-lg md:text-xl text-white/90 mb-6 space-y-4 drop-shadow-md max-w-2xl">
+                    <p>
+                      Most weight loss ads feature people in perfect shape, selling programs they "used" to get there. That's not this.
+                    </p>
+                    
+                    <p>
+                      This is for regular people who are tired of being overweight. Maybe you want to walk into a store and buy clothes off the rack. Maybe you're tired of airline seats feeling too small. Maybe a blood test woke you up. Or maybe you've simply noticed you blend into the crowd in a way you didn't before.
+                    </p>
+                    
+                    <p>
+                      You don't need a six-pack. You just need to turn the ship around.
+                    </p>
+                    
+                    <p>
+                      Over 90 days, this protocol gives you the momentum to move in a better direction—fast. After that, if you want to chase the perfect body, that's up to you. But if you want to get back to feeling good in your own skin, this is where you start.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
