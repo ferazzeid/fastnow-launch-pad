@@ -202,7 +202,7 @@ const FastNowProtocol = () => {
       {/* Hero Background Image */}
       <div className="absolute inset-0 w-full h-screen z-0">
         {pageContent.featuredImage ? (
-          <img src={pageContent.featuredImage} alt="FastNow Protocol" className="w-full h-full object-cover" />
+          <img src={pageContent.featuredImage} alt="FastNow Protocol" className="w-full h-full object-cover" loading="eager" />
         ) : (
           <PageFeaturedImage pageKey="fast-now-protocol" className="w-full h-full object-cover" />
         )}
@@ -219,6 +219,15 @@ const FastNowProtocol = () => {
             <p className="text-xl text-white/90 mb-8 drop-shadow-md">
               {pageContent.subtitle}
             </p>
+            <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
+              <h2 className="text-2xl md:text-3xl font-semibold">Quick Wins Create Momentum</h2>
+              <p>
+                Most programs tell you to do a little bit every day, wait a year or two, and call it "healthy and steady." The logic is fine — but if I don't see results quickly, I lose interest.
+              </p>
+              <p>
+                I'd rather put in serious energy at the start, get solid results in the first 2–12 weeks, and build momentum I can ride. Once that momentum is there, I can ease into something sustainable. But without an early push, everyday life takes over — and the goal slips away.
+              </p>
+            </div>
           </div>
         </div>
       </section>

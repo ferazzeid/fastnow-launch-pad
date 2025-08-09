@@ -137,6 +137,18 @@ const AboutFastNowApp = () => {
             <p className="text-xl text-white/90 mb-8 drop-shadow-md">
               {content.heroDescription}
             </p>
+            <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
+              <h2 className="text-2xl md:text-3xl font-semibold">Why the App Matters</h2>
+              <p>
+                You could track this program on paper and still succeed. But the app keeps you immersed in the process — which is critical.
+              </p>
+              <p>
+                Immersion makes your brain assign higher priority to what you're doing. It keeps the program front and center, helps you focus, and reveals how easy it is to sabotage yourself without even realizing it.
+              </p>
+              <p>
+                The app removes those blind spots, keeps you accountable, and gives you the momentum to see the program through.
+              </p>
+            </div>
           </div>
         </div>
       </section>

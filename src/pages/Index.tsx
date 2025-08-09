@@ -330,44 +330,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Fourth Section - Why the App Matters */}
-        <section className="relative z-10 min-h-screen flex items-center justify-end">
-          <div className="absolute inset-0 w-full h-full z-0">
-            <img
-              src="/lovable-uploads/b4df45af-d160-4670-8eed-51b69e4bedcd.png"
-              alt="Focused productivity app background"
-              loading="lazy"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/50"></div>
-          </div>
-
-          <div className="container max-w-6xl mx-auto px-4 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Spacer on the left for visual balance */}
-              <div className="hidden lg:block"></div>
-
-              {/* Content - Right aligned */}
-              <div className="text-left lg:text-left">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
-                  Why the App Matters
-                </h2>
-
-                <div className="text-lg md:text-xl text-white/90 mb-6 space-y-4 drop-shadow-md max-w-2xl">
-                  <p>
-                    You could track this program on paper and still succeed. But the app keeps you immersed in the process — which is critical.
-                  </p>
-                  <p>
-                    Immersion makes your brain assign higher priority to what you’re doing. It keeps the program front and center, helps you focus, and reveals how easy it is to sabotage yourself without even realizing it.
-                  </p>
-                  <p>
-                    The app removes those blind spots, keeps you accountable, and gives you the momentum to see the program through.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
       </main>
     </PageLayout>

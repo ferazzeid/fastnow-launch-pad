@@ -90,7 +90,8 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, classNam
   }, [pageKey]);
 
   if (!imageUrl) {
-    return null;
+    // Render a lightweight placeholder to avoid layout jumps and gray flashes
+    return <div className={className} aria-hidden="true" />;
   }
 
   return (
@@ -98,6 +99,7 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, classNam
       src={imageUrl} 
       alt="Featured image"
       className={className}
+      loading="eager"
     />
   );
 };
