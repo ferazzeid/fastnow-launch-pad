@@ -291,6 +291,84 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Third Section - Nothing New — And That’s the Point */}
+        <section className="relative z-10 min-h-screen flex items-center justify-start">
+          <div className="absolute inset-0 w-full h-full z-0">
+            <img
+              src="/lovable-uploads/87fe5607-71f6-4021-a8d3-5bfd5f42b6ad.png"
+              alt="Structured, minimal approach background"
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/50"></div>
+          </div>
+
+          <div className="container max-w-6xl mx-auto px-4 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Content - Left aligned */}
+              <div className="text-left">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+                  Nothing New — And That’s the Point
+                </h2>
+
+                <div className="text-lg md:text-xl text-white/90 mb-6 space-y-4 drop-shadow-md max-w-2xl">
+                  <p>
+                    If you’ve tried losing weight before, you’ve already heard most of what’s in this program. That’s exactly the problem — there’s too much information.
+                  </p>
+                  <p>
+                    This is a stripped-down, 3-step path for a fixed period of time. It’s the sweet spot between doing just enough and getting the maximum benefit. Simple enough to fit into daily life, structured enough to keep you moving, and powerful enough to deliver results — if you follow through.
+                  </p>
+                  <p>
+                    There’s no magic here. Just logic, math, action, and reaction.
+                  </p>
+                </div>
+              </div>
+
+              {/* Spacer on right for balance */}
+              <div className="hidden lg:block"></div>
+            </div>
+          </div>
+        </section>
+
+        {/* Fourth Section - Why the App Matters */}
+        <section className="relative z-10 min-h-screen flex items-center justify-end">
+          <div className="absolute inset-0 w-full h-full z-0">
+            <img
+              src="/lovable-uploads/b4df45af-d160-4670-8eed-51b69e4bedcd.png"
+              alt="Focused productivity app background"
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/50"></div>
+          </div>
+
+          <div className="container max-w-6xl mx-auto px-4 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Spacer on the left for visual balance */}
+              <div className="hidden lg:block"></div>
+
+              {/* Content - Right aligned */}
+              <div className="text-left lg:text-left">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+                  Why the App Matters
+                </h2>
+
+                <div className="text-lg md:text-xl text-white/90 mb-6 space-y-4 drop-shadow-md max-w-2xl">
+                  <p>
+                    You could track this program on paper and still succeed. But the app keeps you immersed in the process — which is critical.
+                  </p>
+                  <p>
+                    Immersion makes your brain assign higher priority to what you’re doing. It keeps the program front and center, helps you focus, and reveals how easy it is to sabotage yourself without even realizing it.
+                  </p>
+                  <p>
+                    The app removes those blind spots, keeps you accountable, and gives you the momentum to see the program through.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
     </PageLayout>
   );
