@@ -84,6 +84,30 @@ const AdminNavigationSettings = () => {
     }
   };
 
+  const handleCustomUrlChange = async (pageKey: string, customUrl: string) => {
+    setSaving(true);
+    try {
+      const success = await NavigationSettingsService.updateCustomUrl(pageKey, customUrl);
+      if (success) {
+        setNavigationSettings(prev => 
+          prev.map(setting => 
+            setting.page_key === pageKey 
+              ? { ...setting, custom_url: customUrl }
+              : setting
+          )
+        );
+        toast.success('Custom URL updated');
+      } else {
+        toast.error('Failed to update custom URL');
+      }
+    } catch (error) {
+      console.error('Error updating custom URL:', error);
+      toast.error('Failed to update custom URL');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const getPageTitle = (pageKey: string) => {
     const titles = {
       'fast-now-protocol': 'The Protocol',
@@ -135,45 +159,65 @@ const AdminNavigationSettings = () => {
               {loading ? (
                 <div className="text-center py-8">Loading navigation settings...</div>
               ) : (
-                <div className="space-y-6">
-                  {navigationSettings.map((setting) => (
-                    <div key={setting.page_key} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2">
-                          <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
-                          <Input
-                            type="number"
-                            value={setting.display_order}
-                            onChange={(e) => handleDisplayOrderChange(setting.page_key, parseInt(e.target.value) || 0)}
-                            className="w-20"
-                            min="0"
-                            disabled={saving}
-                          />
+                    <div className="space-y-6">
+                      {navigationSettings.map((setting) => (
+                        <div key={setting.page_key} className="p-6 border rounded-lg space-y-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <div className="flex items-center gap-2">
+                                <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
+                                <Input
+                                  type="number"
+                                  value={setting.display_order}
+                                  onChange={(e) => handleDisplayOrderChange(setting.page_key, parseInt(e.target.value) || 0)}
+                                  className="w-20"
+                                  min="0"
+                                  disabled={saving}
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor={`${setting.page_key}-switch`} className="font-medium">
+                                  {getPageTitle(setting.page_key)}
+                                </Label>
+                                <p className="text-sm text-muted-foreground">
+                                  Default path: /{setting.page_key.replace('-', '-')}
+                                </p>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-2">
+                              <Label htmlFor={`${setting.page_key}-switch`} className="text-sm">
+                                {setting.is_visible ? 'Visible' : 'Hidden'}
+                              </Label>
+                              <Switch
+                                id={`${setting.page_key}-switch`}
+                                checked={setting.is_visible}
+                                onCheckedChange={(checked) => handleVisibilityChange(setting.page_key, checked)}
+                                disabled={saving}
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <Label htmlFor={`${setting.page_key}-url`} className="text-sm font-medium">
+                              Custom URL (optional)
+                            </Label>
+                            <Input
+                              id={`${setting.page_key}-url`}
+                              type="text"
+                              value={setting.custom_url || ''}
+                              onChange={(e) => handleCustomUrlChange(setting.page_key, e.target.value)}
+                              placeholder="/custom-page-url"
+                              className="mt-1"
+                              disabled={saving}
+                            />
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Leave empty to use default path. Include the leading slash.
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <Label htmlFor={`${setting.page_key}-switch`} className="font-medium">
-                            {getPageTitle(setting.page_key)}
-                          </Label>
-                          <p className="text-sm text-muted-foreground">
-                            Path: /{setting.page_key.replace('-', '-')}
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <Label htmlFor={`${setting.page_key}-switch`} className="text-sm">
-                          {setting.is_visible ? 'Visible' : 'Hidden'}
-                        </Label>
-                        <Switch
-                          id={`${setting.page_key}-switch`}
-                          checked={setting.is_visible}
-                          onCheckedChange={(checked) => handleVisibilityChange(setting.page_key, checked)}
-                          disabled={saving}
-                        />
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
               )}
             </CardContent>
           </Card>

@@ -84,14 +84,20 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
     );
   };
 
-  const getPageInfo = (pageKey: string) => {
+  const getPageInfo = (pageKey: string, customUrl?: string) => {
     const pages = {
       'fast-now-protocol': { path: '/fast-now-protocol', title: 'The Protocol' },
       'about-fastnow-app': { path: '/about-fastnow-app', title: 'About App' },
       'faq': { path: '/faq', title: 'FAQ' },
       'about-me': { path: '/about-me', title: 'Me' }
     };
-    return pages[pageKey as keyof typeof pages];
+    const defaultPage = pages[pageKey as keyof typeof pages];
+    if (!defaultPage) return null;
+    
+    return {
+      ...defaultPage,
+      path: customUrl || defaultPage.path
+    };
   };
 
   const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => (
@@ -99,7 +105,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
       {navigationSettings
         .filter(setting => setting.is_visible)
         .map((setting) => {
-          const pageInfo = getPageInfo(setting.page_key);
+          const pageInfo = getPageInfo(setting.page_key, setting.custom_url);
           if (!pageInfo) return null;
 
           return (
@@ -158,7 +164,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
         {navigationSettings
           .filter(setting => setting.is_visible)
           .map((setting) => {
-            const pageInfo = getPageInfo(setting.page_key);
+            const pageInfo = getPageInfo(setting.page_key, setting.custom_url);
             if (!pageInfo) return null;
 
             return (

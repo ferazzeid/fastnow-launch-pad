@@ -5,6 +5,7 @@ export interface NavigationSetting {
   page_key: string;
   is_visible: boolean;
   display_order: number;
+  custom_url?: string;
   created_at: string;
   updated_at: string;
 }
@@ -63,6 +64,25 @@ export class NavigationSettingsService {
       return true;
     } catch (error) {
       console.error('Error in updateDisplayOrder:', error);
+      return false;
+    }
+  }
+
+  static async updateCustomUrl(pageKey: string, customUrl: string): Promise<boolean> {
+    try {
+      const { error } = await supabase
+        .from('navigation_settings')
+        .update({ custom_url: customUrl })
+        .eq('page_key', pageKey);
+
+      if (error) {
+        console.error('Error updating custom URL:', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error in updateCustomUrl:', error);
       return false;
     }
   }

@@ -230,25 +230,15 @@ const Index = () => {
                       {heroDescription}
                     </p>
                   </div>
-                </div>
-                
-                <div className="flex justify-start">
-                  <Button asChild size="lg" className="text-lg px-8 py-4 bg-accent-green hover:bg-accent-green-dark text-white font-semibold shadow-lg">
-                    <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                      {ctaText}
-                      <ArrowRight size={18} />
-                    </a>
-                  </Button>
-                </div>
-                
-                {/* Launch App Button */}
-                <div className="mt-6 pt-6 border-t border-white/20">
-                  <button className="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2 backdrop-blur-sm border border-white/20">
-                    Launch App
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </button>
+                  
+                  <div className="mt-8">
+                    <button className="bg-black hover:bg-black/80 text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2 ml-8">
+                      Launch App
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
               

@@ -895,6 +895,7 @@ export type Database = {
       navigation_settings: {
         Row: {
           created_at: string
+          custom_url: string | null
           display_order: number
           id: string
           is_visible: boolean
@@ -903,6 +904,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          custom_url?: string | null
           display_order?: number
           id?: string
           is_visible?: boolean
@@ -911,6 +913,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          custom_url?: string | null
           display_order?: number
           id?: string
           is_visible?: boolean
