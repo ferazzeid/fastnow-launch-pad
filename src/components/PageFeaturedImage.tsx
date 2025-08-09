@@ -1,13 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
+// Simple in-memory cache to avoid refetch/flicker between navigations
+const imageCache: Record<string, string> = {};
+
 interface PageFeaturedImageProps {
   pageKey: string;
   className?: string;
 }
 
 const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, className = "w-full h-64 object-cover rounded-lg mb-8" }) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-
+  const [imageUrl, setImageUrl] = useState<string | null>(() => {
+    // Initialize from memory cache or localStorage for instant paint
+    if (imageCache[pageKey]) return imageCache[pageKey];
+    try {
+      const savedImages = localStorage.getItem('fastingApp_pageImages');
+      if (savedImages) {
+        const pageImages = JSON.parse(savedImages);
+        if (pageImages && pageImages[pageKey]) {
+          imageCache[pageKey] = pageImages[pageKey];
+          return pageImages[pageKey] as string;
+        }
+      }
+    } catch {}
+    return null;
+  });
   useEffect(() => {
     const loadFeaturedImage = async () => {
       try {
@@ -35,7 +51,15 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, classNam
           if (!error && data?.setting_value) {
             const content = data.setting_value;
             if (content && typeof content === 'object' && 'featuredImage' in content && content.featuredImage) {
-              setImageUrl(content.featuredImage as string);
+              const url = content.featuredImage as string;
+              setImageUrl(url);
+              imageCache[pageKey] = url;
+              try {
+                const saved = localStorage.getItem('fastingApp_pageImages');
+                const map = saved ? JSON.parse(saved) : {};
+                map[pageKey] = url;
+                localStorage.setItem('fastingApp_pageImages', JSON.stringify(map));
+              } catch {}
               return;
             }
           }
@@ -55,7 +79,15 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, classNam
               ? JSON.parse(data.setting_value || '""') 
               : String(data.setting_value || '');
             if (imageUrl) {
-              setImageUrl(imageUrl);
+              const url = imageUrl as string;
+              setImageUrl(url);
+              imageCache[pageKey] = url;
+              try {
+                const saved = localStorage.getItem('fastingApp_pageImages');
+                const map = saved ? JSON.parse(saved) : {};
+                map[pageKey] = url;
+                localStorage.setItem('fastingApp_pageImages', JSON.stringify(map));
+              } catch {}
               return;
             }
           }
@@ -69,7 +101,15 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, classNam
           .single();
 
         if (!pageError && pageData?.featured_image_url) {
-          setImageUrl(pageData.featured_image_url);
+          const url = pageData.featured_image_url as string;
+          setImageUrl(url);
+          imageCache[pageKey] = url;
+          try {
+            const saved = localStorage.getItem('fastingApp_pageImages');
+            const map = saved ? JSON.parse(saved) : {};
+            map[pageKey] = url;
+            localStorage.setItem('fastingApp_pageImages', JSON.stringify(map));
+          } catch {}
           return;
         }
       } catch (error) {
@@ -82,6 +122,7 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ pageKey, classNam
         const pageImages = JSON.parse(savedImages);
         if (pageImages[pageKey]) {
           setImageUrl(pageImages[pageKey]);
+          imageCache[pageKey] = pageImages[pageKey];
         }
       }
     };

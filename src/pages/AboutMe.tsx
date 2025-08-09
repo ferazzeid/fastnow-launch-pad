@@ -133,6 +133,15 @@ const AboutMe = () => {
             <p className="text-xl text-white/90 mb-8 drop-shadow-md">
               {subtitle}
             </p>
+            <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
+              <h2 className="text-2xl md:text-3xl font-semibold">Clothes, Not Scales</h2>
+              <p>
+                I don't use a scale. I don't care about a number that changes for a hundred reasons. I care about real-world results.
+              </p>
+              <p>
+                My measure of progress is clothes. Some are brand new with tags still on. Others I haven't fit into for years. I keep them on a rack, in order of which I want to wear next. No numbers. No "target weight." Just the moment I can walk outside in something I couldn't even close a few weeks ago.
+              </p>
+            </div>
           </div>
         </div>
       </section>
