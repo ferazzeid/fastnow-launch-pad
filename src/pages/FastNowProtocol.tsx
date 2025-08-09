@@ -226,6 +226,16 @@ const FastNowProtocol = () => {
                   I'd rather put in serious energy at the start, get solid results in the first 2–12 weeks, and build momentum I can ride. Once that momentum is there, I can ease into something sustainable. But without an early push, everyday life takes over — and the goal slips away.
                 </p>
               </div>
+              
+              {/* Launch App Button */}
+              <div className="mt-8 pt-6 border-t border-white/20">
+                <button className="bg-accent-green hover:bg-accent-green-dark text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2">
+                  Launch App
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -411,10 +421,21 @@ const FastNowProtocol = () => {
                         <p className="text-muted-foreground">
                           {phaseContent.phase2.recovery}
                         </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                       </div>
+                     </div>
+                     
+                     {/* My Tip Section for Phase 2 */}
+                     <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-6">
+                       <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
+                         <CheckCircle className="w-5 h-5 text-yellow-600" />
+                         My Tip:
+                       </h3>
+                       <p className="text-muted-foreground leading-relaxed">
+                         Define a set of foods that are allowed and that you have access to and these are not gonna be many. And then eat the same thing every day. You would be hungry enough to eat the same thing every day and you will like it and it will make your shopping easier and you will not have to constantly renegotiate what you have to buy. Life will become extremely simple for those 30 to 90 days. Over time you can start to add to that list from the remaining few items that you are allowed to eat and find new combinations and rotations.
+                       </p>
+                     </div>
+                   </div>
+                 </div>
 
                 {/* Phase 3: Daily Walking */}
                 <div className="mb-12">
@@ -449,13 +470,24 @@ const FastNowProtocol = () => {
                           <Activity className="w-5 h-5 text-orange-500" />
                           How to fit it in:
                         </h3>
-                        <p className="text-muted-foreground">
-                          {phaseContent.phase3.howToFit}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                         <p className="text-muted-foreground">
+                           {phaseContent.phase3.howToFit}
+                         </p>
+                       </div>
+                       
+                       {/* My Tip Section for Phase 3 */}
+                       <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-6">
+                         <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
+                           <CheckCircle className="w-5 h-5 text-yellow-600" />
+                           My Tip:
+                         </h3>
+                         <p className="text-muted-foreground leading-relaxed">
+                           While some people prefer to split the walking in multiple sessions or have walking naturally being part of their daily life already, I prefer to walk for 90 minutes straight at dawn on a daily basis. The only exceptions for me are extreme heat, allergens, or sickness. I also like to travel to cities where I combine the city trip with walking. These are days where I can walk for 5 to 6 hours straight which make huge deficit possible and really nicely for some serious weight loss.
+                         </p>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
               </>
             )}
           </div>
