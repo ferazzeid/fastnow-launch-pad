@@ -100,11 +100,11 @@ const FAQ = () => {
         </script>
       </Helmet>
 
-      <div className="container max-w-4xl mx-auto pt-32 py-12">
+      <div className="bg-black text-white min-h-screen"><div className="container max-w-4xl mx-auto pt-32 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Q&A
             </h1>
             <p className="text-xl text-muted-foreground">
@@ -124,10 +124,10 @@ const FAQ = () => {
           ) : (
             <div className="space-y-4">
               {faqs.map((faq, index) => (
-                <Card key={faq.id} className="overflow-hidden border-l-4 border-l-primary/20 hover:border-l-primary/40 transition-colors">
+                <Card key={faq.id} className="overflow-hidden border-l-4 border-l-primary/30 bg-white/5 hover:bg-white/10 border-white/10 transition-colors">
                   <button
                     onClick={() => toggleItem(faq.id)}
-                    className="w-full p-6 text-left hover:bg-muted/30 transition-colors"
+                    className="w-full p-6 text-left hover:bg-white/10 transition-colors"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -161,7 +161,7 @@ const FAQ = () => {
             </div>
           )}
         </div>
-      </div>
+        </div></div>
     </PageLayout>
   );
 };

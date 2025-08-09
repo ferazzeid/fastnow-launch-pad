@@ -218,7 +218,7 @@ const Index = () => {
               {/* Content Section - Left aligned */}
               <div className="text-left">
                 <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
-                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+                  <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
                     {heroTitle}
                   </h1>
                   <div className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-6 drop-shadow-md">
@@ -231,11 +231,11 @@ const Index = () => {
                     </p>
                   </div>
                   
-                  <div className="mt-8">
-                    <button className="bg-black hover:bg-black/80 text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2 ml-8">
+                  <div className="mt-8 pt-6 border-t border-white/20">
+                    <button className="bg-accent-green hover:bg-accent-green-dark text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2">
                       Launch App
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </button>
                   </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Clock, Utensils, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Clock, Utensils, Activity, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
 import ProtocolPhasesIntro from '@/components/fasting/ProtocolPhasesIntro';
@@ -207,7 +207,7 @@ const FastNowProtocol = () => {
       </div>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center justify-start">
+      <section className="relative z-10 min-h-[85vh] flex items-start pt-16 md:pt-24 justify-start">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-left max-w-3xl">
             <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">

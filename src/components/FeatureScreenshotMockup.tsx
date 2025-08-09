@@ -9,7 +9,6 @@ export const FeatureScreenshotMockup: React.FC<FeatureScreenshotMockupProps> = (
   imageUrl, 
   altText 
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   return (
     <div className="relative">

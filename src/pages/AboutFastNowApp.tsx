@@ -109,7 +109,7 @@ const AboutFastNowApp = () => {
   return (
     <PageLayout>
       <Helmet>
-        <title>About FastNow App | fastnow.app</title>
+        <title>About App | fastnow.app</title>
         <meta name="description" content="Learn about the FastNow app - your ultimate companion for intermittent fasting, health tracking, and wellness goals." />
       </Helmet>
 
@@ -120,7 +120,7 @@ const AboutFastNowApp = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[85vh] flex items-center justify-start pt-28 md:pt-32">
+      <section className="relative z-10 min-h-[85vh] flex items-start justify-start pt-6 md:pt-10">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left side - Content */}
@@ -142,8 +142,8 @@ const AboutFastNowApp = () => {
                 </div>
                 
                 {/* Launch App Button */}
-                <div className="mt-8 pt-6 border-t border-white/20">
-                  <button className="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2 backdrop-blur-sm border border-white/20">
+                <div className="mt-8 pt-6 border-t border-white/20"> 
+                  <button className="bg-accent-green hover:bg-accent-green-dark text-white px-8 py-3 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2">
                     Launch App
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -154,8 +154,8 @@ const AboutFastNowApp = () => {
             </div>
 
             {/* Right side - App mockup */}
-            <div className="flex justify-center lg:justify-start lg:pl-8">
-              <div className="w-64">
+            <div className="flex justify-center lg:justify-end lg:pl-16 lg:self-start lg:mt-4">
+              <div className="w-72">
                 <FeatureScreenshotMockup
                   imageUrl={getScreenshotForFeature('fasting-timer')}
                   altText="FastNow App Screenshot"
