@@ -15,7 +15,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className={`flex-1 relative ${!isHomePage ? 'pt-20 md:pt-24' : ''}`}>
+      <main className={`flex-1 relative ${!isHomePage ? 'pt-24 md:pt-28' : ''}`}>
         {children}
       </main>
       <Footer />
