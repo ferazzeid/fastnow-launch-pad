@@ -97,114 +97,160 @@ const ContentPage = () => {
   }, [pageType]);
 
   const getDefaultPrivacyPolicy = () => {
-    return `**Last updated:** August 3, 2025
+    return `**Last updated:** August 9, 2025
 
 ## 1. Introduction
-This Privacy Policy explains how Fast Now collects, uses, and protects your information.
+This Privacy Policy explains how Socially Famous Applications ("we", "us", or "our") collects, uses, and protects your information when you use the Fast Now application ("the Service").
+
+**Data Controller:**  
+Socially Famous Applications (independent developer)  
+**Contact:** sociallyfamous@gmail.com
+
+By using the Service, you agree to this Policy.
 
 ## 2. What We Collect
-- Account Information (e.g., email, login details)
-- Health and activity data (if manually entered)
-- AI interaction logs (if applicable)
-- Technical information (device type, browser, etc.)
+We may collect:
+- **Account Information:** email address, login credentials.
+- **Profile Data:** weight, height, age, health goals.
+- **Usage & Analytics Data:** app activity, features used, session duration.
+- **Device Information:** device type, operating system, app version, IP address.
+- **Purchase Information:** subscription status, billing history (handled by Google Play Billing or Apple App Store).
+- **AI Interaction Data:** voice or text logs, generated images (if you use AI features).
+- **Support Communications:** messages sent to our support team.
 
-## 3. How We Use Your Data
-- To operate and improve the Service
-- To personalize user experience
-- To provide AI-powered suggestions (if enabled)
-- To comply with legal obligations
+## 3. How We Collect Data
+- **Directly from you:** when you create an account, update your profile, make purchases, or contact us.
+- **Automatically:** via your device, cookies, or similar technologies.
+- **From third-party services:** including Supabase (data hosting), Google Play Billing (Android), Apple (iOS), Stripe (web), analytics providers, and OpenAI (if AI features are used).
 
-## 4. Data Storage and Security
-- Health data is stored locally on your device when possible.
-- Data stored on servers is encrypted.
-- We implement safeguards to prevent unauthorized access.
+## 4. Why We Collect Data
+- To provide and operate the Service.
+- To personalize your experience.
+- To manage subscriptions and payments.
+- To provide customer support.
+- To comply with legal obligations.
+- For analytics to improve the Service.
 
-## 5. Sharing of Information
-We do not sell your personal data. We may share limited information with trusted service providers (e.g., AI or analytics providers) strictly to operate the Service.
+## 5. Legal Bases for Processing (GDPR)
+We process your personal data under the following bases:
+- **Consent:** for optional features like AI.
+- **Contract:** to provide the Service you requested.
+- **Legitimate Interests:** to improve and secure the Service.
 
-## 6. Your Rights
-- You can request access to or deletion of your personal data.
-- You may withdraw consent for AI-based features at any time.
-- You may delete your account at any time.
+## 6. Data Sharing and Processors
+We do not sell personal data. We share limited data with trusted processors solely to operate the Service:
+- **Supabase** – data hosting (https://supabase.com/privacy)
+- **Google Play Billing** – Android purchases (https://play.google.com/about/play-terms)
+- **Apple App Store** – iOS purchases (https://www.apple.com/legal/privacy/)
+- **Stripe** – web payments (https://stripe.com/privacy)
+- **OpenAI** – AI features (https://openai.com/policies/privacy-policy)
+- **Analytics provider** (if used)
 
-## 7. Children's Privacy
-Fast Now is not intended for children under 13. We do not knowingly collect personal data from children.
+## 7. Retention Policy
+We keep your data for as long as your account is active. Upon account deletion, we delete or anonymize data within 30 days, except backups which may take up to 90 days to be purged.
 
-## 8. International Users
-If you are accessing the Service from outside the U.S., be aware that your information may be processed in the U.S. or other countries.
+## 8. Security Measures
+- Encryption in transit (HTTPS)
+- Access controls
+- Restricted access to personal data by authorized personnel only
 
-## 9. Changes to this Policy
-We may update this Privacy Policy. Continued use after changes constitutes acceptance.
+## 9. Your Rights (GDPR/CCPA)
+You have the right to:
+- Access your personal data.
+- Request correction or deletion.
+- Withdraw consent at any time.
+- Request data portability.
+- Object to certain processing.
 
-## 10. Contact Us
-For privacy-related questions: **fastnowapp@pm.me**`;
+To exercise your rights, contact us at sociallyfamous@gmail.com.
+
+## 10. Account Deletion
+You can delete your account at any time via the in-app "Delete Account" button. Deletion removes personal data from active systems and schedules it for removal from backups.
+
+## 11. Children's Privacy
+The Service is not intended for children under 13 (or 16 in the EU). We do not knowingly collect data from children.
+
+## 12. International Transfers
+Your data may be transferred outside your country. Where required, we use safeguards such as Standard Contractual Clauses.
+
+## 13. Cookies and Tracking
+If our website uses cookies, you will see a cookie notice. Cookies may be used for essential functionality, analytics, and preference storage.
+
+## 14. Changes to This Policy
+We may update this Privacy Policy. The "Last updated" date will reflect the changes. Continued use of the Service constitutes acceptance.
+
+## 15. Contact Us
+For privacy-related questions:  
+**Socially Famous Applications**  
+**Email:** sociallyfamous@gmail.com`;
   };
 
   const getDefaultTermsOfService = () => {
-    return `**Last updated:** August 3, 2025
+    return `**Last updated:** August 9, 2025
 
 ## 1. Acceptance of Terms
-By accessing or using the Fast Now web application ("the Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service.
+By accessing or using the Fast Now application ("the Service"), you agree to be bound by these Terms. If you do not agree, do not use the Service.
 
 ## 2. Definitions
-- **"Service"**: the Fast Now app and all related services and features.
-- **"User"**: any individual who accesses or uses the Service.
-- **"We", "Us", or "Our"**: Fast Now and its operators.
+- **"Service"** – the Fast Now app and related services.
+- **"User"** – any person using the Service.
+- **"We" / "Us"** – Socially Famous Applications (independent developer).
 
-## 3. Description of Service
-Fast Now is a web-based tool designed to help users manage intermittent fasting protocols, track health metrics, and optionally receive AI-powered guidance.
+## 3. Eligibility
+You must be at least 18 years old to use the Service. By using the Service, you confirm that you meet this requirement.
 
-## 4. Eligibility & Account Responsibility
-You must be at least 18 years old to use the Service. You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
+## 4. Description of Service
+Fast Now is a tool for tracking fasting and walking activity, managing goals, and optionally using AI features. It is not a medical device.
 
 ## 5. User Responsibilities
-- Use the Service only for lawful, personal, non-commercial purposes.
-- Do not share your account credentials with others.
-- Provide accurate, up-to-date information.
-- Do not attempt to reverse-engineer, hack, or disrupt the Service.
+- Provide accurate and updated information.
+- Use the Service only for lawful purposes.
+- Keep your login credentials secure.
+- Do not reverse-engineer, hack, or disrupt the Service.
 
-## 6. Health Disclaimer
-Fast Now is not a medical service. All information is provided for educational purposes only and is not a substitute for professional medical advice. Consult your healthcare provider before beginning any fasting or health regimen. We disclaim responsibility for any health consequences of using the Service. Individual results may vary.
+## 6. Subscription & Billing
+- **Pricing:** as shown in Google Play or App Store listings.
+- **Billing:** on Android, billing is handled by Google Play; on iOS, by Apple.
+- **Auto-renewal:** subscriptions automatically renew unless canceled in your platform account settings.
+- **Cancellation:** you must cancel via Google Play or Apple to stop auto-renewal.
+- **Refunds:** subject to the policies of Google Play or Apple; we do not handle platform refunds directly.
 
-## 7. User Content
-If you submit custom goals, motivators, or personal data, you retain ownership of that content. You grant us a non-exclusive license to use that content solely to provide the Service.
+## 7. Health Disclaimer
+The Service is for informational purposes only and does not provide medical advice. Consult a qualified healthcare provider before making health decisions. We are not liable for any health consequences from using the Service.
 
-## 8. Intellectual Property
-The Service and its contents are protected by copyright, trademark, and other intellectual property laws. You are granted a limited, non-transferable license to use the Service for personal use only.
+## 8. User Content
+You retain ownership of any content you submit (e.g., goals, motivators). You grant us a non-exclusive license to use it solely to provide the Service.
 
-## 9. Privacy & Data Handling
-Your privacy is important to us. Please review our Privacy Policy for details. Where possible, personal health data is stored locally. When stored on our servers, we employ encryption and security protocols.
+## 9. Intellectual Property
+The Service, including its content, design, and code, is owned by us and protected by intellectual property laws. You may use it only as permitted in these Terms.
 
-## 10. Third-Party Services
-Fast Now may integrate third-party APIs (e.g., OpenAI). We are not responsible for any data use or service disruptions caused by these external services.
+## 10. Privacy
+Your use of the Service is subject to our Privacy Policy.
 
-## 11. Payments & Subscriptions
-If applicable, subscription fees are charged monthly in advance. Refunds are provided at our discretion. We reserve the right to change pricing with reasonable notice.
+## 11. Third-Party Services
+The Service integrates with third-party APIs (e.g., Google Play Billing, Supabase, OpenAI). We are not responsible for their availability or data handling beyond what is described in our Privacy Policy.
 
 ## 12. Service Availability
-We strive to provide continuous Service but do not guarantee 100% uptime. We may modify or discontinue parts of the Service at any time.
+We strive for continuous availability but make no guarantees. Features may be modified or discontinued without notice.
 
 ## 13. Limitation of Liability
-To the fullest extent permitted by law, we are not liable for indirect or consequential damages. Our total liability is limited to the amount paid by you for the Service in the previous 12 months.
+To the extent permitted by law, we are not liable for indirect, incidental, or consequential damages. Our total liability shall not exceed the amount you paid for the Service in the last 12 months.
 
 ## 14. Indemnification
-You agree to indemnify and hold Fast Now harmless from any claims, liabilities, or expenses arising from your use of the Service or violation of these Terms.
+You agree to indemnify and hold us harmless from any claims arising from your use of the Service or violation of these Terms.
 
 ## 15. Termination
-We may suspend or terminate your access to the Service at any time for violations of these Terms. You may terminate your use at any time. Termination does not waive rights accrued before termination.
+We may suspend or terminate your account for violations of these Terms. You may terminate your use at any time via account deletion.
 
-## 16. Dispute Resolution
-These Terms are governed by the laws of the United States. Any disputes shall be resolved in the courts located in the applicable jurisdiction.
+## 16. Governing Law & Dispute Resolution
+These Terms are governed by the laws of your country of residence unless otherwise required by law. Disputes will be handled in the competent courts of that jurisdiction.
 
 ## 17. Changes to Terms
-We may revise these Terms at any time. Continued use of the Service after changes indicates your acceptance.
+We may update these Terms at any time. Continued use after changes means you accept the revised Terms.
 
 ## 18. Contact
-Questions? Email us at: **fastnowapp@pm.me**
-
----
-
-*By using Fast Now, you acknowledge that you have read, understood, and agreed to these Terms.*`;
+**Socially Famous Applications**  
+**Email:** sociallyfamous@gmail.com`;
   };
 
   return (
