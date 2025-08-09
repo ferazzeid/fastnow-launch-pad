@@ -135,8 +135,10 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
         rel="noopener noreferrer" 
         onClick={onLinkClick}
         className={cn(
-          isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : navigationMenuTriggerStyle(),
-          "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green flex items-center gap-1"
+          isMobile ? "block px-4 py-3 text-lg font-medium rounded-lg" : "inline-flex items-center justify-center gap-1 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2",
+          isTransparent 
+            ? "text-black hover:text-black hover:bg-black/10 bg-transparent border border-black/20 hover:border-black/40" 
+            : "text-black hover:text-black hover:bg-black/10 bg-transparent border border-black/20 hover:border-black/40"
         )}
       >
         Launch App
@@ -198,8 +200,10 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
             target="_blank" 
             rel="noopener noreferrer" 
             className={cn(
-              navigationMenuTriggerStyle(),
-              "text-white hover:text-white hover:bg-accent-green-dark bg-accent-green flex items-center gap-1"
+              "inline-flex items-center justify-center gap-1 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2",
+              isTransparent 
+                ? "text-black hover:text-black hover:bg-black/10 bg-transparent border border-black/20 hover:border-black/40" 
+                : "text-black hover:text-black hover:bg-black/10 bg-transparent border border-black/20 hover:border-black/40"
             )}
           >
             Launch App
