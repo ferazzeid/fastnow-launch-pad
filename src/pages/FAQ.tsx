@@ -100,7 +100,7 @@ const FAQ = () => {
         </script>
       </Helmet>
 
-      <div className="bg-black text-white min-h-screen"><div className="container max-w-4xl mx-auto pt-32 py-12">
+      <div className="bg-black text-white min-h-screen"><div className="container max-w-4xl mx-auto py-12">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
@@ -131,10 +131,10 @@ const FAQ = () => {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm font-semibold text-primary">
+                        <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-sm font-semibold text-white">
                           {index + 1}
                         </div>
-                        <h3 className="text-lg font-semibold text-white font-playfair pr-4">
+                        <h3 className="text-lg font-semibold text-white pr-4">
                           {faq.question}
                         </h3>
                       </div>
@@ -167,10 +167,10 @@ const FAQ = () => {
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm font-semibold text-primary">
+                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-sm font-semibold text-white">
                         i
                       </div>
-                      <h3 className="text-lg font-semibold text-white font-playfair pr-4">
+                      <h3 className="text-lg font-semibold text-white pr-4">
                         How do I install FastNow like an app on my phone?
                       </h3>
                     </div>
