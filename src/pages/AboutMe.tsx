@@ -7,34 +7,25 @@ import { supabase } from '@/integrations/supabase/client';
 const AboutMe = () => {
   const [title, setTitle] = useState("Close Not Scales");
   const [subtitle, setSubtitle] = useState("My measure of progress is clothes, not numbers. Real-world results over daily weight fluctuations.");
-  const [content, setContent] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasLoaded, setHasLoaded] = useState(false);
+  const [content, setContent] = useState(`I spent years bouncing between diets, tracking every macro, and obsessing over daily weight fluctuations. The scale would go up after a good day, down after a bad one, and I'd lose motivation when the numbers didn't match my effort.
+
+Everything changed when I stopped weighing myself entirely. Now I use clothes as my measurement system. I keep a rack of clothes in different sizes - some brand new with tags, others I haven't worn in years. They're arranged in order of what I want to fit into next.
+
+This approach works because clothes don't lie. They either fit or they don't. There's no water weight confusion, no wondering if muscle gain is masking fat loss, no daily fluctuations that mess with your head. Just clear, visual progress.
+
+When I can zip up something that was too tight last month, that's real progress. When I move to the next smaller size on my rack, that's a victory worth celebrating. The scale can't capture that feeling of putting on clothes that actually fit well and feeling confident.
+
+My protocol isn't about reaching some arbitrary number on a scale. It's about getting my body to a place where I feel good in my clothes, where I have energy, and where I'm not constantly thinking about food. The clothes on my rack represent those goals - not a number that changes for dozens of reasons I can't control.`);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    if (!hasLoaded) {
-      // Add timeout to prevent infinite loading
-      const loadTimeout = setTimeout(() => {
-        if (isLoading) {
-          console.log('Loading timeout reached, forcing load complete');
-          setIsLoading(false);
-          setHasLoaded(true);
-          setHasError(true);
-        }
-      }, 10000); // 10 second timeout
-
-      loadContent().finally(() => {
-        clearTimeout(loadTimeout);
-      });
-
-      return () => clearTimeout(loadTimeout);
-    }
-  }, [hasLoaded, isLoading]);
+    loadContent();
+  }, []);
 
   const loadContent = async () => {
     try {
-      console.log('Loading about me content...');
       setIsLoading(true);
       
       const { data, error } = await supabase
@@ -42,17 +33,14 @@ const AboutMe = () => {
         .select('setting_key, setting_value')
         .in('setting_key', ['about_me_title', 'about_me_subtitle', 'about_me_content']);
 
-      console.log('About me query result:', { data, error });
-
       if (error) {
         console.error('Database error loading about me:', error);
-        // Don't throw, just use defaults
+        return;
       }
 
       if (data && data.length > 0) {
         const settings = data.reduce((acc, item) => {
           const value = item.setting_value;
-          // Handle both string and object values properly
           if (typeof value === 'string') {
             try {
               const parsed = JSON.parse(value);
@@ -60,30 +48,20 @@ const AboutMe = () => {
             } catch {
               acc[item.setting_key] = value;
             }
-          } else if (typeof value === 'object' && value !== null) {
-            acc[item.setting_key] = String(value);
           } else {
             acc[item.setting_key] = value ? String(value) : '';
           }
           return acc;
         }, {} as Record<string, string>);
 
-        console.log('Parsed about me settings:', settings);
-
         if (settings.about_me_title) setTitle(settings.about_me_title);
         if (settings.about_me_subtitle) setSubtitle(settings.about_me_subtitle);
         if (settings.about_me_content) setContent(settings.about_me_content);
-      } else {
-        console.log('No about me content found in database, using defaults');
       }
     } catch (error) {
       console.error('Error loading about me content:', error);
-      setHasError(true);
-      // Continue with defaults instead of failing
     } finally {
-      console.log('About me content loading complete');
       setIsLoading(false);
-      setHasLoaded(true);
     }
   };
 
@@ -100,10 +78,7 @@ const AboutMe = () => {
       <PageLayout>
         <div className="container py-16">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="animate-pulse">
-              <div className="text-lg mb-4">Loading About Me...</div>
-              {hasError && <div className="text-red-500">Having trouble loading content. Using defaults...</div>}
-            </div>
+            <div className="text-lg mb-4">Loading...</div>
           </div>
         </div>
       </PageLayout>
@@ -119,8 +94,8 @@ const AboutMe = () => {
 
       {/* Hero Background Image */}
       <div className="absolute inset-0 w-full h-screen z-0">
-        <PageFeaturedImage pageKey="about-me" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="w-full h-full bg-gradient-to-br from-slate-900 to-slate-700"></div>
+        <div className="absolute inset-0 bg-black/20"></div>
       </div>
 
       {/* Hero Section */}
@@ -134,7 +109,6 @@ const AboutMe = () => {
               {subtitle}
             </p>
             <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
-              <h2 className="text-2xl md:text-3xl font-semibold">The Real Measurement</h2>
               <p>
                 I don't use a scale. I don't care about a number that changes for a hundred reasons. I care about real-world results.
               </p>
@@ -154,22 +128,16 @@ const AboutMe = () => {
               <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/60 mx-auto rounded-full"></div>
               
               <div className="prose prose-lg max-w-none text-muted-foreground space-y-8">
-                {content ? (
-                  <div className="space-y-6">
-                    {content.split('\n\n').map((paragraph, index) => (
-                      <div key={index} className="relative">
-                        <div className="absolute left-0 top-2 w-2 h-2 bg-primary/20 rounded-full"></div>
-                        <p className="pl-6 leading-relaxed">
-                          {paragraph}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12 bg-muted/20 rounded-lg">
-                    <p>Content is being updated. Please check back soon.</p>
-                  </div>
-                )}
+                <div className="space-y-6">
+                  {content.split('\n\n').map((paragraph, index) => (
+                    <div key={index} className="relative">
+                      <div className="absolute left-0 top-2 w-2 h-2 bg-primary/20 rounded-full"></div>
+                      <p className="pl-6 leading-relaxed">
+                        {paragraph}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
