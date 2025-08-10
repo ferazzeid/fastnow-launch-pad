@@ -119,6 +119,20 @@ const Admin = () => {
                 </Button>
               </Link>
               
+              <Link to="/admin/homepage/slide2">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  Homepage Slide 2
+                </Button>
+              </Link>
+              
+              <Link to="/admin/homepage/slide3">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  Homepage Slide 3
+                </Button>
+              </Link>
+              
               <Link to="/admin/about-me">
                 <Button variant="outline" className="w-full justify-start">
                   <Edit size={16} className="mr-2" />
