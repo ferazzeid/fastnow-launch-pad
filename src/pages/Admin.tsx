@@ -14,17 +14,23 @@ const Admin = () => {
   const { user, isAdmin, isLoading } = useAuth();
 
   React.useEffect(() => {
+    console.log('Admin page: Auth state', { user: !!user, isAdmin, isLoading });
+    
     if (!isLoading) {
       if (!user) {
+        console.log('Admin page: No user, redirecting to login');
         navigate('/admin/login');
         return;
       }
       
       if (!isAdmin) {
+        console.log('Admin page: User not admin, redirecting to home');
         navigate('/');
         toast.error("Access denied. Admin privileges required.");
         return;
       }
+      
+      console.log('Admin page: Access granted');
     }
   }, [user, isAdmin, isLoading, navigate]);
 
