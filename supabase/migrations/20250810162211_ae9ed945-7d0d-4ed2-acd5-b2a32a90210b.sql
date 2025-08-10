@@ -1,0 +1,1 @@
+UPDATE navigation_settings SET is_visible = true WHERE page_key = 'about-me';
