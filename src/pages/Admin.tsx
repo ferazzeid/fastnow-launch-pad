@@ -133,6 +133,13 @@ const Admin = () => {
                 </Button>
               </Link>
               
+              <Link to="/admin/homepage/slide4">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  Homepage Slide 4
+                </Button>
+              </Link>
+              
               <Link to="/admin/about-me">
                 <Button variant="outline" className="w-full justify-start">
                   <Edit size={16} className="mr-2" />

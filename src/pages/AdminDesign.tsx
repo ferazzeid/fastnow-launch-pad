@@ -15,6 +15,7 @@ const AdminDesign = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [primaryColor, setPrimaryColor] = useState('#10B981');
   const [secondaryColor, setSecondaryColor] = useState('#6B7280');
+  const [launchButtonColor, setLaunchButtonColor] = useState('#6366F1');
   const [fontFamily, setFontFamily] = useState('inter');
   const [fontSize, setFontSize] = useState('medium');
   const [theme, setTheme] = useState('light');
@@ -44,9 +45,10 @@ const AdminDesign = () => {
       // Load existing design settings from database
       const settings = await SiteSettingsService.getSetting('design_colors');
       if (settings && typeof settings === 'object' && 'primary' in settings && 'secondary' in settings) {
-        const colors = settings as { primary: string; secondary: string };
+        const colors = settings as { primary: string; secondary: string; launchButton?: string };
         setPrimaryColor(colors.primary || '#10B981');
         setSecondaryColor(colors.secondary || '#6B7280');
+        setLaunchButtonColor(colors.launchButton || '#6366F1');
       }
     };
     
@@ -60,7 +62,8 @@ const AdminDesign = () => {
     try {
       const colorSettings = {
         primary: primaryColor,
-        secondary: secondaryColor
+        secondary: secondaryColor,
+        launchButton: launchButtonColor
       };
       
       console.log('Saving color settings:', colorSettings);
@@ -140,6 +143,25 @@ const AdminDesign = () => {
                       value={secondaryColor}
                       onChange={(e) => setSecondaryColor(e.target.value)}
                       placeholder="#6B7280"
+                      className="flex-1"
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="launchButtonColor">Launch App Button Color</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="launchButtonColor"
+                      type="color"
+                      value={launchButtonColor}
+                      onChange={(e) => setLaunchButtonColor(e.target.value)}
+                      className="w-16 h-10"
+                    />
+                    <Input
+                      value={launchButtonColor}
+                      onChange={(e) => setLaunchButtonColor(e.target.value)}
+                      placeholder="#6366F1"
                       className="flex-1"
                     />
                   </div>

@@ -41,12 +41,18 @@ const Index = () => {
   const [metaTitle, setMetaTitle] = useState<string>('FastNow - My Protocol for Fat Loss');
   const [metaDescription, setMetaDescription] = useState<string>('Transform your body with scientifically-backed intermittent fasting protocols and personalized guidance.');
   
-  // Content for slides 2 and 3
+  // Content for slides 2, 3, and 4
   const [slide2Title, setSlide2Title] = useState<string>('This Isn\'t for Fitness Models');
   const [slide2Content, setSlide2Content] = useState<string>('Most weight loss ads feature people in perfect shape, selling programs they "used" to get there. That\'s not this.\n\nThis is for regular people who are tired of being overweight. Maybe you want to walk into a store and buy clothes off the rack. Maybe you\'re tired of airline seats feeling too small. Maybe a blood test woke you up. Or maybe you\'ve simply noticed you blend into the crowd in a way you didn\'t before.\n\nYou don\'t need a six-pack. You just need to turn the ship around.\n\nOver 90 days, this protocol gives you the momentum to move in a better direction—fast. After that, if you want to chase the perfect body, that\'s up to you. But if you want to get back to feeling good in your own skin, this is where you start.');
   const [slide3Title, setSlide3Title] = useState<string>('Nothing New — And That\'s the Point');
   const [slide3Content, setSlide3Content] = useState<string>('If you\'ve tried losing weight before, you\'ve already heard most of what\'s in this program. That\'s exactly the problem — there\'s too much information.\n\nThis is a stripped-down, 3-step path for a fixed period of time. It\'s the sweet spot between doing just enough and getting the maximum benefit. Simple enough to fit into daily life, structured enough to keep you moving, and powerful enough to deliver results — if you follow through.\n\nThere\'s no magic here. Just logic, math, action, and reaction.');
+  const [slide4Title, setSlide4Title] = useState<string>('New Slide');
+  const [slide4Content, setSlide4Content] = useState<string>('');
   const [featuredImageUrl, setFeaturedImageUrl] = useState<string>('');
+  const [slide2ImageUrl, setSlide2ImageUrl] = useState<string>('');
+  const [slide3ImageUrl, setSlide3ImageUrl] = useState<string>('');
+  const [slide4ImageUrl, setSlide4ImageUrl] = useState<string>('');
+  const [launchButtonColor, setLaunchButtonColor] = useState<string>('#6366F1');
   
   // State for custom UI elements
   const [customElementsImages, setCustomElementsImages] = useState<{[key: string]: string | null}>({
@@ -90,6 +96,7 @@ const Index = () => {
         if (slide2Content) {
           setSlide2Title(slide2Content.title || 'This Isn\'t for Fitness Models');
           setSlide2Content(slide2Content.content || 'Most weight loss ads feature people in perfect shape, selling programs they "used" to get there. That\'s not this.\n\nThis is for regular people who are tired of being overweight. Maybe you want to walk into a store and buy clothes off the rack. Maybe you\'re tired of airline seats feeling too small. Maybe a blood test woke you up. Or maybe you\'ve simply noticed you blend into the crowd in a way you didn\'t before.\n\nYou don\'t need a six-pack. You just need to turn the ship around.\n\nOver 90 days, this protocol gives you the momentum to move in a better direction—fast. After that, if you want to chase the perfect body, that\'s up to you. But if you want to get back to feeling good in your own skin, this is where you start.');
+          setSlide2ImageUrl(slide2Content.featured_image_url || '');
         }
 
         // Load slide 3 content  
@@ -97,6 +104,21 @@ const Index = () => {
         if (slide3Content) {
           setSlide3Title(slide3Content.title || 'Nothing New — And That\'s the Point');
           setSlide3Content(slide3Content.content || 'If you\'ve tried losing weight before, you\'ve already heard most of what\'s in this program. That\'s exactly the problem — there\'s too much information.\n\nThis is a stripped-down, 3-step path for a fixed period of time. It\'s the sweet spot between doing just enough and getting the maximum benefit. Simple enough to fit into daily life, structured enough to keep you moving, and powerful enough to deliver results — if you follow through.\n\nThere\'s no magic here. Just logic, math, action, and reaction.');
+          setSlide3ImageUrl(slide3Content.featured_image_url || '');
+        }
+
+        // Load slide 4 content  
+        const slide4Content = await pageContentService.getPageContent('home-slide4');
+        if (slide4Content) {
+          setSlide4Title(slide4Content.title || 'New Slide');
+          setSlide4Content(slide4Content.content || '');
+          setSlide4ImageUrl(slide4Content.featured_image_url || '');
+        }
+
+        // Load launch button color from design settings
+        const designSettings = await pageContentService.getGeneralSetting('design_colors');
+        if (designSettings?.setting_value?.launchButton) {
+          setLaunchButtonColor(designSettings.setting_value.launchButton);
         }
 
         // Load site identity settings for logo
@@ -253,7 +275,10 @@ const Index = () => {
                   </div>
                   
                   <div className="mt-8 pt-6 border-t border-white/20">
-                    <button className="bg-accent-green hover:bg-accent-green-dark text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2">
+                    <button 
+                      className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                      style={{ backgroundColor: launchButtonColor }}
+                    >
                       Launch App
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -270,7 +295,22 @@ const Index = () => {
         </section>
 
         {/* Second Section - This Isn't for Fitness Models */}
-        <section className="relative z-10 min-h-screen flex items-center justify-end bg-white">
+        <section className="relative z-10 min-h-screen flex items-center justify-end">
+          {/* Featured Image Background */}
+          {slide2ImageUrl && (
+            <div className="absolute inset-0 w-full h-full z-0">
+              <img 
+                src={slide2ImageUrl} 
+                alt="Slide 2 background" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-white/80"></div>
+            </div>
+          )}
+          {!slide2ImageUrl && (
+            <div className="absolute inset-0 w-full h-full z-0 bg-white"></div>
+          )}
+          
           <div className="container max-w-6xl mx-auto px-4 relative z-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Empty space on the left for visual balance */}
@@ -297,7 +337,22 @@ const Index = () => {
         </section>
 
         {/* Third Section - Nothing New — And That's the Point */}
-        <section className="relative z-10 min-h-screen flex items-center justify-start bg-white">
+        <section className="relative z-10 min-h-screen flex items-center justify-start">
+          {/* Featured Image Background */}
+          {slide3ImageUrl && (
+            <div className="absolute inset-0 w-full h-full z-0">
+              <img 
+                src={slide3ImageUrl} 
+                alt="Slide 3 background" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-white/80"></div>
+            </div>
+          )}
+          {!slide3ImageUrl && (
+            <div className="absolute inset-0 w-full h-full z-0 bg-white"></div>
+          )}
+
           <div className="container max-w-6xl mx-auto px-4 relative z-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Content - Left aligned */}
@@ -322,6 +377,52 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* Fourth Section - New Slide */}
+        {(slide4Title || slide4Content) && (
+          <section className="relative z-10 min-h-screen flex items-center justify-end">
+            {/* Featured Image Background */}
+            {slide4ImageUrl && (
+              <div className="absolute inset-0 w-full h-full z-0">
+                <img 
+                  src={slide4ImageUrl} 
+                  alt="Slide 4 background" 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-white/80"></div>
+              </div>
+            )}
+            {!slide4ImageUrl && (
+              <div className="absolute inset-0 w-full h-full z-0 bg-white"></div>
+            )}
+
+            <div className="container max-w-6xl mx-auto px-4 relative z-10">
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                {/* Empty space on the left for visual balance */}
+                <div className="hidden lg:block"></div>
+                
+                {/* Content Section - Right aligned */}
+                <div className="text-left lg:text-left">
+                  <div className="bg-white/90 rounded-xl p-8 border border-gray-200 shadow-lg">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
+                      {slide4Title}
+                    </h2>
+                    
+                    {slide4Content && (
+                      <div className="text-lg md:text-xl text-gray-700 mb-6 space-y-4 max-w-2xl">
+                        {slide4Content.split('\n\n').map((paragraph, index) => (
+                          <p key={index}>
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
 
       </main>

@@ -50,6 +50,7 @@ import AdminFastingTimeline from "./pages/AdminFastingTimeline";
 import AdminFastingTimelineExport from "./pages/AdminFastingTimelineExport";
 import AdminHomeSlide2 from "./pages/AdminHomeSlide2";
 import AdminHomeSlide3 from "./pages/AdminHomeSlide3";
+import AdminHomeSlide4 from "./pages/AdminHomeSlide4";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +85,7 @@ const AppRoutes = () => {
       <Route path="/admin/homepage-settings" element={<AdminHomepageSettings />} />
       <Route path="/admin/homepage/slide2" element={<AdminHomeSlide2 />} />
       <Route path="/admin/homepage/slide3" element={<AdminHomeSlide3 />} />
+      <Route path="/admin/homepage/slide4" element={<AdminHomeSlide4 />} />
       <Route path="/admin/about-me" element={<AdminAboutMeEditor />} />
       <Route path="/admin/fast-now-protocol" element={<AdminFastNowProtocol />} />
       <Route path="/admin/about-fastnow-app" element={<AdminAboutFastNowApp />} />
