@@ -249,15 +249,8 @@ const Index = () => {
 
         {/* Second Section - This Isn't for Fitness Models */}
         <section className="relative z-10 min-h-screen flex items-center justify-end">
-          {/* Background Image */}
-          <div className="absolute inset-0 w-full h-full z-0">
-            <img 
-              src="/lovable-uploads/a8e0ce55-c025-4334-8015-d5d1387ec222.png" 
-              alt="Professional background" 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/60"></div>
-          </div>
+          {/* Background Overlay without image */}
+          <div className="absolute inset-0 w-full h-full z-0 bg-gradient-to-br from-gray-900 to-black"></div>
           
           <div className="container max-w-6xl mx-auto px-4 relative z-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -296,15 +289,7 @@ const Index = () => {
 
         {/* Third Section - Nothing New — And That's the Point */}
         <section className="relative z-10 min-h-screen flex items-center justify-start">
-          <div className="absolute inset-0 w-full h-full z-0">
-            <img
-              src="/lovable-uploads/87fe5607-71f6-4021-a8d3-5bfd5f42b6ad.png"
-              alt="Structured, minimal approach background"
-              loading="lazy"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/60"></div>
-          </div>
+          <div className="absolute inset-0 w-full h-full z-0 bg-gradient-to-bl from-gray-800 to-black"></div>
 
           <div className="container max-w-6xl mx-auto px-4 relative z-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">

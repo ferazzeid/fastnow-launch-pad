@@ -25,7 +25,8 @@ const FAQ = () => {
     title: 'Frequently Asked Questions',
     description: 'Get answers to common questions about FastNow',
     metaTitle: 'Frequently Asked Questions | FastNow App',
-    metaDescription: 'Find answers to common questions about the FastNow app and how to get the most out of your fasting journey.'
+    metaDescription: 'Find answers to common questions about the FastNow app and how to get the most out of your fasting journey.',
+    featuredImage: ''
   });
 
   useEffect(() => {
@@ -42,7 +43,8 @@ const FAQ = () => {
           title: content.title || 'Frequently Asked Questions',
           description: content.content || 'Get answers to common questions about FastNow',
           metaTitle: content.meta_title || 'Frequently Asked Questions | FastNow App',
-          metaDescription: content.meta_description || 'Find answers to common questions about the FastNow app and how to get the most out of your fasting journey.'
+          metaDescription: content.meta_description || 'Find answers to common questions about the FastNow app and how to get the most out of your fasting journey.',
+          featuredImage: content.featured_image_url || ''
         });
       }
     } catch (error) {
@@ -135,6 +137,18 @@ const FAQ = () => {
 
       <Header />
       <main className="flex-1 bg-black text-white">
+        {/* Featured Image */}
+        {pageContent.featuredImage && (
+          <div className="w-full h-64 md:h-80 lg:h-96 relative overflow-hidden">
+            <img 
+              src={pageContent.featuredImage} 
+              alt="FAQ Featured" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/40"></div>
+          </div>
+        )}
+        
         <div className="container max-w-4xl mx-auto py-8">
           {/* Header */}
           <div className="text-center mb-8">
