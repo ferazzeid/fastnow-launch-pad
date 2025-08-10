@@ -16,6 +16,7 @@ const Admin = () => {
   React.useEffect(() => {
     console.log('Admin page: Auth state', { user: !!user, isAdmin, isLoading });
     
+    // Only redirect if we're sure about the auth state (not loading)
     if (!isLoading) {
       if (!user) {
         console.log('Admin page: No user, redirecting to login');
@@ -23,11 +24,19 @@ const Admin = () => {
         return;
       }
       
+      // Give admin check more time - don't redirect immediately
       if (!isAdmin) {
-        console.log('Admin page: User not admin, redirecting to home');
-        navigate('/');
-        toast.error("Access denied. Admin privileges required.");
-        return;
+        console.log('Admin page: User not admin, waiting a bit more...');
+        // Set a small delay to let admin status resolve
+        const timeout = setTimeout(() => {
+          if (!isAdmin) {
+            console.log('Admin page: Still not admin after delay, redirecting');
+            navigate('/');
+            toast.error("Access denied. Admin privileges required.");
+          }
+        }, 1000);
+        
+        return () => clearTimeout(timeout);
       }
       
       console.log('Admin page: Access granted');
@@ -53,8 +62,9 @@ const Admin = () => {
     );
   }
 
+  // Show loading while auth is being determined OR while admin status is being checked
   if (!user || !isAdmin) {
-    return null; // Prevent flash of content before redirect
+    return null; // Prevent flash of content before redirect or while checking admin status
   }
 
   return (
