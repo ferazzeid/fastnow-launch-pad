@@ -22,8 +22,7 @@ const MainNavigation = () => {
   const navigationLinks = [
     { path: '/fast-now-protocol', title: 'The Protocol' },
     { path: '/about-fastnow-app', title: 'About App' },
-    { path: '/faq', title: 'FAQ' },
-    { path: '/about-me', title: 'Me' }
+    { path: '/faq', title: 'FAQ' }
   ];
 
   // Simple mobile detection
@@ -61,25 +60,6 @@ const MainNavigation = () => {
             {link.title}
           </Link>
         ))}
-        
-        {/* Admin link - conditional based on auth */}
-        {isAdmin ? (
-          <Link 
-            to="/admin" 
-            onClick={onLinkClick}
-            className={getNavLinkStyle(location.pathname.startsWith('/admin'))}
-          >
-            Admin
-          </Link>
-        ) : (
-          <Link 
-            to="/admin/login" 
-            onClick={onLinkClick}
-            className={getNavLinkStyle(location.pathname.startsWith('/admin'))}
-          >
-            Admin
-          </Link>
-        )}
         
         <a 
           href="https://go.fastnow.app" 

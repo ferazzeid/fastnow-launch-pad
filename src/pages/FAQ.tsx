@@ -54,25 +54,15 @@ const FAQ = () => {
         .eq('is_active', true)
         .order('display_order', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error loading FAQs:', error);
+        return;
+      }
+
+      console.log('Loaded FAQs from database:', data);
       setFaqs(data || []);
     } catch (error) {
       console.error('Error loading FAQs:', error);
-      // Set some default FAQs if database fails
-      setFaqs([
-        {
-          id: '1',
-          question: 'What is FastNow?',
-          answer: 'FastNow is a comprehensive fasting tracking app that helps you manage your intermittent fasting journey with precision and ease.',
-          display_order: 1
-        },
-        {
-          id: '2', 
-          question: 'How do I start using the app?',
-          answer: 'Simply visit our website, choose your fasting protocol, and start tracking your fasting periods. No registration required for basic features.',
-          display_order: 2
-        }
-      ]);
     }
   };
 
