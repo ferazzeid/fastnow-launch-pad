@@ -1,18 +1,16 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import MainNavigation from '../MainNavigation';
 import { pageContentService } from '@/services/PageContentService';
 import { supabase } from '@/integrations/supabase/client';
 
 const Header = () => {
-  const location = useLocation();
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
   const [logoSize, setLogoSize] = React.useState<number>(32);
   const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
-  const [navigationSettings, setNavigationSettings] = React.useState<Record<string, boolean>>({});
 
-  // Load logo, favicon and navigation settings from database (with localStorage fallback)
+  // Load logo and favicon from database (with localStorage fallback)
   React.useEffect(() => {
     const loadSettings = async () => {
       try {
@@ -34,22 +32,6 @@ const Header = () => {
         } catch (error) {
           console.error('Error loading logo from homepage settings:', error);
         }
-
-        // Load navigation transparency settings
-        const navSettings = await pageContentService.getGeneralSetting('navigation_transparency');
-        if (navSettings?.setting_value) {
-          setNavigationSettings(navSettings.setting_value);
-        } else {
-          // Default settings - transparent nav for hero pages
-          setNavigationSettings({
-            homepage_transparent_nav: true,
-            about_transparent_nav: true,
-            faq_transparent_nav: false,
-            protocol_transparent_nav: true,
-            timeline_transparent_nav: false,
-            about_app_transparent_nav: true,
-          });
-        }
       } catch (error) {
         console.error('Error loading settings:', error);
         
@@ -59,16 +41,6 @@ const Header = () => {
         
         const savedLogoSize = localStorage.getItem('fastingApp_logoSize');
         if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
-        
-        // Default navigation settings
-        setNavigationSettings({
-          homepage_transparent_nav: true,
-          about_transparent_nav: true,
-          faq_transparent_nav: false,
-          protocol_transparent_nav: true,
-          timeline_transparent_nav: false,
-          about_app_transparent_nav: true,
-        });
       }
     };
 
@@ -127,24 +99,8 @@ const Header = () => {
     loadFavicon();
   }, []);
 
-  // Determine if current page should have transparent navigation
-  const getCurrentPageTransparency = () => {
-    const path = location.pathname;
-    
-    if (path === '/') return navigationSettings.homepage_transparent_nav;
-    if (path === '/about-me') return navigationSettings.about_transparent_nav;
-    if (path === '/faq') return navigationSettings.faq_transparent_nav;
-    if (path === '/fast-now-protocol') return navigationSettings.protocol_transparent_nav;
-    if (path === '/fasting-timeline') return navigationSettings.timeline_transparent_nav;
-    if (path === '/about-fastnow-app') return navigationSettings.about_app_transparent_nav;
-    
-    return false; // Default to non-transparent for other pages
-  };
-
-  const shouldBeTransparent = getCurrentPageTransparency();
-
   return (
-    <header className="absolute top-0 left-0 right-0 py-6 z-50 bg-transparent border-b border-transparent">
+    <header className="sticky top-0 left-0 right-0 py-4 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="container flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           {logoUrl && (
@@ -155,11 +111,9 @@ const Header = () => {
               className="rounded-full"
             />
           )}
-          <span className={`text-2xl font-bold transition-colors duration-300 ${
-            shouldBeTransparent ? 'text-white drop-shadow-lg' : 'text-foreground'
-          }`}>FastNow</span>
+          <span className="text-2xl font-bold text-gray-900">FastNow</span>
         </Link>
-        <MainNavigation isTransparent={shouldBeTransparent} />
+        <MainNavigation />
       </div>
     </header>
   );

@@ -15,11 +15,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-interface MainNavigationProps {
-  isTransparent?: boolean;
-}
-
-const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
+const MainNavigation = () => {
   const { isAdmin, isLoading, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,30 +77,14 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
   };
 
   const getNavLinkStyle = (isActive: boolean) => {
-    if (isTransparent) {
-      return cn(
-        "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200",
-        "text-white border border-white/20 hover:border-white/40",
-        isActive 
-          ? "bg-white/20 border-white/40" 
-          : "hover:bg-white/10"
-      );
-    }
-    
     return cn(
       "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200",
-      "text-gray-900 border border-gray-300 hover:border-gray-400",
-      isActive 
-        ? "bg-gray-100 border-gray-400" 
-        : "hover:bg-gray-50"
+      "text-gray-900 border border-gray-300 hover:border-gray-400 hover:bg-gray-50",
+      isActive && "bg-gray-100 border-gray-400"
     );
   };
 
   const getLaunchAppStyle = () => {
-    if (isTransparent) {
-      return "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 text-white border border-white/20 hover:border-white/40 hover:bg-white/10 inline-flex items-center gap-2";
-    }
-    
     return "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 text-gray-900 border border-gray-300 hover:border-gray-400 hover:bg-gray-50 inline-flex items-center gap-2";
   };
 
@@ -158,12 +138,7 @@ const MainNavigation = ({ isTransparent = false }: MainNavigationProps) => {
           <Button 
             variant="ghost" 
             size="sm" 
-            className={cn(
-              "p-2",
-              isTransparent 
-                ? "text-white hover:text-white hover:bg-white/20" 
-                : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-            )}
+            className="p-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100"
           >
             <Menu size={24} />
           </Button>
