@@ -52,25 +52,49 @@ const FAQ = () => {
 
   const loadFAQs = async () => {
     try {
+      console.log('FAQ: Starting to load FAQs from database');
+      
+      // Try without is_active filter first (rely on RLS)
       const { data, error } = await supabase
         .from('faqs')
         .select('*')
-        .eq('is_active', true)
         .order('display_order', { ascending: true });
 
       if (error) {
-        console.error('Error loading FAQs:', error);
+        console.error('FAQ: Error loading FAQs:', error);
+        // Retry with explicit is_active filter
+        try {
+          const { data: retryData, error: retryError } = await supabase
+            .from('faqs')
+            .select('*')
+            .eq('is_active', true)
+            .order('display_order', { ascending: true });
+            
+          if (retryError) {
+            console.error('FAQ: Retry error:', retryError);
+            return;
+          }
+          
+          console.log('FAQ: Retry successful, loaded FAQs:', retryData?.length || 0);
+          if (retryData && retryData.length > 0) {
+            setFaqs(retryData);
+            localStorage.setItem('faq_cache_v1', JSON.stringify(retryData));
+          }
+        } catch (retryErr) {
+          console.error('FAQ: Retry failed:', retryErr);
+        }
         return;
       }
 
-      console.log('Loaded FAQs from database:', data);
+      console.log('FAQ: Successfully loaded FAQs:', data?.length || 0, data);
       if (data && data.length > 0) {
         setFaqs(data);
-        // Update cache with fresh data
         localStorage.setItem('faq_cache_v1', JSON.stringify(data));
+      } else {
+        console.log('FAQ: No FAQs found in database');
       }
     } catch (error) {
-      console.error('Error loading FAQs:', error);
+      console.error('FAQ: Exception loading FAQs:', error);
     }
   };
 
