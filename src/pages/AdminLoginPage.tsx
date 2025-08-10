@@ -29,11 +29,6 @@ const AdminLoginPage = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Add timeout to prevent infinite loading
-    const loginTimeout = setTimeout(() => {
-      setIsLoading(false);
-      toast.error("Login timeout. Please try again.");
-    }, 30000); // 30 second timeout
     
     try {
       console.log('Starting login process...', { email });
@@ -60,7 +55,6 @@ const AdminLoginPage = () => {
         
         if (isAdmin) {
           console.log('Admin confirmed, navigating to /admin');
-          clearTimeout(loginTimeout);
           toast.success("Login successful!");
           navigate('/admin');
         } else {
@@ -76,7 +70,6 @@ const AdminLoginPage = () => {
       console.error('Login error:', error);
       toast.error("An unexpected error occurred: " + (error instanceof Error ? error.message : String(error)));
     } finally {
-      clearTimeout(loginTimeout);
       setIsLoading(false);
     }
   };

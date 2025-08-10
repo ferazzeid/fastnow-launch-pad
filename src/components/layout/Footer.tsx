@@ -49,18 +49,12 @@ const Footer = () => {
                   Contact
                 </Link>
                 
-                {/* Always-visible Admin access */}
-                <Link to="/admin/login" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
-                  <User size={14} />
-                  Admin
-                </Link>
-                
-                {/* Admin Links - Only visible to admins */}
-                {!isLoading && isAdmin && (
+                {/* Admin access - always routes to /admin */}
+                {!isLoading && isAdmin ? (
                   <>
                     <Link to="/admin" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
                       <User size={14} />
-                      Admin Dashboard
+                      Admin
                     </Link>
                     <button
                       onClick={handleLogout}
@@ -70,13 +64,10 @@ const Footer = () => {
                       Logout
                     </button>
                   </>
-                )}
-                
-                {/* Admin Login - Only visible to non-admins */}
-                {!isLoading && !isAdmin && (
-                  <Link to="/admin/login" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
+                ) : (
+                  <Link to="/admin" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
                     <User size={14} />
-                    Admin Login
+                    Admin
                   </Link>
                 )}
               </div>

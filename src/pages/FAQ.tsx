@@ -15,7 +15,11 @@ interface FAQ {
 }
 
 const FAQ = () => {
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [faqs, setFaqs] = useState<FAQ[]>(() => {
+    // Load from cache immediately
+    const cached = localStorage.getItem('faq_cache_v1');
+    return cached ? JSON.parse(cached) : [];
+  });
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
   const [pageContent, setPageContent] = useState({
     title: 'Frequently Asked Questions',
@@ -60,7 +64,11 @@ const FAQ = () => {
       }
 
       console.log('Loaded FAQs from database:', data);
-      setFaqs(data || []);
+      if (data && data.length > 0) {
+        setFaqs(data);
+        // Update cache with fresh data
+        localStorage.setItem('faq_cache_v1', JSON.stringify(data));
+      }
     } catch (error) {
       console.error('Error loading FAQs:', error);
     }
@@ -103,9 +111,9 @@ const FAQ = () => {
 
       <Header />
       <main className="flex-1 bg-black text-white">
-        <div className="container max-w-4xl mx-auto py-12">
+        <div className="container max-w-4xl mx-auto py-8">
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Q&A
             </h1>
