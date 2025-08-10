@@ -21,13 +21,28 @@ const AdminAboutMeEditor = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && (!user || !isAdmin)) {
-      navigate('/admin/login');
-      return;
-    }
-
-    if (user && isAdmin) {
-      loadContent();
+    // Only redirect if we're sure about the auth state (not loading)
+    if (!authLoading) {
+      if (!user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      // Give admin check more time - don't redirect immediately
+      if (!isAdmin) {
+        // Set a small delay to let admin status resolve
+        const timeout = setTimeout(() => {
+          if (!isAdmin) {
+            navigate('/admin/login');
+          }
+        }, 1000);
+        
+        return () => clearTimeout(timeout);
+      }
+      
+      if (user && isAdmin) {
+        loadContent();
+      }
     }
   }, [user, isAdmin, authLoading, navigate]);
 
