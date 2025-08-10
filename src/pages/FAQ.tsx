@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import PageLayout from '@/components/layout/PageLayout';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -30,7 +31,6 @@ const FAQ = () => {
 
   const loadContent = async () => {
     try {
-      // Load page content from database
       const content = await pageContentService.getPageContent('faq');
       
       if (content) {
@@ -55,10 +55,24 @@ const FAQ = () => {
         .order('display_order', { ascending: true });
 
       if (error) throw error;
-
       setFaqs(data || []);
     } catch (error) {
       console.error('Error loading FAQs:', error);
+      // Set some default FAQs if database fails
+      setFaqs([
+        {
+          id: '1',
+          question: 'What is FastNow?',
+          answer: 'FastNow is a comprehensive fasting tracking app that helps you manage your intermittent fasting journey with precision and ease.',
+          display_order: 1
+        },
+        {
+          id: '2', 
+          question: 'How do I start using the app?',
+          answer: 'Simply visit our website, choose your fasting protocol, and start tracking your fasting periods. No registration required for basic features.',
+          display_order: 2
+        }
+      ]);
     }
   };
 
@@ -87,17 +101,18 @@ const FAQ = () => {
   };
 
   return (
-    <PageLayout>
+    <div className="flex flex-col min-h-screen">
       <Helmet>
         <title>{pageContent.metaTitle}</title>
         <meta name="description" content={pageContent.metaDescription} />
-        <meta name="keywords" content="FastNow FAQ, intermittent fasting questions, fasting app help, FastNow support" />
+        <meta name="keywords" content="FastNow FAQ, fasting questions, fasting app help, FastNow support" />
         <script type="application/ld+json">
           {JSON.stringify(faqStructuredData)}
         </script>
       </Helmet>
 
-      <div className="bg-black text-white min-h-screen">
+      <Header />
+      <main className="flex-1 bg-black text-white">
         <div className="container max-w-4xl mx-auto py-12">
           {/* Header */}
           <div className="text-center mb-12">
@@ -111,97 +126,98 @@ const FAQ = () => {
 
           {/* FAQ Content */}
           <div className="space-y-4">
-              {faqs.map((faq, index) => (
-                <Card key={faq.id} className="overflow-hidden border-l-4 border-l-primary/30 bg-white/5 hover:bg-white/10 border-white/10 transition-colors">
-                  <button
-                    onClick={() => toggleItem(faq.id)}
-                    className="w-full p-6 text-left hover:bg-white/10 transition-colors"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-sm font-semibold text-white">
-                          {index + 1}
-                        </div>
-                        <h3 className="text-lg font-semibold text-white pr-4">
-                          {faq.question}
-                        </h3>
-                      </div>
-                      {openItems.has(faq.id) ? (
-                        <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
-                      ) : (
-                        <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
-                      )}
-                    </div>
-                  </button>
-                  {openItems.has(faq.id) && (
-                    <CardContent className="pt-4 pb-6 border-t border-white/10">
-                      <div className="ml-11 prose prose-sm max-w-none text-white/80">
-                        {faq.answer.split('\n').map((paragraph, index) => (
-                          <p key={index} className="mb-3 last:mb-0">
-                            {paragraph}
-                          </p>
-                        ))}
-                      </div>
-                    </CardContent>
-                  )}
-                </Card>
-              ))}
-
-              {/* Static FAQ: Install like an app */}
-              <Card className="overflow-hidden border-l-4 border-l-primary/30 bg-white/5 hover:bg-white/10 border-white/10 transition-colors">
+            {faqs.map((faq, index) => (
+              <Card key={faq.id} className="overflow-hidden border-l-4 border-l-primary/30 bg-white/5 hover:bg-white/10 border-white/10 transition-colors">
                 <button
-                  onClick={() => toggleItem('install-app')}
+                  onClick={() => toggleItem(faq.id)}
                   className="w-full p-6 text-left hover:bg-white/10 transition-colors"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-sm font-semibold text-white">
-                        i
+                        {index + 1}
                       </div>
                       <h3 className="text-lg font-semibold text-white pr-4">
-                        How do I install FastNow like an app on my phone?
+                        {faq.question}
                       </h3>
                     </div>
-                    {openItems.has('install-app') ? (
+                    {openItems.has(faq.id) ? (
                       <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
                     ) : (
                       <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
                     )}
                   </div>
                 </button>
-                {openItems.has('install-app') && (
+                {openItems.has(faq.id) && (
                   <CardContent className="pt-4 pb-6 border-t border-white/10">
-                    <div className="ml-11 max-w-none text-white/80 space-y-4">
-                      <p className="text-white/90 font-semibold">FastNow – Install the App on Your Phone</p>
-                      <p>Even though FastNow runs in your browser, you can add it to your home screen so it works like a real app — full screen, fast, and easy to open.</p>
-
-                      <h4 className="text-white/90 font-semibold mt-4">For Android Users</h4>
-                      <ol className="list-decimal list-inside space-y-2">
-                        <li><span className="font-medium">Step 1 – Open FastNow in Chrome:</span> Use Google Chrome (or Samsung Internet) on your phone. Go to fastnow.app (or your site URL).</li>
-                        <li><span className="font-medium">Step 2 – Add to Home Screen:</span> Tap the ⋮ menu (top right in Chrome). Select “Add to Home screen”. Confirm the name FastNow and tap Add.</li>
-                        <li><span className="font-medium">Step 3 – Put It in Your Main Navigation Bar (optional):</span> Press and hold the new FastNow icon. Drag it to your main dock/navigation bar so it’s always visible.</li>
-                      </ol>
-
-                      <h4 className="text-white/90 font-semibold mt-4">For iPhone & iPad Users</h4>
-                      <ol className="list-decimal list-inside space-y-2">
-                        <li><span className="font-medium">Step 1 – Open FastNow in Safari:</span> Use Safari (Apple’s browser). Go to fastnow.app (or your site URL).</li>
-                        <li><span className="font-medium">Step 2 – Add to Home Screen:</span> Tap the Share icon (square with arrow up). Scroll and tap “Add to Home Screen”. Confirm the name FastNow and tap Add.</li>
-                      </ol>
-
-                      <h4 className="text-white/90 font-semibold mt-4">Why Install?</h4>
-                      <ul className="list-disc list-inside space-y-1">
-                        <li>One-tap access — no need to type the address.</li>
-                        <li>Full screen — looks and feels like a native app.</li>
-                        <li>Faster startup — loads instantly from your phone.</li>
-                      </ul>
+                    <div className="ml-11 prose prose-sm max-w-none text-white/80">
+                      {faq.answer.split('\n').map((paragraph, index) => (
+                        <p key={index} className="mb-3 last:mb-0">
+                          {paragraph}
+                        </p>
+                      ))}
                     </div>
                   </CardContent>
                 )}
               </Card>
+            ))}
+
+            {/* Static FAQ: Install like an app */}
+            <Card className="overflow-hidden border-l-4 border-l-primary/30 bg-white/5 hover:bg-white/10 border-white/10 transition-colors">
+              <button
+                onClick={() => toggleItem('install-app')}
+                className="w-full p-6 text-left hover:bg-white/10 transition-colors"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-sm font-semibold text-white">
+                      i
+                    </div>
+                    <h3 className="text-lg font-semibold text-white pr-4">
+                      How do I install FastNow like an app on my phone?
+                    </h3>
+                  </div>
+                  {openItems.has('install-app') ? (
+                    <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
+                  )}
+                </div>
+              </button>
+              {openItems.has('install-app') && (
+                <CardContent className="pt-4 pb-6 border-t border-white/10">
+                  <div className="ml-11 max-w-none text-white/80 space-y-4">
+                    <p className="text-white/90 font-semibold">FastNow – Install the App on Your Phone</p>
+                    <p>Even though FastNow runs in your browser, you can add it to your home screen so it works like a real app — full screen, fast, and easy to open.</p>
+
+                    <h4 className="text-white/90 font-semibold mt-4">For Android Users</h4>
+                    <ol className="list-decimal list-inside space-y-2">
+                      <li><span className="font-medium">Step 1 – Open FastNow in Chrome:</span> Use Google Chrome (or Samsung Internet) on your phone. Go to fastnow.app (or your site URL).</li>
+                      <li><span className="font-medium">Step 2 – Add to Home Screen:</span> Tap the ⋮ menu (top right in Chrome). Select "Add to Home screen". Confirm the name FastNow and tap Add.</li>
+                      <li><span className="font-medium">Step 3 – Put It in Your Main Navigation Bar (optional):</span> Press and hold the new FastNow icon. Drag it to your main dock/navigation bar so it's always visible.</li>
+                    </ol>
+
+                    <h4 className="text-white/90 font-semibold mt-4">For iPhone & iPad Users</h4>
+                    <ol className="list-decimal list-inside space-y-2">
+                      <li><span className="font-medium">Step 1 – Open FastNow in Safari:</span> Use Safari (Apple's browser). Go to fastnow.app (or your site URL).</li>
+                      <li><span className="font-medium">Step 2 – Add to Home Screen:</span> Tap the Share icon (square with arrow up). Scroll and tap "Add to Home Screen". Confirm the name FastNow and tap Add.</li>
+                    </ol>
+
+                    <h4 className="text-white/90 font-semibold mt-4">Why Install?</h4>
+                    <ul className="list-disc list-inside space-y-1">
+                      <li>One-tap access — no need to type the address.</li>
+                      <li>Full screen — looks and feels like a native app.</li>
+                      <li>Faster startup — loads instantly from your phone.</li>
+                    </ul>
+                  </div>
+                </CardContent>
+              )}
+            </Card>
           </div>
         </div>
-      </div>
-    </PageLayout>
+      </main>
+      <Footer />
+    </div>
   );
 };
 

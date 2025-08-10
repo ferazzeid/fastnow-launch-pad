@@ -1,58 +1,36 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, PaintBucket, Edit } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
-import ContentExport from "@/components/admin/ContentExport";
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
+import { useAuth } from '@/hooks/useAuth';
 
 const Admin = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, isAdmin, isLoading } = useAuth();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const session = await SupabaseAuthService.getCurrentSession();
-        if (session?.user) {
-          console.log('User found in session, checking admin role...');
-          const isAdmin = await SupabaseAuthService.hasAdminRole(session.user.id);
-          console.log('Admin role check result:', isAdmin);
-          if (isAdmin) {
-            console.log('User is admin, setting authenticated to true');
-            setIsAuthenticated(true);
-            setIsLoading(false);
-            return; // Important: return early to prevent navigation
-          } else {
-            console.log('User is not admin, redirecting to home');
-            setIsAuthenticated(false);
-            navigate('/');
-            toast.error("Access denied. Admin privileges required.");
-          }
-        } else {
-          console.log('No user session found, redirecting to login');
-          setIsAuthenticated(false);
-          navigate('/admin/login');
-        }
-      } catch (error) {
-        console.error('Auth check error:', error);
-        setIsAuthenticated(false);
+  React.useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
         navigate('/admin/login');
+        return;
       }
-      setIsLoading(false);
-    };
-    
-    checkAuth();
-  }, [navigate]);
+      
+      if (!isAdmin) {
+        navigate('/');
+        toast.error("Access denied. Admin privileges required.");
+        return;
+      }
+    }
+  }, [user, isAdmin, isLoading, navigate]);
 
   const handleLogout = async () => {
     const success = await SupabaseAuthService.signOut();
     if (success) {
-      setIsAuthenticated(false);
       toast.success("Logged out successfully");
       navigate('/admin/login');
     }
@@ -61,13 +39,16 @@ const Admin = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div>Loading...</div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
       </div>
     );
   }
 
-  if (!isAuthenticated) {
-    return null; // Will be redirected by useEffect
+  if (!user || !isAdmin) {
+    return null; // Prevent flash of content before redirect
   }
 
   return (
