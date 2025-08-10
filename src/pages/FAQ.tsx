@@ -16,12 +16,11 @@ interface FAQ {
 const FAQ = () => {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
-  const [loading, setLoading] = useState(true);
   const [pageContent, setPageContent] = useState({
     title: 'Frequently Asked Questions',
-    description: 'Get answers to common questions about FastNow and intermittent fasting',
+    description: 'Get answers to common questions about FastNow',
     metaTitle: 'Frequently Asked Questions | FastNow App',
-    metaDescription: 'Find answers to common questions about the FastNow app, intermittent fasting, and how to get the most out of your fasting journey.'
+    metaDescription: 'Find answers to common questions about the FastNow app and how to get the most out of your fasting journey.'
   });
 
   useEffect(() => {
@@ -37,9 +36,9 @@ const FAQ = () => {
       if (content) {
         setPageContent({
           title: content.title || 'Frequently Asked Questions',
-          description: content.content || 'Get answers to common questions about FastNow and intermittent fasting',
+          description: content.content || 'Get answers to common questions about FastNow',
           metaTitle: content.meta_title || 'Frequently Asked Questions | FastNow App',
-          metaDescription: content.meta_description || 'Find answers to common questions about the FastNow app, intermittent fasting, and how to get the most out of your fasting journey.'
+          metaDescription: content.meta_description || 'Find answers to common questions about the FastNow app and how to get the most out of your fasting journey.'
         });
       }
     } catch (error) {
@@ -60,8 +59,6 @@ const FAQ = () => {
       setFaqs(data || []);
     } catch (error) {
       console.error('Error loading FAQs:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -100,8 +97,8 @@ const FAQ = () => {
         </script>
       </Helmet>
 
-      <div className="bg-black text-white min-h-screen"><div className="container max-w-4xl mx-auto py-12">
-        <div className="max-w-4xl mx-auto">
+      <div className="bg-black text-white min-h-screen">
+        <div className="container max-w-4xl mx-auto py-12">
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -113,16 +110,7 @@ const FAQ = () => {
           </div>
 
           {/* FAQ Content */}
-          {loading ? (
-            <div className="text-center py-8">
-              <p className="text-muted-foreground">Loading FAQs...</p>
-            </div>
-          ) : faqs.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground text-lg">No FAQs available at the moment.</p>
-            </div>
-          ) : (
-            <div className="space-y-4">
+          <div className="space-y-4">
               {faqs.map((faq, index) => (
                 <Card key={faq.id} className="overflow-hidden border-l-4 border-l-primary/30 bg-white/5 hover:bg-white/10 border-white/10 transition-colors">
                   <button
@@ -210,10 +198,9 @@ const FAQ = () => {
                   </CardContent>
                 )}
               </Card>
-            </div>
-          )}
+          </div>
         </div>
-        </div></div>
+      </div>
     </PageLayout>
   );
 };

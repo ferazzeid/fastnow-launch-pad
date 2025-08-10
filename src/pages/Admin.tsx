@@ -19,15 +19,22 @@ const Admin = () => {
       try {
         const session = await SupabaseAuthService.getCurrentSession();
         if (session?.user) {
+          console.log('User found in session, checking admin role...');
           const isAdmin = await SupabaseAuthService.hasAdminRole(session.user.id);
+          console.log('Admin role check result:', isAdmin);
           if (isAdmin) {
+            console.log('User is admin, setting authenticated to true');
             setIsAuthenticated(true);
+            setIsLoading(false);
+            return; // Important: return early to prevent navigation
           } else {
+            console.log('User is not admin, redirecting to home');
             setIsAuthenticated(false);
             navigate('/');
             toast.error("Access denied. Admin privileges required.");
           }
         } else {
+          console.log('No user session found, redirecting to login');
           setIsAuthenticated(false);
           navigate('/admin/login');
         }
@@ -35,9 +42,8 @@ const Admin = () => {
         console.error('Auth check error:', error);
         setIsAuthenticated(false);
         navigate('/admin/login');
-      } finally {
-        setIsLoading(false);
       }
+      setIsLoading(false);
     };
     
     checkAuth();
