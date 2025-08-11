@@ -45,6 +45,14 @@ const AdminFastNowProtocol = () => {
   const [phase3Why, setPhase3Why] = useState('');
   const [phase3HowToFit, setPhase3HowToFit] = useState('');
   
+  // Phase Images
+  const [phase1Image, setPhase1Image] = useState('');
+  const [phase2Image, setPhase2Image] = useState('');
+  const [phase3Image, setPhase3Image] = useState('');
+  const [phase1IntroImage, setPhase1IntroImage] = useState('');
+  const [phase2IntroImage, setPhase2IntroImage] = useState('');
+  const [phase3IntroImage, setPhase3IntroImage] = useState('');
+  
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
@@ -82,11 +90,12 @@ const AdminFastNowProtocol = () => {
           'protocol_title', 'protocol_subtitle', 'protocol_content', 'protocol_featured_image',
           'protocol_meta_title', 'protocol_meta_description',
           'protocol_phase1_title', 'protocol_phase1_duration', 'protocol_phase1_purpose', 
-          'protocol_phase1_instructions', 'protocol_phase1_details',
+          'protocol_phase1_instructions', 'protocol_phase1_details', 'protocol_phase1_image',
+          'protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image',
           'protocol_phase2_title', 'protocol_phase2_duration', 'protocol_phase2_carb_cap',
           'protocol_phase2_deficit', 'protocol_phase2_why_deficit', 'protocol_phase2_how_to_set',
-          'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery',
-          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_how_to_fit'
+          'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery', 'protocol_phase2_image',
+          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_how_to_fit', 'protocol_phase3_image'
         ]);
 
       if (error) throw error;
@@ -131,6 +140,14 @@ const AdminFastNowProtocol = () => {
       setPhase3Rule(settings.protocol_phase3_rule || '1.5 hours every day (non-negotiable).');
       setPhase3Why(settings.protocol_phase3_why || '~500 kcal/day for many people, better mood, stable energy, and it\'s the simplest thing most people will actually do consistently.');
       setPhase3HowToFit(settings.protocol_phase3_how_to_fit || 'Split it up: 45 minutes in the morning, 45 minutes in the evening. Listen to podcasts, audiobooks, or music. Make it your thinking time.');
+      
+      // Phase Images
+      setPhase1Image(settings.protocol_phase1_image || '');
+      setPhase2Image(settings.protocol_phase2_image || '');
+      setPhase3Image(settings.protocol_phase3_image || '');
+      setPhase1IntroImage(settings.protocol_phase1_intro_image || '');
+      setPhase2IntroImage(settings.protocol_phase2_intro_image || '');
+      setPhase3IntroImage(settings.protocol_phase3_intro_image || '');
     } catch (error) {
       console.error('Error loading content:', error);
       toast.error('Failed to load content');
@@ -170,7 +187,15 @@ const AdminFastNowProtocol = () => {
         { setting_key: 'protocol_phase3_title', setting_value: JSON.stringify(phase3Title) },
         { setting_key: 'protocol_phase3_rule', setting_value: JSON.stringify(phase3Rule) },
         { setting_key: 'protocol_phase3_why', setting_value: JSON.stringify(phase3Why) },
-        { setting_key: 'protocol_phase3_how_to_fit', setting_value: JSON.stringify(phase3HowToFit) }
+        { setting_key: 'protocol_phase3_how_to_fit', setting_value: JSON.stringify(phase3HowToFit) },
+        
+        // Phase Images
+        { setting_key: 'protocol_phase1_image', setting_value: JSON.stringify(phase1Image) },
+        { setting_key: 'protocol_phase2_image', setting_value: JSON.stringify(phase2Image) },
+        { setting_key: 'protocol_phase3_image', setting_value: JSON.stringify(phase3Image) },
+        { setting_key: 'protocol_phase1_intro_image', setting_value: JSON.stringify(phase1IntroImage) },
+        { setting_key: 'protocol_phase2_intro_image', setting_value: JSON.stringify(phase2IntroImage) },
+        { setting_key: 'protocol_phase3_intro_image', setting_value: JSON.stringify(phase3IntroImage) }
       ];
 
       for (const update of updates) {
@@ -217,6 +242,46 @@ const AdminFastNowProtocol = () => {
   const handleRemoveImage = () => {
     setFeaturedImage('');
     toast.success('Image removed');
+  };
+
+  const handlePhaseImageUpload = async (phase: string, type: 'main' | 'intro', event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const result = await ImageUploadService.uploadImage(file, 'phase-images');
+      
+      if (type === 'main') {
+        if (phase === 'phase1') setPhase1Image(result.url);
+        else if (phase === 'phase2') setPhase2Image(result.url);
+        else if (phase === 'phase3') setPhase3Image(result.url);
+      } else {
+        if (phase === 'phase1') setPhase1IntroImage(result.url);
+        else if (phase === 'phase2') setPhase2IntroImage(result.url);
+        else if (phase === 'phase3') setPhase3IntroImage(result.url);
+      }
+      
+      toast.success('Phase image uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading phase image:', error);
+      toast.error('Failed to upload phase image');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleRemovePhaseImage = (phase: string, type: 'main' | 'intro') => {
+    if (type === 'main') {
+      if (phase === 'phase1') setPhase1Image('');
+      else if (phase === 'phase2') setPhase2Image('');
+      else if (phase === 'phase3') setPhase3Image('');
+    } else {
+      if (phase === 'phase1') setPhase1IntroImage('');
+      else if (phase === 'phase2') setPhase2IntroImage('');
+      else if (phase === 'phase3') setPhase3IntroImage('');
+    }
+    toast.success('Phase image removed');
   };
 
   if (authLoading) {
@@ -358,6 +423,88 @@ const AdminFastNowProtocol = () => {
                 className="min-h-[120px]"
               />
             </div>
+            
+            {/* Phase 1 Images */}
+            <div className="space-y-4">
+              <h4 className="text-md font-semibold">Phase 1 Images</h4>
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* Phase 1 Intro Card Image */}
+                <div className="space-y-2">
+                  <Label>Phase 1 Intro Card Image (Small)</Label>
+                  {phase1IntroImage ? (
+                    <div className="space-y-2">
+                      <img 
+                        src={phase1IntroImage} 
+                        alt="Phase 1 Intro" 
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleRemovePhaseImage('phase1', 'intro')}
+                        size="sm"
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handlePhaseImageUpload('phase1', 'intro', e)}
+                        disabled={isUploading}
+                        className="hidden"
+                        id="phase1-intro-image"
+                      />
+                      <Label htmlFor="phase1-intro-image" className="cursor-pointer">
+                        <div className="text-gray-500 text-sm">
+                          {isUploading ? 'Uploading...' : 'Upload intro card image'}
+                        </div>
+                      </Label>
+                    </div>
+                  )}
+                </div>
+
+                {/* Phase 1 Main Image */}
+                <div className="space-y-2">
+                  <Label>Phase 1 Main Image (Large)</Label>
+                  {phase1Image ? (
+                    <div className="space-y-2">
+                      <img 
+                        src={phase1Image} 
+                        alt="Phase 1 Main" 
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleRemovePhaseImage('phase1', 'main')}
+                        size="sm"
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handlePhaseImageUpload('phase1', 'main', e)}
+                        disabled={isUploading}
+                        className="hidden"
+                        id="phase1-main-image"
+                      />
+                      <Label htmlFor="phase1-main-image" className="cursor-pointer">
+                        <div className="text-gray-500 text-sm">
+                          {isUploading ? 'Uploading...' : 'Upload main phase image'}
+                        </div>
+                      </Label>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Phase 2 */}
@@ -453,6 +600,88 @@ const AdminFastNowProtocol = () => {
                 className="min-h-[80px]"
               />
             </div>
+            
+            {/* Phase 2 Images */}
+            <div className="space-y-4">
+              <h4 className="text-md font-semibold">Phase 2 Images</h4>
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* Phase 2 Intro Card Image */}
+                <div className="space-y-2">
+                  <Label>Phase 2 Intro Card Image (Small)</Label>
+                  {phase2IntroImage ? (
+                    <div className="space-y-2">
+                      <img 
+                        src={phase2IntroImage} 
+                        alt="Phase 2 Intro" 
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleRemovePhaseImage('phase2', 'intro')}
+                        size="sm"
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handlePhaseImageUpload('phase2', 'intro', e)}
+                        disabled={isUploading}
+                        className="hidden"
+                        id="phase2-intro-image"
+                      />
+                      <Label htmlFor="phase2-intro-image" className="cursor-pointer">
+                        <div className="text-gray-500 text-sm">
+                          {isUploading ? 'Uploading...' : 'Upload intro card image'}
+                        </div>
+                      </Label>
+                    </div>
+                  )}
+                </div>
+
+                {/* Phase 2 Main Image */}
+                <div className="space-y-2">
+                  <Label>Phase 2 Main Image (Large)</Label>
+                  {phase2Image ? (
+                    <div className="space-y-2">
+                      <img 
+                        src={phase2Image} 
+                        alt="Phase 2 Main" 
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleRemovePhaseImage('phase2', 'main')}
+                        size="sm"
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handlePhaseImageUpload('phase2', 'main', e)}
+                        disabled={isUploading}
+                        className="hidden"
+                        id="phase2-main-image"
+                      />
+                      <Label htmlFor="phase2-main-image" className="cursor-pointer">
+                        <div className="text-gray-500 text-sm">
+                          {isUploading ? 'Uploading...' : 'Upload main phase image'}
+                        </div>
+                      </Label>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Phase 3 */}
@@ -497,6 +726,88 @@ const AdminFastNowProtocol = () => {
                 placeholder="Practical tips for fitting walking into daily routine"
                 className="min-h-[80px]"
               />
+            </div>
+            
+            {/* Phase 3 Images */}
+            <div className="space-y-4">
+              <h4 className="text-md font-semibold">Phase 3 Images</h4>
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* Phase 3 Intro Card Image */}
+                <div className="space-y-2">
+                  <Label>Phase 3 Intro Card Image (Small)</Label>
+                  {phase3IntroImage ? (
+                    <div className="space-y-2">
+                      <img 
+                        src={phase3IntroImage} 
+                        alt="Phase 3 Intro" 
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleRemovePhaseImage('phase3', 'intro')}
+                        size="sm"
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handlePhaseImageUpload('phase3', 'intro', e)}
+                        disabled={isUploading}
+                        className="hidden"
+                        id="phase3-intro-image"
+                      />
+                      <Label htmlFor="phase3-intro-image" className="cursor-pointer">
+                        <div className="text-gray-500 text-sm">
+                          {isUploading ? 'Uploading...' : 'Upload intro card image'}
+                        </div>
+                      </Label>
+                    </div>
+                  )}
+                </div>
+
+                {/* Phase 3 Main Image */}
+                <div className="space-y-2">
+                  <Label>Phase 3 Main Image (Large)</Label>
+                  {phase3Image ? (
+                    <div className="space-y-2">
+                      <img 
+                        src={phase3Image} 
+                        alt="Phase 3 Main" 
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleRemovePhaseImage('phase3', 'main')}
+                        size="sm"
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handlePhaseImageUpload('phase3', 'main', e)}
+                        disabled={isUploading}
+                        className="hidden"
+                        id="phase3-main-image"
+                      />
+                      <Label htmlFor="phase3-main-image" className="cursor-pointer">
+                        <div className="text-gray-500 text-sm">
+                          {isUploading ? 'Uploading...' : 'Upload main phase image'}
+                        </div>
+                      </Label>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
 

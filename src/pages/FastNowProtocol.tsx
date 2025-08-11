@@ -22,7 +22,8 @@ const FastNowProtocol = () => {
       duration: '72 hours (3 full days). My personal sweet spot is 60 hours.',
       purpose: 'Flip the fat-burning switch (ketosis), break the carb/insulin cycle, dump water for momentum, and set the stage so Phase 2 actually works.',
       instructions: 'Drink water and black coffee. No food.',
-      details: 'Day 1 / Night 1: most people can push through; you\'re mostly burning stored sugar.\n\nDay 2 / Night 2: this is the test. Sleep often goes bad, cravings scream, and you negotiate with yourself. Anyone who has quit a serious habit knows this night. Make it through Night 2 and you\'ve done the real work; this is where the shift happens.\n\n60 hours is my ignite point. Some go to 72. Past 60, everything else becomes child\'s play compared to Night 2.'
+      details: 'Day 1 / Night 1: most people can push through; you\'re mostly burning stored sugar.\n\nDay 2 / Night 2: this is the test. Sleep often goes bad, cravings scream, and you negotiate with yourself. Anyone who has quit a serious habit knows this night. Make it through Night 2 and you\'ve done the real work; this is where the shift happens.\n\n60 hours is my ignite point. Some go to 72. Past 60, everything else becomes child\'s play compared to Night 2.',
+      image: ''
     },
     phase2: {
       title: 'Strict Simple Diet + Daily Calorie Limit',
@@ -33,13 +34,15 @@ const FastNowProtocol = () => {
       howToSet: 'Baseline burn (BMR): from sex, age, height, weight.\nAdd activity: almost none / light / medium / high (daily life can add ~300–500+ kcal).\nIntake: (BMR + activity) – 1,000 = your calories to eat.\nExample: total burn ≈ 2,500 → eat ≈ 1,500 kcal',
       whatToEat: 'OK: cheese, sausage, eggs, cold cuts, fish, meat; cucumbers, pickles, plain yogurt.\nDrinks: water, coffee. I personally use Coke Zero / Pepsi Max / Cola Light.\nAvoid: bread, rice, noodles, potatoes, fruit, carrots, tomatoes, oil, and everything else outside the above list.',
       tracking: 'Track every single thing—in the app or on paper. If you "keep it in your head," you will drift. Example: you do everything right, then at night you add a salmon steak "because it\'s healthy." You just blew 600–700 kcal, and your perfect day became a 300 kcal deficit.',
-      recovery: 'If you overeat, you still have Phase 3. Walk it off to claw back the deficit the same day.'
+      recovery: 'If you overeat, you still have Phase 3. Walk it off to claw back the deficit the same day.',
+      image: ''
     },
     phase3: {
       title: 'Daily Walking',
       rule: '1.5 hours every day (non-negotiable).',
       why: '~500 kcal/day for many people, better mood, stable energy, and it\'s the simplest thing most people will actually do consistently.',
-      howToFit: 'Split it up: 45 minutes in the morning, 45 minutes in the evening. Listen to podcasts, audiobooks, or music. Make it your thinking time.'
+      howToFit: 'Split it up: 45 minutes in the morning, 45 minutes in the evening. Listen to podcasts, audiobooks, or music. Make it your thinking time.',
+      image: ''
     }
   });
   const [isLoading, setIsLoading] = useState(true);
@@ -60,11 +63,12 @@ const FastNowProtocol = () => {
           'protocol_title', 'protocol_subtitle', 'protocol_content', 'protocol_featured_image',
           'protocol_meta_title', 'protocol_meta_description',
           'protocol_phase1_title', 'protocol_phase1_duration', 'protocol_phase1_purpose', 
-          'protocol_phase1_instructions', 'protocol_phase1_details',
+          'protocol_phase1_instructions', 'protocol_phase1_details', 'protocol_phase1_image',
+          'protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image',
           'protocol_phase2_title', 'protocol_phase2_duration', 'protocol_phase2_carb_cap',
           'protocol_phase2_deficit', 'protocol_phase2_why_deficit', 'protocol_phase2_how_to_set',
-          'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery',
-          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_how_to_fit'
+          'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery', 'protocol_phase2_image',
+          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_how_to_fit', 'protocol_phase3_image'
         ]);
 
       if (error) {
@@ -100,7 +104,8 @@ const FastNowProtocol = () => {
           duration: settings.protocol_phase1_duration || phaseContent.phase1.duration,
           purpose: settings.protocol_phase1_purpose || phaseContent.phase1.purpose,
           instructions: settings.protocol_phase1_instructions || phaseContent.phase1.instructions,
-          details: settings.protocol_phase1_details || phaseContent.phase1.details
+          details: settings.protocol_phase1_details || phaseContent.phase1.details,
+          image: settings.protocol_phase1_image || ''
         },
         phase2: {
           title: settings.protocol_phase2_title || phaseContent.phase2.title,
@@ -111,13 +116,15 @@ const FastNowProtocol = () => {
           howToSet: settings.protocol_phase2_how_to_set || phaseContent.phase2.howToSet,
           whatToEat: settings.protocol_phase2_what_to_eat || phaseContent.phase2.whatToEat,
           tracking: settings.protocol_phase2_tracking || phaseContent.phase2.tracking,
-          recovery: settings.protocol_phase2_recovery || phaseContent.phase2.recovery
+          recovery: settings.protocol_phase2_recovery || phaseContent.phase2.recovery,
+          image: settings.protocol_phase2_image || ''
         },
         phase3: {
           title: settings.protocol_phase3_title || phaseContent.phase3.title,
           rule: settings.protocol_phase3_rule || phaseContent.phase3.rule,
           why: settings.protocol_phase3_why || phaseContent.phase3.why,
-          howToFit: settings.protocol_phase3_how_to_fit || phaseContent.phase3.howToFit
+          howToFit: settings.protocol_phase3_how_to_fit || phaseContent.phase3.howToFit,
+          image: settings.protocol_phase3_image || ''
         }
       });
     } catch (error) {
@@ -260,6 +267,15 @@ const FastNowProtocol = () => {
               <>
                 {/* Phase 1: 3-Day Initiation Water Fast */}
                 <div className="mb-12">
+                  {phaseContent.phase1.image && (
+                    <div className="mb-8">
+                      <img 
+                        src={phaseContent.phase1.image} 
+                        alt="Phase 1 - 3-Day Water Fast" 
+                        className="w-full h-64 object-cover rounded-lg shadow-soft"
+                      />
+                    </div>
+                  )}
                   <div className="bg-card rounded-lg shadow-soft p-8 border-l-4 border-blue-500">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="bg-blue-500/10 p-3 rounded-full">
@@ -399,6 +415,15 @@ const FastNowProtocol = () => {
 
                 {/* Phase 2: Strict Simple Diet + Daily Calorie Limit */}
                 <div className="mb-12">
+                  {phaseContent.phase2.image && (
+                    <div className="mb-8">
+                      <img 
+                        src={phaseContent.phase2.image} 
+                        alt="Phase 2 - Strict Diet Control" 
+                        className="w-full h-64 object-cover rounded-lg shadow-soft"
+                      />
+                    </div>
+                  )}
                   <div className="bg-card rounded-lg shadow-soft p-8 border-l-4 border-green-500">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="bg-green-500/10 p-3 rounded-full">
@@ -509,6 +534,15 @@ const FastNowProtocol = () => {
 
                 {/* Phase 3: Daily Walking */}
                 <div className="mb-12">
+                  {phaseContent.phase3.image && (
+                    <div className="mb-8">
+                      <img 
+                        src={phaseContent.phase3.image} 
+                        alt="Phase 3 - Daily Walking" 
+                        className="w-full h-64 object-cover rounded-lg shadow-soft"
+                      />
+                    </div>
+                  )}
                   <div className="bg-card rounded-lg shadow-soft p-8 border-l-4 border-orange-500">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="bg-orange-500/10 p-3 rounded-full">
