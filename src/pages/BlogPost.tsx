@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import PageLayout from '@/components/layout/PageLayout';
 import { Helmet } from 'react-helmet-async';
 import { BlogPost as BlogPostType } from '@/types/blog';
-import { BlogService } from '@/services/BlogService';
+import { databaseBlogService } from '@/services/DatabaseBlogService';
 import ReactMarkdown from 'react-markdown';
 
 const BlogPost = () => {
@@ -24,9 +24,13 @@ const BlogPost = () => {
 
     if (!slug) return;
     
-    const foundPost = BlogService.getPostBySlug(slug);
-    setPost(foundPost);
-    setLoading(false);
+    const loadPost = async () => {
+      const foundPost = await databaseBlogService.getPostBySlug(slug);
+      setPost(foundPost);
+      setLoading(false);
+    };
+
+    loadPost();
   }, [slug]);
 
   const handleEdit = () => {

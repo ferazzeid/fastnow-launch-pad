@@ -48,6 +48,9 @@ const Footer = () => {
                 <Link to="/contact" className="text-sm text-gray-600 hover:text-foreground">
                   Contact
                 </Link>
+                <Link to="/blog" className="text-sm text-gray-600 hover:text-foreground">
+                  Blog
+                </Link>
                 
                 {/* Admin access - always routes to /admin */}
                 {!isLoading && isAdmin ? (

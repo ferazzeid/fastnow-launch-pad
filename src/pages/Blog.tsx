@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import PageLayout from '@/components/layout/PageLayout';
 import { Helmet } from 'react-helmet-async';
 import { BlogPost } from '@/types/blog';
-import { BlogService } from '@/services/BlogService';
+import { databaseBlogService } from '@/services/DatabaseBlogService';
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -24,17 +24,18 @@ const Blog = () => {
     const authStatus = localStorage.getItem('fastingApp_auth');
     setIsAdmin(authStatus === 'true');
 
-    // Initialize sample posts if none exist
-    BlogService.createSamplePosts();
-    
-    const allPosts = BlogService.getAllPosts();
-    const publishedPosts = allPosts.filter(post => post.status === 'published');
-    setPosts(publishedPosts);
-    setFilteredPosts(publishedPosts);
-    
-    // Extract unique categories
-    const uniqueCategories = Array.from(new Set(publishedPosts.flatMap(post => post.categories)));
-    setCategories(uniqueCategories);
+    const loadPosts = async () => {
+      const allPosts = await databaseBlogService.getAllPosts();
+      const publishedPosts = allPosts.filter(post => post.status === 'published');
+      setPosts(publishedPosts);
+      setFilteredPosts(publishedPosts);
+      
+      // Extract unique categories
+      const uniqueCategories = Array.from(new Set(publishedPosts.flatMap(post => post.categories)));
+      setCategories(uniqueCategories);
+    };
+
+    loadPosts();
   }, []);
 
   useEffect(() => {
