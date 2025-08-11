@@ -25,8 +25,11 @@ const AdminBlog = () => {
       return;
     }
 
-    // Load posts from database
-    loadPosts();
+    // Migrate any existing localStorage posts to database
+    databaseBlogService.migrateFromLocalStorage().then(() => {
+      // Load posts from database
+      loadPosts();
+    });
   }, [navigate]);
 
   useEffect(() => {
