@@ -11,13 +11,27 @@ import { Badge } from '@/components/ui/badge';
 import { Save, Eye, ArrowLeft, Plus, X } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
 import { BlogPost } from '@/types/blog';
-import { BlogService } from '@/services/BlogService';
+import { databaseBlogService } from '@/services/DatabaseBlogService';
 import ReactMarkdown from 'react-markdown';
 
 const BlogEditor = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEditing = !!id;
+
+  // Helper functions
+  const generateId = () => {
+    return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+  };
+
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+  };
 
   const [post, setPost] = useState<BlogPost>({
     id: '',
@@ -49,19 +63,22 @@ const BlogEditor = () => {
     }
 
     if (isEditing && id) {
-      const existingPost = BlogService.getPostById(id);
-      if (existingPost) {
-        setPost(existingPost);
-      } else {
-        toast.error('Post not found');
-        navigate('/admin/blog');
-      }
+      const loadPost = async () => {
+        const existingPost = await databaseBlogService.getPostById(id);
+        if (existingPost) {
+          setPost(existingPost);
+        } else {
+          toast.error('Post not found');
+          navigate('/admin/blog');
+        }
+      };
+      loadPost();
     } else {
       // Initialize new post
       const now = new Date().toISOString();
       setPost(prev => ({
         ...prev,
-        id: BlogService.generateId(),
+        id: generateId(),
         createdAt: now,
         updatedAt: now,
         publishedAt: now
@@ -69,7 +86,7 @@ const BlogEditor = () => {
     }
   }, [isEditing, id, navigate]);
 
-  const handleSave = (status: 'draft' | 'published' = post.status) => {
+  const handleSave = async (status: 'draft' | 'published' = post.status) => {
     if (!post.title.trim()) {
       toast.error('Title is required');
       return;
@@ -81,7 +98,7 @@ const BlogEditor = () => {
     }
 
     // Generate slug from title if not set
-    const slug = post.slug || BlogService.generateSlug(post.title);
+    const slug = post.slug || generateSlug(post.title);
     
     // Generate excerpt if not set
     const excerpt = post.excerpt || post.content.substring(0, 160) + '...';
@@ -95,9 +112,13 @@ const BlogEditor = () => {
       publishedAt: status === 'published' ? new Date().toISOString() : post.publishedAt
     };
 
-    BlogService.savePost(updatedPost);
-    toast.success(status === 'published' ? 'Post published successfully' : 'Post saved as draft');
-    navigate('/admin/blog');
+    const success = await databaseBlogService.savePost(updatedPost);
+    if (success) {
+      toast.success(status === 'published' ? 'Post published successfully' : 'Post saved as draft');
+      navigate('/admin/blog');
+    } else {
+      toast.error('Failed to save post');
+    }
   };
 
   const handleAddCategory = () => {

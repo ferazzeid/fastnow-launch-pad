@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Search, Edit, Trash2, Eye, Calendar } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
 import { BlogPost } from '@/types/blog';
-import { BlogService } from '@/services/BlogService';
+import { databaseBlogService } from '@/services/DatabaseBlogService';
 
 const AdminBlog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -25,10 +25,7 @@ const AdminBlog = () => {
       return;
     }
 
-    // Initialize sample posts if none exist
-    BlogService.createSamplePosts();
-    
-    // Load posts
+    // Load posts from database
     loadPosts();
   }, [navigate]);
 
@@ -49,16 +46,20 @@ const AdminBlog = () => {
     setFilteredPosts(filtered);
   }, [posts, searchTerm, statusFilter]);
 
-  const loadPosts = () => {
-    const allPosts = BlogService.getAllPosts();
+  const loadPosts = async () => {
+    const allPosts = await databaseBlogService.getAllPosts();
     setPosts(allPosts);
   };
 
-  const handleDeletePost = (id: string) => {
+  const handleDeletePost = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this post?')) {
-      BlogService.deletePost(id);
-      loadPosts();
-      toast.success('Post deleted successfully');
+      const success = await databaseBlogService.deletePost(id);
+      if (success) {
+        loadPosts();
+        toast.success('Post deleted successfully');
+      } else {
+        toast.error('Failed to delete post');
+      }
     }
   };
 
