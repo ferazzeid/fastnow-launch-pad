@@ -29,7 +29,7 @@ class DatabaseBlogService {
         .select('*')
         .eq('slug', slug)
         .eq('status', 'published')
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching blog post:', error);
@@ -49,7 +49,7 @@ class DatabaseBlogService {
         .from('blog_posts')
         .select('*')
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching blog post by ID:', error);
