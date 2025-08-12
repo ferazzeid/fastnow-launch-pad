@@ -28,6 +28,7 @@ const FastNowProtocol = () => {
     phase2: {
       title: 'Strict Simple Diet + Daily Calorie Limit',
       duration: '30–60 days minimum.',
+      calorieCap: '1500 calories or 2000 if you walk that day 90 minutes',
       carbCap: '≤ 30g net carbs/day.',
       deficit: 'Calorie deficit ideally 1000 calories (120 grams of fat)',
       whyDeficit: 'Because you need visible progress fast to keep going. With 250–500 kcal/day, a tiny misstep erases a week, clothes don\'t change, and motivation dies right when you need proof it\'s working. A bigger daily deficit gives you results you can feel in weeks 1–3, not in a year.',
@@ -41,7 +42,6 @@ const FastNowProtocol = () => {
       title: 'Daily Walking',
       rule: '90 minutes every day (non-negotiable).',
       why: '~500 kcal/day for many people, better mood, stable energy, and it\'s the simplest thing most people will actually do consistently.',
-      howToFit: 'While walking: Listen to podcasts, audiobooks, or music. Make it your think time.',
       image: ''
     }
   });
@@ -65,10 +65,10 @@ const FastNowProtocol = () => {
           'protocol_phase1_title', 'protocol_phase1_duration', 'protocol_phase1_purpose', 
           'protocol_phase1_instructions', 'protocol_phase1_details', 'protocol_phase1_image',
           'protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image',
-          'protocol_phase2_title', 'protocol_phase2_duration', 'protocol_phase2_carb_cap',
+          'protocol_phase2_title', 'protocol_phase2_duration', 'protocol_phase2_calorie_cap', 'protocol_phase2_carb_cap',
           'protocol_phase2_deficit', 'protocol_phase2_why_deficit', 'protocol_phase2_how_to_set',
           'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery', 'protocol_phase2_image',
-          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_how_to_fit', 'protocol_phase3_image'
+          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_image'
         ]);
 
       if (error) {
@@ -110,6 +110,7 @@ const FastNowProtocol = () => {
         phase2: {
           title: settings.protocol_phase2_title || phaseContent.phase2.title,
           duration: settings.protocol_phase2_duration || phaseContent.phase2.duration,
+          calorieCap: settings.protocol_phase2_calorie_cap || phaseContent.phase2.calorieCap,
           carbCap: settings.protocol_phase2_carb_cap || phaseContent.phase2.carbCap,
           deficit: settings.protocol_phase2_deficit || phaseContent.phase2.deficit,
           whyDeficit: settings.protocol_phase2_why_deficit || phaseContent.phase2.whyDeficit,
@@ -123,7 +124,6 @@ const FastNowProtocol = () => {
           title: settings.protocol_phase3_title || phaseContent.phase3.title,
           rule: settings.protocol_phase3_rule || phaseContent.phase3.rule,
           why: settings.protocol_phase3_why || phaseContent.phase3.why,
-          howToFit: settings.protocol_phase3_how_to_fit || phaseContent.phase3.howToFit,
           image: settings.protocol_phase3_image || ''
         }
       });
@@ -161,6 +161,7 @@ const FastNowProtocol = () => {
           // Phase 2 defaults
           { setting_key: 'protocol_phase2_title', setting_value: JSON.stringify(phaseContent.phase2.title) },
           { setting_key: 'protocol_phase2_duration', setting_value: JSON.stringify(phaseContent.phase2.duration) },
+          { setting_key: 'protocol_phase2_calorie_cap', setting_value: JSON.stringify(phaseContent.phase2.calorieCap) },
           { setting_key: 'protocol_phase2_carb_cap', setting_value: JSON.stringify(phaseContent.phase2.carbCap) },
           { setting_key: 'protocol_phase2_deficit', setting_value: JSON.stringify(phaseContent.phase2.deficit) },
           { setting_key: 'protocol_phase2_why_deficit', setting_value: JSON.stringify(phaseContent.phase2.whyDeficit) },
@@ -171,8 +172,7 @@ const FastNowProtocol = () => {
           // Phase 3 defaults
           { setting_key: 'protocol_phase3_title', setting_value: JSON.stringify(phaseContent.phase3.title) },
           { setting_key: 'protocol_phase3_rule', setting_value: JSON.stringify(phaseContent.phase3.rule) },
-          { setting_key: 'protocol_phase3_why', setting_value: JSON.stringify(phaseContent.phase3.why) },
-          { setting_key: 'protocol_phase3_how_to_fit', setting_value: JSON.stringify(phaseContent.phase3.howToFit) }
+          { setting_key: 'protocol_phase3_why', setting_value: JSON.stringify(phaseContent.phase3.why) }
         ];
 
         for (const setting of defaultSettings) {
@@ -333,30 +333,34 @@ const FastNowProtocol = () => {
                         </div>
                       )}
                       <div className="px-8 pb-8">
-                        <div className="bg-black text-white p-6 -m-8 mb-6 flex items-center gap-4 h-24">
-                          <div className="bg-white/10 p-3 rounded-full">
-                            <Utensils className="w-6 h-6 text-accent-green" />
-                          </div>
-                          <div className="flex-1">
-                            <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
-                            <h2 className="text-2xl font-bold mt-2 text-white">{phaseContent.phase2.title}</h2>
-                          </div>
-                        </div>
-                        
-                        <div className="grid md:grid-cols-3 gap-6 mb-6">
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-2 text-foreground">Duration</h3>
-                            <p className="text-muted-foreground">{phaseContent.phase2.duration}</p>
-                          </div>
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-2 text-foreground">Carb Cap</h3>
-                            <p className="text-muted-foreground">{phaseContent.phase2.carbCap}</p>
-                          </div>
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-2 text-foreground">Calorie Deficit</h3>
-                            <p className="text-muted-foreground">{phaseContent.phase2.deficit}</p>
-                          </div>
-                        </div>
+                         <div className="bg-black text-white p-6 -m-8 mb-6 flex items-center gap-4 h-24">
+                           <div className="bg-white/10 p-3 rounded-full">
+                             <Utensils className="w-6 h-6 text-accent-green" />
+                           </div>
+                           <div className="flex-1">
+                             <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
+                             <h2 className="text-2xl font-bold mt-2 text-white">{phaseContent.phase2.title}</h2>
+                           </div>
+                         </div>
+                         
+                         <div className="grid md:grid-cols-4 gap-6 mb-6">
+                           <div className="bg-gray-100 p-4 rounded-lg">
+                             <h3 className="text-lg font-semibold mb-2 text-foreground">Duration</h3>
+                             <p className="text-muted-foreground">{phaseContent.phase2.duration}</p>
+                           </div>
+                           <div className="bg-gray-100 p-4 rounded-lg">
+                             <h3 className="text-lg font-semibold mb-2 text-foreground">Calorie Cap</h3>
+                             <p className="text-muted-foreground">{phaseContent.phase2.calorieCap}</p>
+                           </div>
+                           <div className="bg-gray-100 p-4 rounded-lg">
+                             <h3 className="text-lg font-semibold mb-2 text-foreground">Carb Cap</h3>
+                             <p className="text-muted-foreground">{phaseContent.phase2.carbCap}</p>
+                           </div>
+                           <div className="bg-gray-100 p-4 rounded-lg">
+                             <h3 className="text-lg font-semibold mb-2 text-foreground">Calorie Deficit</h3>
+                             <p className="text-muted-foreground">{phaseContent.phase2.deficit}</p>
+                           </div>
+                         </div>
 
                         <div className="space-y-6">
                           <div className="bg-gray-100 p-4 rounded-lg">
@@ -371,12 +375,16 @@ const FastNowProtocol = () => {
                             </pre>
                           </div>
 
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-3 text-foreground">What to Eat</h3>
-                            <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
-                              {phaseContent.phase2.whatToEat}
-                            </pre>
-                          </div>
+                           <div className="bg-gray-100 p-4 rounded-lg">
+                             <h3 className="text-lg font-semibold mb-3 text-foreground">What to Eat</h3>
+                             <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
+                               {phaseContent.phase2.whatToEat}
+                             </pre>
+                             <div className="mt-4 p-4 border-2 border-dashed border-gray-300 rounded-lg text-center">
+                               <p className="text-sm text-gray-500 mb-2">Upload images of allowed foods</p>
+                               <input type="file" accept="image/*" multiple className="text-sm text-gray-500" />
+                             </div>
+                           </div>
 
                           <div className="bg-gray-100 rounded-lg p-4">
                             <h4 className="text-lg font-semibold text-foreground mb-2">Critical: Track Everything</h4>
@@ -404,34 +412,29 @@ const FastNowProtocol = () => {
                           />
                         </div>
                       )}
-                      <div className="px-8 pb-8">
-                        <div className="bg-black text-white p-6 -m-8 mb-6 flex items-center gap-4 h-24">
-                          <div className="bg-white/10 p-3 rounded-full">
-                            <Activity className="w-6 h-6 text-accent-green" />
-                          </div>
-                          <div className="flex-1">
-                            <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
-                            <h2 className="text-2xl font-bold mt-2 text-white">{phaseContent.phase3.title}</h2>
-                          </div>
-                        </div>
-                        
-                        <div className="space-y-6">
-                          <div className="bg-gray-100 p-6 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-3 text-foreground">The Rule</h3>
-                            <p className="text-xl font-medium text-foreground">{phaseContent.phase3.rule}</p>
-                          </div>
+                       <div className="px-8 pb-8">
+                         <div className="bg-black text-white p-6 -m-8 mb-6 flex items-center gap-4 h-24">
+                           <div className="bg-white/10 p-3 rounded-full">
+                             <Activity className="w-6 h-6 text-accent-green" />
+                           </div>
+                           <div className="flex-1 min-h-[3rem] flex flex-col justify-center">
+                             <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
+                             <h2 className="text-2xl font-bold mt-2 text-white">{phaseContent.phase3.title}</h2>
+                           </div>
+                         </div>
+                         
+                         <div className="space-y-6">
+                           <div className="bg-gray-100 p-6 rounded-lg">
+                             <h3 className="text-lg font-semibold mb-3 text-foreground">The Rule</h3>
+                             <p className="text-xl font-medium text-foreground">{phaseContent.phase3.rule}</p>
+                           </div>
 
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-3 text-foreground">Why Walking?</h3>
-                            <p className="text-muted-foreground">{phaseContent.phase3.why}</p>
-                          </div>
-
-                          <div className="bg-gray-100 rounded-lg p-4">
-                            <h3 className="text-lg font-semibold mb-3 text-foreground">While Walking</h3>
-                            <p className="text-muted-foreground">{phaseContent.phase3.howToFit}</p>
-                          </div>
-                        </div>
-                      </div>
+                           <div className="bg-gray-100 p-4 rounded-lg">
+                             <h3 className="text-lg font-semibold mb-3 text-foreground">Why Walking?</h3>
+                             <p className="text-muted-foreground">{phaseContent.phase3.why}</p>
+                           </div>
+                         </div>
+                       </div>
                     </div>
                   </div>
                 </>
