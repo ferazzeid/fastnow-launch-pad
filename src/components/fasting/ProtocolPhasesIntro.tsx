@@ -49,13 +49,13 @@ const ProtocolPhasesIntro = () => {
         <div className="hidden md:flex items-center justify-center gap-8">
           {/* Phase 1 */}
           <div className="flex-1 max-w-sm">
-            <div className="bg-card rounded-xl shadow-soft p-8 border-l-4 border-blue-500 text-center min-h-[280px] flex flex-col">
+            <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-blue-500 text-center min-h-[280px] flex flex-col">
               {phaseImages.phase1 && (
-                <div className="mb-4">
+                <div className="mb-4 -m-8 mt-0 mx-0">
                   <img 
                     src={phaseImages.phase1} 
                     alt="Phase 1 - Water Fast" 
-                    className="w-full h-32 object-cover rounded-lg"
+                    className="w-full h-32 object-cover"
                   />
                 </div>
               )}
@@ -72,13 +72,13 @@ const ProtocolPhasesIntro = () => {
           
           {/* Phase 2 */}
           <div className="flex-1 max-w-sm">
-            <div className="bg-card rounded-xl shadow-soft p-8 border-l-4 border-orange-500 text-center min-h-[280px] flex flex-col">
+            <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-orange-500 text-center min-h-[280px] flex flex-col">
               {phaseImages.phase2 && (
-                <div className="mb-4">
+                <div className="mb-4 -m-8 mt-0 mx-0">
                   <img 
                     src={phaseImages.phase2} 
                     alt="Phase 2 - Diet Control" 
-                    className="w-full h-32 object-cover rounded-lg"
+                    className="w-full h-32 object-cover"
                   />
                 </div>
               )}
@@ -95,13 +95,13 @@ const ProtocolPhasesIntro = () => {
           
           {/* Phase 3 */}
           <div className="flex-1 max-w-sm">
-            <div className="bg-card rounded-xl shadow-soft p-8 border-l-4 border-green-500 text-center min-h-[280px] flex flex-col">
+            <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-green-500 text-center min-h-[280px] flex flex-col">
               {phaseImages.phase3 && (
-                <div className="mb-4">
+                <div className="mb-4 -m-8 mt-0 mx-0">
                   <img 
                     src={phaseImages.phase3} 
                     alt="Phase 3 - Daily Walking" 
-                    className="w-full h-32 object-cover rounded-lg"
+                    className="w-full h-32 object-cover"
                   />
                 </div>
               )}
@@ -117,13 +117,13 @@ const ProtocolPhasesIntro = () => {
         {/* Mobile Layout */}
         <div className="md:hidden space-y-6">
           {/* Phase 1 */}
-          <div className="bg-card rounded-xl shadow-soft p-6 border-l-4 border-blue-500">
+          <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-blue-500">
             {phaseImages.phase1 && (
-              <div className="mb-4">
+              <div className="mb-4 -m-6 mt-0 mx-0">
                 <img 
                   src={phaseImages.phase1} 
                   alt="Phase 1 - Water Fast" 
-                  className="w-full h-32 object-cover rounded-lg"
+                  className="w-full h-32 object-cover"
                 />
               </div>
             )}
@@ -142,13 +142,13 @@ const ProtocolPhasesIntro = () => {
           <div className="text-center text-2xl font-bold text-muted-foreground">+</div>
           
           {/* Phase 2 */}
-          <div className="bg-card rounded-xl shadow-soft p-6 border-l-4 border-orange-500">
+          <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-orange-500">
             {phaseImages.phase2 && (
-              <div className="mb-4">
+              <div className="mb-4 -m-6 mt-0 mx-0">
                 <img 
                   src={phaseImages.phase2} 
                   alt="Phase 2 - Diet Control" 
-                  className="w-full h-32 object-cover rounded-lg"
+                  className="w-full h-32 object-cover"
                 />
               </div>
             )}
@@ -167,13 +167,13 @@ const ProtocolPhasesIntro = () => {
           <div className="text-center text-2xl font-bold text-muted-foreground">+</div>
           
           {/* Phase 3 */}
-          <div className="bg-card rounded-xl shadow-soft p-6 border-l-4 border-green-500">
+          <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-green-500">
             {phaseImages.phase3 && (
-              <div className="mb-4">
+              <div className="mb-4 -m-6 mt-0 mx-0">
                 <img 
                   src={phaseImages.phase3} 
                   alt="Phase 3 - Daily Walking" 
-                  className="w-full h-32 object-cover rounded-lg"
+                  className="w-full h-32 object-cover"
                 />
               </div>
             )}

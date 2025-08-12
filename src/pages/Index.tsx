@@ -61,7 +61,7 @@ const Index = () => {
   
   const [showDefaultDesign, setShowDefaultDesign] = useState(true);
   const [googlePlayLink, setGooglePlayLink] = useState('https://play.google.com');
-  const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>('/lovable-uploads/068e5770-2c00-4164-a0e8-9df5eb13b422.png');
+  const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>('');
 
   // Load content from database and localStorage
   useEffect(() => {
@@ -233,14 +233,16 @@ const Index = () => {
       </Helmet>
       
       {/* Hero Background Image */}
-      <div className="absolute inset-0 w-full h-screen z-0">
-        <img 
-          src={featuredImageUrl || backgroundImageUrl} 
-          alt="Hero background" 
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40"></div>
-      </div>
+      {(featuredImageUrl || backgroundImageUrl) && (
+        <div className="absolute inset-0 w-full h-screen z-0">
+          <img 
+            src={featuredImageUrl || backgroundImageUrl} 
+            alt="Hero background" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
+      )}
       
       {/* Background 3D Element if available */}
       {customElementsImages.background3d && (

@@ -267,16 +267,16 @@ const FastNowProtocol = () => {
               <>
                 {/* Phase 1: 3-Day Initiation Water Fast */}
                 <div className="mb-12">
-                  {phaseContent.phase1.image && (
-                    <div className="mb-8">
-                      <img 
-                        src={phaseContent.phase1.image} 
-                        alt="Phase 1 - 3-Day Water Fast" 
-                        className="w-full h-64 object-cover rounded-lg shadow-soft"
-                      />
-                    </div>
-                  )}
-                  <div className="bg-card rounded-lg shadow-soft p-8 border-l-4 border-blue-500">
+                  <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-blue-500">
+                    {phaseContent.phase1.image && (
+                      <div className="mb-8 -m-8 mt-0 mx-0">
+                        <img 
+                          src={phaseContent.phase1.image} 
+                          alt="Phase 1 - 3-Day Water Fast" 
+                          className="w-full h-64 object-cover"
+                        />
+                      </div>
+                    )}
                     <div className="flex items-center gap-4 mb-6">
                       <div className="bg-blue-500/10 p-3 rounded-full">
                         <Clock className="w-6 h-6 text-blue-600" />
@@ -415,16 +415,16 @@ const FastNowProtocol = () => {
 
                 {/* Phase 2: Strict Simple Diet + Daily Calorie Limit */}
                 <div className="mb-12">
-                  {phaseContent.phase2.image && (
-                    <div className="mb-8">
-                      <img 
-                        src={phaseContent.phase2.image} 
-                        alt="Phase 2 - Strict Diet Control" 
-                        className="w-full h-64 object-cover rounded-lg shadow-soft"
-                      />
-                    </div>
-                  )}
-                  <div className="bg-card rounded-lg shadow-soft p-8 border-l-4 border-green-500">
+                  <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-green-500">
+                    {phaseContent.phase2.image && (
+                      <div className="mb-8 -m-8 mt-0 mx-0">
+                        <img 
+                          src={phaseContent.phase2.image} 
+                          alt="Phase 2 - Strict Diet Control" 
+                          className="w-full h-64 object-cover"
+                        />
+                      </div>
+                    )}
                     <div className="flex items-center gap-4 mb-6">
                       <div className="bg-green-500/10 p-3 rounded-full">
                         <Utensils className="w-6 h-6 text-green-600" />
@@ -534,16 +534,16 @@ const FastNowProtocol = () => {
 
                 {/* Phase 3: Daily Walking */}
                 <div className="mb-12">
-                  {phaseContent.phase3.image && (
-                    <div className="mb-8">
-                      <img 
-                        src={phaseContent.phase3.image} 
-                        alt="Phase 3 - Daily Walking" 
-                        className="w-full h-64 object-cover rounded-lg shadow-soft"
-                      />
-                    </div>
-                  )}
-                  <div className="bg-card rounded-lg shadow-soft p-8 border-l-4 border-orange-500">
+                  <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-orange-500">
+                    {phaseContent.phase3.image && (
+                      <div className="mb-8 -m-8 mt-0 mx-0">
+                        <img 
+                          src={phaseContent.phase3.image} 
+                          alt="Phase 3 - Daily Walking" 
+                          className="w-full h-64 object-cover"
+                        />
+                      </div>
+                    )}
                     <div className="flex items-center gap-4 mb-6">
                       <div className="bg-orange-500/10 p-3 rounded-full">
                         <Activity className="w-6 h-6 text-orange-600" />
