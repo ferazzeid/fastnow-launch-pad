@@ -253,7 +253,7 @@ const FastNowProtocol = () => {
       {/* Content Section */}
       <div className="relative z-10 bg-background">
         <main className="flex-1 py-12">
-          <div className="container max-w-4xl mx-auto">
+          <div className="container max-w-4xl mx-auto px-8">
             <div>
               {/* Dynamic Content */}
               {pageContent.content && (
@@ -262,342 +262,236 @@ const FastNowProtocol = () => {
                 </div>
               )}
 
-            {/* Default content if no custom content is provided */}
-            {!pageContent.content && (
-              <>
-                {/* Phase 1: 3-Day Initiation Water Fast */}
-                <div className="mb-12">
-                  <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-blue-500">
-                    {phaseContent.phase1.image && (
-                      <div className="mb-8 -m-8 mt-0 mx-0">
-                        <img 
-                          src={phaseContent.phase1.image} 
-                          alt="Phase 1 - 3-Day Water Fast" 
-                          className="w-full h-64 object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="px-8 pb-8">
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="bg-blue-500/10 p-3 rounded-full">
-                          <Clock className="w-6 h-6 text-blue-600" />
+              {/* Default content if no custom content is provided */}
+              {!pageContent.content && (
+                <>
+                  {/* Phase 1: 3-Day Initiation Water Fast */}
+                  <div className="mb-12">
+                    <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-blue-500">
+                      {phaseContent.phase1.image && (
+                        <div className="mb-8 -m-8 mt-0 mx-0">
+                          <img 
+                            src={phaseContent.phase1.image} 
+                            alt="Phase 1 - 3-Day Water Fast" 
+                            className="w-full h-64 object-cover"
+                          />
                         </div>
-                        <div>
-                          <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
-                          <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase1.title}</h2>
-                        </div>
-                      </div>
-                    
-                    {/* Fasting Timeline */}
-                    <div className="bg-blue-50 dark:bg-blue-950/20 p-6 rounded-lg mb-6">
-                      <h3 className="text-lg font-semibold mb-4 text-center text-foreground">60-Hour Fast Timeline</h3>
-                      <div className="relative">
-                        {/* Timeline line */}
-                        <div className="absolute top-8 left-0 right-0 h-0.5 bg-blue-300"></div>
-                        
-                        {/* Timeline points */}
-                        <div className="flex justify-between items-start relative">
-                          {/* Start 8 PM - 0h */}
-                          <div className="flex flex-col items-center text-center">
-                            <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-sm z-10"></div>
-                            <div className="mt-2 text-2xl">🍽</div>
-                            <div className="mt-1 text-xs font-medium text-foreground">Start 8 PM</div>
-                            <div className="text-xs text-muted-foreground">0h</div>
+                      )}
+                      <div className="px-8 pb-8">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="bg-blue-500/10 p-3 rounded-full">
+                            <Clock className="w-6 h-6 text-blue-600" />
                           </div>
-                          
-                          {/* Night Zero - 12h */}
-                          <div className="flex flex-col items-center text-center">
-                            <div className="w-4 h-4 bg-blue-400 rounded-full border-2 border-white shadow-sm z-10"></div>
-                            <div className="mt-2 text-2xl">🌙</div>
-                            <div className="mt-1 text-xs font-medium text-foreground">Night Zero</div>
-                            <div className="text-xs text-muted-foreground">12h</div>
-                          </div>
-                          
-                          {/* Day 1 - 24h */}
-                          <div className="flex flex-col items-center text-center">
-                            <div className="w-4 h-4 bg-orange-400 rounded-full border-2 border-white shadow-sm z-10"></div>
-                            <div className="mt-2 text-2xl">☀️</div>
-                            <div className="mt-1 text-xs font-medium text-foreground">Day 1</div>
-                            <div className="text-xs text-muted-foreground">24h</div>
-                          </div>
-                          
-                          {/* Night One - 36h */}
-                          <div className="flex flex-col items-center text-center">
-                            <div className="w-4 h-4 bg-orange-500 rounded-full border-2 border-white shadow-sm z-10"></div>
-                            <div className="mt-2 text-2xl">🌙</div>
-                            <div className="mt-1 text-xs font-medium text-foreground">Night One</div>
-                            <div className="text-xs text-muted-foreground">36h</div>
-                          </div>
-                          
-                          {/* Day 2 - 48h */}
-                          <div className="flex flex-col items-center text-center">
-                            <div className="w-4 h-4 bg-red-400 rounded-full border-2 border-white shadow-sm z-10"></div>
-                            <div className="mt-2 text-2xl">☀️</div>
-                            <div className="mt-1 text-xs font-medium text-foreground">Day 2</div>
-                            <div className="text-xs text-muted-foreground">48h</div>
-                          </div>
-                          
-                          {/* Night Two - 60h */}
-                          <div className="flex flex-col items-center text-center">
-                            <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-sm z-10"></div>
-                            <div className="mt-2 text-2xl">🌙</div>
-                            <div className="mt-1 text-xs font-medium text-foreground">Night Two</div>
-                            <div className="text-xs text-muted-foreground">60h</div>
-                          </div>
-                          
-                          {/* Finish 8 AM - 60h */}
-                          <div className="flex flex-col items-center text-center">
-                            <div className="w-4 h-4 bg-green-500 rounded-full border-2 border-white shadow-sm z-10"></div>
-                            <div className="mt-2 text-2xl">🍽</div>
-                            <div className="mt-1 text-xs font-medium text-foreground">Finish 8 AM</div>
-                            <div className="text-xs text-muted-foreground">60h</div>
+                          <div>
+                            <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
+                            <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase1.title}</h2>
                           </div>
                         </div>
-                      </div>
-                      <p className="text-center text-xs text-muted-foreground mt-4">
-                        Night Two is the critical turning point — push through and everything else becomes easier.
-                      </p>
-                    </div>
-                    
-                    <div className="mb-6">
-                      <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg mb-4">
-                        <p className="text-lg text-foreground">
-                          <strong>Duration:</strong> {phaseContent.phase1.duration}
-                        </p>
-                      </div>
                       
-                      <div className="mb-6">
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <CheckCircle className="w-5 h-5 text-blue-500" />
-                          Purpose:
-                        </h3>
-                        <p className="text-muted-foreground mb-4">
-                          {phaseContent.phase1.purpose}
-                        </p>
-                        
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <CheckCircle className="w-5 h-5 text-blue-500" />
-                          What to do:
-                        </h3>
-                        <p className="text-muted-foreground mb-6">
-                          {phaseContent.phase1.instructions}
-                        </p>
-                        
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <AlertTriangle className="w-5 h-5 text-blue-500" />
-                          What really happens (and why it matters):
-                        </h3>
-                        <div className="space-y-4 text-muted-foreground">
-                          {phaseContent.phase1.details.split('\n\n').map((paragraph, index) => (
-                            <div key={index} className={`bg-gradient-to-r ${
-                              index === 0 ? 'from-blue-50 to-transparent dark:from-blue-950/20 border-l-2 border-blue-300' :
-                              index === 1 ? 'from-orange-50 to-transparent dark:from-orange-950/20 border-l-2 border-orange-300' :
-                              'from-green-50 to-transparent dark:from-green-950/20 border-l-2 border-green-300'
-                            } p-4 rounded-lg`}>
-                              <p>{paragraph}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* My Tip Section */}
-                    <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-6">
-                      <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                        <CheckCircle className="w-5 h-5 text-yellow-600" />
-                        My Tip:
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        Start your fast at night after dinner. Eat your last meal, then immediately go to sleep. The hours you sleep count towards your fast, plus the hours before bed. By morning, you're already 10-12 hours deep into the fast—that's serious momentum. You don't want to lose that head start by starting fresh in the morning.
-                      </p>
-                      </div>
-                    </div>
-                  </div>
-
-                {/* Phase 2: Strict Simple Diet + Daily Calorie Limit */}
-                <div className="mb-12">
-                  <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-green-500">
-                    {phaseContent.phase2.image && (
-                      <div className="mb-8 -m-8 mt-0 mx-0">
-                        <img 
-                          src={phaseContent.phase2.image} 
-                          alt="Phase 2 - Strict Diet Control" 
-                          className="w-full h-64 object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="px-8 pb-8">
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="bg-green-500/10 p-3 rounded-full">
-                          <Utensils className="w-6 h-6 text-green-600" />
-                        </div>
-                        <div>
-                          <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
-                          <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase2.title}</h2>
-                        </div>
-                      </div>
-                    
-                    <div className="mb-6">
-                        <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg mb-4">
-                        <div className="grid md:grid-cols-3 gap-4 text-lg text-foreground">
-                          <div>
-                            <strong>Duration:</strong> {phaseContent.phase2.duration}
-                          </div>
-                          <div>
-                            <strong>Carb cap:</strong> {phaseContent.phase2.carbCap}
-                          </div>
-                          <div>
-                            <strong>Daily deficit:</strong> {phaseContent.phase2.deficit}
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="mb-6">
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <AlertTriangle className="w-5 h-5 text-green-500" />
-                          Why 1,000—not 250 or 500?
-                        </h3>
-                        <p className="text-muted-foreground mb-6">
-                          {phaseContent.phase2.whyDeficit}
-                        </p>
-                        
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <CheckCircle className="w-5 h-5 text-green-500" />
-                          How to set your limit:
-                        </h3>
-                        <div className="space-y-3 mb-6">
-                          {phaseContent.phase2.howToSet.split('\n').map((line, index) => (
-                            <div key={index} className="flex items-start gap-3">
-                              <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                              <p className="text-muted-foreground">{line}</p>
-                            </div>
-                          ))}
-                        </div>
-                        
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <Utensils className="w-5 h-5 text-green-500" />
-                          What to eat (because of carbs, not macros):
-                        </h3>
-                        <div className="mb-6 space-y-4">
-                          {phaseContent.phase2.whatToEat.split('\n').map((section, index) => {
-                            const isOk = section.startsWith('OK:');
-                            const isDrinks = section.startsWith('Drinks:');
-                            const isAvoid = section.startsWith('Avoid:');
-                            const bgColor = isOk ? 'bg-green-50 dark:bg-green-950/20' : 
-                                           isDrinks ? 'bg-blue-50 dark:bg-blue-950/20' : 
-                                           'bg-red-50 dark:bg-red-950/20';
-                            const textColor = isOk ? 'text-green-600' : 
-                                            isDrinks ? 'text-blue-600' : 
-                                            'text-red-600';
-                            const label = isOk ? 'OK:' : isDrinks ? 'Drinks:' : 'Avoid:';
-                            const content = section.replace(/^(OK:|Drinks:|Avoid:)\s*/, '');
+                        {/* Fasting Timeline */}
+                        <div className="bg-blue-50 dark:bg-blue-950/20 p-6 rounded-lg mb-6">
+                          <h3 className="text-lg font-semibold mb-4 text-center text-foreground">60-Hour Fast Timeline</h3>
+                          <div className="relative">
+                            {/* Timeline line */}
+                            <div className="absolute top-8 left-0 right-0 h-0.5 bg-blue-300"></div>
                             
-                            return (
-                              <div key={index} className={`${bgColor} p-4 rounded-lg`}>
-                                <p className="text-foreground mb-2"><strong className={textColor}>{label}</strong></p>
-                                <p className="text-muted-foreground">{content}</p>
+                            {/* Timeline points */}
+                            <div className="flex justify-between relative z-10">
+                              <div className="text-center">
+                                <div className="w-4 h-4 bg-blue-500 rounded-full mx-auto mb-2"></div>
+                                <div className="text-sm font-medium text-foreground">Start</div>
+                                <div className="text-xs text-muted-foreground">Hour 0</div>
                               </div>
-                            );
-                          })}
+                              <div className="text-center">
+                                <div className="w-4 h-4 bg-blue-400 rounded-full mx-auto mb-2"></div>
+                                <div className="text-sm font-medium text-foreground">Day 1</div>
+                                <div className="text-xs text-muted-foreground">Hour 24</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="w-4 h-4 bg-orange-500 rounded-full mx-auto mb-2"></div>
+                                <div className="text-sm font-medium text-foreground">Night 2</div>
+                                <div className="text-xs text-muted-foreground">Hour 48</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="w-4 h-4 bg-green-500 rounded-full mx-auto mb-2"></div>
+                                <div className="text-sm font-medium text-foreground">Complete</div>
+                                <div className="text-xs text-muted-foreground">Hour 60</div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <AlertTriangle className="w-5 h-5 text-orange-500" />
-                          Tracking (do not skip this):
-                        </h3>
-                        <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg mb-4">
-                          <p className="text-muted-foreground">
-                            {phaseContent.phase2.tracking}
-                          </p>
+
+                        <div className="grid md:grid-cols-2 gap-6 mb-6">
+                          <div>
+                            <h3 className="text-lg font-semibold mb-3 text-foreground">Duration</h3>
+                            <p className="text-muted-foreground">{phaseContent.phase1.duration}</p>
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-semibold mb-3 text-foreground">Instructions</h3>
+                            <p className="text-muted-foreground">{phaseContent.phase1.instructions}</p>
+                          </div>
                         </div>
-                        
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <CheckCircle className="w-5 h-5 text-green-500" />
-                          Recovery lever:
-                        </h3>
-                        <p className="text-muted-foreground">
-                          {phaseContent.phase2.recovery}
-                        </p>
-                       </div>
-                     </div>
-                     
-                     {/* My Tip Section for Phase 2 */}
-                     <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-6">
-                       <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                         <CheckCircle className="w-5 h-5 text-yellow-600" />
-                         My Tip:
-                       </h3>
-                       <p className="text-muted-foreground leading-relaxed">
-                         Define a set of foods that are allowed and that you have access to and these are not gonna be many. And then eat the same thing every day. You would be hungry enough to eat the same thing every day and you will like it and it will make your shopping easier and you will not have to constantly renegotiate what you have to buy. Life will become extremely simple for those 30 to 90 days. Over time you can start to add to that list from the remaining few items that you are allowed to eat and find new combinations and rotations.
-                       </p>
+
+                        <div className="mb-6">
+                          <h3 className="text-lg font-semibold mb-3 text-foreground">Purpose</h3>
+                          <p className="text-muted-foreground">{phaseContent.phase1.purpose}</p>
+                        </div>
+
+                        <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
+                          <div className="flex items-start gap-3">
+                            <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                            <div>
+                              <h4 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">What to Expect</h4>
+                              <div className="text-yellow-700 dark:text-yellow-300 text-sm space-y-2">
+                                {phaseContent.phase1.details.split('\n\n').map((paragraph, index) => (
+                                  <p key={index}>{paragraph}</p>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                {/* Phase 3: Daily Walking */}
-                <div className="mb-12">
-                  <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-orange-500">
-                    {phaseContent.phase3.image && (
-                      <div className="mb-8 -m-8 mt-0 mx-0">
-                        <img 
-                          src={phaseContent.phase3.image} 
-                          alt="Phase 3 - Daily Walking" 
-                          className="w-full h-64 object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="px-8 pb-8">
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="bg-orange-500/10 p-3 rounded-full">
-                          <Activity className="w-6 h-6 text-orange-600" />
+                  {/* Phase 2: Strict Simple Diet + Daily Calorie Limit */}
+                  <div className="mb-12">
+                    <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-orange-500">
+                      {phaseContent.phase2.image && (
+                        <div className="mb-8 -m-8 mt-0 mx-0">
+                          <img 
+                            src={phaseContent.phase2.image} 
+                            alt="Phase 2 - Diet and Calorie Control" 
+                            className="w-full h-64 object-cover"
+                          />
                         </div>
-                        <div>
-                          <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
-                          <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase3.title}</h2>
+                      )}
+                      <div className="px-8 pb-8">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="bg-orange-500/10 p-3 rounded-full">
+                            <Utensils className="w-6 h-6 text-orange-600" />
+                          </div>
+                          <div>
+                            <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
+                            <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase2.title}</h2>
+                          </div>
                         </div>
-                      </div>
-                    
-                    <div className="mb-6">
-                      <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg mb-4">
-                        <p className="text-lg text-foreground">
-                          <strong>Rule:</strong> {phaseContent.phase3.rule}
-                        </p>
-                      </div>
-                      
-                      <div className="mb-6">
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <CheckCircle className="w-5 h-5 text-orange-500" />
-                          Why:
-                        </h3>
-                        <p className="text-muted-foreground mb-6">
-                          {phaseContent.phase3.why}
-                        </p>
                         
-                        <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                          <Activity className="w-5 h-5 text-orange-500" />
-                          How to fit it in:
-                        </h3>
-                         <p className="text-muted-foreground">
-                           {phaseContent.phase3.howToFit}
-                         </p>
-                       </div>
-                       
-                       {/* My Tip Section for Phase 3 */}
-                       <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-6">
-                         <h3 className="text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
-                           <CheckCircle className="w-5 h-5 text-yellow-600" />
-                           My Tip:
-                         </h3>
-                         <p className="text-muted-foreground leading-relaxed">
-                           While some people prefer to split the walking in multiple sessions or have walking naturally being part of their daily life already, I prefer to walk for 90 minutes straight at dawn on a daily basis. The only exceptions for me are extreme heat, allergens, or sickness. I also like to travel to cities where I combine the city trip with walking. These are days where I can walk for 5 to 6 hours straight which make huge deficit possible and really nicely for some serious weight loss.
-                         </p>
+                        <div className="grid md:grid-cols-3 gap-6 mb-6">
+                          <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg">
+                            <h3 className="text-lg font-semibold mb-2 text-foreground">Duration</h3>
+                            <p className="text-muted-foreground">{phaseContent.phase2.duration}</p>
+                          </div>
+                          <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg">
+                            <h3 className="text-lg font-semibold mb-2 text-foreground">Carb Cap</h3>
+                            <p className="text-muted-foreground">{phaseContent.phase2.carbCap}</p>
+                          </div>
+                          <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg">
+                            <h3 className="text-lg font-semibold mb-2 text-foreground">Calorie Deficit</h3>
+                            <p className="text-muted-foreground">{phaseContent.phase2.deficit}</p>
+                          </div>
+                        </div>
+
+                        <div className="space-y-6">
+                          <div>
+                            <h3 className="text-lg font-semibold mb-3 text-foreground">Why This Deficit?</h3>
+                            <p className="text-muted-foreground">{phaseContent.phase2.whyDeficit}</p>
+                          </div>
+
+                          <div>
+                            <h3 className="text-lg font-semibold mb-3 text-foreground">How to Set Your Calories</h3>
+                            <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-lg">
+                              <pre className="text-sm text-muted-foreground whitespace-pre-wrap font-mono">
+                                {phaseContent.phase2.howToSet}
+                              </pre>
+                            </div>
+                          </div>
+
+                          <div>
+                            <h3 className="text-lg font-semibold mb-3 text-foreground">What to Eat</h3>
+                            <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-lg">
+                              <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
+                                {phaseContent.phase2.whatToEat}
+                              </pre>
+                            </div>
+                          </div>
+
+                          <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                            <div className="flex items-start gap-3">
+                              <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <h4 className="font-semibold text-red-800 dark:text-red-200 mb-2">Critical: Track Everything</h4>
+                                <p className="text-red-700 dark:text-red-300 text-sm">{phaseContent.phase2.tracking}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <h3 className="text-lg font-semibold mb-3 text-foreground">Recovery Plan</h3>
+                            <p className="text-muted-foreground">{phaseContent.phase2.recovery}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </>
-            )}
+
+                  {/* Phase 3: Daily Walking */}
+                  <div className="mb-12">
+                    <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-green-500">
+                      {phaseContent.phase3.image && (
+                        <div className="mb-8 -m-8 mt-0 mx-0">
+                          <img 
+                            src={phaseContent.phase3.image} 
+                            alt="Phase 3 - Daily Walking" 
+                            className="w-full h-64 object-cover"
+                          />
+                        </div>
+                      )}
+                      <div className="px-8 pb-8">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="bg-green-500/10 p-3 rounded-full">
+                            <Activity className="w-6 h-6 text-green-600" />
+                          </div>
+                          <div>
+                            <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
+                            <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase3.title}</h2>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-6">
+                          <div className="bg-green-50 dark:bg-green-950/20 p-6 rounded-lg">
+                            <h3 className="text-lg font-semibold mb-3 text-foreground">The Rule</h3>
+                            <p className="text-xl font-medium text-green-700 dark:text-green-300">{phaseContent.phase3.rule}</p>
+                          </div>
+
+                          <div>
+                            <h3 className="text-lg font-semibold mb-3 text-foreground">Why Walking?</h3>
+                            <p className="text-muted-foreground">{phaseContent.phase3.why}</p>
+                          </div>
+
+                          <div>
+                            <h3 className="text-lg font-semibold mb-3 text-foreground">How to Fit It In</h3>
+                            <p className="text-muted-foreground">{phaseContent.phase3.howToFit}</p>
+                          </div>
+
+                          <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                            <div className="flex items-start gap-3">
+                              <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <h4 className="font-semibold text-green-800 dark:text-green-200 mb-2">Pro Tip</h4>
+                                <p className="text-green-700 dark:text-green-300 text-sm">
+                                  Walking is your safety net. If you overeat in Phase 2, you can walk it off the same day. 
+                                  It's also the easiest habit to maintain long-term.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </main>
