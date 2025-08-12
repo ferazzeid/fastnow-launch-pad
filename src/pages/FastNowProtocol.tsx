@@ -380,10 +380,6 @@ const FastNowProtocol = () => {
                              <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
                                {phaseContent.phase2.whatToEat}
                              </pre>
-                             <div className="mt-4 p-4 border-2 border-dashed border-gray-300 rounded-lg text-center">
-                               <p className="text-sm text-gray-500 mb-2">Upload images of allowed foods</p>
-                               <input type="file" accept="image/*" multiple className="text-sm text-gray-500" />
-                             </div>
                            </div>
 
                           <div className="bg-gray-100 rounded-lg p-4">
@@ -440,55 +436,30 @@ const FastNowProtocol = () => {
 
                   {/* Results Expectations Section */}
                   <div className="mt-12">
-                    <div className="bg-black text-white rounded-lg shadow-soft overflow-hidden p-8">
-                      <h2 className="text-3xl font-bold mb-6 text-white">WHAT KIND OF RESULTS CAN YOU EXPECT?</h2>
+                    <div className="rounded-lg shadow-soft overflow-hidden p-8" style={{ backgroundColor: '#dac471' }}>
+                      <h2 className="text-2xl font-bold mb-6 text-black text-left">WHAT KIND OF RESULTS CAN YOU EXPECT?</h2>
                       
-                      <div className="space-y-6 text-white/90">
-                        <p className="text-lg">
-                          You can realistically aim for about <strong>1 kg per week</strong> if you're consistent and fairly aggressive.
-                          That's roughly <strong>12 kg in 3 months (90 days)</strong> — a massive change.
+                      <div className="space-y-4 text-black">
+                        <p className="text-base text-left">
+                          You can realistically aim for about <strong>1 kg per week</strong> if you're consistent and fairly aggressive. That's roughly <strong>12 kg in 3 months (90 days)</strong> — a massive change.
                         </p>
                         
-                        <div>
-                          <p className="text-lg mb-3">If you start off overweight or obese, you may lose even more, especially if you:</p>
-                          <ul className="space-y-2 ml-6">
-                            <li className="flex items-start gap-2">
-                              <span className="text-accent-green mt-1">•</span>
-                              Walk daily
-                            </li>
-                            <li className="flex items-start gap-2">
-                              <span className="text-accent-green mt-1">•</span>
-                              Maintain a ~1000 calorie deficit (≈ 120–130 g fat burned per day)
-                            </li>
-                          </ul>
+                        <p className="text-base text-left">If you start off overweight or obese, you may lose even more, especially if you:</p>
+                        <div className="ml-4">
+                          <p className="text-base text-left">• Walk daily</p>
+                          <p className="text-base text-left">• Maintain a ~1000 calorie deficit (≈ 120–130 g fat burned per day)</p>
                         </div>
                         
-                        <div>
-                          <h3 className="text-xl font-semibold mb-3 text-accent-green">Extra boosts:</h3>
-                          <ul className="space-y-2 ml-6">
-                            <li className="flex items-start gap-2">
-                              <span className="text-accent-green mt-1">•</span>
-                              <strong>First 3-day fast:</strong> Expect extra loss from water weight.
-                            </li>
-                            <li className="flex items-start gap-2">
-                              <span className="text-accent-green mt-1">•</span>
-                              <strong>Post-fast jumpstart:</strong> Eating 500–1200 calories for a few days can accelerate results.
-                            </li>
-                          </ul>
+                        <p className="text-base text-left font-semibold">Extra boosts:</p>
+                        <div className="ml-4">
+                          <p className="text-base text-left"><strong>First 3-day fast:</strong> Expect extra loss from water weight.</p>
+                          <p className="text-base text-left"><strong>Post-fast jumpstart:</strong> Eating 500–1200 calories for a few days can accelerate results.</p>
                         </div>
                         
-                        <div>
-                          <h3 className="text-xl font-semibold mb-3 text-accent-green">Sustainable daily intake:</h3>
-                          <ul className="space-y-2 ml-6">
-                            <li className="flex items-start gap-2">
-                              <span className="text-accent-green mt-1">•</span>
-                              Most people settle around <strong>1500 calories</strong> for steady loss.
-                            </li>
-                            <li className="flex items-start gap-2">
-                              <span className="text-accent-green mt-1">•</span>
-                              Occasional higher days (1800–2000) are fine if balanced with walking.
-                            </li>
-                          </ul>
+                        <p className="text-base text-left font-semibold">Sustainable daily intake:</p>
+                        <div className="ml-4">
+                          <p className="text-base text-left">Most people settle around <strong>1500 calories</strong> for steady loss.</p>
+                          <p className="text-base text-left">Occasional higher days (1800–2000) are fine if balanced with walking.</p>
                         </div>
                       </div>
                     </div>
