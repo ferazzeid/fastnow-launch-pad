@@ -277,15 +277,16 @@ const FastNowProtocol = () => {
                         />
                       </div>
                     )}
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="bg-blue-500/10 p-3 rounded-full">
-                        <Clock className="w-6 h-6 text-blue-600" />
+                    <div className="px-8 pb-8">
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="bg-blue-500/10 p-3 rounded-full">
+                          <Clock className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <div>
+                          <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
+                          <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase1.title}</h2>
+                        </div>
                       </div>
-                      <div>
-                        <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
-                        <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase1.title}</h2>
-                      </div>
-                    </div>
                     
                     {/* Fasting Timeline */}
                     <div className="bg-blue-50 dark:bg-blue-950/20 p-6 rounded-lg mb-6">
@@ -409,9 +410,9 @@ const FastNowProtocol = () => {
                       <p className="text-muted-foreground leading-relaxed">
                         Start your fast at night after dinner. Eat your last meal, then immediately go to sleep. The hours you sleep count towards your fast, plus the hours before bed. By morning, you're already 10-12 hours deep into the fast—that's serious momentum. You don't want to lose that head start by starting fresh in the morning.
                       </p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
                 {/* Phase 2: Strict Simple Diet + Daily Calorie Limit */}
                 <div className="mb-12">
@@ -425,15 +426,16 @@ const FastNowProtocol = () => {
                         />
                       </div>
                     )}
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="bg-green-500/10 p-3 rounded-full">
-                        <Utensils className="w-6 h-6 text-green-600" />
+                    <div className="px-8 pb-8">
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="bg-green-500/10 p-3 rounded-full">
+                          <Utensils className="w-6 h-6 text-green-600" />
+                        </div>
+                        <div>
+                          <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
+                          <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase2.title}</h2>
+                        </div>
                       </div>
-                      <div>
-                        <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
-                        <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase2.title}</h2>
-                      </div>
-                    </div>
                     
                     <div className="mb-6">
                         <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg mb-4">
@@ -528,9 +530,9 @@ const FastNowProtocol = () => {
                        <p className="text-muted-foreground leading-relaxed">
                          Define a set of foods that are allowed and that you have access to and these are not gonna be many. And then eat the same thing every day. You would be hungry enough to eat the same thing every day and you will like it and it will make your shopping easier and you will not have to constantly renegotiate what you have to buy. Life will become extremely simple for those 30 to 90 days. Over time you can start to add to that list from the remaining few items that you are allowed to eat and find new combinations and rotations.
                        </p>
-                     </div>
-                   </div>
-                 </div>
+                      </div>
+                    </div>
+                  </div>
 
                 {/* Phase 3: Daily Walking */}
                 <div className="mb-12">
@@ -544,15 +546,16 @@ const FastNowProtocol = () => {
                         />
                       </div>
                     )}
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="bg-orange-500/10 p-3 rounded-full">
-                        <Activity className="w-6 h-6 text-orange-600" />
+                    <div className="px-8 pb-8">
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="bg-orange-500/10 p-3 rounded-full">
+                          <Activity className="w-6 h-6 text-orange-600" />
+                        </div>
+                        <div>
+                          <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
+                          <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase3.title}</h2>
+                        </div>
                       </div>
-                      <div>
-                        <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
-                        <h2 className="text-3xl font-bold mt-2 text-foreground">{phaseContent.phase3.title}</h2>
-                      </div>
-                    </div>
                     
                     <div className="mb-6">
                       <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg mb-4">
@@ -588,14 +591,15 @@ const FastNowProtocol = () => {
                          <p className="text-muted-foreground leading-relaxed">
                            While some people prefer to split the walking in multiple sessions or have walking naturally being part of their daily life already, I prefer to walk for 90 minutes straight at dawn on a daily basis. The only exceptions for me are extreme heat, allergens, or sickness. I also like to travel to cities where I combine the city trip with walking. These are days where I can walk for 5 to 6 hours straight which make huge deficit possible and really nicely for some serious weight loss.
                          </p>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </>
             )}
+            </div>
           </div>
-        </div>
         </main>
       </div>
     </PageLayout>

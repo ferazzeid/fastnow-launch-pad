@@ -59,11 +59,13 @@ const ProtocolPhasesIntro = () => {
                   />
                 </div>
               )}
-              <div className="bg-blue-500/10 p-4 rounded-full inline-flex mb-4 mx-auto">
-                <Clock className="w-8 h-8 text-blue-600" />
+              <div className="px-8 pb-8 flex flex-col flex-grow">
+                <div className="bg-blue-500/10 p-4 rounded-full inline-flex mb-4 mx-auto">
+                  <Clock className="w-8 h-8 text-blue-600" />
+                </div>
+                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
+                <h3 className="text-xl font-bold mt-3 text-foreground flex-grow">3-Day Initiation Water Fast</h3>
               </div>
-              <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
-              <h3 className="text-xl font-bold mt-3 text-foreground flex-grow">3-Day Initiation Water Fast</h3>
             </div>
           </div>
           
@@ -82,11 +84,13 @@ const ProtocolPhasesIntro = () => {
                   />
                 </div>
               )}
-              <div className="bg-orange-500/10 p-4 rounded-full inline-flex mb-4 mx-auto">
-                <Utensils className="w-8 h-8 text-orange-600" />
+              <div className="px-8 pb-8 flex flex-col flex-grow">
+                <div className="bg-orange-500/10 p-4 rounded-full inline-flex mb-4 mx-auto">
+                  <Utensils className="w-8 h-8 text-orange-600" />
+                </div>
+                <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
+                <h3 className="text-xl font-bold mt-3 text-foreground flex-grow">Strict Simple Diet with Daily Calorie Deficit</h3>
               </div>
-              <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
-              <h3 className="text-xl font-bold mt-3 text-foreground flex-grow">Strict Simple Diet with Daily Calorie Deficit</h3>
             </div>
           </div>
           
@@ -105,11 +109,13 @@ const ProtocolPhasesIntro = () => {
                   />
                 </div>
               )}
-              <div className="bg-green-500/10 p-4 rounded-full inline-flex mb-4 mx-auto">
-                <Activity className="w-8 h-8 text-green-600" />
+              <div className="px-8 pb-8 flex flex-col flex-grow">
+                <div className="bg-green-500/10 p-4 rounded-full inline-flex mb-4 mx-auto">
+                  <Activity className="w-8 h-8 text-green-600" />
+                </div>
+                <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
+                <h3 className="text-xl font-bold mt-3 text-foreground flex-grow">Daily Walking</h3>
               </div>
-              <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
-              <h3 className="text-xl font-bold mt-3 text-foreground flex-grow">Daily Walking</h3>
             </div>
           </div>
         </div>
@@ -127,13 +133,15 @@ const ProtocolPhasesIntro = () => {
                 />
               </div>
             )}
-            <div className="flex items-center gap-4">
-              <div className="bg-blue-500/10 p-3 rounded-full">
-                <Clock className="w-6 h-6 text-blue-600" />
-              </div>
-              <div>
-                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
-                <h3 className="text-lg font-bold mt-2 text-foreground">3-Day Initiation Water Fast</h3>
+            <div className="px-6 pb-6">
+              <div className="flex items-center gap-4">
+                <div className="bg-blue-500/10 p-3 rounded-full">
+                  <Clock className="w-6 h-6 text-blue-600" />
+                </div>
+                <div>
+                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
+                  <h3 className="text-lg font-bold mt-2 text-foreground">3-Day Initiation Water Fast</h3>
+                </div>
               </div>
             </div>
           </div>
@@ -152,13 +160,15 @@ const ProtocolPhasesIntro = () => {
                 />
               </div>
             )}
-            <div className="flex items-center gap-4">
-              <div className="bg-orange-500/10 p-3 rounded-full">
-                <Utensils className="w-6 h-6 text-orange-600" />
-              </div>
-              <div>
-                <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
-                <h3 className="text-lg font-bold mt-2 text-foreground">Strict Simple Diet with Daily Calorie Deficit</h3>
+            <div className="px-6 pb-6">
+              <div className="flex items-center gap-4">
+                <div className="bg-orange-500/10 p-3 rounded-full">
+                  <Utensils className="w-6 h-6 text-orange-600" />
+                </div>
+                <div>
+                  <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
+                  <h3 className="text-lg font-bold mt-2 text-foreground">Strict Simple Diet with Daily Calorie Deficit</h3>
+                </div>
               </div>
             </div>
           </div>
@@ -177,13 +187,15 @@ const ProtocolPhasesIntro = () => {
                 />
               </div>
             )}
-            <div className="flex items-center gap-4">
-              <div className="bg-green-500/10 p-3 rounded-full">
-                <Activity className="w-6 h-6 text-green-600" />
-              </div>
-              <div>
-                <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
-                <h3 className="text-lg font-bold mt-2 text-foreground">Daily Walking</h3>
+            <div className="px-6 pb-6">
+              <div className="flex items-center gap-4">
+                <div className="bg-green-500/10 p-3 rounded-full">
+                  <Activity className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
+                  <h3 className="text-lg font-bold mt-2 text-foreground">Daily Walking</h3>
+                </div>
               </div>
             </div>
           </div>
