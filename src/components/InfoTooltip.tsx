@@ -114,7 +114,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
           <div 
             ref={tooltipRef}
             className={cn(
-              "absolute right-0 z-50 w-80 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden",
+              "absolute right-0 z-50 w-80 bg-white rounded-lg shadow-xl overflow-hidden",
               "animate-fade-in",
               position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
             )}
@@ -136,9 +136,9 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
               </p>
             </div>
 
-            {/* White speech bubble tail pointing down */}
+            {/* White speech bubble tail pointing down - moved further down */}
             <div 
-              className="absolute w-3 h-3 bg-white transform rotate-45 top-full right-4 -mt-1"
+              className="absolute w-3 h-3 bg-white transform rotate-45 top-full right-4 mt-1"
             />
           </div>
         </>
