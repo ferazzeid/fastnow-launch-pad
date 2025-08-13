@@ -13,7 +13,10 @@ import { databaseBlogService } from '@/services/DatabaseBlogService';
 const Blog = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
+  const [myExperiencePosts, setMyExperiencePosts] = useState<BlogPost[]>([]);
+  const [otherPosts, setOtherPosts] = useState<BlogPost[]>([]);
+  const [filteredMyExperiencePosts, setFilteredMyExperiencePosts] = useState<BlogPost[]>([]);
+  const [filteredOtherPosts, setFilteredOtherPosts] = useState<BlogPost[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState<string[]>([]);
@@ -28,10 +31,22 @@ const Blog = () => {
       const allPosts = await databaseBlogService.getAllPosts();
       const publishedPosts = allPosts.filter(post => post.status === 'published');
       setPosts(publishedPosts);
-      setFilteredPosts(publishedPosts);
       
-      // Extract unique categories
-      const uniqueCategories = Array.from(new Set(publishedPosts.flatMap(post => post.categories)));
+      // Split posts into "my experience" and others
+      const experiencePosts = publishedPosts.filter(post => 
+        post.categories.includes('my experience')
+      );
+      const generalPosts = publishedPosts.filter(post => 
+        !post.categories.includes('my experience')
+      );
+      
+      setMyExperiencePosts(experiencePosts);
+      setOtherPosts(generalPosts);
+      setFilteredMyExperiencePosts(experiencePosts);
+      setFilteredOtherPosts(generalPosts);
+      
+      // Extract unique categories from non-experience posts
+      const uniqueCategories = Array.from(new Set(generalPosts.flatMap(post => post.categories)));
       setCategories(uniqueCategories);
     };
 
@@ -39,10 +54,21 @@ const Blog = () => {
   }, []);
 
   useEffect(() => {
-    let filtered = posts;
-
+    // Filter "my experience" posts
+    let filteredExperience = myExperiencePosts;
     if (searchTerm) {
-      filtered = filtered.filter(post =>
+      filteredExperience = filteredExperience.filter(post =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.content.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    setFilteredMyExperiencePosts(filteredExperience);
+
+    // Filter other posts
+    let filteredOther = otherPosts;
+    if (searchTerm) {
+      filteredOther = filteredOther.filter(post =>
         post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
         post.content.toLowerCase().includes(searchTerm.toLowerCase())
@@ -50,11 +76,11 @@ const Blog = () => {
     }
 
     if (selectedCategory) {
-      filtered = filtered.filter(post => post.categories.includes(selectedCategory));
+      filteredOther = filteredOther.filter(post => post.categories.includes(selectedCategory));
     }
 
-    setFilteredPosts(filtered);
-  }, [posts, searchTerm, selectedCategory]);
+    setFilteredOtherPosts(filteredOther);
+  }, [myExperiencePosts, otherPosts, searchTerm, selectedCategory]);
 
   const handleEdit = (postId: string) => {
     navigate(`/admin/blog/edit/${postId}`);
@@ -68,11 +94,87 @@ const Blog = () => {
       </Helmet>
 
       <div className="container py-12">
+        {/* My Experience Section */}
+        {filteredMyExperiencePosts.length > 0 && (
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-mint-600 mb-4">My Experience</h2>
+              <p className="text-lg text-mint-500 max-w-2xl mx-auto">
+                Personal insights and experiences with the FastNow protocol.
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {filteredMyExperiencePosts.map((post) => (
+                <Card key={post.id} className="hover:shadow-lg transition-shadow">
+                  {post.featuredImage && (
+                    <Link to={`/blog/${post.slug}`} className="block">
+                      <div className="aspect-video overflow-hidden rounded-t-lg">
+                        <img
+                          src={post.featuredImage}
+                          alt={post.title}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    </Link>
+                  )}
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1" />
+                      {isAdmin && (
+                        <Button 
+                          onClick={() => handleEdit(post.id)} 
+                          variant="ghost" 
+                          size="sm"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                    <CardTitle className="line-clamp-2">
+                      <Link 
+                        to={`/blog/${post.slug}`}
+                        className="hover:text-accent-green transition-colors"
+                      >
+                        {post.title}
+                      </Link>
+                    </CardTitle>
+                    <CardDescription className="line-clamp-3">
+                      {post.excerpt}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-1 flex-wrap">
+                        {post.categories.slice(0, 2).map(category => (
+                          <span
+                            key={category}
+                            className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-accent-green text-white"
+                          >
+                            <Tag className="w-3 h-3" />
+                            {category}
+                          </span>
+                        ))}
+                      </div>
+                      <Link
+                        to={`/blog/${post.slug}`}
+                        className="text-accent-green hover:underline text-sm font-medium"
+                      >
+                        Read More
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-mint-600 mb-4">FastNow Insights</h1>
           <p className="text-xl text-mint-500 max-w-2xl mx-auto">
-            Discover the latest insights on intermittent fasting, health tips, and wellness advice.
+            Let's talk about the FAST Now protocol and my experience
           </p>
         </div>
 
@@ -111,22 +213,24 @@ const Blog = () => {
         </div>
 
         {/* Posts Grid */}
-        {filteredPosts.length === 0 ? (
+        {filteredOtherPosts.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">No blog posts found.</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post) => (
+            {filteredOtherPosts.map((post) => (
               <Card key={post.id} className="hover:shadow-lg transition-shadow">
                 {post.featuredImage && (
-                  <div className="aspect-video overflow-hidden rounded-t-lg">
-                    <img
-                      src={post.featuredImage}
-                      alt={post.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                  <Link to={`/blog/${post.slug}`} className="block">
+                    <div className="aspect-video overflow-hidden rounded-t-lg">
+                      <img
+                        src={post.featuredImage}
+                        alt={post.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  </Link>
                 )}
                 <CardHeader>
                   <div className="flex items-center justify-between">
