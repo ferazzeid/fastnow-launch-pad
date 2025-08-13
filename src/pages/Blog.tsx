@@ -106,9 +106,9 @@ const Blog = () => {
         {latestPosts.length > 0 && (
           <div className="mb-16">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-mint-600 mb-4">Peek into My Weight Loss Experience</h2>
+              <h2 className="text-3xl font-bold text-mint-600 mb-4">Featured Latest Posts</h2>
               <p className="text-lg text-mint-500 max-w-3xl mx-auto">
-                Thinking out loud and reflecting on my weight loss journey
+                Latest insights from my weight loss journey
               </p>
             </div>
             
@@ -170,9 +170,9 @@ const Blog = () => {
         {filteredMyExperiencePosts.length > 0 && (
           <div className="mb-16">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-mint-600 mb-4">My Experience</h2>
+              <h2 className="text-3xl font-bold text-mint-600 mb-4">Peek into My Weight Loss Experience</h2>
               <p className="text-lg text-mint-500 max-w-2xl mx-auto">
-                Personal insights and experiences with the FastNow protocol.
+                Thinking out loud and reflecting on my weight loss journey
               </p>
             </div>
             
