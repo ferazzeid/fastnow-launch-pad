@@ -69,7 +69,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
       >
         {/* Outer border with elegant pulsing */}
         <div 
-          className="absolute inset-0 rounded-full border-2 transition-all duration-1000"
+          className="absolute inset-0 border-2 transition-all duration-1000"
           style={{
             borderColor: '#dac471',
             borderRadius: '50% 50% 50% 10%',
@@ -77,30 +77,16 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
           }}
         />
         
-        {/* Inner content container */}
+        {/* Inner content container - Full image */}
         <div 
-          className="relative w-full h-full flex flex-col overflow-hidden"
+          className="relative w-full h-full overflow-hidden"
           style={{ borderRadius: '50% 50% 50% 10%' }}
         >
-          {/* Upper half - Author image (black and white) */}
-          <div className="flex-1 w-full relative overflow-hidden">
-            <img 
-              src={authorImage} 
-              alt={authorName}
-              className="w-full h-full object-cover grayscale"
-              style={{ 
-                clipPath: 'ellipse(100% 100% at 50% 0%)',
-              }}
-            />
-          </div>
-          
-          {/* Lower half - Comment icon */}
-          <div 
-            className="flex-1 w-full flex items-center justify-center"
-            style={{ backgroundColor: '#dac471' }}
-          >
-            <MessageCircle size={iconSizes[size]} className="text-white" />
-          </div>
+          <img 
+            src={authorImage} 
+            alt={authorName}
+            className="w-full h-full object-cover grayscale"
+          />
         </div>
 
         {/* Subtle glow effect on hover */}
