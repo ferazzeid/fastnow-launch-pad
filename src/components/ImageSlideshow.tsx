@@ -1,45 +1,100 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { SiteSettingsService } from '@/services/SiteSettingsService';
+
+interface SlideshowImage {
+  id: string;
+  src: string;
+  alt: string;
+  order: number;
+}
+
+interface SlideshowSettings {
+  title: string;
+  images: SlideshowImage[];
+}
 
 interface ImageSlideshowProps {
-  title: string;
   className?: string;
 }
 
-const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ title, className = '' }) => {
-  // These are the uploaded images in order
-  const images = [
-    {
-      src: '/lovable-uploads/a692b963-f764-48e1-bcce-3e8fcc088664.png',
-      alt: 'Struggling with loose clothes'
-    },
-    {
-      src: '/lovable-uploads/62548454-bd7e-4abe-ad5b-8c0e94ffcfee.png', 
-      alt: 'Feeling self-conscious at restaurants'
-    },
-    {
-      src: '/lovable-uploads/fbd5bcda-a4f6-4c7d-a715-9296283c6e79.png',
-      alt: 'Difficulty at the gym'
-    },
-    {
-      src: '/lovable-uploads/3c1b9262-ae67-4093-b76b-f09bc99170c2.png',
-      alt: 'Returning clothes that don\'t fit'
-    },
-    {
-      src: '/lovable-uploads/7ab8d747-9c05-46b7-8cf1-ecf01dc91aa8.png',
-      alt: 'Struggling with exercise'
-    },
-    {
-      src: '/lovable-uploads/55fd8231-9516-4cb3-a6f8-3534c7e08a9b.png',
-      alt: 'Clothes shopping difficulties'
-    },
-    {
-      src: '/lovable-uploads/6d39dc89-c8e2-4796-889d-385a77164cd0.png',
-      alt: 'Uncomfortable airline seats'
-    }
-  ];
-
+const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
+  const [settings, setSettings] = useState<SlideshowSettings>({
+    title: "Aren't you tired of this?",
+    images: []
+  });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const savedSettings = await SiteSettingsService.getSetting('slideshow_gallery_settings');
+      if (savedSettings && typeof savedSettings === 'object' && !Array.isArray(savedSettings)) {
+        setSettings(savedSettings as unknown as SlideshowSettings);
+      } else {
+        // Initialize with default images if no settings exist
+        setSettings({
+          title: "Aren't you tired of this?",
+          images: [
+            {
+              id: '1',
+              src: '/lovable-uploads/a692b963-f764-48e1-bcce-3e8fcc088664.png',
+              alt: 'Struggling with loose clothes',
+              order: 1
+            },
+            {
+              id: '2',
+              src: '/lovable-uploads/62548454-bd7e-4abe-ad5b-8c0e94ffcfee.png',
+              alt: 'Feeling self-conscious at restaurants',
+              order: 2
+            },
+            {
+              id: '3',
+              src: '/lovable-uploads/fbd5bcda-a4f6-4c7d-a715-9296283c6e79.png',
+              alt: 'Difficulty at the gym',
+              order: 3
+            },
+            {
+              id: '4',
+              src: '/lovable-uploads/3c1b9262-ae67-4093-b76b-f09bc99170c2.png',
+              alt: 'Returning clothes that don\'t fit',
+              order: 4
+            },
+            {
+              id: '5',
+              src: '/lovable-uploads/7ab8d747-9c05-46b7-8cf1-ecf01dc91aa8.png',
+              alt: 'Struggling with exercise',
+              order: 5
+            },
+            {
+              id: '6',
+              src: '/lovable-uploads/55fd8231-9516-4cb3-a6f8-3534c7e08a9b.png',
+              alt: 'Clothes shopping difficulties',
+              order: 6
+            },
+            {
+              id: '7',
+              src: '/lovable-uploads/6d39dc89-c8e2-4796-889d-385a77164cd0.png',
+              alt: 'Uncomfortable airline seats',
+              order: 7
+            }
+          ]
+        });
+      }
+    } catch (error) {
+      console.error('Error loading slideshow settings:', error);
+    }
+  };
+
+  // Get sorted images
+  const images = settings.images.sort((a, b) => a.order - b.order);
+
+  if (images.length === 0) {
+    return null; // Don't render if no images
+  }
 
   const goToPrevious = () => {
     setCurrentImageIndex((prevIndex) => 
@@ -58,7 +113,7 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ title, className = '' }
       <div className="container max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            {title}
+            {settings.title}
           </h2>
         </div>
         
@@ -68,7 +123,7 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ title, className = '' }
             <img
               src={images[currentImageIndex].src}
               alt={images[currentImageIndex].alt}
-              className="w-full h-96 md:h-[500px] object-cover transition-opacity duration-300"
+              className="w-full h-auto object-contain transition-opacity duration-300 max-h-[600px]"
             />
             
             {/* Navigation Arrows */}

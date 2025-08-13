@@ -9,6 +9,7 @@ import { FileText, Save } from "lucide-react";
 import { pageContentService, PageContent } from '@/services/PageContentService';
 import HeroSideImageSettings from './HeroSideImageSettings';
 import Slide2ImageSettings from './Slide2ImageSettings';
+import SlideshowAdminSettings from './SlideshowAdminSettings';
 
 const HomepageContentSettings = () => {
   const [heroTitle, setHeroTitle] = useState<string>('');
@@ -151,6 +152,8 @@ const HomepageContentSettings = () => {
       <HeroSideImageSettings />
       
       <Slide2ImageSettings />
+      
+      <SlideshowAdminSettings />
     </div>
   );
 };

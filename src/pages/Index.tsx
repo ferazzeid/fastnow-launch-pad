@@ -418,7 +418,7 @@ const Index = () => {
         </section>
 
         {/* Slideshow Section - Aren't you tired of this */}
-        <ImageSlideshow title="Aren't you tired of this?" />
+        <ImageSlideshow />
 
         {/* Third Section - Nothing New — And That's the Point */}
         <section className="relative z-10 py-16 bg-white">
