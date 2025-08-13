@@ -10,6 +10,10 @@ import { supabase } from '@/integrations/supabase/client';
 import SiteInfoTooltip from '@/components/SiteInfoTooltip';
 import ImageSlideshow from '@/components/ImageSlideshow';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
+import { BlogPost } from '@/types/blog';
+import { databaseBlogService } from '@/services/DatabaseBlogService';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tag } from 'lucide-react';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -77,9 +81,25 @@ const Index = () => {
   const [showDefaultDesign, setShowDefaultDesign] = useState(true);
   const [googlePlayLink, setGooglePlayLink] = useState('https://play.google.com');
   const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>('');
+  
+  // Latest blog posts state
+  const [latestBlogPosts, setLatestBlogPosts] = useState<BlogPost[]>([]);
 
   // Load content from database and localStorage
   useEffect(() => {
+    // Load latest blog posts
+    const loadBlogPosts = async () => {
+      try {
+        const allPosts = await databaseBlogService.getAllPosts();
+        const publishedPosts = allPosts.filter(post => post.status === 'published');
+        const sortedPosts = publishedPosts
+          .sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime());
+        setLatestBlogPosts(sortedPosts.slice(0, 3));
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+      }
+    };
+
     const loadPhaseImages = async () => {
       try {
         const { data, error } = await supabase
@@ -196,6 +216,7 @@ const Index = () => {
     };
 
     // Load database content
+    loadBlogPosts();
     loadPhaseImages();
     loadContent();
     loadHeroSideImage();
@@ -381,6 +402,81 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* Latest Blog Posts Section */}
+        {latestBlogPosts.length > 0 && (
+          <section className="relative z-10 py-16 bg-gray-50">
+            <div className="container max-w-6xl mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900">Latest Insights</h2>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Practical advice and real experiences from the FastNow protocol
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-3 gap-6">
+                {latestBlogPosts.map((post) => (
+                  <Card key={post.id} className="hover:shadow-lg transition-shadow border-l-4 border-l-accent-green">
+                    {post.featuredImage && (
+                      <Link to={`/blog/${post.slug}`} className="block">
+                        <div className="aspect-video overflow-hidden rounded-t-lg">
+                          <img
+                            src={post.featuredImage}
+                            alt={post.title}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      </Link>
+                    )}
+                    <CardHeader className="pb-2">
+                      <CardTitle className="line-clamp-2 text-lg">
+                        <Link 
+                          to={`/blog/${post.slug}`}
+                          className="hover:text-accent-green transition-colors"
+                        >
+                          {post.title}
+                        </Link>
+                      </CardTitle>
+                      <CardDescription className="line-clamp-2 text-sm">
+                        {post.excerpt}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <div className="flex items-center justify-between">
+                        <div className="flex gap-1 flex-wrap">
+                          {post.categories.slice(0, 1).map(category => (
+                            <span
+                              key={category}
+                              className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-accent-green/10 text-accent-green"
+                            >
+                              <Tag className="w-3 h-3" />
+                              {category}
+                            </span>
+                          ))}
+                        </div>
+                        <Link
+                          to={`/blog/${post.slug}`}
+                          className="text-accent-green hover:underline text-sm font-medium"
+                        >
+                          Read More
+                        </Link>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              
+              <div className="text-center mt-8">
+                <Link to="/blog">
+                  <Button variant="outline" className="px-8">
+                    View All Posts
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Second Section - This Isn't for Fitness Models */}
         <section className="relative z-10 min-h-screen flex items-center justify-center pb-0 mb-0">
