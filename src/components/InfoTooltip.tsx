@@ -67,9 +67,9 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
         }}
         aria-label="Show information"
       >
-        {/* Outer border with elegant pulsing - thicker */}
+        {/* Outer border with elegant pulsing - medium thickness */}
         <div 
-          className="absolute inset-0 border-8 transition-all duration-1000"
+          className="absolute inset-0 border-4 transition-all duration-1000"
           style={{
             borderColor: '#dac471',
             borderRadius: '50% 50% 50% 10%',
@@ -77,18 +77,9 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
           }}
         />
         
-        {/* Speech bubble tail overlay */}
-        <div 
-          className="absolute bottom-0 left-0 w-3 h-3"
-          style={{ 
-            backgroundColor: '#dac471',
-            borderRadius: '0 0 0 50%'
-          }}
-        />
-        
         {/* Inner content container - Circular area only */}
         <div 
-          className="absolute inset-2 rounded-full overflow-hidden"
+          className="absolute inset-1 rounded-full overflow-hidden"
         >
           <img 
             src={authorImage} 
@@ -96,14 +87,9 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
             className="w-full h-full object-cover grayscale"
           />
           
-          {/* Hand icon overlay */}
+          {/* Hand icon overlay - white with no background */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div 
-              className="bg-black/20 rounded-full p-1.5 backdrop-blur-sm"
-              style={{ backgroundColor: 'rgba(218, 196, 113, 0.8)' }}
-            >
-              <Hand size={iconSizes[size]} className="text-white" />
-            </div>
+            <Hand size={iconSizes[size]} className="text-white drop-shadow-md" />
           </div>
         </div>
 
