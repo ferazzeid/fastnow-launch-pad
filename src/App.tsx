@@ -51,6 +51,7 @@ import AdminFastingTimelineExport from "./pages/AdminFastingTimelineExport";
 import AdminHomeSlide2 from "./pages/AdminHomeSlide2";
 import AdminHomeSlide3 from "./pages/AdminHomeSlide3";
 import AdminHomeSlide4 from "./pages/AdminHomeSlide4";
+import AdminRingBellSection from "./pages/AdminRingBellSection";
 
 const queryClient = new QueryClient();
 
@@ -100,6 +101,7 @@ const AppRoutes = () => {
       <Route path="/admin/feature-screenshots" element={<AdminFeatureScreenshots />} />
       <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
       <Route path="/admin/fasting-timeline/export" element={<AdminFastingTimelineExport />} />
+      <Route path="/admin/ring-bell-section" element={<AdminRingBellSection />} />
       
       {/* Content pages */}
       <Route path="/privacy" element={<ContentPage />} />

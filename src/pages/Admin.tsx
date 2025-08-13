@@ -140,6 +140,13 @@ const Admin = () => {
                 </Button>
               </Link>
               
+              <Link to="/admin/ring-bell-section">
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit size={16} className="mr-2" />
+                  "Does this ring a bell?" Section
+                </Button>
+              </Link>
+              
               <Link to="/admin/about-me">
                 <Button variant="outline" className="w-full justify-start">
                   <Edit size={16} className="mr-2" />

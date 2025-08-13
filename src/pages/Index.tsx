@@ -596,7 +596,7 @@ const Index = () => {
               </div>
               
               <div className="mt-8">
-                <Link to="/fastnow-protocol">
+                <Link to="/fast-now-protocol">
                   <Button 
                     className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
                     style={{ backgroundColor: launchButtonColor }}

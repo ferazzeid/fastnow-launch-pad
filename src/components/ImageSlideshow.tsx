@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
+import { supabase } from '@/integrations/supabase/client';
 
 interface SlideshowImage {
   id: string;
@@ -12,6 +13,13 @@ interface SlideshowImage {
 interface SlideshowSettings {
   title: string;
   images: SlideshowImage[];
+}
+
+interface RingBellItem {
+  id: string;
+  imageUrl: string;
+  quote: string;
+  order: number;
 }
 
 interface ImageSlideshowProps {
@@ -26,9 +34,11 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [ringBellItems, setRingBellItems] = useState<RingBellItem[]>([]);
 
   useEffect(() => {
     loadSettings();
+    loadRingBellItems();
   }, []);
 
 
@@ -89,6 +99,79 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
       }
     } catch (error) {
       console.error('Error loading slideshow settings:', error);
+    }
+  };
+
+  const loadRingBellItems = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('setting_value')
+        .eq('setting_key', 'ring_bell_items')
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        throw error;
+      }
+
+      if (data?.setting_value) {
+        const items = Array.isArray(data.setting_value) ? data.setting_value : [];
+        setRingBellItems(items.map((item: any, index: number) => ({
+          id: item.id || `item-${index}`,
+          imageUrl: item.imageUrl || '',
+          quote: item.quote || '',
+          order: item.order || index
+        })).sort((a: RingBellItem, b: RingBellItem) => a.order - b.order));
+      } else {
+        // Set default items if none exist
+        const defaultItems: RingBellItem[] = [
+          {
+            id: 'airplane',
+            imageUrl: '/lovable-uploads/9fe0f065-3ab9-4c72-9162-5e84ecd29940.png',
+            quote: 'Fit comfortably into an airplane seat without a second thought.',
+            order: 0
+          },
+          {
+            id: 'pool',
+            imageUrl: '/lovable-uploads/770570cf-21c8-41b5-9fd0-ccefb220b9c0.png',
+            quote: 'Walk into the pool without feeling the need to cover up.',
+            order: 1
+          },
+          {
+            id: 'shopping',
+            imageUrl: '/lovable-uploads/bce2f2c2-1b1b-4b69-b3f3-20e8715f94d2.png',
+            quote: 'Order clothes online without sending everything back.',
+            order: 2
+          },
+          {
+            id: 'suit',
+            imageUrl: '/lovable-uploads/f984a3bc-024b-4ea3-ba1b-1264a8c298d3.png',
+            quote: 'Wear that premium suit and actually look like it was made for you.',
+            order: 3
+          },
+          {
+            id: 'gym',
+            imageUrl: '/lovable-uploads/d8b92a30-a0a2-4acd-8f8d-1208eddab2e6.png',
+            quote: 'Train at the gym without feeling like the odd one out.',
+            order: 4
+          },
+          {
+            id: 'running',
+            imageUrl: '/lovable-uploads/790fae5b-122d-4e10-b65f-996b6abc5667.png',
+            quote: 'Run across the street without worrying if you still can.',
+            order: 5
+          },
+          {
+            id: 'wardrobe',
+            imageUrl: '',
+            quote: 'Slip into your favorite clothes from years ago—and feel incredible in them.',
+            order: 6
+          }
+        ];
+        setRingBellItems(defaultItems);
+      }
+    } catch (error) {
+      console.error('Error loading ring bell items:', error);
     }
   };
 
@@ -230,99 +313,26 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
           </h3>
           
           <div className="space-y-12 max-w-6xl mx-auto">
-            {/* Airplane seat scenario */}
-            <div className="flex items-center gap-8">
-              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
-                <img 
-                  src="/lovable-uploads/9fe0f065-3ab9-4c72-9162-5e84ecd29940.png" 
-                  alt="Man in airplane seat" 
-                  className="w-full h-full object-cover"
-                />
+            {ringBellItems.map((item) => (
+              <div key={item.id} className="flex items-center gap-8">
+                <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
+                  {item.imageUrl ? (
+                    <img 
+                      src={item.imageUrl} 
+                      alt={`Ring bell item: ${item.quote}`} 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <span className="text-sm text-gray-500 text-center">Image<br/>needed</span>
+                    </div>
+                  )}
+                </div>
+                <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
+                  "{item.quote}"
+                </blockquote>
               </div>
-              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
-                "Fit comfortably into an airplane seat without a second thought."
-              </blockquote>
-            </div>
-
-            {/* Pool scenario */}
-            <div className="flex items-center gap-8">
-              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
-                <img 
-                  src="/lovable-uploads/770570cf-21c8-41b5-9fd0-ccefb220b9c0.png" 
-                  alt="Man at pool" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
-                "Walk into the pool without feeling the need to cover up."
-              </blockquote>
-            </div>
-
-            {/* Online shopping scenario */}
-            <div className="flex items-center gap-8">
-              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
-                <img 
-                  src="/lovable-uploads/bce2f2c2-1b1b-4b69-b3f3-20e8715f94d2.png" 
-                  alt="Woman with packages" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
-                "Order clothes online without sending everything back."
-              </blockquote>
-            </div>
-
-            {/* Fashion outlet scenario */}
-            <div className="flex items-center gap-8">
-              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
-                <img 
-                  src="/lovable-uploads/f984a3bc-024b-4ea3-ba1b-1264a8c298d3.png" 
-                  alt="Man trying on suit" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
-                "Wear that premium suit and actually look like it was made for you."
-              </blockquote>
-            </div>
-
-            {/* Gym scenario */}
-            <div className="flex items-center gap-8">
-              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
-                <img 
-                  src="/lovable-uploads/d8b92a30-a0a2-4acd-8f8d-1208eddab2e6.png" 
-                  alt="Man at gym" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
-                "Train at the gym without feeling like the odd one out."
-              </blockquote>
-            </div>
-
-            {/* Running scenario */}
-            <div className="flex items-center gap-8">
-              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
-                <img 
-                  src="/lovable-uploads/790fae5b-122d-4e10-b65f-996b6abc5667.png" 
-                  alt="Man running" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
-                "Run across the street without worrying if you still can."
-              </blockquote>
-            </div>
-
-            {/* Wardrobe scenario */}
-            <div className="flex items-center gap-8">
-              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 bg-gray-200 shadow-xl flex items-center justify-center">
-                <span className="text-sm text-gray-500 text-center">Image<br/>needed</span>
-              </div>
-              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
-                "Slip into your favorite clothes from years ago—and feel incredible in them."
-              </blockquote>
-            </div>
+            ))}
           </div>
         </div>
       </div>
