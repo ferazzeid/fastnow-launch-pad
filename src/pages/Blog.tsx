@@ -95,9 +95,8 @@ const Blog = () => {
 
       <div className="container py-12">
         {/* Featured Latest Posts Section */}
-        {latestPosts.length > 0 && (
-          <div className="mb-16">
-            <div className="text-center mb-8">
+        <div className="mb-16">
+          <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-mint-600 mb-4">Featured Latest Posts</h2>
               <p className="text-lg text-mint-500 max-w-3xl mx-auto">
                 Latest insights from my weight loss journey
@@ -105,6 +104,7 @@ const Blog = () => {
             </div>
             
             <div className="grid md:grid-cols-3 gap-6 mb-12">
+              <p className="text-center text-gray-500">Latest posts: {latestPosts.length}, My experience posts: {myExperiencePosts.length}</p>
               {latestPosts.map((post) => (
                 <Card key={post.id} className="hover:shadow-lg transition-shadow border-l-4 border-l-accent-green">
                   {post.featuredImage && (
@@ -156,12 +156,11 @@ const Blog = () => {
               ))}
             </div>
           </div>
-        )}
+        
 
         {/* My Experience Section - Always shows all "my experience" posts */}
-        {myExperiencePosts.length > 0 && (
-          <div className="mb-16">
-            <div className="text-center mb-8">
+        <div className="mb-16">
+          <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-mint-600 mb-4">Peek into My Weight Loss Experience</h2>
               <p className="text-lg text-mint-500 max-w-2xl mx-auto">
                 Thinking out loud and reflecting on my weight loss journey
@@ -232,7 +231,7 @@ const Blog = () => {
               ))}
             </div>
           </div>
-        )}
+        
 
         {/* Header */}
         <div className="text-center mb-12">
