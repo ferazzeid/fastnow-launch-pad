@@ -7,6 +7,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { pageContentService } from '@/services/PageContentService';
 import { BackgroundImageService } from '@/services/BackgroundImageService';
 import { supabase } from '@/integrations/supabase/client';
+import InfoTooltip from '@/components/InfoTooltip';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -314,7 +315,7 @@ const Index = () => {
                     </p>
                   </div>
                   
-                  <div className="mt-8 pt-6 border-t border-white/20">
+                  <div className="mt-8 pt-6 border-t border-white/20 flex items-center justify-between">
                     <button 
                       className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
                       style={{ backgroundColor: launchButtonColor }}
@@ -324,6 +325,13 @@ const Index = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </button>
+                    
+                    <InfoTooltip
+                      title="Why I Created FastNow"
+                      content="After years of struggling with complicated diet plans and fitness programs, I realized that simplicity is key. This protocol combines the most effective elements I've discovered through personal experience and research. It's not about perfection - it's about consistent progress that actually fits into your real life."
+                      authorName="FastNow Creator"
+                      size="md"
+                    />
                   </div>
                 </div>
               </div>
