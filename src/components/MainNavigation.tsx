@@ -22,8 +22,7 @@ const MainNavigation = () => {
   const navigationLinks = [
     { path: '/', title: 'Home' },
     { path: '/fast-now-protocol', title: 'The Protocol' },
-    { path: '/about-fastnow-app', title: 'About App' },
-    { path: '/faq', title: 'FAQ' }
+    { path: '/about-fastnow-app', title: 'About App' }
   ];
 
   // Simple mobile detection

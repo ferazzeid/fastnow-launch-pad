@@ -355,6 +355,26 @@ const Index = () => {
           </div>
         </section>
 
+
+        {/* Third Section - Nothing New — And That's the Point */}
+        <section className="relative z-10 py-16 bg-white">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="text-left max-w-4xl">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
+                {slide3Title}
+              </h2>
+
+              <div className="text-lg md:text-xl text-gray-700 mb-6 space-y-4">
+                {slide3Content.split('\n\n').map((paragraph, index) => (
+                  <p key={index}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Protocol Phases Section */}
         <section className="py-16 bg-gradient-to-b from-background to-muted/20">
           <div className="container max-w-6xl mx-auto px-4">
@@ -511,25 +531,6 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Third Section - Nothing New — And That's the Point */}
-        <section className="relative z-10 py-16 bg-white">
-          <div className="container max-w-6xl mx-auto px-4">
-            <div className="text-left max-w-4xl">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
-                {slide3Title}
-              </h2>
-
-              <div className="text-lg md:text-xl text-gray-700 mb-6 space-y-4">
-                {slide3Content.split('\n\n').map((paragraph, index) => (
-                  <p key={index}>
-                    {paragraph}
-                  </p>
-                ))}
               </div>
             </div>
           </div>
