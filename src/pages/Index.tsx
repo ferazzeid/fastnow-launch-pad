@@ -7,7 +7,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { pageContentService } from '@/services/PageContentService';
 import { BackgroundImageService } from '@/services/BackgroundImageService';
 import { supabase } from '@/integrations/supabase/client';
-import InfoTooltip from '@/components/InfoTooltip';
+import SiteInfoTooltip from '@/components/SiteInfoTooltip';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -326,10 +326,8 @@ const Index = () => {
                       </svg>
                     </button>
                     
-                    <InfoTooltip
-                      title="Why I Created FastNow"
+                    <SiteInfoTooltip
                       content="After years of struggling with complicated diet plans and fitness programs, I realized that simplicity is key. This protocol combines the most effective elements I've discovered through personal experience and research. It's not about perfection - it's about consistent progress that actually fits into your real life."
-                      authorName="FastNow Creator"
                       size="md"
                     />
                   </div>

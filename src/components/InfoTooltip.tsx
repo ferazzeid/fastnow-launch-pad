@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Hand } from 'lucide-react';
 import { cn } from '@/lib/utils';
-// Using placeholder for author image for now
+import { SiteSettingsService } from '@/services/SiteSettingsService';
 
 interface InfoTooltipProps {
   title?: string;
@@ -13,15 +13,20 @@ interface InfoTooltipProps {
 }
 
 const InfoTooltip: React.FC<InfoTooltipProps> = ({
-  title = "Thinking Out Loud",
+  title,
   content,
-  authorImage = "/lovable-uploads/e8e0bb73-dfec-4929-8f65-85fe7bb29316.png",
-  authorName = "Author",
+  authorImage,
+  authorName,
   size = 'md',
   className
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState<'top' | 'bottom'>('top');
+  const [settings, setSettings] = useState({
+    authorImage: "/lovable-uploads/e8e0bb73-dfec-4929-8f65-85fe7bb29316.png",
+    authorName: "Author",
+    tooltipTitle: "Thinking Out Loud"
+  });
   const buttonRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
@@ -37,6 +42,32 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
     lg: 18
   };
 
+  // Load settings from database
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const savedSettings = await SiteSettingsService.getSetting('info_tooltip_settings');
+      if (savedSettings && typeof savedSettings === 'object') {
+        const tooltipSettings = savedSettings as {
+          authorImage?: string;
+          authorName?: string;
+          tooltipTitle?: string;
+        };
+        
+        setSettings({
+          authorImage: tooltipSettings.authorImage || "/lovable-uploads/e8e0bb73-dfec-4929-8f65-85fe7bb29316.png",
+          authorName: tooltipSettings.authorName || "Author",
+          tooltipTitle: tooltipSettings.tooltipTitle || "Thinking Out Loud"
+        });
+      }
+    } catch (error) {
+      console.error('Error loading InfoTooltip settings:', error);
+    }
+  };
+
   // Calculate optimal position when opening
   useEffect(() => {
     if (isOpen && buttonRef.current) {
@@ -49,6 +80,11 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
       setPosition(spaceAbove > 350 ? 'top' : 'bottom');
     }
   }, [isOpen]);
+
+  // Use props if provided, otherwise use settings from database
+  const finalAuthorImage = authorImage || settings.authorImage;
+  const finalAuthorName = authorName || settings.authorName;
+  const finalTitle = title || settings.tooltipTitle;
 
   return (
     <div className={cn("relative inline-block", className)}>
@@ -83,8 +119,8 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
           className="absolute inset-1 rounded-full overflow-hidden"
         >
           <img 
-            src={authorImage} 
-            alt={authorName}
+            src={finalAuthorImage} 
+            alt={finalAuthorName}
             className="w-full h-full object-cover grayscale"
           />
         </div>
@@ -122,11 +158,11 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
             {/* Header with Author Image - Green background */}
             <div style={{ backgroundColor: '#dac471' }} className="text-white px-4 py-3 flex items-center gap-3">
               <img 
-                src={authorImage} 
-                alt={authorName}
+                src={finalAuthorImage} 
+                alt={finalAuthorName}
                 className="w-8 h-8 rounded-full object-cover border-2 border-white/50 grayscale"
               />
-              <h3 className="font-medium text-sm">{title}</h3>
+              <h3 className="font-medium text-sm">{finalTitle}</h3>
             </div>
 
             {/* Content */}

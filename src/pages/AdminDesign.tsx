@@ -6,9 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/sonner";
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
+import InfoTooltipSettings from '@/components/admin/InfoTooltipSettings';
 
 const AdminDesign = () => {
   const navigate = useNavigate();
@@ -103,121 +105,134 @@ const AdminDesign = () => {
       </header>
       
       <main className="container py-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Customize Appearance</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSave} className="space-y-6">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="primaryColor">Primary Color</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="primaryColor"
-                      type="color"
-                      value={primaryColor}
-                      onChange={(e) => setPrimaryColor(e.target.value)}
-                      className="w-16 h-10"
-                    />
-                    <Input
-                      value={primaryColor}
-                      onChange={(e) => setPrimaryColor(e.target.value)}
-                      placeholder="#10B981"
-                      className="flex-1"
-                    />
+        <Tabs defaultValue="colors" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="colors">Colors & Fonts</TabsTrigger>
+            <TabsTrigger value="tooltip">InfoTooltip</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="colors">
+            <Card>
+              <CardHeader>
+                <CardTitle>Customize Appearance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSave} className="space-y-6">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="primaryColor">Primary Color</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="primaryColor"
+                          type="color"
+                          value={primaryColor}
+                          onChange={(e) => setPrimaryColor(e.target.value)}
+                          className="w-16 h-10"
+                        />
+                        <Input
+                          value={primaryColor}
+                          onChange={(e) => setPrimaryColor(e.target.value)}
+                          placeholder="#10B981"
+                          className="flex-1"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="secondaryColor">Secondary Color</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="secondaryColor"
+                          type="color"
+                          value={secondaryColor}
+                          onChange={(e) => setSecondaryColor(e.target.value)}
+                          className="w-16 h-10"
+                        />
+                        <Input
+                          value={secondaryColor}
+                          onChange={(e) => setSecondaryColor(e.target.value)}
+                          placeholder="#6B7280"
+                          className="flex-1"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="launchButtonColor">Launch App Button Color</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="launchButtonColor"
+                          type="color"
+                          value={launchButtonColor}
+                          onChange={(e) => setLaunchButtonColor(e.target.value)}
+                          className="w-16 h-10"
+                        />
+                        <Input
+                          value={launchButtonColor}
+                          onChange={(e) => setLaunchButtonColor(e.target.value)}
+                          placeholder="#6366F1"
+                          className="flex-1"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="secondaryColor">Secondary Color</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="secondaryColor"
-                      type="color"
-                      value={secondaryColor}
-                      onChange={(e) => setSecondaryColor(e.target.value)}
-                      className="w-16 h-10"
-                    />
-                    <Input
-                      value={secondaryColor}
-                      onChange={(e) => setSecondaryColor(e.target.value)}
-                      placeholder="#6B7280"
-                      className="flex-1"
-                    />
+
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <div className="space-y-2">
+                      <Label htmlFor="fontFamily">Font Family</Label>
+                      <Select value={fontFamily} onValueChange={setFontFamily}>
+                        <SelectTrigger id="fontFamily">
+                          <SelectValue placeholder="Select font" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="inter">Inter</SelectItem>
+                          <SelectItem value="roboto">Roboto</SelectItem>
+                          <SelectItem value="opensans">Open Sans</SelectItem>
+                          <SelectItem value="lato">Lato</SelectItem>
+                          <SelectItem value="poppins">Poppins</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="fontSize">Font Size</Label>
+                      <Select value={fontSize} onValueChange={setFontSize}>
+                        <SelectTrigger id="fontSize">
+                          <SelectValue placeholder="Select size" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="small">Small</SelectItem>
+                          <SelectItem value="medium">Medium</SelectItem>
+                          <SelectItem value="large">Large</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="theme">Theme</Label>
+                      <Select value={theme} onValueChange={setTheme}>
+                        <SelectTrigger id="theme">
+                          <SelectValue placeholder="Select theme" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="light">Light</SelectItem>
+                          <SelectItem value="dark">Dark</SelectItem>
+                          <SelectItem value="auto">Auto</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="launchButtonColor">Launch App Button Color</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="launchButtonColor"
-                      type="color"
-                      value={launchButtonColor}
-                      onChange={(e) => setLaunchButtonColor(e.target.value)}
-                      className="w-16 h-10"
-                    />
-                    <Input
-                      value={launchButtonColor}
-                      onChange={(e) => setLaunchButtonColor(e.target.value)}
-                      placeholder="#6366F1"
-                      className="flex-1"
-                    />
-                  </div>
-                </div>
-              </div>
 
-              <div className="grid gap-4 md:grid-cols-3">
-                <div className="space-y-2">
-                  <Label htmlFor="fontFamily">Font Family</Label>
-                  <Select value={fontFamily} onValueChange={setFontFamily}>
-                    <SelectTrigger id="fontFamily">
-                      <SelectValue placeholder="Select font" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="inter">Inter</SelectItem>
-                      <SelectItem value="roboto">Roboto</SelectItem>
-                      <SelectItem value="opensans">Open Sans</SelectItem>
-                      <SelectItem value="lato">Lato</SelectItem>
-                      <SelectItem value="poppins">Poppins</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="fontSize">Font Size</Label>
-                  <Select value={fontSize} onValueChange={setFontSize}>
-                    <SelectTrigger id="fontSize">
-                      <SelectValue placeholder="Select size" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="small">Small</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="large">Large</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="theme">Theme</Label>
-                  <Select value={theme} onValueChange={setTheme}>
-                    <SelectTrigger id="theme">
-                      <SelectValue placeholder="Select theme" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="dark">Dark</SelectItem>
-                      <SelectItem value="auto">Auto</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <Button type="submit" className="w-full">Save Design Settings</Button>
-            </form>
-          </CardContent>
-        </Card>
+                  <Button type="submit" className="w-full">Save Design Settings</Button>
+                </form>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="tooltip">
+            <InfoTooltipSettings />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
