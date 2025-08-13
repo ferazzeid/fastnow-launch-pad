@@ -69,11 +69,12 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
       >
         {/* Outer border with elegant pulsing - medium thickness */}
         <div 
-          className="absolute inset-0 border-4 transition-all duration-1000"
+          className="absolute inset-0 border-3 transition-all duration-1000"
           style={{
             borderColor: '#dac471',
             borderRadius: '50% 50% 50% 10%',
-            animation: 'borderPulse 4s ease-in-out infinite'
+            animation: 'borderPulse 4s ease-in-out infinite',
+            borderWidth: '3px'
           }}
         />
         
@@ -86,11 +87,6 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
             alt={authorName}
             className="w-full h-full object-cover grayscale"
           />
-          
-          {/* Hand icon overlay - white with no background */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Hand size={iconSizes[size]} className="text-white drop-shadow-md" />
-          </div>
         </div>
 
         {/* Stronger glow effect on hover */}
