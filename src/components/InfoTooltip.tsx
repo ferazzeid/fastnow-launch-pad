@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle } from 'lucide-react';
+import { Hand } from 'lucide-react';
 import { cn } from '@/lib/utils';
 // Using placeholder for author image for now
 
@@ -67,9 +67,9 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
         }}
         aria-label="Show information"
       >
-        {/* Outer border with elegant pulsing */}
+        {/* Outer border with elegant pulsing - thicker */}
         <div 
-          className="absolute inset-0 border-2 transition-all duration-1000"
+          className="absolute inset-0 border-8 transition-all duration-1000"
           style={{
             borderColor: '#dac471',
             borderRadius: '50% 50% 50% 10%',
@@ -77,24 +77,43 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
           }}
         />
         
-        {/* Inner content container - Full image */}
+        {/* Speech bubble tail overlay */}
         <div 
-          className="relative w-full h-full overflow-hidden"
-          style={{ borderRadius: '50% 50% 50% 10%' }}
+          className="absolute bottom-0 left-0 w-3 h-3"
+          style={{ 
+            backgroundColor: '#dac471',
+            borderRadius: '0 0 0 50%'
+          }}
+        />
+        
+        {/* Inner content container - Circular area only */}
+        <div 
+          className="absolute inset-2 rounded-full overflow-hidden"
         >
           <img 
             src={authorImage} 
             alt={authorName}
             className="w-full h-full object-cover grayscale"
           />
+          
+          {/* Hand icon overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div 
+              className="bg-black/20 rounded-full p-1.5 backdrop-blur-sm"
+              style={{ backgroundColor: 'rgba(218, 196, 113, 0.8)' }}
+            >
+              <Hand size={iconSizes[size]} className="text-white" />
+            </div>
+          </div>
         </div>
 
-        {/* Subtle glow effect on hover */}
+        {/* Stronger glow effect on hover */}
         <div 
-          className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"
+          className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
           style={{ 
-            background: 'radial-gradient(circle, #dac471 0%, transparent 70%)',
-            borderRadius: '50% 50% 50% 10%'
+            background: 'radial-gradient(circle, #dac471 0%, rgba(218, 196, 113, 0.4) 50%, transparent 70%)',
+            borderRadius: '50% 50% 50% 10%',
+            filter: 'blur(2px)'
           }}
         />
       </button>
