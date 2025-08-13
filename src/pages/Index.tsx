@@ -385,17 +385,6 @@ const Index = () => {
         <section className="relative z-10 min-h-screen flex items-center justify-center">
           <div className="absolute inset-0 w-full h-full z-0 bg-gray-900"></div>
           
-          {/* Background Image if available */}
-          {slide2ImageUrl && (
-            <div className="absolute inset-0 w-full h-full z-0">
-              <img 
-                src={slide2ImageUrl} 
-                alt="Section background" 
-                className="w-full h-full object-cover opacity-30"
-              />
-            </div>
-          )}
-          
           <div className="container max-w-6xl mx-auto px-4 relative z-10">
             <div className={`${slide2ImageUrl ? 'grid lg:grid-cols-2 gap-12 items-center' : 'text-left'}`}>
               {/* Text Content */}
@@ -413,7 +402,7 @@ const Index = () => {
                 </div>
               </div>
               
-              {/* Image Content - Only show as overlay element when present */}
+              {/* Image Content - Only foreground image, no background mirror */}
               {slide2ImageUrl && (
                 <div className="hidden lg:block">
                   <img 
@@ -426,7 +415,6 @@ const Index = () => {
             </div>
           </div>
         </section>
-
 
         {/* Third Section - Nothing New — And That's the Point */}
         <section className="relative z-10 py-16 bg-white">
