@@ -136,6 +136,78 @@ const Blog = () => {
           </div>
         </div>
 
+        {/* Posts Grid */}
+        {filteredOtherPosts.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No blog posts found.</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredOtherPosts.map((post) => (
+              <Card key={post.id} className="hover:shadow-lg transition-shadow">
+                {post.featuredImage && (
+                  <Link to={`/blog/${post.slug}`} className="block">
+                    <div className="aspect-video overflow-hidden rounded-t-lg">
+                      <img
+                        src={post.featuredImage}
+                        alt={post.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  </Link>
+                )}
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1" />
+                    {/* Edit Button for Admins */}
+                    {isAdmin && (
+                      <Button 
+                        onClick={() => handleEdit(post.id)} 
+                        variant="ghost" 
+                        size="sm"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                  <CardTitle className="line-clamp-2">
+                    <Link 
+                      to={`/blog/${post.slug}`}
+                      className="hover:text-accent-green transition-colors"
+                    >
+                      {post.title}
+                    </Link>
+                  </CardTitle>
+                  <CardDescription className="line-clamp-3">
+                    {post.excerpt}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-1 flex-wrap">
+                      {post.categories.slice(0, 2).map(category => (
+                        <span
+                          key={category}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-accent-green text-white"
+                        >
+                          <Tag className="w-3 h-3" />
+                          {category}
+                        </span>
+                      ))}
+                    </div>
+                    <Link
+                      to={`/blog/${post.slug}`}
+                      className="text-accent-green hover:underline text-sm font-medium"
+                    >
+                      Read More
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+
         {/* My Experience Section - Always shows all "my experience" posts */}
         <div className="mb-16">
           <div className="text-center mb-8">
@@ -209,78 +281,6 @@ const Blog = () => {
             ))}
           </div>
         </div>
-
-        {/* Posts Grid */}
-        {filteredOtherPosts.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No blog posts found.</p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredOtherPosts.map((post) => (
-              <Card key={post.id} className="hover:shadow-lg transition-shadow">
-                {post.featuredImage && (
-                  <Link to={`/blog/${post.slug}`} className="block">
-                    <div className="aspect-video overflow-hidden rounded-t-lg">
-                      <img
-                        src={post.featuredImage}
-                        alt={post.title}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  </Link>
-                )}
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1" />
-                    {/* Edit Button for Admins */}
-                    {isAdmin && (
-                      <Button 
-                        onClick={() => handleEdit(post.id)} 
-                        variant="ghost" 
-                        size="sm"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
-                  <CardTitle className="line-clamp-2">
-                    <Link 
-                      to={`/blog/${post.slug}`}
-                      className="hover:text-accent-green transition-colors"
-                    >
-                      {post.title}
-                    </Link>
-                  </CardTitle>
-                  <CardDescription className="line-clamp-3">
-                    {post.excerpt}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="flex gap-1 flex-wrap">
-                      {post.categories.slice(0, 2).map(category => (
-                        <span
-                          key={category}
-                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-accent-green text-white"
-                        >
-                          <Tag className="w-3 h-3" />
-                          {category}
-                        </span>
-                      ))}
-                    </div>
-                    <Link
-                      to={`/blog/${post.slug}`}
-                      className="text-accent-green hover:underline text-sm font-medium"
-                    >
-                      Read More
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
 
       </div>
     </PageLayout>
