@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/components/ui/sonner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, Edit, Trash2, Save, X, ArrowLeft } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -17,6 +18,7 @@ interface FAQ {
   answer: string;
   display_order: number;
   is_active: boolean;
+  page_category: string;
 }
 
 interface FAQForm {
@@ -24,6 +26,7 @@ interface FAQForm {
   answer: string;
   display_order: number;
   is_active: boolean;
+  page_category: string;
 }
 
 const AdminFAQ = () => {
@@ -35,7 +38,8 @@ const AdminFAQ = () => {
     question: '',
     answer: '',
     display_order: 0,
-    is_active: true
+    is_active: true,
+    page_category: 'general'
   });
   const [loading, setLoading] = useState(true);
 
@@ -83,7 +87,8 @@ const AdminFAQ = () => {
             question: formData.question,
             answer: formData.answer,
             display_order: formData.display_order,
-            is_active: formData.is_active
+            is_active: formData.is_active,
+            page_category: formData.page_category
           })
           .eq('id', editingId);
 
@@ -97,7 +102,8 @@ const AdminFAQ = () => {
             question: formData.question,
             answer: formData.answer,
             display_order: formData.display_order,
-            is_active: formData.is_active
+            is_active: formData.is_active,
+            page_category: formData.page_category
           });
 
         if (error) throw error;
@@ -118,7 +124,8 @@ const AdminFAQ = () => {
       question: faq.question,
       answer: faq.answer,
       display_order: faq.display_order,
-      is_active: faq.is_active
+      is_active: faq.is_active,
+      page_category: faq.page_category
     });
     setEditingId(faq.id);
     setShowAddForm(true);
@@ -148,7 +155,8 @@ const AdminFAQ = () => {
       question: '',
       answer: '',
       display_order: faqs.length,
-      is_active: true
+      is_active: true,
+      page_category: 'general'
     });
     setEditingId(null);
     setShowAddForm(false);
@@ -225,7 +233,7 @@ const AdminFAQ = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="display_order">Display Order</Label>
                   <Input
@@ -235,6 +243,20 @@ const AdminFAQ = () => {
                     onChange={(e) => handleInputChange('display_order', parseInt(e.target.value) || 0)}
                     placeholder="Order"
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="page_category">Page Category</Label>
+                  <Select value={formData.page_category} onValueChange={(value) => handleInputChange('page_category', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="general">General</SelectItem>
+                      <SelectItem value="app">About App</SelectItem>
+                      <SelectItem value="protocol">Protocol</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
@@ -292,6 +314,9 @@ const AdminFAQ = () => {
                         </span>
                         <span className="px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
                           Order: {faq.display_order}
+                        </span>
+                        <span className="px-2 py-1 rounded-full text-xs bg-purple-100 text-purple-800">
+                          {faq.page_category}
                         </span>
                       </div>
                       <p className="text-muted-foreground text-sm line-clamp-2">

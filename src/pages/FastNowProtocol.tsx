@@ -4,6 +4,7 @@ import { Clock, Utensils, Activity, AlertTriangle, CheckCircle, ExternalLink } f
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
 import ProtocolPhasesIntro from '@/components/fasting/ProtocolPhasesIntro';
+import FAQSection from '@/components/FAQSection';
 import { supabase } from '@/integrations/supabase/client';
 
 const FastNowProtocol = () => {
@@ -492,6 +493,9 @@ const FastNowProtocol = () => {
             </div>
           </div>
         </main>
+
+        {/* FAQ Section */}
+        <FAQSection category="protocol" className="bg-gray-50" />
       </div>
     </PageLayout>
   );

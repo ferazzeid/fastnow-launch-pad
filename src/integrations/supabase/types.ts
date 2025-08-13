@@ -419,6 +419,7 @@ export type Database = {
           display_order: number
           id: string
           is_active: boolean
+          page_category: string | null
           question: string
           updated_at: string
         }
@@ -428,6 +429,7 @@ export type Database = {
           display_order?: number
           id?: string
           is_active?: boolean
+          page_category?: string | null
           question: string
           updated_at?: string
         }
@@ -437,6 +439,7 @@ export type Database = {
           display_order?: number
           id?: string
           is_active?: boolean
+          page_category?: string | null
           question?: string
           updated_at?: string
         }

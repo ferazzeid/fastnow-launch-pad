@@ -6,6 +6,7 @@ import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Clock, Activity, Utensils, Target } from 'lucide-react';
+import FAQSection from '@/components/FAQSection';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
@@ -188,7 +189,7 @@ const AboutFastNowApp = () => {
                 'bg-gray-100', // Fasting Timer
                 'bg-gray-50',  // Walking Tracker  
                 'bg-white',    // Food Log
-                'bg-gray-75'   // Motivators - slightly lighter than gray-100
+                'bg-gray-200'  // Motivators - distinct from Food Log
               ];
               
               return (
@@ -298,7 +299,7 @@ const AboutFastNowApp = () => {
         </div>
 
         {/* Install App instructions */}
-        <div className="py-16 bg-gray-25 w-full">
+        <div className="py-16 bg-gray-100 w-full">
           <div className="container max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-6">FastNow – Install the App on Your Phone</h2>
             <p className="text-center text-muted-foreground mb-10">Even though FastNow runs in your browser, you can add it to your home screen so it works like a real app — full screen, fast, and easy to open.</p>
@@ -332,6 +333,9 @@ const AboutFastNowApp = () => {
             </div>
           </div>
         </div>
+
+        {/* FAQ Section */}
+        <FAQSection category="app" className="bg-white" />
 
       </div>
     </PageLayout>
