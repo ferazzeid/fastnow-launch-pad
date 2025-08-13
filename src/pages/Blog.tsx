@@ -33,18 +33,20 @@ const Blog = () => {
       const publishedPosts = allPosts.filter(post => post.status === 'published');
       setPosts(publishedPosts);
       
-      // Get latest 3 posts sorted by published date
-      const sortedPosts = publishedPosts
-        .sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime());
-      setLatestPosts(sortedPosts.slice(0, 3));
-      
-      // Split posts into "my experience" and others
+      // Split posts into "my experience" and others first
       const experiencePosts = publishedPosts.filter(post => 
         post.categories.includes('my experience')
       );
       const generalPosts = publishedPosts.filter(post => 
         !post.categories.includes('my experience')
       );
+      
+      // Get latest 3 "my experience" posts for the featured section
+      const latestExperiencePosts = experiencePosts
+        .sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime())
+        .slice(0, 3);
+      setLatestPosts(latestExperiencePosts);
+      
       
       setMyExperiencePosts(experiencePosts);
       setOtherPosts(generalPosts);
@@ -104,9 +106,9 @@ const Blog = () => {
         {latestPosts.length > 0 && (
           <div className="mb-16">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-mint-600 mb-4">This Isn't for Fitness Models</h2>
+              <h2 className="text-3xl font-bold text-mint-600 mb-4">Peek into My Weight Loss Experience</h2>
               <p className="text-lg text-mint-500 max-w-3xl mx-auto">
-                Real strategies for real people. No six-pack required, no perfect diet needed. Just practical advice that works for busy lives.
+                Thinking out loud and reflecting on my weight loss journey
               </p>
             </div>
             
@@ -244,7 +246,7 @@ const Blog = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-mint-600 mb-4">FastNow Insights</h1>
           <p className="text-xl text-mint-500 max-w-2xl mx-auto">
-            Let's talk about the FAST Now protocol and my experience
+            Let's talk about the FastNow protocol and my experience
           </p>
         </div>
 
