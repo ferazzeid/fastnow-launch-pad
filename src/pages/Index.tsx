@@ -8,6 +8,7 @@ import { pageContentService } from '@/services/PageContentService';
 import { BackgroundImageService } from '@/services/BackgroundImageService';
 import { supabase } from '@/integrations/supabase/client';
 import SiteInfoTooltip from '@/components/SiteInfoTooltip';
+import ImageSlideshow from '@/components/ImageSlideshow';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 
 // Helper function to get custom UI element image
@@ -382,7 +383,7 @@ const Index = () => {
         </section>
 
         {/* Second Section - This Isn't for Fitness Models */}
-        <section className="relative z-10 min-h-screen flex items-center justify-center">
+        <section className="relative z-10 min-h-screen flex items-center justify-center pb-0 mb-0">
           <div className="absolute inset-0 w-full h-full z-0 bg-gray-900"></div>
           
           <div className="container max-w-6xl mx-auto px-4 relative z-10">
@@ -415,6 +416,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* Slideshow Section - Aren't you tired of this */}
+        <ImageSlideshow title="Aren't you tired of this?" />
 
         {/* Third Section - Nothing New — And That's the Point */}
         <section className="relative z-10 py-16 bg-white">
