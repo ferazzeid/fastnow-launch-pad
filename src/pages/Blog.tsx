@@ -62,18 +62,10 @@ const Blog = () => {
   }, []);
 
   useEffect(() => {
-    // Filter "my experience" posts
-    let filteredExperience = myExperiencePosts;
-    if (searchTerm) {
-      filteredExperience = filteredExperience.filter(post =>
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-    setFilteredMyExperiencePosts(filteredExperience);
+    // "My Experience" section always shows all posts from that category (no filtering)
+    // Only "Other" posts are affected by search/category filters
 
-    // Filter other posts
+    // Filter other posts (search and category filters only apply to "other" posts)
     let filteredOther = otherPosts;
     if (searchTerm) {
       filteredOther = filteredOther.filter(post =>
@@ -88,7 +80,7 @@ const Blog = () => {
     }
 
     setFilteredOtherPosts(filteredOther);
-  }, [myExperiencePosts, otherPosts, searchTerm, selectedCategory]);
+  }, [otherPosts, searchTerm, selectedCategory]);
 
   const handleEdit = (postId: string) => {
     navigate(`/admin/blog/edit/${postId}`);
@@ -166,8 +158,8 @@ const Blog = () => {
           </div>
         )}
 
-        {/* My Experience Section */}
-        {filteredMyExperiencePosts.length > 0 && (
+        {/* My Experience Section - Always shows all "my experience" posts */}
+        {myExperiencePosts.length > 0 && (
           <div className="mb-16">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-mint-600 mb-4">Peek into My Weight Loss Experience</h2>
@@ -177,7 +169,7 @@ const Blog = () => {
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {filteredMyExperiencePosts.map((post) => (
+              {myExperiencePosts.map((post) => (
                 <Card key={post.id} className="hover:shadow-lg transition-shadow">
                   {post.featuredImage && (
                     <Link to={`/blog/${post.slug}`} className="block">
