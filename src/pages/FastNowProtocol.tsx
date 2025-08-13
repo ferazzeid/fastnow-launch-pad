@@ -24,7 +24,8 @@ const FastNowProtocol = () => {
       purpose: 'Flip the fat-burning switch (ketosis), break the carb/insulin cycle, dump water for momentum, and set the stage so Phase 2 actually works.',
       instructions: 'Drink water and black coffee. No food.',
       details: 'Night Zero: The easiest to start a water fast is to start at night after eating and then go to sleep and that\'s the first 10 hours of fasting that you have under your belt and that creates momentum to continue next day.\n\nDay 1 / Night 1: most people can push through; you\'re mostly burning stored sugar.\n\nDay 2 / Night 2: this is the test. Sleep often goes bad, cravings scream, and you negotiate with yourself. Anyone who has quit a serious habit knows this night. Make it through Night 2 and you\'ve done the real work; this is where the shift happens.',
-      image: ''
+      image: '',
+      readMoreLink: ''
     },
     phase2: {
       title: 'Strict Simple Diet + Daily Calorie Limit',
@@ -37,13 +38,15 @@ const FastNowProtocol = () => {
       whatToEat: 'OK: cheese, sausage, eggs, cold cuts, fish, meat; cucumbers, pickles, plain yogurt.\nDrinks: water, coffee. I personally use Coke Zero / Pepsi Max / Cola Light.\nAvoid: bread, rice, noodles, potatoes, fruit, carrots, tomatoes, oil, and everything else outside the above list.',
       tracking: 'Track every single thing—in the app or on paper. If you "keep it in your head," you will drift. Example: you do everything right, then at night you add a salmon steak "because it\'s healthy." You just blew 600–700 kcal, and your perfect day became a 300 kcal deficit.',
       recovery: 'If you overeat, you still have Phase 3. Walk it off to claw back the deficit the same day.',
-      image: ''
+      image: '',
+      readMoreLink: ''
     },
     phase3: {
       title: 'Daily Walking',
       rule: '90 minutes every day (non-negotiable).',
       why: '~500 kcal/day for many people, better mood, stable energy, and it\'s the simplest thing most people will actually do consistently.',
-      image: ''
+      image: '',
+      readMoreLink: ''
     }
   });
   const [isLoading, setIsLoading] = useState(true);
@@ -64,12 +67,12 @@ const FastNowProtocol = () => {
           'protocol_title', 'protocol_subtitle', 'protocol_content', 'protocol_featured_image',
           'protocol_meta_title', 'protocol_meta_description',
           'protocol_phase1_title', 'protocol_phase1_duration', 'protocol_phase1_purpose', 
-          'protocol_phase1_instructions', 'protocol_phase1_details', 'protocol_phase1_image',
+          'protocol_phase1_instructions', 'protocol_phase1_details', 'protocol_phase1_image', 'protocol_phase1_read_more_link',
           'protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image',
           'protocol_phase2_title', 'protocol_phase2_duration', 'protocol_phase2_calorie_cap', 'protocol_phase2_carb_cap',
           'protocol_phase2_deficit', 'protocol_phase2_why_deficit', 'protocol_phase2_how_to_set',
-          'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery', 'protocol_phase2_image',
-          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_image'
+          'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery', 'protocol_phase2_image', 'protocol_phase2_read_more_link',
+          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_image', 'protocol_phase3_read_more_link'
         ]);
 
       if (error) {
@@ -106,7 +109,8 @@ const FastNowProtocol = () => {
           purpose: settings.protocol_phase1_purpose || phaseContent.phase1.purpose,
           instructions: settings.protocol_phase1_instructions || phaseContent.phase1.instructions,
           details: settings.protocol_phase1_details || phaseContent.phase1.details,
-          image: settings.protocol_phase1_image || ''
+          image: settings.protocol_phase1_image || '',
+          readMoreLink: settings.protocol_phase1_read_more_link || ''
         },
         phase2: {
           title: settings.protocol_phase2_title || phaseContent.phase2.title,
@@ -119,13 +123,15 @@ const FastNowProtocol = () => {
           whatToEat: settings.protocol_phase2_what_to_eat || phaseContent.phase2.whatToEat,
           tracking: settings.protocol_phase2_tracking || phaseContent.phase2.tracking,
           recovery: settings.protocol_phase2_recovery || phaseContent.phase2.recovery,
-          image: settings.protocol_phase2_image || ''
+          image: settings.protocol_phase2_image || '',
+          readMoreLink: settings.protocol_phase2_read_more_link || ''
         },
         phase3: {
           title: settings.protocol_phase3_title || phaseContent.phase3.title,
           rule: settings.protocol_phase3_rule || phaseContent.phase3.rule,
           why: settings.protocol_phase3_why || phaseContent.phase3.why,
-          image: settings.protocol_phase3_image || ''
+          image: settings.protocol_phase3_image || '',
+          readMoreLink: settings.protocol_phase3_read_more_link || ''
         }
       });
     } catch (error) {
@@ -316,6 +322,19 @@ const FastNowProtocol = () => {
                               ))}
                             </div>
                           </div>
+                          
+                          {/* Read More Button */}
+                          {phaseContent.phase1.readMoreLink && (
+                            <div className="mt-6 pt-4 border-t border-gray-200">
+                              <a 
+                                href={phaseContent.phase1.readMoreLink}
+                                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                              >
+                                Read More
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -391,11 +410,24 @@ const FastNowProtocol = () => {
                           <div className="bg-gray-100 p-4 rounded-lg">
                             <h3 className="text-lg font-semibold mb-3 text-foreground">Recovery Plan</h3>
                             <p className="text-muted-foreground">{phaseContent.phase2.recovery}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                           </div>
+                         </div>
+                         
+                         {/* Read More Button */}
+                         {phaseContent.phase2.readMoreLink && (
+                           <div className="mt-6 pt-4 border-t border-gray-200">
+                             <a 
+                               href={phaseContent.phase2.readMoreLink}
+                               className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                             >
+                               Read More
+                               <ExternalLink className="w-4 h-4" />
+                             </a>
+                           </div>
+                         )}
+                       </div>
+                     </div>
+                   </div>
 
                   {/* Phase 3: Daily Walking */}
                   <div className="mb-12">
@@ -429,11 +461,24 @@ const FastNowProtocol = () => {
                            <div className="bg-gray-100 p-4 rounded-lg">
                              <h3 className="text-lg font-semibold mb-3 text-foreground">Why Walking?</h3>
                              <p className="text-muted-foreground">{phaseContent.phase3.why}</p>
-                           </div>
-                         </div>
-                       </div>
-                    </div>
-                  </div>
+                            </div>
+                          </div>
+                          
+                          {/* Read More Button */}
+                          {phaseContent.phase3.readMoreLink && (
+                            <div className="mt-6 pt-4 border-t border-gray-200">
+                              <a 
+                                href={phaseContent.phase3.readMoreLink}
+                                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                              >
+                                Read More
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                     </div>
+                   </div>
 
                   {/* Results Expectations Section */}
                   <div className="mt-12">

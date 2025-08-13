@@ -49,6 +49,11 @@ const AdminFastNowProtocol = () => {
   const [phase1Image, setPhase1Image] = useState('');
   const [phase2Image, setPhase2Image] = useState('');
   const [phase3Image, setPhase3Image] = useState('');
+  
+  // Phase read more links
+  const [phase1ReadMoreLink, setPhase1ReadMoreLink] = useState('');
+  const [phase2ReadMoreLink, setPhase2ReadMoreLink] = useState('');
+  const [phase3ReadMoreLink, setPhase3ReadMoreLink] = useState('');
   const [phase1IntroImage, setPhase1IntroImage] = useState('');
   const [phase2IntroImage, setPhase2IntroImage] = useState('');
   const [phase3IntroImage, setPhase3IntroImage] = useState('');
@@ -90,12 +95,12 @@ const AdminFastNowProtocol = () => {
           'protocol_title', 'protocol_subtitle', 'protocol_content', 'protocol_featured_image',
           'protocol_meta_title', 'protocol_meta_description',
           'protocol_phase1_title', 'protocol_phase1_duration', 'protocol_phase1_purpose', 
-          'protocol_phase1_instructions', 'protocol_phase1_details', 'protocol_phase1_image',
+          'protocol_phase1_instructions', 'protocol_phase1_details', 'protocol_phase1_image', 'protocol_phase1_read_more_link',
           'protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image',
           'protocol_phase2_title', 'protocol_phase2_duration', 'protocol_phase2_carb_cap',
           'protocol_phase2_deficit', 'protocol_phase2_why_deficit', 'protocol_phase2_how_to_set',
-          'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery', 'protocol_phase2_image',
-          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_how_to_fit', 'protocol_phase3_image'
+          'protocol_phase2_what_to_eat', 'protocol_phase2_tracking', 'protocol_phase2_recovery', 'protocol_phase2_image', 'protocol_phase2_read_more_link',
+          'protocol_phase3_title', 'protocol_phase3_rule', 'protocol_phase3_why', 'protocol_phase3_how_to_fit', 'protocol_phase3_image', 'protocol_phase3_read_more_link'
         ]);
 
       if (error) throw error;
@@ -145,6 +150,11 @@ const AdminFastNowProtocol = () => {
       setPhase1Image(settings.protocol_phase1_image || '');
       setPhase2Image(settings.protocol_phase2_image || '');
       setPhase3Image(settings.protocol_phase3_image || '');
+      
+      // Set read more links
+      setPhase1ReadMoreLink(settings.protocol_phase1_read_more_link || '');
+      setPhase2ReadMoreLink(settings.protocol_phase2_read_more_link || '');
+      setPhase3ReadMoreLink(settings.protocol_phase3_read_more_link || '');
       setPhase1IntroImage(settings.protocol_phase1_intro_image || '');
       setPhase2IntroImage(settings.protocol_phase2_intro_image || '');
       setPhase3IntroImage(settings.protocol_phase3_intro_image || '');
@@ -193,6 +203,12 @@ const AdminFastNowProtocol = () => {
         { setting_key: 'protocol_phase1_image', setting_value: JSON.stringify(phase1Image) },
         { setting_key: 'protocol_phase2_image', setting_value: JSON.stringify(phase2Image) },
         { setting_key: 'protocol_phase3_image', setting_value: JSON.stringify(phase3Image) },
+        
+        // Read more links
+        { setting_key: 'protocol_phase1_read_more_link', setting_value: JSON.stringify(phase1ReadMoreLink) },
+        { setting_key: 'protocol_phase2_read_more_link', setting_value: JSON.stringify(phase2ReadMoreLink) },
+        { setting_key: 'protocol_phase3_read_more_link', setting_value: JSON.stringify(phase3ReadMoreLink) },
+        
         { setting_key: 'protocol_phase1_intro_image', setting_value: JSON.stringify(phase1IntroImage) },
         { setting_key: 'protocol_phase2_intro_image', setting_value: JSON.stringify(phase2IntroImage) },
         { setting_key: 'protocol_phase3_intro_image', setting_value: JSON.stringify(phase3IntroImage) }
@@ -505,6 +521,17 @@ const AdminFastNowProtocol = () => {
                 </div>
               </div>
             </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="phase1ReadMoreLink">Phase 1 - Read More Link</Label>
+              <Input
+                id="phase1ReadMoreLink"
+                type="url"
+                placeholder="Enter blog post URL for Phase 1"
+                value={phase1ReadMoreLink}
+                onChange={(e) => setPhase1ReadMoreLink(e.target.value)}
+              />
+            </div>
           </div>
 
           {/* Phase 2 */}
@@ -682,6 +709,17 @@ const AdminFastNowProtocol = () => {
                 </div>
               </div>
             </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="phase2ReadMoreLink">Phase 2 - Read More Link</Label>
+              <Input
+                id="phase2ReadMoreLink"
+                type="url"
+                placeholder="Enter blog post URL for Phase 2"
+                value={phase2ReadMoreLink}
+                onChange={(e) => setPhase2ReadMoreLink(e.target.value)}
+              />
+            </div>
           </div>
 
           {/* Phase 3 */}
@@ -808,6 +846,17 @@ const AdminFastNowProtocol = () => {
                   )}
                 </div>
               </div>
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="phase3ReadMoreLink">Phase 3 - Read More Link</Label>
+              <Input
+                id="phase3ReadMoreLink"
+                type="url"
+                placeholder="Enter blog post URL for Phase 3"
+                value={phase3ReadMoreLink}
+                onChange={(e) => setPhase3ReadMoreLink(e.target.value)}
+              />
             </div>
           </div>
 
