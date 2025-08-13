@@ -20,6 +20,7 @@ const MainNavigation = () => {
 
   // Static navigation links - no database calls needed
   const navigationLinks = [
+    { path: '/', title: 'Home' },
     { path: '/fast-now-protocol', title: 'The Protocol' },
     { path: '/about-fastnow-app', title: 'About App' },
     { path: '/faq', title: 'FAQ' }

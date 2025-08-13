@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
 import { pageContentService } from '@/services/PageContentService';
 import { BackgroundImageService } from '@/services/BackgroundImageService';
+import { supabase } from '@/integrations/supabase/client';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -54,6 +55,13 @@ const Index = () => {
   const [slide4ImageUrl, setSlide4ImageUrl] = useState<string>('');
   const [launchButtonColor, setLaunchButtonColor] = useState<string>('#6366F1');
   
+  // Phase images state
+  const [phaseImages, setPhaseImages] = useState({
+    phase1: '',
+    phase2: '',
+    phase3: ''
+  });
+  
   // State for custom UI elements
   const [customElementsImages, setCustomElementsImages] = useState<{[key: string]: string | null}>({
     background3d: null
@@ -65,6 +73,35 @@ const Index = () => {
 
   // Load content from database and localStorage
   useEffect(() => {
+    const loadPhaseImages = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('site_settings')
+          .select('setting_key, setting_value')
+          .in('setting_key', ['protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image']);
+
+        if (error) throw error;
+
+        const settings = data?.reduce((acc, item) => {
+          const value = item.setting_value;
+          try {
+            acc[item.setting_key] = typeof value === 'string' ? JSON.parse(value || '""') : String(value || '');
+          } catch {
+            acc[item.setting_key] = String(value || '');
+          }
+          return acc;
+        }, {} as Record<string, string>) || {};
+
+        setPhaseImages({
+          phase1: settings.protocol_phase1_intro_image || '',
+          phase2: settings.protocol_phase2_intro_image || '',
+          phase3: settings.protocol_phase3_intro_image || ''
+        });
+      } catch (error) {
+        console.error('Error loading phase images:', error);
+      }
+    };
+
     const loadContent = async () => {
       try {
         // Check if migration has already been done
@@ -134,6 +171,7 @@ const Index = () => {
     };
 
     // Load database content
+    loadPhaseImages();
     loadContent();
 
     // Load active background image
@@ -325,6 +363,15 @@ const Index = () => {
               {/* Phase 1 */}
               <div className="flex-1 max-w-sm">
                 <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-blue-500 text-center min-h-[280px] flex flex-col">
+                  {phaseImages.phase1 && (
+                    <div className="mb-4 -m-8 mt-0 mx-0">
+                      <img 
+                        src={phaseImages.phase1} 
+                        alt="Phase 1 - Water Fast" 
+                        className="w-full h-32 object-cover"
+                      />
+                    </div>
+                  )}
                   <div className="px-8 pb-8 flex flex-col flex-grow">
                     <div className="bg-blue-500/10 p-4 rounded-full inline-flex mb-4 mx-auto">
                       <Clock className="w-8 h-8 text-blue-600" />
@@ -341,6 +388,15 @@ const Index = () => {
               {/* Phase 2 */}
               <div className="flex-1 max-w-sm">
                 <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-orange-500 text-center min-h-[280px] flex flex-col">
+                  {phaseImages.phase2 && (
+                    <div className="mb-4 -m-8 mt-0 mx-0">
+                      <img 
+                        src={phaseImages.phase2} 
+                        alt="Phase 2 - Diet Control" 
+                        className="w-full h-32 object-cover"
+                      />
+                    </div>
+                  )}
                   <div className="px-8 pb-8 flex flex-col flex-grow">
                     <div className="bg-orange-500/10 p-4 rounded-full inline-flex mb-4 mx-auto">
                       <Utensils className="w-8 h-8 text-orange-600" />
@@ -357,6 +413,15 @@ const Index = () => {
               {/* Phase 3 */}
               <div className="flex-1 max-w-sm">
                 <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-green-500 text-center min-h-[280px] flex flex-col">
+                  {phaseImages.phase3 && (
+                    <div className="mb-4 -m-8 mt-0 mx-0">
+                      <img 
+                        src={phaseImages.phase3} 
+                        alt="Phase 3 - Daily Walking" 
+                        className="w-full h-32 object-cover"
+                      />
+                    </div>
+                  )}
                   <div className="px-8 pb-8 flex flex-col flex-grow">
                     <div className="bg-green-500/10 p-4 rounded-full inline-flex mb-4 mx-auto">
                       <Activity className="w-8 h-8 text-green-600" />
@@ -372,6 +437,15 @@ const Index = () => {
             <div className="md:hidden space-y-6">
               {/* Phase 1 */}
               <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-blue-500">
+                {phaseImages.phase1 && (
+                  <div className="mb-4 -m-6 mt-0 mx-0">
+                    <img 
+                      src={phaseImages.phase1} 
+                      alt="Phase 1 - Water Fast" 
+                      className="w-full h-32 object-cover"
+                    />
+                  </div>
+                )}
                 <div className="px-6 pb-6">
                   <div className="flex items-center gap-4">
                     <div className="bg-blue-500/10 p-3 rounded-full">
@@ -390,6 +464,15 @@ const Index = () => {
               
               {/* Phase 2 */}
               <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-orange-500">
+                {phaseImages.phase2 && (
+                  <div className="mb-4 -m-6 mt-0 mx-0">
+                    <img 
+                      src={phaseImages.phase2} 
+                      alt="Phase 2 - Diet Control" 
+                      className="w-full h-32 object-cover"
+                    />
+                  </div>
+                )}
                 <div className="px-6 pb-6">
                   <div className="flex items-center gap-4">
                     <div className="bg-orange-500/10 p-3 rounded-full">
@@ -408,6 +491,15 @@ const Index = () => {
               
               {/* Phase 3 */}
               <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-green-500">
+                {phaseImages.phase3 && (
+                  <div className="mb-4 -m-6 mt-0 mx-0">
+                    <img 
+                      src={phaseImages.phase3} 
+                      alt="Phase 3 - Daily Walking" 
+                      className="w-full h-32 object-cover"
+                    />
+                  </div>
+                )}
                 <div className="px-6 pb-6">
                   <div className="flex items-center gap-4">
                     <div className="bg-green-500/10 p-3 rounded-full">
