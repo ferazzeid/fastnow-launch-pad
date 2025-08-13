@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+// Using placeholder for author image for now
 
 interface InfoTooltipProps {
   title?: string;
@@ -14,7 +15,7 @@ interface InfoTooltipProps {
 const InfoTooltip: React.FC<InfoTooltipProps> = ({
   title = "Thinking Out Loud",
   content,
-  authorImage,
+  authorImage = "/lovable-uploads/e8e0bb73-dfec-4929-8f65-85fe7bb29316.png",
   authorName = "Author",
   size = 'md',
   className
@@ -51,54 +52,63 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
 
   return (
     <div className={cn("relative inline-block", className)}>
-      {/* Clickable Info Button */}
+      {/* Elegant Pulsating Speech Bubble Button */}
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "rounded-full border-2 border-[#dac471] backdrop-blur-sm overflow-hidden",
-          "hover:border-[#c4b266] transition-all duration-200 shadow-lg",
-          "flex flex-col relative group",
-          "animate-pulse hover:animate-none", // Pulsating animation
+          "relative overflow-hidden group transition-all duration-300",
+          "hover:scale-105",
           sizeClasses[size]
         )}
-        style={{ 
-          background: 'linear-gradient(135deg, rgba(218, 196, 113, 0.2) 0%, rgba(218, 196, 113, 0.1) 100%)'
+        style={{
+          borderRadius: '50% 50% 50% 10%', // Speech bubble shape
+          animation: 'elegantPulse 3s ease-in-out infinite'
         }}
         aria-label="Show information"
       >
-        {/* Upper half - Author image */}
-        <div className="flex-1 w-full relative overflow-hidden rounded-t-full">
-          {authorImage ? (
+        {/* Outer border with elegant pulsing */}
+        <div 
+          className="absolute inset-0 rounded-full border-2 transition-all duration-1000"
+          style={{
+            borderColor: '#dac471',
+            borderRadius: '50% 50% 50% 10%',
+            animation: 'borderPulse 4s ease-in-out infinite'
+          }}
+        />
+        
+        {/* Inner content container */}
+        <div 
+          className="relative w-full h-full flex flex-col overflow-hidden"
+          style={{ borderRadius: '50% 50% 50% 10%' }}
+        >
+          {/* Upper half - Author image (black and white) */}
+          <div className="flex-1 w-full relative overflow-hidden">
             <img 
               src={authorImage} 
               alt={authorName}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover grayscale"
+              style={{ 
+                clipPath: 'ellipse(100% 100% at 50% 0%)',
+              }}
             />
-          ) : (
-            <div 
-              className="w-full h-full flex items-center justify-center text-white text-xs font-bold"
-              style={{ backgroundColor: '#dac471' }}
-            >
-              {authorName.charAt(0).toUpperCase()}
-            </div>
-          )}
-        </div>
-        
-        {/* Lower half - Comment icon */}
-        <div 
-          className="flex-1 w-full flex items-center justify-center rounded-b-full"
-          style={{ backgroundColor: '#dac471' }}
-        >
-          <MessageCircle size={iconSizes[size]} className="text-white" />
+          </div>
+          
+          {/* Lower half - Comment icon */}
+          <div 
+            className="flex-1 w-full flex items-center justify-center"
+            style={{ backgroundColor: '#dac471' }}
+          >
+            <MessageCircle size={iconSizes[size]} className="text-white" />
+          </div>
         </div>
 
-        {/* Subtle glow effect */}
+        {/* Subtle glow effect on hover */}
         <div 
-          className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none"
+          className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"
           style={{ 
             background: 'radial-gradient(circle, #dac471 0%, transparent 70%)',
-            boxShadow: '0 0 20px #dac471'
+            borderRadius: '50% 50% 50% 10%'
           }}
         />
       </button>
@@ -117,26 +127,17 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
             ref={tooltipRef}
             className={cn(
               "absolute right-0 z-50 w-80 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden",
-              "animate-scale-in",
+              "animate-fade-in",
               position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
             )}
           >
             {/* Header with Author Image */}
             <div className="bg-gray-800 text-white px-4 py-3 flex items-center gap-3">
-              {authorImage ? (
-                <img 
-                  src={authorImage} 
-                  alt={authorName}
-                  className="w-8 h-8 rounded-full object-cover border-2 border-[#dac471]/50"
-                />
-              ) : (
-                <div 
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium text-white"
-                  style={{ backgroundColor: '#dac471' }}
-                >
-                  {authorName.charAt(0).toUpperCase()}
-                </div>
-              )}
+              <img 
+                src={authorImage} 
+                alt={authorName}
+                className="w-8 h-8 rounded-full object-cover border-2 border-[#dac471]/50 grayscale"
+              />
               <h3 className="font-medium text-sm">{title}</h3>
             </div>
 
@@ -159,6 +160,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
           </div>
         </>
       )}
+
     </div>
   );
 };
