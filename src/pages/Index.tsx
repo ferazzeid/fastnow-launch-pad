@@ -587,12 +587,24 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="text-lg md:text-xl text-gray-700 mb-6 space-y-4">
+              <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
                 {slide3Content.split('\n\n').map((paragraph, index) => (
                   <p key={index}>
                     {paragraph}
                   </p>
                 ))}
+              </div>
+              
+              <div className="mt-8">
+                <Link to="/fastnow-protocol">
+                  <Button 
+                    className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                    style={{ backgroundColor: launchButtonColor }}
+                  >
+                    Read More
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
