@@ -177,13 +177,11 @@ const AboutFastNowApp = () => {
 
       {/* Content Section */}
       <div className="relative z-10">
-        <div className="container py-12">
-
         {/* Features Sections */}
-        <div className="mb-16">
+        <div className="mb-0">
           
           {/* Stacked Feature Sections */}
-          <div className="space-y-0 max-w-4xl mx-auto">
+          <div className="space-y-0">
             {features.map((feature, index) => {
               // Define background colors for each section, getting lighter as we go down
               const backgrounds = [
@@ -194,45 +192,47 @@ const AboutFastNowApp = () => {
               ];
               
               return (
-                <div key={feature.key} className={`${backgrounds[index]} py-16`}>
-                  <div className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
-                    {/* Content Side */}
-                    <div className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                      <div className="text-center lg:text-left">
-                        <div className="flex items-center gap-3 mb-4 justify-center lg:justify-start">
-                          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                            {feature.icon}
+                <div key={feature.key} className={`${backgrounds[index]} py-16 w-full`}>
+                  <div className="container max-w-4xl mx-auto">
+                    <div className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
+                      {/* Content Side */}
+                      <div className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
+                        <div className="text-center lg:text-left">
+                          <div className="flex items-center gap-3 mb-4 justify-center lg:justify-start">
+                            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                              {feature.icon}
+                            </div>
+                            <h3 className="text-3xl font-bold">{feature.title}</h3>
                           </div>
-                          <h3 className="text-3xl font-bold">{feature.title}</h3>
+                          {feature.subtitle && (
+                            <p className="text-lg text-muted-foreground mb-6">
+                              {feature.subtitle}
+                            </p>
+                          )}
                         </div>
-                        {feature.subtitle && (
-                          <p className="text-lg text-muted-foreground mb-6">
-                            {feature.subtitle}
-                          </p>
-                        )}
+                        
+                        <div>
+                          <h4 className="font-semibold text-lg mb-4">✨ Features:</h4>
+                          <ul className="space-y-3">
+                            {feature.features.map((item, featureIndex) => (
+                              <li key={featureIndex} className="flex items-start gap-3">
+                                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                                <span className="text-muted-foreground">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
-                      
-                      <div>
-                        <h4 className="font-semibold text-lg mb-4">✨ Features:</h4>
-                        <ul className="space-y-3">
-                          {feature.features.map((item, featureIndex) => (
-                            <li key={featureIndex} className="flex items-start gap-3">
-                              <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                              <span className="text-muted-foreground">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
 
-                    {/* Visual Side - Placeholder for now since we're removing screenshots */}
-                    <div className={`flex justify-center ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
-                      <div className="w-64 h-40 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center border border-primary/20">
-                        <div className="text-center">
-                          <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-2 mx-auto">
-                            {feature.icon}
+                      {/* Visual Side - Placeholder for now since we're removing screenshots */}
+                      <div className={`flex justify-center ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
+                        <div className="w-64 h-40 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center border border-primary/20">
+                          <div className="text-center">
+                            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-2 mx-auto">
+                              {feature.icon}
+                            </div>
+                            <p className="text-sm text-muted-foreground">{feature.title}</p>
                           </div>
-                          <p className="text-sm text-muted-foreground">{feature.title}</p>
                         </div>
                       </div>
                     </div>
@@ -244,8 +244,8 @@ const AboutFastNowApp = () => {
         </div>
 
         {/* Pricing Section: Free vs Premium */}
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-5xl mx-auto">
+        <div className="py-16 bg-gray-50 w-full">
+          <div className="container max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-4">
               Free vs Premium — 7‑day trial included
             </h2>
@@ -295,11 +295,11 @@ const AboutFastNowApp = () => {
               Your $9/month helps keep this project alive — and funds new, practical tools for people like us. Thank you for considering Premium.
             </p>
           </div>
-        </section>
+        </div>
 
         {/* Install App instructions */}
-        <section className="py-16 bg-gray-25">
-          <div className="max-w-4xl mx-auto">
+        <div className="py-16 bg-gray-25 w-full">
+          <div className="container max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-6">FastNow – Install the App on Your Phone</h2>
             <p className="text-center text-muted-foreground mb-10">Even though FastNow runs in your browser, you can add it to your home screen so it works like a real app — full screen, fast, and easy to open.</p>
 
@@ -331,9 +331,8 @@ const AboutFastNowApp = () => {
               </ul>
             </div>
           </div>
-        </section>
-
         </div>
+
       </div>
     </PageLayout>
   );
