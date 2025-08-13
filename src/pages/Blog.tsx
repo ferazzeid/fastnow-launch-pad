@@ -13,6 +13,7 @@ import { databaseBlogService } from '@/services/DatabaseBlogService';
 const Blog = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [latestPosts, setLatestPosts] = useState<BlogPost[]>([]);
   const [myExperiencePosts, setMyExperiencePosts] = useState<BlogPost[]>([]);
   const [otherPosts, setOtherPosts] = useState<BlogPost[]>([]);
   const [filteredMyExperiencePosts, setFilteredMyExperiencePosts] = useState<BlogPost[]>([]);
@@ -31,6 +32,11 @@ const Blog = () => {
       const allPosts = await databaseBlogService.getAllPosts();
       const publishedPosts = allPosts.filter(post => post.status === 'published');
       setPosts(publishedPosts);
+      
+      // Get latest 3 posts sorted by published date
+      const sortedPosts = publishedPosts
+        .sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime());
+      setLatestPosts(sortedPosts.slice(0, 3));
       
       // Split posts into "my experience" and others
       const experiencePosts = publishedPosts.filter(post => 
@@ -94,6 +100,70 @@ const Blog = () => {
       </Helmet>
 
       <div className="container py-12">
+        {/* Featured Latest Posts Section */}
+        {latestPosts.length > 0 && (
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-mint-600 mb-4">This Isn't for Fitness Models</h2>
+              <p className="text-lg text-mint-500 max-w-3xl mx-auto">
+                Real strategies for real people. No six-pack required, no perfect diet needed. Just practical advice that works for busy lives.
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
+              {latestPosts.map((post) => (
+                <Card key={post.id} className="hover:shadow-lg transition-shadow border-l-4 border-l-accent-green">
+                  {post.featuredImage && (
+                    <Link to={`/blog/${post.slug}`} className="block">
+                      <div className="aspect-video overflow-hidden rounded-t-lg">
+                        <img
+                          src={post.featuredImage}
+                          alt={post.title}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    </Link>
+                  )}
+                  <CardHeader className="pb-2">
+                    <CardTitle className="line-clamp-2 text-lg">
+                      <Link 
+                        to={`/blog/${post.slug}`}
+                        className="hover:text-accent-green transition-colors"
+                      >
+                        {post.title}
+                      </Link>
+                    </CardTitle>
+                    <CardDescription className="line-clamp-2 text-sm">
+                      {post.excerpt}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-1 flex-wrap">
+                        {post.categories.slice(0, 1).map(category => (
+                          <span
+                            key={category}
+                            className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-mint-100 text-mint-700"
+                          >
+                            <Tag className="w-3 h-3" />
+                            {category}
+                          </span>
+                        ))}
+                      </div>
+                      <Link
+                        to={`/blog/${post.slug}`}
+                        className="text-accent-green hover:underline text-sm font-medium"
+                      >
+                        Read More
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* My Experience Section */}
         {filteredMyExperiencePosts.length > 0 && (
           <div className="mb-16">
