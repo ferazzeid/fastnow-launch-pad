@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/sonner";
 import { FileText, Save } from "lucide-react";
 import { pageContentService, PageContent } from '@/services/PageContentService';
+import HeroSideImageSettings from './HeroSideImageSettings';
 
 const HomepageContentSettings = () => {
   const [heroTitle, setHeroTitle] = useState<string>('');
@@ -145,6 +146,8 @@ const HomepageContentSettings = () => {
           </Button>
         </CardContent>
       </Card>
+      
+      <HeroSideImageSettings />
     </div>
   );
 };
