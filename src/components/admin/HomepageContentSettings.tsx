@@ -8,6 +8,7 @@ import { toast } from "@/components/ui/sonner";
 import { FileText, Save } from "lucide-react";
 import { pageContentService, PageContent } from '@/services/PageContentService';
 import HeroSideImageSettings from './HeroSideImageSettings';
+import Slide2ImageSettings from './Slide2ImageSettings';
 
 const HomepageContentSettings = () => {
   const [heroTitle, setHeroTitle] = useState<string>('');
@@ -148,6 +149,8 @@ const HomepageContentSettings = () => {
       </Card>
       
       <HeroSideImageSettings />
+      
+      <Slide2ImageSettings />
     </div>
   );
 };
