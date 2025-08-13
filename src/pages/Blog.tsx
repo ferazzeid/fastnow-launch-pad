@@ -94,145 +94,6 @@ const Blog = () => {
       </Helmet>
 
       <div className="container py-12">
-        {/* Featured Latest Posts Section */}
-        <div className="mb-16">
-          <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-mint-600 mb-4">Featured Latest Posts</h2>
-              <p className="text-lg text-mint-500 max-w-3xl mx-auto">
-                Latest insights from my weight loss journey
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
-              <p className="text-center text-gray-500">Latest posts: {latestPosts.length}, My experience posts: {myExperiencePosts.length}</p>
-              {latestPosts.map((post) => (
-                <Card key={post.id} className="hover:shadow-lg transition-shadow border-l-4 border-l-accent-green">
-                  {post.featuredImage && (
-                    <Link to={`/blog/${post.slug}`} className="block">
-                      <div className="aspect-video overflow-hidden rounded-t-lg">
-                        <img
-                          src={post.featuredImage}
-                          alt={post.title}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    </Link>
-                  )}
-                  <CardHeader className="pb-2">
-                    <CardTitle className="line-clamp-2 text-lg">
-                      <Link 
-                        to={`/blog/${post.slug}`}
-                        className="hover:text-accent-green transition-colors"
-                      >
-                        {post.title}
-                      </Link>
-                    </CardTitle>
-                    <CardDescription className="line-clamp-2 text-sm">
-                      {post.excerpt}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-1 flex-wrap">
-                        {post.categories.slice(0, 1).map(category => (
-                          <span
-                            key={category}
-                            className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-mint-100 text-mint-700"
-                          >
-                            <Tag className="w-3 h-3" />
-                            {category}
-                          </span>
-                        ))}
-                      </div>
-                      <Link
-                        to={`/blog/${post.slug}`}
-                        className="text-accent-green hover:underline text-sm font-medium"
-                      >
-                        Read More
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        
-
-        {/* My Experience Section - Always shows all "my experience" posts */}
-        <div className="mb-16">
-          <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-mint-600 mb-4">Peek into My Weight Loss Experience</h2>
-              <p className="text-lg text-mint-500 max-w-2xl mx-auto">
-                Thinking out loud and reflecting on my weight loss journey
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {myExperiencePosts.map((post) => (
-                <Card key={post.id} className="hover:shadow-lg transition-shadow">
-                  {post.featuredImage && (
-                    <Link to={`/blog/${post.slug}`} className="block">
-                      <div className="aspect-video overflow-hidden rounded-t-lg">
-                        <img
-                          src={post.featuredImage}
-                          alt={post.title}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    </Link>
-                  )}
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1" />
-                      {isAdmin && (
-                        <Button 
-                          onClick={() => handleEdit(post.id)} 
-                          variant="ghost" 
-                          size="sm"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                      )}
-                    </div>
-                    <CardTitle className="line-clamp-2">
-                      <Link 
-                        to={`/blog/${post.slug}`}
-                        className="hover:text-accent-green transition-colors"
-                      >
-                        {post.title}
-                      </Link>
-                    </CardTitle>
-                    <CardDescription className="line-clamp-3">
-                      {post.excerpt}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-1 flex-wrap">
-                        {post.categories.slice(0, 2).map(category => (
-                          <span
-                            key={category}
-                            className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-accent-green text-white"
-                          >
-                            <Tag className="w-3 h-3" />
-                            {category}
-                          </span>
-                        ))}
-                      </div>
-                      <Link
-                        to={`/blog/${post.slug}`}
-                        className="text-accent-green hover:underline text-sm font-medium"
-                      >
-                        Read More
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        
-
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-mint-600 mb-4">FastNow Insights</h1>
@@ -271,6 +132,80 @@ const Blog = () => {
               >
                 {category}
               </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* My Experience Section - Always shows all "my experience" posts */}
+        <div className="mb-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-mint-600 mb-4">Peek into My Weight Loss Experience</h2>
+            <p className="text-lg text-mint-500 max-w-2xl mx-auto">
+              Thinking out loud and reflecting on my weight loss journey
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {myExperiencePosts.map((post) => (
+              <Card key={post.id} className="hover:shadow-lg transition-shadow">
+                {post.featuredImage && (
+                  <Link to={`/blog/${post.slug}`} className="block">
+                    <div className="aspect-video overflow-hidden rounded-t-lg">
+                      <img
+                        src={post.featuredImage}
+                        alt={post.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  </Link>
+                )}
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1" />
+                    {isAdmin && (
+                      <Button 
+                        onClick={() => handleEdit(post.id)} 
+                        variant="ghost" 
+                        size="sm"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                  <CardTitle className="line-clamp-2">
+                    <Link 
+                      to={`/blog/${post.slug}`}
+                      className="hover:text-accent-green transition-colors"
+                    >
+                      {post.title}
+                    </Link>
+                  </CardTitle>
+                  <CardDescription className="line-clamp-3">
+                    {post.excerpt}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-1 flex-wrap">
+                      {post.categories.slice(0, 2).map(category => (
+                        <span
+                          key={category}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-accent-green text-white"
+                        >
+                          <Tag className="w-3 h-3" />
+                          {category}
+                        </span>
+                      ))}
+                    </div>
+                    <Link
+                      to={`/blog/${post.slug}`}
+                      className="text-accent-green hover:underline text-sm font-medium"
+                    >
+                      Read More
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
@@ -346,6 +281,7 @@ const Blog = () => {
             ))}
           </div>
         )}
+
       </div>
     </PageLayout>
   );
