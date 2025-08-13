@@ -8,6 +8,7 @@ import { pageContentService } from '@/services/PageContentService';
 import { BackgroundImageService } from '@/services/BackgroundImageService';
 import { supabase } from '@/integrations/supabase/client';
 import SiteInfoTooltip from '@/components/SiteInfoTooltip';
+import { SiteSettingsService } from '@/services/SiteSettingsService';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -42,6 +43,10 @@ const Index = () => {
   const [ctaSubtitle, setCtaSubtitle] = useState<string>('Download fastnow.app today and transform your health through fasting.');
   const [metaTitle, setMetaTitle] = useState<string>('FastNow - My Protocol for Fat Loss');
   const [metaDescription, setMetaDescription] = useState<string>('Transform your body with scientifically-backed intermittent fasting protocols and personalized guidance.');
+  
+  // Hero side image settings
+  const [sideImageUrl, setSideImageUrl] = useState<string>('');
+  const [sideImageAlignment, setSideImageAlignment] = useState<'top' | 'center' | 'bottom'>('center');
   
   // Content for slides 2, 3, and 4
   const [slide2Title, setSlide2Title] = useState<string>('This Isn\'t for Fitness Models');
@@ -171,9 +176,28 @@ const Index = () => {
       }
     };
 
+    // Load hero side image settings
+    const loadHeroSideImage = async () => {
+      try {
+        const settings = await SiteSettingsService.getSetting('hero_side_image_settings');
+        if (settings && typeof settings === 'object') {
+          const imageSettings = settings as {
+            sideImageUrl?: string;
+            imageAlignment?: 'top' | 'center' | 'bottom';
+          };
+          
+          setSideImageUrl(imageSettings.sideImageUrl || '');
+          setSideImageAlignment(imageSettings.imageAlignment || 'center');
+        }
+      } catch (error) {
+        console.error('Error loading hero side image settings:', error);
+      }
+    };
+
     // Load database content
     loadPhaseImages();
     loadContent();
+    loadHeroSideImage();
 
     // Load active background image
     const loadBackgroundImage = async () => {
@@ -298,9 +322,9 @@ const Index = () => {
         {/* Hero Section */}
         <section className="relative z-10 min-h-screen flex items-center justify-start">
           <div className="container max-w-6xl mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Content Section - Left aligned */}
-              <div className="text-left">
+            <div className={`grid gap-8 lg:gap-12 items-center ${sideImageUrl ? 'lg:grid-cols-4' : 'lg:grid-cols-2'}`}>
+              {/* Content Section - Takes 75% when image is present, otherwise 50% */}
+              <div className={`text-left ${sideImageUrl ? 'lg:col-span-3' : 'lg:col-span-1'}`}>
                 <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
                   <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
                     {heroTitle}
@@ -334,8 +358,25 @@ const Index = () => {
                 </div>
               </div>
               
-              {/* Empty space on the right for visual balance */}
-              <div className="hidden lg:block"></div>
+              {/* Side Image - Takes 25% when present */}
+              {sideImageUrl ? (
+                <div className="hidden lg:block lg:col-span-1">
+                  <div className={`h-full flex min-h-[70vh] ${
+                    sideImageAlignment === 'top' ? 'items-start' : 
+                    sideImageAlignment === 'bottom' ? 'items-end' : 
+                    'items-center'
+                  }`}>
+                    <img 
+                      src={sideImageUrl}
+                      alt="Hero side image"
+                      className="w-full h-auto max-h-[80vh] object-cover rounded-lg shadow-2xl"
+                    />
+                  </div>
+                </div>
+              ) : (
+                /* Empty space for visual balance when no image */
+                <div className="hidden lg:block"></div>
+              )}
             </div>
           </div>
         </section>

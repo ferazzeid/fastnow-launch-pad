@@ -11,6 +11,7 @@ import { toast } from "@/components/ui/sonner";
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import InfoTooltipSettings from '@/components/admin/InfoTooltipSettings';
+import HeroSideImageSettings from '@/components/admin/HeroSideImageSettings';
 
 const AdminDesign = () => {
   const navigate = useNavigate();
@@ -106,9 +107,10 @@ const AdminDesign = () => {
       
       <main className="container py-8">
         <Tabs defaultValue="colors" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="colors">Colors & Fonts</TabsTrigger>
             <TabsTrigger value="tooltip">InfoTooltip</TabsTrigger>
+            <TabsTrigger value="hero-image">Hero Image</TabsTrigger>
           </TabsList>
           
           <TabsContent value="colors">
@@ -231,6 +233,10 @@ const AdminDesign = () => {
           
           <TabsContent value="tooltip">
             <InfoTooltipSettings />
+          </TabsContent>
+          
+          <TabsContent value="hero-image">
+            <HeroSideImageSettings />
           </TabsContent>
         </Tabs>
       </main>
