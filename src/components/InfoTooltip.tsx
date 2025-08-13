@@ -87,13 +87,24 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
   const finalTitle = title || settings.tooltipTitle;
 
   return (
-    <div className={cn("relative inline-block", className)}>
+    <div className={cn("relative inline-block group", className)}>
+      {/* Background glow effect - outside the container */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none -z-10"
+        style={{ 
+          background: 'radial-gradient(circle, #dac471 0%, rgba(218, 196, 113, 0.4) 50%, transparent 70%)',
+          borderRadius: '50% 50% 50% 10%',
+          filter: 'blur(8px)',
+          transform: 'scale(1.3)', // Make it larger than the button
+        }}
+      />
+
       {/* Elegant Pulsating Speech Bubble Button */}
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "relative overflow-hidden group transition-all duration-300",
+          "relative overflow-hidden transition-all duration-300",
           "hover:scale-105",
           sizeClasses[size]
         )}
@@ -124,26 +135,22 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
             className="w-full h-full object-cover grayscale"
           />
         </div>
-
-        {/* Stronger glow effect on hover */}
-        <div 
-          className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
-          style={{ 
-            background: 'radial-gradient(circle, #dac471 0%, rgba(218, 196, 113, 0.4) 50%, transparent 70%)',
-            borderRadius: '50% 50% 50% 10%',
-            filter: 'blur(2px)'
-          }}
-        />
       </button>
 
       {/* Tooltip */}
       {isOpen && (
         <>
-          {/* Backdrop - higher z-index and better coverage */}
+          {/* Backdrop - ensures click anywhere closes tooltip */}
           <div 
-            className="fixed inset-0 z-40 bg-transparent" 
-            onClick={() => setIsOpen(false)}
-            style={{ cursor: 'default' }}
+            className="fixed inset-0 z-40" 
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen(false);
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              setIsOpen(false);
+            }}
           />
           
           {/* Tooltip Content */}
