@@ -610,6 +610,35 @@ const Index = () => {
           </div>
         </section>
 
+        {/* How to Motivate Yourself Section */}
+        <section className="relative z-10 py-16 bg-gray-50">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="text-left max-w-4xl">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900">
+                How to Motivate Yourself
+              </h2>
+              
+              <div className="text-lg md:text-xl text-gray-700 mb-8">
+                <p>
+                  Real change often happens when several powerful factors line up — a health scare, a big event, or a surge of momentum in life. These rare "alignment moments" make action feel urgent and achievable. Spot them, act fast, and learn to reframe and crystallize what's already there.
+                </p>
+              </div>
+              
+              <div className="mt-8">
+                <Button 
+                  className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                  style={{ backgroundColor: launchButtonColor }}
+                  disabled
+                >
+                  Read More
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+                <p className="text-sm text-gray-500 mt-2">Link coming soon</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
     </PageLayout>
   );
