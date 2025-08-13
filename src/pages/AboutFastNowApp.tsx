@@ -188,7 +188,7 @@ const AboutFastNowApp = () => {
                 'bg-gray-100', // Fasting Timer
                 'bg-gray-50',  // Walking Tracker  
                 'bg-white',    // Food Log
-                'bg-gray-25'   // Motivators
+                'bg-gray-75'   // Motivators - slightly lighter than gray-100
               ];
               
               return (
