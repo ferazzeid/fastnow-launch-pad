@@ -403,13 +403,48 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Second Section - This Isn't for Fitness Models */}
+        <section className="relative z-10 min-h-screen flex items-center justify-center pb-0 mb-0">
+          <div className="absolute inset-0 w-full h-full z-0 bg-gray-900"></div>
+          
+          <div className="container max-w-6xl mx-auto px-4 relative z-10">
+            <div className={`${slide2ImageUrl ? 'grid lg:grid-cols-2 gap-12 items-center' : 'text-left'}`}>
+              {/* Text Content */}
+              <div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
+                  {slide2Title}
+                </h2>
+                
+                <div className="text-lg md:text-xl text-white mb-6 space-y-4 max-w-4xl">
+                  {slide2Content.split('\n\n').map((paragraph, index) => (
+                    <p key={index}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Image Content - Only foreground image, no background mirror */}
+              {slide2ImageUrl && (
+                <div className="hidden lg:block">
+                  <img 
+                    src={slide2ImageUrl}
+                    alt="This isn't for fitness models"
+                    className="w-full h-auto rounded-lg shadow-2xl"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
         {/* Latest Blog Posts Section */}
         {latestBlogPosts.length > 0 && (
-          <section className="relative z-10 py-16 bg-black">
+          <section className="relative z-10 py-16 bg-gray-50">
             <div className="container max-w-6xl mx-auto px-4">
               <div className="text-center mb-12">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">Latest Insights</h2>
-                <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900">Latest Insights</h2>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                   Practical advice and real experiences from the FastNow protocol
                 </p>
               </div>
@@ -477,41 +512,6 @@ const Index = () => {
             </div>
           </section>
         )}
-
-        {/* Second Section - This Isn't for Fitness Models */}
-        <section className="relative z-10 min-h-screen flex items-center justify-center pb-0 mb-0">
-          <div className="absolute inset-0 w-full h-full z-0 bg-gray-900"></div>
-          
-          <div className="container max-w-6xl mx-auto px-4 relative z-10">
-            <div className={`${slide2ImageUrl ? 'grid lg:grid-cols-2 gap-12 items-center' : 'text-left'}`}>
-              {/* Text Content */}
-              <div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
-                  {slide2Title}
-                </h2>
-                
-                <div className="text-lg md:text-xl text-white mb-6 space-y-4 max-w-4xl">
-                  {slide2Content.split('\n\n').map((paragraph, index) => (
-                    <p key={index}>
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Image Content - Only foreground image, no background mirror */}
-              {slide2ImageUrl && (
-                <div className="hidden lg:block">
-                  <img 
-                    src={slide2ImageUrl}
-                    alt="This isn't for fitness models"
-                    className="w-full h-auto rounded-lg shadow-2xl"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
 
         {/* Slideshow Section - Aren't you tired of this */}
         <ImageSlideshow />
