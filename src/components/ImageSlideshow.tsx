@@ -110,20 +110,20 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
 
   return (
     <section className={`relative z-10 py-16 bg-gray-100 ${className}`}>
-      <div className="container max-w-6xl mx-auto px-4">
+      <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
             {settings.title}
           </h2>
         </div>
         
-        <div className="relative max-w-4xl mx-auto">
+        <div className="relative flex justify-center">
           {/* Main Image Display */}
           <div className="relative overflow-hidden rounded-lg bg-white shadow-2xl">
             <img
               src={images[currentImageIndex].src}
               alt={images[currentImageIndex].alt}
-              className="w-full h-auto object-contain transition-opacity duration-300 max-h-[600px]"
+              className="block w-[1200px] h-[800px] object-cover transition-opacity duration-300"
             />
             
             {/* Navigation Arrows */}
