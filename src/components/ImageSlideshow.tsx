@@ -225,103 +225,103 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
         
         {/* Does this ring a bell? Section */}
         <div className="mt-24">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-12 leading-tight text-gray-900 text-center">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-16 leading-tight text-gray-900 text-center">
             Does this ring a bell?
           </h3>
           
-          <div className="space-y-8 max-w-5xl mx-auto">
+          <div className="space-y-12 max-w-6xl mx-auto">
             {/* Airplane seat scenario */}
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 shadow-lg">
+            <div className="flex items-center gap-8">
+              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
                 <img 
                   src="/lovable-uploads/9fe0f065-3ab9-4c72-9162-5e84ecd29940.png" 
                   alt="Man in airplane seat" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Imagine fitting into an economy class airplane seat and not worry about where you're going to sit
-              </p>
+              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
+                "Fit comfortably into an airplane seat without a second thought."
+              </blockquote>
             </div>
 
             {/* Pool scenario */}
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 shadow-lg">
+            <div className="flex items-center gap-8">
+              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
                 <img 
                   src="/lovable-uploads/770570cf-21c8-41b5-9fd0-ccefb220b9c0.png" 
                   alt="Man at pool" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Imagine going to the pool and not thinking about it you should wear a shirt
-              </p>
+              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
+                "Walk into the pool without feeling the need to cover up."
+              </blockquote>
             </div>
 
             {/* Online shopping scenario */}
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 shadow-lg">
+            <div className="flex items-center gap-8">
+              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
                 <img 
                   src="/lovable-uploads/bce2f2c2-1b1b-4b69-b3f3-20e8715f94d2.png" 
                   alt="Woman with packages" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Imagine ordering from online shops and not having to constantly send everything back because every attempt to order the largest size is just not big enough for you
-              </p>
+              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
+                "Order clothes online without sending everything back."
+              </blockquote>
             </div>
 
             {/* Fashion outlet scenario */}
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 shadow-lg">
+            <div className="flex items-center gap-8">
+              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
                 <img 
                   src="/lovable-uploads/f984a3bc-024b-4ea3-ba1b-1264a8c298d3.png" 
                   alt="Man trying on suit" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Imagine going to premium fashion outlet and buy one of those suits you've seen in the magazines and actually look good in them
-              </p>
+              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
+                "Wear that premium suit and actually look like it was made for you."
+              </blockquote>
             </div>
 
             {/* Gym scenario */}
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 shadow-lg">
+            <div className="flex items-center gap-8">
+              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
                 <img 
                   src="/lovable-uploads/d8b92a30-a0a2-4acd-8f8d-1208eddab2e6.png" 
                   alt="Man at gym" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Imagine not having to be the outsider at the gym that everybody tolerates but doesn't respect
-              </p>
+              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
+                "Train at the gym without feeling like the odd one out."
+              </blockquote>
             </div>
 
             {/* Running scenario */}
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 shadow-lg">
+            <div className="flex items-center gap-8">
+              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
                 <img 
                   src="/lovable-uploads/790fae5b-122d-4e10-b65f-996b6abc5667.png" 
                   alt="Man running" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Imagine not being scared to run across a street without embarrassing yourself and not knowing if you actually can still do it
-              </p>
+              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
+                "Run across the street without worrying if you still can."
+              </blockquote>
             </div>
 
             {/* Wardrobe scenario */}
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 bg-gray-200 shadow-lg flex items-center justify-center">
-                <span className="text-xs text-gray-500 text-center">Image<br/>needed</span>
+            <div className="flex items-center gap-8">
+              <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 bg-gray-200 shadow-xl flex items-center justify-center">
+                <span className="text-sm text-gray-500 text-center">Image<br/>needed</span>
               </div>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Imagine fitting in all of your clothes that have been hanging in your wardrobe potentially for years. Maybe even some of your most favorite items
-              </p>
+              <blockquote className="text-2xl md:text-3xl font-semibold text-gray-800 leading-relaxed italic">
+                "Slip into your favorite clothes from years ago—and feel incredible in them."
+              </blockquote>
             </div>
           </div>
         </div>
