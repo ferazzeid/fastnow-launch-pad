@@ -19,6 +19,8 @@ interface FAQ {
   display_order: number;
   is_active: boolean;
   page_category: string;
+  image_url?: string;
+  image_alignment?: 'left' | 'right';
 }
 
 interface FAQForm {
@@ -27,6 +29,8 @@ interface FAQForm {
   display_order: number;
   is_active: boolean;
   page_category: string;
+  image_url?: string;
+  image_alignment?: 'left' | 'right';
 }
 
 const AdminFAQ = () => {
@@ -39,7 +43,9 @@ const AdminFAQ = () => {
     answer: '',
     display_order: 0,
     is_active: true,
-    page_category: 'general'
+    page_category: 'general',
+    image_url: '',
+    image_alignment: 'left'
   });
   const [loading, setLoading] = useState(true);
 
@@ -56,7 +62,10 @@ const AdminFAQ = () => {
 
       if (error) throw error;
 
-      setFaqs(data || []);
+      setFaqs((data || []).map(item => ({
+        ...item,
+        image_alignment: (item.image_alignment as 'left' | 'right') || 'left'
+      })));
     } catch (error) {
       console.error('Error loading FAQs:', error);
       toast.error('Failed to load FAQs');
@@ -88,7 +97,9 @@ const AdminFAQ = () => {
             answer: formData.answer,
             display_order: formData.display_order,
             is_active: formData.is_active,
-            page_category: formData.page_category
+            page_category: formData.page_category,
+            image_url: formData.image_url || null,
+            image_alignment: formData.image_alignment
           })
           .eq('id', editingId);
 
@@ -103,7 +114,9 @@ const AdminFAQ = () => {
             answer: formData.answer,
             display_order: formData.display_order,
             is_active: formData.is_active,
-            page_category: formData.page_category
+            page_category: formData.page_category,
+            image_url: formData.image_url || null,
+            image_alignment: formData.image_alignment
           });
 
         if (error) throw error;
@@ -125,7 +138,9 @@ const AdminFAQ = () => {
       answer: faq.answer,
       display_order: faq.display_order,
       is_active: faq.is_active,
-      page_category: faq.page_category
+      page_category: faq.page_category,
+      image_url: faq.image_url || '',
+      image_alignment: faq.image_alignment || 'left'
     });
     setEditingId(faq.id);
     setShowAddForm(true);
@@ -156,7 +171,9 @@ const AdminFAQ = () => {
       answer: '',
       display_order: faqs.length,
       is_active: true,
-      page_category: 'general'
+      page_category: 'general',
+      image_url: '',
+      image_alignment: 'left'
     });
     setEditingId(null);
     setShowAddForm(false);
@@ -233,7 +250,17 @@ const AdminFAQ = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="image_url">Image URL (Optional)</Label>
+                <Input
+                  id="image_url"
+                  value={formData.image_url || ''}
+                  onChange={(e) => handleInputChange('image_url', e.target.value)}
+                  placeholder="Enter image URL"
+                />
+              </div>
+
+              <div className="grid grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="display_order">Display Order</Label>
                   <Input
@@ -255,6 +282,19 @@ const AdminFAQ = () => {
                       <SelectItem value="general">General</SelectItem>
                       <SelectItem value="app">About App</SelectItem>
                       <SelectItem value="protocol">Protocol</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="image_alignment">Image Alignment</Label>
+                  <Select value={formData.image_alignment || 'left'} onValueChange={(value) => handleInputChange('image_alignment', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select alignment" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="left">Left</SelectItem>
+                      <SelectItem value="right">Right</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

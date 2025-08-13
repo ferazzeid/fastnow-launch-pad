@@ -10,6 +10,8 @@ interface FAQ {
   display_order: number;
   is_active: boolean;
   page_category: string;
+  image_url?: string;
+  image_alignment?: 'left' | 'right';
 }
 
 interface FAQSectionProps {
@@ -37,7 +39,10 @@ const FAQSection: React.FC<FAQSectionProps> = ({ category, title, className = ''
         .order('display_order', { ascending: true });
 
       if (error) throw error;
-      setFaqs(data || []);
+      setFaqs((data || []).map(item => ({
+        ...item,
+        image_alignment: (item.image_alignment as 'left' | 'right') || 'left'
+      })));
     } catch (error) {
       console.error('Error loading FAQs:', error);
     } finally {
@@ -104,13 +109,24 @@ const FAQSection: React.FC<FAQSectionProps> = ({ category, title, className = ''
                 </button>
                 
                 {openItems.has(faq.id) && (
-                  <div className="px-6 pb-6 pt-0">
-                    <div className="text-muted-foreground leading-relaxed">
-                      {faq.answer.split('\n\n').map((paragraph, index) => (
-                        <p key={index} className={index > 0 ? 'mt-4' : ''}>
-                          {paragraph}
-                        </p>
-                      ))}
+                  <div className="px-6 pb-6 pt-4">
+                    <div className={`flex gap-6 ${faq.image_url ? (faq.image_alignment === 'right' ? 'flex-row-reverse' : 'flex-row') : ''}`}>
+                      {faq.image_url && (
+                        <div className="w-1/5 flex-shrink-0">
+                          <img 
+                            src={faq.image_url} 
+                            alt=""
+                            className="w-full h-auto object-cover rounded"
+                          />
+                        </div>
+                      )}
+                      <div className={`${faq.image_url ? 'flex-1' : ''} text-muted-foreground leading-relaxed`}>
+                        {faq.answer.split('\n\n').map((paragraph, index) => (
+                          <p key={index} className={index > 0 ? 'mt-4' : ''}>
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}

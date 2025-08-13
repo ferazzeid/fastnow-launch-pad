@@ -418,6 +418,8 @@ export type Database = {
           created_at: string
           display_order: number
           id: string
+          image_alignment: string | null
+          image_url: string | null
           is_active: boolean
           page_category: string | null
           question: string
@@ -428,6 +430,8 @@ export type Database = {
           created_at?: string
           display_order?: number
           id?: string
+          image_alignment?: string | null
+          image_url?: string | null
           is_active?: boolean
           page_category?: string | null
           question: string
@@ -438,6 +442,8 @@ export type Database = {
           created_at?: string
           display_order?: number
           id?: string
+          image_alignment?: string | null
+          image_url?: string | null
           is_active?: boolean
           page_category?: string | null
           question?: string
