@@ -103,10 +103,11 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
       {/* Tooltip */}
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop - higher z-index and better coverage */}
           <div 
-            className="fixed inset-0 z-40" 
+            className="fixed inset-0 z-40 bg-transparent" 
             onClick={() => setIsOpen(false)}
+            style={{ cursor: 'default' }}
           />
           
           {/* Tooltip Content */}
@@ -118,12 +119,12 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
               position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
             )}
           >
-            {/* Header with Author Image */}
-            <div className="bg-gray-800 text-white px-4 py-3 flex items-center gap-3">
+            {/* Header with Author Image - Green background */}
+            <div style={{ backgroundColor: '#dac471' }} className="text-white px-4 py-3 flex items-center gap-3">
               <img 
                 src={authorImage} 
                 alt={authorName}
-                className="w-8 h-8 rounded-full object-cover border-2 border-[#dac471]/50 grayscale"
+                className="w-8 h-8 rounded-full object-cover border-2 border-white/50 grayscale"
               />
               <h3 className="font-medium text-sm">{title}</h3>
             </div>
@@ -135,14 +136,9 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
               </p>
             </div>
 
-            {/* Tail/Arrow */}
+            {/* White speech bubble tail pointing down */}
             <div 
-              className={cn(
-                "absolute w-3 h-3 bg-gray-800 transform rotate-45",
-                position === 'top' 
-                  ? "top-full right-4 -mt-1" 
-                  : "bottom-full right-4 -mb-1"
-              )}
+              className="absolute w-3 h-3 bg-white transform rotate-45 top-full right-4 -mt-1"
             />
           </div>
         </>
