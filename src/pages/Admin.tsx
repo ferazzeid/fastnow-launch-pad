@@ -164,7 +164,14 @@ const Admin = () => {
               <Link to="/admin/faq">
                 <Button variant="outline" className="w-full justify-start">
                   <Edit size={16} className="mr-2" />
-                  FAQ Page
+                  FAQ Page Settings
+                </Button>
+              </Link>
+
+              <Link to="/admin/faq-management">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings size={16} className="mr-2" />
+                  Manage FAQs
                 </Button>
               </Link>
 
