@@ -536,7 +536,20 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Why This Is Working Section */}
+        <section className="relative z-10 py-16 bg-gray-100">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="text-left max-w-4xl">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
+                Why This Is Working
+              </h2>
 
+              <div className="text-lg md:text-xl text-gray-700 mb-6 space-y-4">
+                {/* Content will be added later */}
+              </div>
+            </div>
+          </div>
+        </section>
 
       </main>
     </PageLayout>
