@@ -405,11 +405,11 @@ const Index = () => {
 
         {/* Latest Blog Posts Section */}
         {latestBlogPosts.length > 0 && (
-          <section className="relative z-10 py-16 bg-gray-50">
+          <section className="relative z-10 py-16 bg-black">
             <div className="container max-w-6xl mx-auto px-4">
               <div className="text-center mb-12">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900">Latest Insights</h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">Latest Insights</h2>
+                <p className="text-xl text-gray-300 max-w-3xl mx-auto">
                   Practical advice and real experiences from the FastNow protocol
                 </p>
               </div>
@@ -730,6 +730,35 @@ const Index = () => {
                   <ArrowRight className="w-5 h-5" />
                 </Button>
                 <p className="text-sm text-gray-500 mt-2">Link coming soon</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* What About the App Section */}
+        <section className="relative z-10 py-16 bg-white">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="text-left max-w-4xl">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900">
+                What About the App
+              </h2>
+              
+              <div className="text-lg md:text-xl text-gray-700 mb-8">
+                <p>
+                  Content will be added here later.
+                </p>
+              </div>
+              
+              <div className="mt-8">
+                <Link to="/about-fast-now-app">
+                  <Button 
+                    className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                    style={{ backgroundColor: launchButtonColor }}
+                  >
+                    Read More
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
