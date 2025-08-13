@@ -108,6 +108,15 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
     );
   };
 
+  // Get the three images to display (previous, current, next)
+  const getPreviousIndex = () => {
+    return currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1;
+  };
+
+  const getNextIndex = () => {
+    return currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1;
+  };
+
   return (
     <section className={`relative z-10 py-16 bg-gray-100 ${className}`}>
       <div className="container mx-auto px-4">
@@ -117,13 +126,23 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
           </h2>
         </div>
         
-        <div className="relative flex justify-center">
-          {/* Main Image Display */}
+        <div className="relative flex justify-center items-center gap-4 max-w-7xl mx-auto">
+          {/* Left Image (Previous) */}
+          <div className="relative overflow-hidden rounded-lg bg-white shadow-lg opacity-60 hover:opacity-80 transition-opacity duration-300">
+            <img
+              src={images[getPreviousIndex()].src}
+              alt={images[getPreviousIndex()].alt}
+              className="w-[320px] h-[480px] object-cover cursor-pointer"
+              onClick={goToPrevious}
+            />
+          </div>
+
+          {/* Center Image (Current) */}
           <div className="relative overflow-hidden rounded-lg bg-white shadow-2xl">
             <img
               src={images[currentImageIndex].src}
               alt={images[currentImageIndex].alt}
-              className="block w-[1200px] h-[800px] object-cover transition-opacity duration-300"
+              className="w-[400px] h-[600px] object-cover transition-all duration-500"
             />
             
             {/* Navigation Arrows */}
@@ -143,27 +162,37 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
               <ChevronRight size={24} />
             </button>
           </div>
-          
-          {/* Image Counter */}
-          <div className="text-center mt-6">
-            <div className="flex justify-center space-x-2">
-              {images.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                    index === currentImageIndex 
-                      ? 'bg-gray-800 scale-125' 
-                      : 'bg-gray-400 hover:bg-gray-600'
-                  }`}
-                  aria-label={`Go to image ${index + 1}`}
-                />
-              ))}
-            </div>
-            <p className="text-sm text-gray-600 mt-3">
-              {currentImageIndex + 1} of {images.length}
-            </p>
+
+          {/* Right Image (Next) */}
+          <div className="relative overflow-hidden rounded-lg bg-white shadow-lg opacity-60 hover:opacity-80 transition-opacity duration-300">
+            <img
+              src={images[getNextIndex()].src}
+              alt={images[getNextIndex()].alt}
+              className="w-[320px] h-[480px] object-cover cursor-pointer"
+              onClick={goToNext}
+            />
           </div>
+        </div>
+        
+        {/* Image Counter */}
+        <div className="text-center mt-6">
+          <div className="flex justify-center space-x-2">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                  index === currentImageIndex 
+                    ? 'bg-gray-800 scale-125' 
+                    : 'bg-gray-400 hover:bg-gray-600'
+                }`}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
+          <p className="text-sm text-gray-600 mt-3">
+            {currentImageIndex + 1} of {images.length}
+          </p>
         </div>
       </div>
     </section>
