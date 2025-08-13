@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 
@@ -24,10 +24,13 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
     images: []
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     loadSettings();
   }, []);
+
 
   const loadSettings = async () => {
     try {
@@ -92,21 +95,36 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
   // Get sorted images
   const images = settings.images.sort((a, b) => a.order - b.order);
 
-  if (images.length === 0) {
-    return null; // Don't render if no images
-  }
-
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
+    setIsTransitioning(true);
     setCurrentImageIndex((prevIndex) => 
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
-  };
+    setTimeout(() => setIsTransitioning(false), 300);
+  }, [images.length]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
+    setIsTransitioning(true);
     setCurrentImageIndex((prevIndex) => 
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
-  };
+    setTimeout(() => setIsTransitioning(false), 300);
+  }, [images.length]);
+
+  // Auto advance slideshow
+  useEffect(() => {
+    if (images.length <= 1 || isPaused) return;
+
+    const interval = setInterval(() => {
+      goToNext();
+    }, 4000); // 4 seconds
+
+    return () => clearInterval(interval);
+  }, [images.length, isPaused, goToNext]);
+
+  if (images.length === 0) {
+    return null; // Don't render if no images
+  }
 
   // Get the three images to display (previous, current, next)
   const getPreviousIndex = () => {
@@ -126,19 +144,27 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
           </h2>
         </div>
         
-        <div className="relative flex justify-center items-center gap-4 max-w-7xl mx-auto">
+        <div 
+          className="relative flex justify-center items-center gap-4 max-w-7xl mx-auto"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           {/* Left Image (Previous) */}
-          <div className="relative overflow-hidden rounded-lg bg-white shadow-lg opacity-60 hover:opacity-80 transition-opacity duration-300">
+          <div className={`relative overflow-hidden rounded-lg bg-white shadow-lg opacity-60 hover:opacity-80 transition-all duration-500 transform ${
+            isTransitioning ? 'scale-95' : 'scale-100'
+          }`}>
             <img
               src={images[getPreviousIndex()].src}
               alt={images[getPreviousIndex()].alt}
-              className="w-[320px] h-[480px] object-cover cursor-pointer"
+              className="w-[320px] h-[480px] object-cover cursor-pointer transition-transform duration-500 hover:scale-105"
               onClick={goToPrevious}
             />
           </div>
 
           {/* Center Image (Current) */}
-          <div className="relative overflow-hidden rounded-lg bg-white shadow-2xl">
+          <div className={`relative overflow-hidden rounded-lg bg-white shadow-2xl transition-all duration-500 transform ${
+            isTransitioning ? 'scale-105 shadow-3xl' : 'scale-100'
+          }`}>
             <img
               src={images[currentImageIndex].src}
               alt={images[currentImageIndex].alt}
@@ -148,7 +174,7 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
             {/* Navigation Arrows */}
             <button
               onClick={goToPrevious}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 opacity-0 hover:opacity-100"
               aria-label="Previous image"
             >
               <ChevronLeft size={24} />
@@ -156,7 +182,7 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
             
             <button
               onClick={goToNext}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 opacity-0 hover:opacity-100"
               aria-label="Next image"
             >
               <ChevronRight size={24} />
@@ -164,11 +190,13 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
           </div>
 
           {/* Right Image (Next) */}
-          <div className="relative overflow-hidden rounded-lg bg-white shadow-lg opacity-60 hover:opacity-80 transition-opacity duration-300">
+          <div className={`relative overflow-hidden rounded-lg bg-white shadow-lg opacity-60 hover:opacity-80 transition-all duration-500 transform ${
+            isTransitioning ? 'scale-95' : 'scale-100'
+          }`}>
             <img
               src={images[getNextIndex()].src}
               alt={images[getNextIndex()].alt}
-              className="w-[320px] h-[480px] object-cover cursor-pointer"
+              className="w-[320px] h-[480px] object-cover cursor-pointer transition-transform duration-500 hover:scale-105"
               onClick={goToNext}
             />
           </div>
