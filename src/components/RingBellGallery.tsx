@@ -66,7 +66,9 @@ interface GalleryCardProps {
 }
 
 const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
+  // Position 5 (center) starts flipped, even positions start flipped
+  const startsFlipped = position === 5 || position % 2 === 0;
+  const [isFlipped, setIsFlipped] = useState(startsFlipped);
 
   if (!item) {
     return (
@@ -82,57 +84,43 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
     );
   }
 
-  const showInitialImage = item.initial_state === 'image';
-  const frontContent = showInitialImage ? item.front_image_url : item.front_text;
-  const backContent = showInitialImage ? item.back_text : item.back_image_url;
-
   return (
     <div 
       className="relative aspect-square group cursor-pointer perspective-1000"
-      onMouseEnter={() => setIsFlipped(true)}
-      onMouseLeave={() => setIsFlipped(false)}
+      onMouseEnter={() => setIsFlipped(!startsFlipped)}
+      onMouseLeave={() => setIsFlipped(startsFlipped)}
     >
       <div className={`relative w-full h-full transition-transform duration-700 transform-style-preserve-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
         {/* Front Side */}
         <div className="absolute inset-0 w-full h-full backface-hidden overflow-hidden">
-          {showInitialImage && item.front_image_url ? (
+          {item.front_image_url ? (
             <img 
               src={item.front_image_url} 
               alt={`Gallery item ${position}`}
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center p-6">
-              <div className="text-center">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Situation {position}
-                </h3>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  {item.front_text || 'Hover to reveal...'}
-                </p>
-              </div>
+            <div className="w-full h-full bg-black flex items-center justify-center p-4">
+              <p className="text-white text-center text-sm md:text-base font-medium leading-relaxed">
+                {item.front_text}
+              </p>
             </div>
           )}
         </div>
 
         {/* Back Side */}
         <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 overflow-hidden">
-          {!showInitialImage && item.back_image_url ? (
+          {item.back_image_url ? (
             <img 
               src={item.back_image_url} 
               alt={`Gallery item ${position} back`}
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-secondary/10 to-secondary/20 flex items-center justify-center p-6">
-              <div className="text-center">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  The Reality
-                </h3>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  {item.back_text || 'Content coming soon...'}
-                </p>
-              </div>
+            <div className="w-full h-full bg-black flex items-center justify-center p-4">
+              <p className="text-white text-center text-sm md:text-base font-medium leading-relaxed">
+                {item.back_text}
+              </p>
             </div>
           )}
         </div>
