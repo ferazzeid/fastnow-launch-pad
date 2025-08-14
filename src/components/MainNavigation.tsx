@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { SiteSettingsService } from "@/services/SiteSettingsService";
 import {
   Sheet,
   SheetContent,
@@ -17,6 +18,7 @@ const MainNavigation = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [launchButtonColor, setLaunchButtonColor] = useState('#10B981');
 
   // Static navigation links - no database calls needed
   const navigationLinks = [
@@ -25,11 +27,26 @@ const MainNavigation = () => {
     { path: '/about-fastnow-app', title: 'About App' }
   ];
 
-  // Simple mobile detection
+  // Simple mobile detection and load launch button color
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
+    
+    // Load launch button color
+    const loadLaunchButtonColor = async () => {
+      try {
+        const color = await SiteSettingsService.getSetting('launch_button_color');
+        if (color) {
+          setLaunchButtonColor(String(color));
+        }
+      } catch (error) {
+        console.error('Error loading launch button color:', error);
+      }
+    };
+    
+    loadLaunchButtonColor();
+    
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
@@ -66,7 +83,17 @@ const MainNavigation = () => {
           target="_blank" 
           rel="noopener noreferrer" 
           onClick={onLinkClick}
-          className={getLaunchAppStyle()}
+          className="px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 text-white inline-flex items-center gap-2 hover:shadow-lg hover:scale-105"
+          style={{ 
+            backgroundColor: launchButtonColor,
+            boxShadow: `0 2px 8px 0 ${launchButtonColor}40`
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = `${launchButtonColor}dd`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = launchButtonColor;
+          }}
         >
           Launch App
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

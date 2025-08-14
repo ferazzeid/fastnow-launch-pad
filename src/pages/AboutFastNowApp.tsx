@@ -139,10 +139,10 @@ const AboutFastNowApp = () => {
       {/* Hero Section */}
       <section className="relative z-10 min-h-[85vh] flex items-center justify-center pt-6 md:pt-10">
         <div className="container max-w-6xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Mobile: Phone first, Desktop: Content first */}
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-start">
-              <div className="w-48 sm:w-56 lg:w-72">
+            <div className="order-1 lg:order-2 flex justify-center">
+              <div className="w-48 sm:w-56 lg:w-80">
                 <FeatureScreenshotMockup
                   imageUrl={getPhoneMockupImage()}
                   altText="FastNow App Screenshot"
