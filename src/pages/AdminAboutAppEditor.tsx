@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { pageContentService } from '@/services/PageContentService';
 import SeoSectionEditor from '@/components/admin/SeoSectionEditor';
 import PageFeaturedImageSettings from '@/components/admin/PageFeaturedImageSettings';
+import AboutAppPhoneMockupSettings from '@/components/admin/AboutAppPhoneMockupSettings';
 
 const AdminAboutAppEditor = () => {
   const navigate = useNavigate();
@@ -135,6 +136,8 @@ const AdminAboutAppEditor = () => {
           />
 
           <PageFeaturedImageSettings pageKey="about-fastnow-app" title="About App Page Featured Image" />
+
+          <AboutAppPhoneMockupSettings />
 
           <Card>
             <CardHeader>
