@@ -65,20 +65,41 @@ class DatabaseBlogService {
 
   async savePost(post: BlogPost): Promise<boolean> {
     try {
+      console.log('Attempting to save blog post:', { 
+        id: post.id, 
+        title: post.title, 
+        status: post.status,
+        hasContent: !!post.content,
+        hasSlug: !!post.slug 
+      });
+      
       const dbPost = this.mapBlogPostToDatabase(post);
       
-      const { error } = await supabase
+      console.log('Mapped database post:', dbPost);
+      
+      const { data, error } = await supabase
         .from('blog_posts')
-        .upsert(dbPost);
+        .upsert(dbPost)
+        .select();
 
       if (error) {
-        console.error('Error saving blog post:', error);
+        console.error('Detailed Supabase error:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
         return false;
       }
 
+      console.log('Blog post saved successfully:', data);
       return true;
     } catch (error) {
-      console.error('Error in savePost:', error);
+      console.error('Detailed error in savePost:', {
+        error,
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      });
       return false;
     }
   }
@@ -123,21 +144,42 @@ class DatabaseBlogService {
   }
 
   private mapBlogPostToDatabase(post: BlogPost): any {
-    return {
+    const dbPost = {
       id: post.id,
       title: post.title,
       slug: post.slug,
       content: post.content,
-      excerpt: post.excerpt,
-      featured_image: post.featuredImage,
-      author: post.author,
-      categories: post.categories,
-      tags: post.tags,
-      status: post.status,
-      meta_description: post.metaDescription,
-      meta_keywords: post.metaKeywords,
-      published_at: post.status === 'published' ? new Date().toISOString() : null
+      excerpt: post.excerpt || '',
+      featured_image: post.featuredImage || null,
+      author: post.author || 'FastNow Team',
+      categories: post.categories || [],
+      tags: post.tags || [],
+      status: post.status || 'draft',
+      meta_description: post.metaDescription || null,
+      meta_keywords: post.metaKeywords || null,
+      published_at: post.status === 'published' ? new Date().toISOString() : null,
+      updated_at: new Date().toISOString()
     };
+    
+    console.log('Mapping blog post to database format:', {
+      original: {
+        id: post.id,
+        title: post.title,
+        status: post.status,
+        categoriesLength: post.categories?.length,
+        tagsLength: post.tags?.length
+      },
+      mapped: {
+        id: dbPost.id,
+        title: dbPost.title,
+        status: dbPost.status,
+        categoriesLength: dbPost.categories?.length,
+        tagsLength: dbPost.tags?.length,
+        hasPublishedAt: !!dbPost.published_at
+      }
+    });
+    
+    return dbPost;
   }
 
   // Migration utility to move localStorage data to database
