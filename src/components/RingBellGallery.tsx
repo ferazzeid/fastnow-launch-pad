@@ -66,11 +66,29 @@ interface GalleryCardProps {
 }
 
 const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
-  // Fix the logic: if initial_state is 'image', don't start flipped (show image first)
-  // if initial_state is 'text', start flipped (show text first)
-  // For backwards compatibility, use alternating pattern when no initial_state is set
-  const startsFlipped = item?.initial_state === 'text' || (!item?.initial_state && position % 2 === 0);
-  const [isFlipped, setIsFlipped] = useState(startsFlipped);
+  // Determine what content is on front and back
+  const frontIsImage = !!item?.front_image_url;
+  const backIsImage = !!item?.back_image_url;
+  
+  // Calculate initial state based on initial_state setting and content availability
+  const getInitialFlipState = () => {
+    if (!item?.initial_state) {
+      // Default alternating pattern for backwards compatibility
+      return position % 2 === 0;
+    }
+    
+    // If user wants to show image first
+    if (item.initial_state === 'image') {
+      // If front has image, don't flip (show front). If back has image, flip (show back)
+      return frontIsImage ? false : true;
+    } else {
+      // If user wants to show text first
+      // If front has text, don't flip (show front). If back has text, flip (show back)
+      return frontIsImage ? true : false;
+    }
+  };
+  
+  const [isFlipped, setIsFlipped] = useState(getInitialFlipState());
 
   if (!item) {
     return (
@@ -86,11 +104,13 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
     );
   }
 
+  const initialFlipState = getInitialFlipState();
+
   return (
     <div 
       className="relative aspect-square group cursor-pointer perspective-1000"
-      onMouseEnter={() => setIsFlipped(!startsFlipped)}
-      onMouseLeave={() => setIsFlipped(startsFlipped)}
+      onMouseEnter={() => setIsFlipped(!initialFlipState)}
+      onMouseLeave={() => setIsFlipped(initialFlipState)}
     >
       <div className={`relative w-full h-full transition-transform duration-700 transform-style-preserve-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
         {/* Front Side */}
