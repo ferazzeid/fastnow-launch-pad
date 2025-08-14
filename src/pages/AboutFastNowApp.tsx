@@ -22,6 +22,7 @@ const AboutFastNowApp = () => {
 
   const [pageContent, setPageContent] = useState<any>(null);
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
+  const [launchButtonColor, setLaunchButtonColor] = useState('#10B981');
 
   const features = [
     {
@@ -96,6 +97,13 @@ const AboutFastNowApp = () => {
           setContent(settings.aboutAppContent);
         }
         
+        // Load launch button color from settings
+        if (settings.launch_button_color) {
+          setLaunchButtonColor(settings.launch_button_color);
+          // Apply to CSS custom property
+          document.documentElement.style.setProperty('--launch-button-color', settings.launch_button_color);
+        }
+        
         setPageContent(aboutAppPageContent);
         setFeatureScreenshots(screenshots);
       } catch (error) {
@@ -129,16 +137,26 @@ const AboutFastNowApp = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[85vh] flex items-start justify-start pt-6 md:pt-10">
+      <section className="relative z-10 min-h-[85vh] flex items-center justify-center pt-6 md:pt-10">
         <div className="container max-w-6xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left side - Content */}
-            <div className="text-left">
-              <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
-                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Mobile: Phone first, Desktop: Content first */}
+            <div className="order-1 lg:order-2 flex justify-center lg:justify-start">
+              <div className="w-48 sm:w-56 lg:w-72">
+                <FeatureScreenshotMockup
+                  imageUrl={getPhoneMockupImage()}
+                  altText="FastNow App Screenshot"
+                />
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="order-2 lg:order-1 text-left">
+              <div className="backdrop-blur-sm bg-black/20 rounded-xl p-6 lg:p-8 border border-white/10">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
                   {content.heroTitle}
                 </h1>
-                <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
+                <div className="mt-6 text-white/90 space-y-4 drop-shadow-md text-sm lg:text-base">
                   {pageContent?.content ? (
                     pageContent.content.split('\n\n').map((paragraph: string, index: number) => (
                       <p key={index}>{paragraph}</p>
@@ -159,26 +177,28 @@ const AboutFastNowApp = () => {
                 </div>
                 
                 {/* Launch App Button */}
-                <div className="mt-8 pt-6 border-t border-white/20"> 
-                  <button className="bg-accent-green hover:bg-accent-green-dark text-white px-8 py-3 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2">
+                <div className="mt-6 lg:mt-8 pt-4 lg:pt-6 border-t border-white/20"> 
+                  <button 
+                    className="text-white px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2 hover:shadow-xl hover:scale-105"
+                    style={{ 
+                      backgroundColor: launchButtonColor,
+                      boxShadow: `0 4px 14px 0 ${launchButtonColor}40`
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = `${launchButtonColor}dd`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = launchButtonColor;
+                    }}
+                  >
                     Launch App
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </button>
                 </div>
               </div>
             </div>
-
-            {/* Right side - App mockup */}
-              <div className="flex justify-center lg:justify-end lg:pl-16 lg:self-start lg:mt-4">
-                <div className="w-72">
-                  <FeatureScreenshotMockup
-                    imageUrl={getPhoneMockupImage()}
-                    altText="FastNow App Screenshot"
-                  />
-                </div>
-              </div>
           </div>
         </div>
       </section>

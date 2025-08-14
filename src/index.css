@@ -37,6 +37,9 @@
     --accent-green: 140 20% 42%;
     --accent-green-dark: 140 20% 35%;
     
+    /* Launch button color - customizable */
+    --launch-button-color: #10B981;
+    
     /* Borders */
     --border-primary: #e5e7eb;
     --border-secondary: #d1d5db;

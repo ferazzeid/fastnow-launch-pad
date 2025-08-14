@@ -18,6 +18,7 @@ interface ColorSettings {
   creamBase: string;
   mintLight: string;
   mintDark: string;
+  launchButton: string;
 }
 
 const DesignSettings: React.FC = () => {
@@ -42,7 +43,8 @@ const DesignSettings: React.FC = () => {
   const [colors, setColors] = useState<ColorSettings>({
     creamBase: localStorage.getItem('fastingApp_creamBase') || '#F2F0E6',
     mintLight: localStorage.getItem('fastingApp_mintLight') || '#A3D9B1',
-    mintDark: localStorage.getItem('fastingApp_mintDark') || '#6A8D74'
+    mintDark: localStorage.getItem('fastingApp_mintDark') || '#6A8D74',
+    launchButton: localStorage.getItem('fastingApp_launchButton') || '#10B981'
   });
 
   useEffect(() => {
@@ -139,10 +141,14 @@ const DesignSettings: React.FC = () => {
       root.style.setProperty('--card', `${creamHsl.h} ${creamHsl.s}% ${creamHsl.l}%`);
     }
     
+    // Update launch button color
+    root.style.setProperty('--launch-button-color', colorValues.launchButton);
+    
     // Save to localStorage for persistence
     localStorage.setItem('fastingApp_creamBase', colorValues.creamBase);
     localStorage.setItem('fastingApp_mintLight', colorValues.mintLight);
     localStorage.setItem('fastingApp_mintDark', colorValues.mintDark);
+    localStorage.setItem('fastingApp_launchButton', colorValues.launchButton);
     
     toast.success('Color theme updated');
   };
@@ -232,7 +238,8 @@ const DesignSettings: React.FC = () => {
     const defaultColors = {
       creamBase: '#F2F0E6',
       mintLight: '#A3D9B1',
-      mintDark: '#6A8D74'
+      mintDark: '#6A8D74',
+      launchButton: '#10B981'
     };
     setColors(defaultColors);
     applyColors(defaultColors);
@@ -246,7 +253,7 @@ const DesignSettings: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="cream-base">Cream (Background/Base)</Label>
                 <div className="flex gap-2">
@@ -306,6 +313,26 @@ const DesignSettings: React.FC = () => {
                 </div>
                 <p className="text-xs text-muted-foreground">Used for icon outlines, text, accents</p>
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="launch-button">Launch Button Color</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="launch-button"
+                    type="color"
+                    value={colors.launchButton}
+                    onChange={(e) => handleColorChange('launchButton', e.target.value)}
+                    className="w-12 h-12 p-1 cursor-pointer"
+                  />
+                  <Input
+                    type="text"
+                    value={colors.launchButton}
+                    onChange={(e) => handleColorChange('launchButton', e.target.value)}
+                    className="flex-1"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">Color for all Launch App buttons</p>
+              </div>
             </div>
             
             <div className="flex gap-4">
@@ -319,6 +346,7 @@ const DesignSettings: React.FC = () => {
                 <div className="w-16 h-16 rounded-md" style={{ backgroundColor: colors.creamBase }}></div>
                 <div className="w-12 h-12 rounded-full" style={{ backgroundColor: colors.mintLight }}></div>
                 <div className="w-8 h-8 rounded-full" style={{ backgroundColor: colors.mintDark }}></div>
+                <div className="px-4 py-2 rounded-lg text-white font-medium" style={{ backgroundColor: colors.launchButton }}>Launch App</div>
               </div>
             </div>
           </div>

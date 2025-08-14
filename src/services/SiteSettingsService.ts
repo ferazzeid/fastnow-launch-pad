@@ -74,7 +74,7 @@ export class SiteSettingsService {
   }
 
   // Apply design colors to CSS custom properties
-  static applyDesignColors(colors: { primary: string; secondary: string }) {
+  static applyDesignColors(colors: { primary: string; secondary: string; launchButton?: string }) {
     if (!colors?.primary || !colors?.secondary) {
       console.warn('Invalid colors provided:', colors);
       return;
@@ -129,23 +129,36 @@ export class SiteSettingsService {
     root.style.setProperty('--accent-green', primaryHsl);
     root.style.setProperty('--accent-green-light', primaryHsl);
     root.style.setProperty('--accent-green-dark', primaryHsl);
+
+    // Apply launch button color if provided
+    if (colors.launchButton) {
+      root.style.setProperty('--launch-button-color', colors.launchButton);
+    }
   }
 
   // Load and apply design colors on app startup
   static async loadAndApplyDesignColors() {
     try {
       console.log('Loading design colors from database...');
-      const colors = await this.getSetting('design_colors');
+      const [colors, launchButtonColor] = await Promise.all([
+        this.getSetting('design_colors'),
+        this.getSetting('launch_button_color')
+      ]);
       
       if (colors && typeof colors === 'object' && 'primary' in colors && 'secondary' in colors) {
         console.log('Found saved colors:', colors);
-        this.applyDesignColors(colors as { primary: string; secondary: string });
+        this.applyDesignColors({
+          primary: String(colors.primary),
+          secondary: String(colors.secondary),
+          launchButton: String(launchButtonColor || '#10B981')
+        });
       } else {
         console.log('No saved colors found, using defaults');
         // Apply default colors explicitly to prevent fallback issues
         this.applyDesignColors({
           primary: '#10B981',
-          secondary: '#6B7280'
+          secondary: '#6B7280',
+          launchButton: String(launchButtonColor || '#10B981')
         });
       }
     } catch (error) {
@@ -153,7 +166,8 @@ export class SiteSettingsService {
       // Apply safe defaults on error
       this.applyDesignColors({
         primary: '#10B981',
-        secondary: '#6B7280'
+        secondary: '#6B7280',
+        launchButton: '#10B981'
       });
     }
   }
