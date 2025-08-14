@@ -264,17 +264,9 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
         <main className="flex-1 py-12">
           <div className="container max-w-4xl mx-auto px-8">
             <div>
-              {/* Dynamic Content */}
-              {pageContent.content && (
-                <div className="prose prose-lg max-w-none mb-12">
-                  {formatContent(pageContent.content)}
-                </div>
-              )}
-
-              {/* Default content if no custom content is provided */}
-              {!pageContent.content && (
-                <>
-                  {/* Phase 1: 3-Day Initiation Water Fast */}
+              {/* Phase Content - Always Display */}
+              
+              {/* Phase 1: 3-Day Initiation Water Fast */}
                   <div className="mb-12">
                     <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-accent-green">
                       {phaseContent.phase1.image && (
@@ -535,8 +527,6 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                       </div>
                     </div>
                   </div>
-                </>
-              )}
             </div>
           </div>
         </main>
