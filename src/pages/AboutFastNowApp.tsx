@@ -10,6 +10,7 @@ import FAQSection from '@/components/FAQSection';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
+import { pageContentService } from '@/services/PageContentService';
 
 const AboutFastNowApp = () => {
   const isMobile = useIsMobile();
@@ -19,6 +20,7 @@ const AboutFastNowApp = () => {
     featuresTitle: 'Discover FastNow Features'
   });
 
+  const [pageContent, setPageContent] = useState<any>(null);
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
 
   const features = [
@@ -84,15 +86,17 @@ const AboutFastNowApp = () => {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const [settings, screenshots] = await Promise.all([
+        const [settings, screenshots, aboutAppPageContent] = await Promise.all([
           SiteSettingsService.getAllSettings(),
-          FeatureScreenshotService.getFeatureScreenshots()
+          FeatureScreenshotService.getFeatureScreenshots(),
+          pageContentService.getPageContent('about-fastnow-app')
         ]);
         
         if (settings.aboutAppContent) {
           setContent(settings.aboutAppContent);
         }
         
+        setPageContent(aboutAppPageContent);
         setFeatureScreenshots(screenshots);
       } catch (error) {
         console.error('Error loading About App content:', error);
@@ -105,6 +109,10 @@ const AboutFastNowApp = () => {
   const getScreenshotForFeature = (featureKey: string): string => {
     const screenshot = featureScreenshots.find(s => s.feature_key === featureKey);
     return screenshot?.image_url || '';
+  };
+
+  const getPhoneMockupImage = (): string => {
+    return pageContent?.button_url || getScreenshotForFeature('fasting-timer');
   };
 
   return (
@@ -155,14 +163,14 @@ const AboutFastNowApp = () => {
             </div>
 
             {/* Right side - App mockup */}
-            <div className="flex justify-center lg:justify-end lg:pl-16 lg:self-start lg:mt-4">
-              <div className="w-72">
-                <FeatureScreenshotMockup
-                  imageUrl={getScreenshotForFeature('fasting-timer')}
-                  altText="FastNow App Screenshot"
-                />
+              <div className="flex justify-center lg:justify-end lg:pl-16 lg:self-start lg:mt-4">
+                <div className="w-72">
+                  <FeatureScreenshotMockup
+                    imageUrl={getPhoneMockupImage()}
+                    altText="FastNow App Screenshot"
+                  />
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </section>
