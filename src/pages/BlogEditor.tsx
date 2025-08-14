@@ -9,10 +9,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Save, Eye, ArrowLeft, Plus, X } from 'lucide-react';
-import { toast } from '@/components/ui/sonner';
+import { toast } from 'sonner';
 import { BlogPost } from '@/types/blog';
 import { databaseBlogService } from '@/services/DatabaseBlogService';
 import ReactMarkdown from 'react-markdown';
+import BlogFeaturedImageUpload from '@/components/admin/BlogFeaturedImageUpload';
 
 const BlogEditor = () => {
   const { id } = useParams<{ id: string }>();
@@ -319,15 +320,10 @@ const BlogEditor = () => {
                 <CardDescription>Configure additional post settings and SEO</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="featuredImage">Featured Image URL</Label>
-                  <Input
-                    id="featuredImage"
-                    value={post.featuredImage}
-                    onChange={(e) => setPost(prev => ({ ...prev, featuredImage: e.target.value }))}
-                    placeholder="https://example.com/image.jpg"
-                  />
-                </div>
+                <BlogFeaturedImageUpload
+                  currentImageUrl={post.featuredImage}
+                  onImageChange={(imageUrl) => setPost(prev => ({ ...prev, featuredImage: imageUrl }))}
+                />
 
                 <div>
                   <Label htmlFor="author">Author</Label>
