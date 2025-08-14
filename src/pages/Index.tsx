@@ -87,6 +87,7 @@ const Index = () => {
   // Latest blog posts state
   const [latestBlogPosts, setLatestBlogPosts] = useState<BlogPost[]>([]);
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
+  const [aboutAppPageContent, setAboutAppPageContent] = useState<any>(null);
 
   // Load content from database and localStorage
   useEffect(() => {
@@ -103,11 +104,15 @@ const Index = () => {
       }
     };
 
-    // Load feature screenshots
+    // Load feature screenshots and about app content
     const loadFeatureScreenshots = async () => {
       try {
-        const screenshots = await FeatureScreenshotService.getFeatureScreenshots();
+        const [screenshots, aboutContent] = await Promise.all([
+          FeatureScreenshotService.getFeatureScreenshots(),
+          pageContentService.getPageContent('about-fastnow-app')
+        ]);
         setFeatureScreenshots(screenshots);
+        setAboutAppPageContent(aboutContent);
       } catch (error) {
         console.error('Error loading feature screenshots:', error);
       }
@@ -304,6 +309,11 @@ const Index = () => {
       console.error('Error loading localStorage data:', error);
     }
   }, []);
+
+  // Helper function to get the same phone image as About App page
+  const getPhoneMockupImage = (): string => {
+    return aboutAppPageContent?.button_url || featureScreenshots.find(s => s.feature_key === 'fasting-timer')?.image_url || '';
+  };
 
   // Helper function to safely split hero title
   const renderHeroTitle = () => {
@@ -749,19 +759,34 @@ const Index = () => {
         {/* What About the App Section */}
         <section className="relative z-10 py-16 bg-white">
           <div className="container max-w-6xl mx-auto px-4">
-            <div className="grid lg:grid-cols-12 gap-8 items-start">
+            <div className="grid lg:grid-cols-12 gap-6 items-start">
               {/* Phone mockup - smaller and on the left */}
-              <div className="lg:col-span-3 flex justify-center lg:justify-start">
-                <div className="w-32 sm:w-40 lg:w-44">
-                  <FeatureScreenshotMockup
-                    imageUrl={featureScreenshots.find(s => s.feature_key === 'fasting-timer')?.image_url || ''}
-                    altText="FastNow App Screenshot"
-                  />
+              <div className="lg:col-span-2 flex justify-center lg:justify-start">
+                <div className="w-28 sm:w-32 lg:w-36">
+                  <div className="relative">
+                    {/* Simplified phone frame - thinner borders */}
+                    <div className="relative bg-gray-800 rounded-[1.5rem] p-1 shadow-xl">
+                      <div className="bg-black rounded-[1.25rem] p-0.5">
+                        <div className="relative bg-white rounded-[1rem] overflow-hidden aspect-[9/19.5]">
+                          {/* Simplified notch */}
+                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-4 bg-black rounded-b-xl z-10"></div>
+                          
+                          {/* Screenshot content */}
+                          <img 
+                            src={getPhoneMockupImage()} 
+                            alt="FastNow App Screenshot"
+                            className="w-full h-full object-cover"
+                            loading="eager"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               
               {/* Content - takes up more space */}
-              <div className="lg:col-span-9 text-left">
+              <div className="lg:col-span-10 text-left">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900">
                   What About the App
                 </h2>
