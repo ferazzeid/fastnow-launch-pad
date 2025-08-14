@@ -335,224 +335,136 @@ const AboutFastNowApp = () => {
           </div>
         </div>
 
-        {/* Install App instructions with new tabbed design */}
-        <div className="py-16 bg-gray-100 w-full">
-          <div className="container max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-6">Install the app on your phone?</h2>
-            <p className="text-center text-muted-foreground mb-10">Even though FastNow runs in your browser, you can add it to your home screen so it works like a real app — full screen, fast, and easy to open.</p>
-
-            <Tabs defaultValue="why" className="w-full">
-              <div className="flex justify-center mb-8">
-                <TabsList className="grid w-full max-w-md grid-cols-3 bg-white/60 backdrop-blur-sm border border-primary/20">
-                  <TabsTrigger value="why" className="text-sm font-medium">Why Install?</TabsTrigger>
-                  <TabsTrigger value="android" className="text-sm font-medium">ANDROID</TabsTrigger>
-                  <TabsTrigger value="iphone" className="text-sm font-medium">IPHONE</TabsTrigger>
-                </TabsList>
+        {/* Install App Pro Tip - Compact Section */}
+        <div className="py-12 bg-gray-50 w-full">
+          <div className="container max-w-3xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg border border-primary/20 p-6">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-primary mb-2">💡 Pro Tip: Install as App</h3>
+                <p className="text-muted-foreground text-sm">Add FastNow to your home screen for full-screen access and daily convenience</p>
               </div>
 
-              <TabsContent value="why" className="mt-8">
-                <div className="max-w-4xl mx-auto">
-                  <Card className="border-primary/20 shadow-lg">
-                    <CardHeader className="text-center">
-                      <CardTitle className="text-2xl text-primary">Why Install the App?</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div className="grid md:grid-cols-3 gap-6">
-                        <div className="text-center">
-                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
-                          </div>
-                          <h3 className="font-semibold mb-2">Full-Screen Experience</h3>
-                          <p className="text-muted-foreground text-sm">No browser bars, tabs, or distractions. Just your fasting app in focus.</p>
-                        </div>
-                        
-                        <div className="text-center">
-                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                          </div>
-                          <h3 className="font-semibold mb-2">Lightning Fast</h3>
-                          <p className="text-muted-foreground text-sm">Instant access from your home screen. No typing URLs or waiting for browsers.</p>
-                        </div>
-                        
-                        <div className="text-center">
-                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                          </div>
-                          <h3 className="font-semibold mb-2">Better Focus</h3>
-                          <p className="text-muted-foreground text-sm">Stay immersed in your fasting journey without browser distractions pulling you away.</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+              <Tabs defaultValue="why" className="w-full">
+                <div className="flex justify-center mb-6">
+                  <TabsList className="grid w-full max-w-md grid-cols-4 bg-gray-100">
+                    <TabsTrigger value="why" className="text-xs font-medium px-2">Benefits</TabsTrigger>
+                    <TabsTrigger value="android" className="text-xs font-medium px-2">Android</TabsTrigger>
+                    <TabsTrigger value="iphone" className="text-xs font-medium px-2">iPhone</TabsTrigger>
+                    <TabsTrigger value="access" className="text-xs font-medium px-2">Quick Access</TabsTrigger>
+                  </TabsList>
                 </div>
-              </TabsContent>
 
-              <TabsContent value="android" className="mt-8">
-                <div className="max-w-6xl mx-auto">
-                  <Card className="border-primary/20 shadow-lg">
-                    <CardHeader className="text-center">
-                      <CardTitle className="text-2xl text-primary flex items-center justify-center gap-2">
-                        <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                <TabsContent value="why" className="mt-4">
+                  <div className="grid md:grid-cols-3 gap-4 text-center">
+                    <div>
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      </div>
+                      <h4 className="font-semibold text-sm">Instant Access</h4>
+                      <p className="text-xs text-muted-foreground">No typing URLs</p>
+                    </div>
+                    <div>
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <h4 className="font-semibold text-sm">Full Screen</h4>
+                      <p className="text-xs text-muted-foreground">No browser distractions</p>
+                    </div>
+                    <div>
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <h4 className="font-semibold text-sm">Better Focus</h4>
+                      <p className="text-xs text-muted-foreground">Stay immersed</p>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="android" className="mt-4">
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">1</div>
+                      <div>
+                        <p className="text-sm"><strong>Open in Chrome:</strong> Go to fastnow.app</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">2</div>
+                      <div>
+                        <p className="text-sm"><strong>Add to Home:</strong> Tap ⋮ menu → "Add to Home screen"</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">3</div>
+                      <div>
+                        <p className="text-sm"><strong>Done:</strong> Tap FastNow icon on home screen</p>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="iphone" className="mt-4">
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">1</div>
+                      <div>
+                        <p className="text-sm"><strong>Open in Safari:</strong> Go to fastnow.app</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">2</div>
+                      <div>
+                        <p className="text-sm"><strong>Add to Home:</strong> Tap Share button → "Add to Home Screen"</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">3</div>
+                      <div>
+                        <p className="text-sm"><strong>Done:</strong> Tap FastNow icon on home screen</p>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="access" className="mt-4">
+                  <div className="space-y-4">
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <svg className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.43 11.43 0 0 0-8.94 0L5.65 5.67a.637.637 0 0 0-.83-.22c-.3.16-.42.54-.26.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/>
                         </svg>
-                        Android Installation
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid lg:grid-cols-2 gap-8 items-center">
-                        <div className="space-y-6">
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">1</div>
-                            <div>
-                              <h3 className="font-semibold mb-2">Open FastNow in Chrome</h3>
-                              <p className="text-muted-foreground text-sm">Use Google Chrome (or Samsung Internet) on your phone. Go to <strong>fastnow.app</strong></p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">2</div>
-                            <div>
-                              <h3 className="font-semibold mb-2">Add to Home Screen</h3>
-                              <p className="text-muted-foreground text-sm">Tap the <strong>⋮ menu</strong> (top right in Chrome). Select <strong>"Add to Home screen"</strong>. Confirm the name FastNow and tap Add.</p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">3</div>
-                            <div>
-                              <h3 className="font-semibold mb-2">Open the App</h3>
-                              <p className="text-muted-foreground text-sm">Look for the FastNow icon on your home screen. Tap it to open the app in full-screen mode.</p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="flex justify-center">
-                          {/* Android Phone Mockup */}
-                          <div className="w-64 h-96 bg-gradient-to-b from-gray-900 to-gray-700 rounded-3xl shadow-2xl border-4 border-gray-600 relative overflow-hidden">
-                            <div className="absolute inset-4 bg-white rounded-2xl overflow-hidden">
-                              <div className="h-6 bg-gray-100 flex items-center justify-between px-3">
-                                <span className="text-xs font-medium">9:41</span>
-                                <div className="flex gap-1">
-                                  <div className="w-3 h-2 bg-green-500 rounded-sm"></div>
-                                  <div className="w-3 h-2 bg-green-500 rounded-sm"></div>
-                                  <div className="w-3 h-2 bg-green-500 rounded-sm"></div>
-                                </div>
-                              </div>
-                              <div className="h-10 bg-gray-50 border-b flex items-center px-3">
-                                <div className="flex-1 bg-white rounded-full px-3 py-1 text-xs text-gray-600 border">
-                                  fastnow.app
-                                </div>
-                                <button className="ml-2 w-6 h-6 flex items-center justify-center">
-                                  <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
-                                  <div className="w-1 h-1 bg-gray-600 rounded-full ml-1"></div>
-                                  <div className="w-1 h-1 bg-gray-600 rounded-full ml-1"></div>
-                                </button>
-                              </div>
-                              <div className="flex-1 bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
-                                <div className="text-center">
-                                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
-                                    <Clock className="w-6 h-6 text-white" />
-                                  </div>
-                                  <p className="text-xs font-medium text-primary">FastNow</p>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gray-800 rounded-full"></div>
-                          </div>
+                        <div>
+                          <h4 className="font-semibold text-sm mb-1">Android - Add to Navigation Dock</h4>
+                          <p className="text-xs text-muted-foreground">After adding to home screen, long-press the FastNow icon and drag it to the bottom navigation dock for instant daily access.</p>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="iphone" className="mt-8">
-                <div className="max-w-6xl mx-auto">
-                  <Card className="border-primary/20 shadow-lg">
-                    <CardHeader className="text-center">
-                      <CardTitle className="text-2xl text-primary flex items-center justify-center gap-2">
-                        <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <svg className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                         </svg>
-                        iPhone Installation
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid lg:grid-cols-2 gap-8 items-center">
-                        <div className="space-y-6">
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">1</div>
-                            <div>
-                              <h3 className="font-semibold mb-2">Open FastNow in Safari</h3>
-                              <p className="text-muted-foreground text-sm">Use Safari on your phone. Go to <strong>fastnow.app</strong></p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">2</div>
-                            <div>
-                              <h3 className="font-semibold mb-2">Add to Home Screen</h3>
-                              <p className="text-muted-foreground text-sm">Tap the <strong>Share button</strong> at the bottom center. Scroll down and tap <strong>"Add to Home Screen"</strong>. Confirm the name FastNow and tap Add.</p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">3</div>
-                            <div>
-                              <h3 className="font-semibold mb-2">Open the App</h3>
-                              <p className="text-muted-foreground text-sm">Look for the FastNow icon on your home screen. Tap it to open the app in full-screen mode.</p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="flex justify-center">
-                          {/* iPhone Mockup */}
-                          <div className="w-64 h-96 bg-gradient-to-b from-gray-900 to-gray-700 rounded-3xl shadow-2xl border-2 border-gray-600 relative overflow-hidden">
-                            <div className="absolute inset-2 bg-black rounded-3xl overflow-hidden">
-                              <div className="absolute inset-1 bg-white rounded-3xl overflow-hidden">
-                                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-black rounded-b-2xl"></div>
-                                <div className="h-10 bg-gray-100 flex items-center justify-between px-6 pt-6">
-                                  <span className="text-xs font-medium">9:41</span>
-                                  <div className="flex gap-1">
-                                    <div className="w-4 h-2 bg-green-500 rounded-sm"></div>
-                                  </div>
-                                </div>
-                                <div className="h-12 bg-gray-50 border-b flex items-center px-4">
-                                  <div className="flex-1 bg-white rounded-full px-3 py-2 text-xs text-gray-600 border">
-                                    fastnow.app
-                                  </div>
-                                </div>
-                                <div className="flex-1 bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
-                                  <div className="text-center">
-                                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
-                                      <Clock className="w-6 h-6 text-white" />
-                                    </div>
-                                    <p className="text-xs font-medium text-primary">FastNow</p>
-                                  </div>
-                                </div>
-                                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gray-50 border-t flex items-center justify-center">
-                                  <button className="w-8 h-8 flex items-center justify-center">
-                                    <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-                                    </svg>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                        <div>
+                          <h4 className="font-semibold text-sm mb-1">iPhone - Add to Dock</h4>
+                          <p className="text-xs text-muted-foreground">After adding to home screen, touch and hold the FastNow icon, tap "Edit Home Screen", then drag it to the dock at the bottom for quick access.</p>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </TabsContent>
-            </Tabs>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
           </div>
         </div>
 
