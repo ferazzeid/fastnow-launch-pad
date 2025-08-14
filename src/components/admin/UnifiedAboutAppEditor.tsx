@@ -239,12 +239,11 @@ const UnifiedAboutAppEditor = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="seo" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="seo">SEO Settings</TabsTrigger>
           <TabsTrigger value="hero">Hero Content</TabsTrigger>
           <TabsTrigger value="features">Feature Screenshots</TabsTrigger>
           <TabsTrigger value="images">Featured Image</TabsTrigger>
-          <TabsTrigger value="save">Save All</TabsTrigger>
         </TabsList>
 
         <TabsContent value="seo">
@@ -295,6 +294,13 @@ const UnifiedAboutAppEditor = () => {
                   Allow search engines to index this page
                 </Label>
               </div>
+              
+              <div className="flex justify-end pt-4 border-t">
+                <Button onClick={saveAllContent} disabled={loading}>
+                  <Save size={16} className="mr-2" />
+                  {loading ? 'Saving...' : 'Save SEO Settings'}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -337,6 +343,13 @@ const UnifiedAboutAppEditor = () => {
                   onChange={(e) => setFeaturesTitle(e.target.value)}
                   placeholder="Discover FastNow Features"
                 />
+              </div>
+              
+              <div className="flex justify-end pt-4 border-t">
+                <Button onClick={saveAllContent} disabled={loading}>
+                  <Save size={16} className="mr-2" />
+                  {loading ? 'Saving...' : 'Save Hero Content'}
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -418,10 +431,17 @@ const UnifiedAboutAppEditor = () => {
                     No feature screenshots found. They should be automatically created when the database is set up.
                   </AlertDescription>
                 </Alert>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
+               )}
+               
+               <div className="flex justify-end pt-4 border-t">
+                 <Button onClick={saveAllContent} disabled={loading}>
+                   <Save size={16} className="mr-2" />
+                   {loading ? 'Saving...' : 'Save Feature Screenshots'}
+                 </Button>
+               </div>
+             </CardContent>
+           </Card>
+         </TabsContent>
 
         <TabsContent value="images">
           <Card>
@@ -460,31 +480,19 @@ const UnifiedAboutAppEditor = () => {
                       {isUploadingFeatured ? 'Uploading...' : 'Click to upload featured image'}
                     </div>
                   </Label>
-                </div>
-              )}
+                 </div>
+               )}
+               
+               <div className="flex justify-end pt-4 border-t">
+                 <Button onClick={saveAllContent} disabled={loading}>
+                   <Save size={16} className="mr-2" />
+                   {loading ? 'Saving...' : 'Save Featured Image'}
+                 </Button>
+               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="save">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Save size={20} />
-                Save All About App Content
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4">
-                This will save all changes made across all tabs. Make sure you've reviewed your content before saving.
-              </p>
-              <Button onClick={saveAllContent} className="w-full" disabled={loading} size="lg">
-                <Save size={16} className="mr-2" />
-                {loading ? 'Saving All Content...' : 'Save All About App Content'}
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
       </Tabs>
     </div>
   );

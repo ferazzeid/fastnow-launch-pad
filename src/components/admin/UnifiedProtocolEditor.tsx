@@ -19,7 +19,6 @@ const UnifiedProtocolEditor = () => {
   
   // Hero Content
   const [heroTitle, setHeroTitle] = useState('');
-  const [heroSubtitle, setHeroSubtitle] = useState('');
   const [heroContent, setHeroContent] = useState('');
   
   // Phase Content
@@ -85,7 +84,6 @@ const UnifiedProtocolEditor = () => {
       setMetaTitle(settings.protocol_meta_title || 'The FastNow Protocol | FastNow');
       setMetaDescription(settings.protocol_meta_description || 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol');
       setHeroTitle(settings.protocol_title || 'The FastNow Protocol');
-      setHeroSubtitle(settings.protocol_subtitle || 'How I Lost Fat With a 3-Day Fast + Calorie Control');
       setHeroContent(settings.protocol_content || '');
       
       // Phase 1
@@ -125,7 +123,6 @@ const UnifiedProtocolEditor = () => {
         { setting_key: 'protocol_meta_title', setting_value: JSON.stringify(metaTitle) },
         { setting_key: 'protocol_meta_description', setting_value: JSON.stringify(metaDescription) },
         { setting_key: 'protocol_title', setting_value: JSON.stringify(heroTitle) },
-        { setting_key: 'protocol_subtitle', setting_value: JSON.stringify(heroSubtitle) },
         { setting_key: 'protocol_content', setting_value: JSON.stringify(heroContent) },
         // Phase 1
         { setting_key: 'protocol_phase1_title', setting_value: JSON.stringify(phase1Title) },
@@ -171,12 +168,11 @@ const UnifiedProtocolEditor = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="seo" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="seo">SEO Settings</TabsTrigger>
           <TabsTrigger value="hero">Hero Content</TabsTrigger>
           <TabsTrigger value="phases">Protocol Phases</TabsTrigger>
           <TabsTrigger value="images">Images</TabsTrigger>
-          <TabsTrigger value="save">Save All</TabsTrigger>
         </TabsList>
 
         <TabsContent value="seo">
@@ -227,6 +223,13 @@ const UnifiedProtocolEditor = () => {
                   Allow search engines to index this page
                 </Label>
               </div>
+              
+              <div className="flex justify-end pt-4 border-t">
+                <Button onClick={saveAllContent} disabled={loading}>
+                  <Save size={16} className="mr-2" />
+                  {loading ? 'Saving...' : 'Save SEO Settings'}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -250,15 +253,6 @@ const UnifiedProtocolEditor = () => {
                 />
               </div>
 
-              <div>
-                <Label htmlFor="hero-subtitle">Subtitle</Label>
-                <Input
-                  id="hero-subtitle"
-                  value={heroSubtitle}
-                  onChange={(e) => setHeroSubtitle(e.target.value)}
-                  placeholder="How I Lost Fat With a 3-Day Fast + Calorie Control"
-                />
-              </div>
 
               <div>
                 <Label htmlFor="hero-content">Hero Description (Optional)</Label>
@@ -269,6 +263,13 @@ const UnifiedProtocolEditor = () => {
                   placeholder="Additional content for the hero section (use \n\n for paragraph breaks)"
                   rows={6}
                 />
+              </div>
+              
+              <div className="flex justify-end pt-4 border-t">
+                <Button onClick={saveAllContent} disabled={loading}>
+                  <Save size={16} className="mr-2" />
+                  {loading ? 'Saving...' : 'Save Hero Content'}
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -467,31 +468,30 @@ const UnifiedProtocolEditor = () => {
                 </div>
               </CardContent>
             </Card>
+            
+            <div className="flex justify-end pt-4">
+              <Button onClick={saveAllContent} disabled={loading}>
+                <Save size={16} className="mr-2" />
+                {loading ? 'Saving...' : 'Save Protocol Phases'}
+              </Button>
+            </div>
           </div>
         </TabsContent>
 
         <TabsContent value="images">
-          <PageFeaturedImageSettings pageKey="fast-now-protocol" title="Protocol Page Featured Image" />
-        </TabsContent>
-
-        <TabsContent value="save">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Save size={20} />
-                Save All Protocol Content
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4">
-                This will save all changes made across all tabs. Make sure you've reviewed your content before saving.
-              </p>
-              <Button onClick={saveAllContent} className="w-full" disabled={loading} size="lg">
+          <div className="space-y-6">
+            <PageFeaturedImageSettings 
+              pageKey="fast-now-protocol"
+              title="Protocol Page Featured Image"
+            />
+            
+            <div className="flex justify-end pt-4">
+              <Button onClick={saveAllContent} disabled={loading}>
                 <Save size={16} className="mr-2" />
-                {loading ? 'Saving All Content...' : 'Save All Protocol Content'}
+                {loading ? 'Saving...' : 'Save All Changes'}
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
