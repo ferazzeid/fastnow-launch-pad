@@ -10,11 +10,11 @@ export const useAuth = () => {
   useEffect(() => {
     console.log('useAuth: Starting auth check');
     
-    // 2-second timeout to prevent indefinite loading
+    // 5-second timeout to prevent indefinite loading (extended for production)
     const loadingTimeout = setTimeout(() => {
       console.log('useAuth: Timeout reached, stopping loading state');
       setIsLoading(false);
-    }, 2000);
+    }, 5000);
 
     const checkAuth = async () => {
       try {

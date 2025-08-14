@@ -23,17 +23,21 @@ const Admin = () => {
         return;
       }
       
-      // Give admin check more time - don't redirect immediately
+      // Give admin check more time - don't redirect immediately  
       if (!isAdmin) {
-        console.log('Admin page: User not admin, waiting a bit more...');
-        // Set a small delay to let admin status resolve
+        console.log('Admin page: User not admin, waiting for admin status...');
+        // Set a longer delay to let admin status resolve properly in production
         const timeout = setTimeout(() => {
-          if (!isAdmin) {
-            console.log('Admin page: Still not admin after delay, redirecting');
-            navigate('/');
-            toast.error("Access denied. Admin privileges required.");
-          }
-        }, 1000);
+          console.log('Admin page: Checking admin status again after delay...');
+          // Only redirect if still not admin after extended wait
+          setTimeout(() => {
+            if (!isAdmin) {
+              console.log('Admin page: Still not admin after extended delay, redirecting');
+              navigate('/');
+              toast.error("Access denied. Admin privileges required.");
+            }
+          }, 2000);
+        }, 3000);
         
         return () => clearTimeout(timeout);
       }
