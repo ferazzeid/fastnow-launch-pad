@@ -14,11 +14,13 @@ import { BlogPost } from '@/types/blog';
 import { databaseBlogService } from '@/services/DatabaseBlogService';
 import ReactMarkdown from 'react-markdown';
 import BlogFeaturedImageUpload from '@/components/admin/BlogFeaturedImageUpload';
+import { useAuth } from '@/hooks/useAuth';
 
 const BlogEditor = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEditing = !!id;
+  const { user, isAdmin, isLoading } = useAuth();
 
   // Helper functions
   const generateId = () => {
@@ -56,36 +58,42 @@ const BlogEditor = () => {
   const [newTag, setNewTag] = useState('');
 
   useEffect(() => {
-    // Check authentication
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    if (authStatus !== 'true') {
-      navigate('/admin');
-      return;
-    }
+    // Only proceed if we're sure about the auth state (not loading)
+    if (!isLoading) {
+      if (!user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      if (!isAdmin) {
+        navigate('/admin');
+        return;
+      }
 
-    if (isEditing && id) {
-      const loadPost = async () => {
-        const existingPost = await databaseBlogService.getPostById(id);
-        if (existingPost) {
-          setPost(existingPost);
-        } else {
-          toast.error('Post not found');
-          navigate('/admin/blog');
-        }
-      };
-      loadPost();
-    } else {
-      // Initialize new post
-      const now = new Date().toISOString();
-      setPost(prev => ({
-        ...prev,
-        id: generateId(),
-        createdAt: now,
-        updatedAt: now,
-        publishedAt: now
-      }));
+      if (isEditing && id) {
+        const loadPost = async () => {
+          const existingPost = await databaseBlogService.getPostById(id);
+          if (existingPost) {
+            setPost(existingPost);
+          } else {
+            toast.error('Post not found');
+            navigate('/admin/blog');
+          }
+        };
+        loadPost();
+      } else {
+        // Initialize new post
+        const now = new Date().toISOString();
+        setPost(prev => ({
+          ...prev,
+          id: generateId(),
+          createdAt: now,
+          updatedAt: now,
+          publishedAt: now
+        }));
+      }
     }
-  }, [isEditing, id, navigate]);
+  }, [isEditing, id, navigate, user, isAdmin, isLoading]);
 
   const handleSave = async (status: 'draft' | 'published' = post.status) => {
     if (!post.title.trim()) {

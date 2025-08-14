@@ -9,6 +9,7 @@ import { Plus, Search, Edit, Trash2, Eye, Calendar } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
 import { BlogPost } from '@/types/blog';
 import { databaseBlogService } from '@/services/DatabaseBlogService';
+import { useAuth } from '@/hooks/useAuth';
 
 const AdminBlog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -16,21 +17,28 @@ const AdminBlog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all');
   const navigate = useNavigate();
+  const { user, isAdmin, isLoading } = useAuth();
 
   useEffect(() => {
-    // Check authentication
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    if (authStatus !== 'true') {
-      navigate('/admin');
-      return;
-    }
+    // Only redirect if we're sure about the auth state (not loading)
+    if (!isLoading) {
+      if (!user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      if (!isAdmin) {
+        navigate('/admin');
+        return;
+      }
 
-    // Migrate any existing localStorage posts to database
-    databaseBlogService.migrateFromLocalStorage().then(() => {
-      // Load posts from database
-      loadPosts();
-    });
-  }, [navigate]);
+      // Migrate any existing localStorage posts to database
+      databaseBlogService.migrateFromLocalStorage().then(() => {
+        // Load posts from database
+        loadPosts();
+      });
+    }
+  }, [navigate, user, isAdmin, isLoading]);
 
   useEffect(() => {
     let filtered = posts;
