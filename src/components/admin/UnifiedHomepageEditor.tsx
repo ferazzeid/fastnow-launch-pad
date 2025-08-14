@@ -35,10 +35,6 @@ const UnifiedHomepageEditor = () => {
   const [slide4Title, setSlide4Title] = useState('');
   const [slide4Content, setSlide4Content] = useState('');
   
-  // Ring Bell Section
-  const [ringBellTitle, setRingBellTitle] = useState('');
-  const [ringBellContent, setRingBellContent] = useState('');
-  
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -78,12 +74,6 @@ const UnifiedHomepageEditor = () => {
         setSlide4Content(slide4.content || '');
       }
 
-      // Load ring bell content
-      const ringBell = await pageContentService.getPageContent('ring-bell-section');
-      if (ringBell) {
-        setRingBellTitle(ringBell.title || 'Ready to Transform Your Health?');
-        setRingBellContent(ringBell.content || 'Join thousands who have already transformed their lives with this proven fasting protocol.');
-      }
     } catch (error) {
       console.error('Error loading homepage content:', error);
       toast.error('Failed to load homepage content');
@@ -128,13 +118,6 @@ const UnifiedHomepageEditor = () => {
         is_published: true
       });
 
-      // Save ring bell content
-      await pageContentService.savePageContent({
-        page_key: 'ring-bell-section',
-        title: ringBellTitle,
-        content: ringBellContent,
-        is_published: true
-      });
 
       toast.success('All homepage content saved successfully!');
     } catch (error) {
@@ -148,12 +131,11 @@ const UnifiedHomepageEditor = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="seo" className="w-full">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="seo">SEO Settings</TabsTrigger>
           <TabsTrigger value="hero">Hero Content</TabsTrigger>
           <TabsTrigger value="slides">Slide Content</TabsTrigger>
           <TabsTrigger value="images">Images & Media</TabsTrigger>
-          <TabsTrigger value="ringbell">Ring Bell</TabsTrigger>
           <TabsTrigger value="save">Save All</TabsTrigger>
         </TabsList>
 
@@ -368,34 +350,6 @@ const UnifiedHomepageEditor = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="ringbell">
-          <Card>
-            <CardHeader>
-              <CardTitle>Ring Bell Section</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="ringbell-title">Title</Label>
-                <Input
-                  id="ringbell-title"
-                  value={ringBellTitle}
-                  onChange={(e) => setRingBellTitle(e.target.value)}
-                  placeholder="Ready to Transform Your Health?"
-                />
-              </div>
-              <div>
-                <Label htmlFor="ringbell-content">Content</Label>
-                <Textarea
-                  id="ringbell-content"
-                  value={ringBellContent}
-                  onChange={(e) => setRingBellContent(e.target.value)}
-                  placeholder="Join thousands who have already transformed their lives with this proven fasting protocol."
-                  rows={4}
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
 
         <TabsContent value="save">
           <Card>

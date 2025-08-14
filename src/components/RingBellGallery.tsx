@@ -66,8 +66,8 @@ interface GalleryCardProps {
 }
 
 const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
-  // Position 5 (center) starts flipped, even positions start flipped
-  const startsFlipped = position === 5 || position % 2 === 0;
+  // True alternating pattern: odd positions show front (image), even positions show back (text)
+  const startsFlipped = position % 2 === 0;
   const [isFlipped, setIsFlipped] = useState(startsFlipped);
 
   if (!item) {
