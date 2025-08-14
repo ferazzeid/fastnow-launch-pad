@@ -66,7 +66,9 @@ interface GalleryCardProps {
 }
 
 const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
-  // Use the initial_state from the database item, fallback to alternating pattern for backwards compatibility
+  // Fix the logic: if initial_state is 'image', don't start flipped (show image first)
+  // if initial_state is 'text', start flipped (show text first)
+  // For backwards compatibility, use alternating pattern when no initial_state is set
   const startsFlipped = item?.initial_state === 'text' || (!item?.initial_state && position % 2 === 0);
   const [isFlipped, setIsFlipped] = useState(startsFlipped);
 

@@ -459,6 +459,66 @@ const Index = () => {
           </div>
         </section>
 
+        {/* What About the App Section */}
+        <section className="relative z-10 py-16 bg-white">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="grid lg:grid-cols-12 gap-6 items-start">
+              {/* Phone mockup - smaller and on the left */}
+              <div className="lg:col-span-2 flex justify-center lg:justify-start">
+                <div className="w-28 sm:w-32 lg:w-36">
+                  <div className="relative">
+                    {/* Simplified phone frame - thinner borders */}
+                    <div className="relative bg-gray-800 rounded-[1.5rem] p-1 shadow-xl">
+                      <div className="bg-black rounded-[1.25rem] p-0.5">
+                        <div className="relative bg-white rounded-[1rem] overflow-hidden aspect-[9/19.5]">
+                          {/* Simplified notch */}
+                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-4 bg-black rounded-b-xl z-10"></div>
+                          
+                          {/* Screenshot content */}
+                          <img 
+                            src={getPhoneMockupImage()} 
+                            alt="FastNow App Screenshot"
+                            className="w-full h-full object-cover"
+                            loading="eager"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Content - takes up more space */}
+              <div className="lg:col-span-10 text-left">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900">
+                  What About the App
+                </h2>
+                
+                <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
+                  <p>
+                    There's no magic formula for weight loss — just the right formula, done right.
+                  </p>
+                  <p>
+                    The real challenge is discipline and consistent execution for 90 days. You could track it on paper or in your phone's notes, but we've built a tool designed specifically for the FastNow program. Why not see how it can help you succeed?
+                  </p>
+                </div>
+                
+                <div className="mt-8">
+                  <Link to="/about-fastnow-app">
+                    <Button 
+                      className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                      style={{ backgroundColor: launchButtonColor }}
+                    >
+                      Read More
+                      <ArrowRight className="w-5 h-5" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Latest Blog Posts Section */}
         {latestBlogPosts.length > 0 && (
           <section className="relative z-10 py-16 bg-gray-50">
@@ -756,65 +816,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* What About the App Section */}
-        <section className="relative z-10 py-16 bg-white">
-          <div className="container max-w-6xl mx-auto px-4">
-            <div className="grid lg:grid-cols-12 gap-6 items-start">
-              {/* Phone mockup - smaller and on the left */}
-              <div className="lg:col-span-2 flex justify-center lg:justify-start">
-                <div className="w-28 sm:w-32 lg:w-36">
-                  <div className="relative">
-                    {/* Simplified phone frame - thinner borders */}
-                    <div className="relative bg-gray-800 rounded-[1.5rem] p-1 shadow-xl">
-                      <div className="bg-black rounded-[1.25rem] p-0.5">
-                        <div className="relative bg-white rounded-[1rem] overflow-hidden aspect-[9/19.5]">
-                          {/* Simplified notch */}
-                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-4 bg-black rounded-b-xl z-10"></div>
-                          
-                          {/* Screenshot content */}
-                          <img 
-                            src={getPhoneMockupImage()} 
-                            alt="FastNow App Screenshot"
-                            className="w-full h-full object-cover"
-                            loading="eager"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Content - takes up more space */}
-              <div className="lg:col-span-10 text-left">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900">
-                  What About the App
-                </h2>
-                
-                <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
-                  <p>
-                    There's no magic formula for weight loss — just the right formula, done right.
-                  </p>
-                  <p>
-                    The real challenge is discipline and consistent execution for 90 days. You could track it on paper or in your phone's notes, but we've built a tool designed specifically for the FastNow program. Why not see how it can help you succeed?
-                  </p>
-                </div>
-                
-                <div className="mt-8">
-                  <Link to="/about-fastnow-app">
-                    <Button 
-                      className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
-                      style={{ backgroundColor: launchButtonColor }}
-                    >
-                      Read More
-                      <ArrowRight className="w-5 h-5" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
       </main>
     </PageLayout>
