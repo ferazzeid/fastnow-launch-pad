@@ -39,8 +39,7 @@ const UnifiedAboutAppEditor = () => {
     'fasting-timer': 'Fasting Timer',
     'walking-tracker': 'Walking Tracker', 
     'food-log': 'Food Log',
-    'motivators': 'Motivators',
-    'ai-assistant': 'AI Assistant'
+    'motivators': 'Motivators'
   };
 
   useEffect(() => {

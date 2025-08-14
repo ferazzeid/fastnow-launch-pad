@@ -14,8 +14,7 @@ const FEATURE_LABELS = {
   'fasting-timer': 'Fasting Timer',
   'walking-tracker': 'Walking Tracker', 
   'food-log': 'Food Log',
-  'motivators': 'Motivators',
-  'ai-assistant': 'AI Assistant'
+  'motivators': 'Motivators'
 };
 
 export default function FeatureScreenshotSettings() {

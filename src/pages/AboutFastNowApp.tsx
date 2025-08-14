@@ -12,6 +12,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
 import { pageContentService } from '@/services/PageContentService';
+import { FeatureShowcase } from '@/components/FeatureShowcase';
 
 const AboutFastNowApp = () => {
   const isMobile = useIsMobile();
@@ -124,6 +125,23 @@ const AboutFastNowApp = () => {
     return pageContent?.button_url || getScreenshotForFeature('fasting-timer');
   };
 
+  // Get feature showcase data
+  const getFeatureShowcaseData = () => {
+    const featureKeys = ['fasting-timer', 'walking-tracker', 'food-log', 'motivators'];
+    const featureTitles = {
+      'fasting-timer': 'Fasting Timer',
+      'walking-tracker': 'Walking Tracker', 
+      'food-log': 'Food Log',
+      'motivators': 'Motivators'
+    };
+    
+    return featureKeys.map(key => ({
+      key,
+      title: featureTitles[key as keyof typeof featureTitles],
+      imageUrl: getScreenshotForFeature(key)
+    }));
+  };
+
   return (
     <PageLayout>
       <Helmet>
@@ -212,6 +230,9 @@ const AboutFastNowApp = () => {
           </h2>
         </div>
       </div>
+
+      {/* Feature Screenshots Showcase */}
+      <FeatureShowcase features={getFeatureShowcaseData()} />
 
       {/* Content Section */}
       <div className="relative z-10">
