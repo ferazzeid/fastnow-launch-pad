@@ -49,8 +49,8 @@ const RingBellGallery = () => {
           </h2>
         </div>
 
-        {/* 3x3 Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        {/* 3x3 Seamless Gallery Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 w-full">
           {galleryItems.map(({ position, item }) => (
             <GalleryCard key={position} position={position} item={item} />
           ))}
@@ -70,8 +70,8 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
 
   if (!item) {
     return (
-      <div className="relative h-64 md:h-80 group">
-        <div className="absolute inset-0 bg-gray-200 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
+      <div className="relative aspect-square group">
+        <div className="absolute inset-0 bg-gray-200 border-2 border-dashed border-gray-300 flex items-center justify-center">
           <div className="text-center text-gray-400">
             <div className="text-4xl mb-2">📍</div>
             <p className="text-sm font-medium">Position {position}</p>
@@ -88,13 +88,13 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
 
   return (
     <div 
-      className="relative h-64 md:h-80 group cursor-pointer perspective-1000"
+      className="relative aspect-square group cursor-pointer perspective-1000"
       onMouseEnter={() => setIsFlipped(true)}
       onMouseLeave={() => setIsFlipped(false)}
     >
       <div className={`relative w-full h-full transition-transform duration-700 transform-style-preserve-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
         {/* Front Side */}
-        <div className="absolute inset-0 w-full h-full backface-hidden rounded-lg overflow-hidden shadow-lg">
+        <div className="absolute inset-0 w-full h-full backface-hidden overflow-hidden">
           {showInitialImage && item.front_image_url ? (
             <img 
               src={item.front_image_url} 
@@ -116,7 +116,7 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
         </div>
 
         {/* Back Side */}
-        <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-lg overflow-hidden shadow-lg">
+        <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 overflow-hidden">
           {!showInitialImage && item.back_image_url ? (
             <img 
               src={item.back_image_url} 
