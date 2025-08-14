@@ -44,7 +44,7 @@ const MainNavigation = () => {
   };
 
   const getLaunchAppStyle = () => {
-    return "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 text-gray-900 border border-gray-300 hover:border-gray-400 hover:bg-gray-50 inline-flex items-center gap-2";
+    return "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2";
   };
 
   const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => {

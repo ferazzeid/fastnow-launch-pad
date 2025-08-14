@@ -35,6 +35,8 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [ringBellItems, setRingBellItems] = useState<RingBellItem[]>([]);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   useEffect(() => {
     loadSettings();
@@ -194,6 +196,30 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
     setTimeout(() => setIsTransitioning(false), 300);
   }, [images.length]);
 
+  // Touch handlers for swipe functionality
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      goToNext();
+    }
+    if (isRightSwipe) {
+      goToPrevious();
+    }
+  };
+
   // Auto advance slideshow
   useEffect(() => {
     if (images.length <= 1 || isPaused) return;
@@ -227,8 +253,9 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
           </h2>
         </div>
         
+        {/* Desktop Carousel */}
         <div 
-          className="relative flex justify-center items-center gap-4 max-w-7xl mx-auto"
+          className="hidden md:flex justify-center items-center gap-4 max-w-7xl mx-auto"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -254,7 +281,7 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
               className="w-[400px] h-[600px] object-cover transition-all duration-500"
             />
             
-            {/* Navigation Arrows */}
+            {/* Navigation Arrows - Desktop */}
             <button
               onClick={goToPrevious}
               className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 opacity-0 hover:opacity-100"
@@ -282,6 +309,69 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({ className = '' }) => {
               className="w-[320px] h-[480px] object-cover cursor-pointer transition-transform duration-500 hover:scale-105"
               onClick={goToNext}
             />
+          </div>
+        </div>
+
+        {/* Mobile Carousel */}
+        <div 
+          className="md:hidden relative max-w-sm mx-auto"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div className="relative overflow-hidden">
+            {/* Main Image Container */}
+            <div className={`relative overflow-hidden rounded-lg bg-white shadow-2xl transition-all duration-500 transform ${
+              isTransitioning ? 'scale-105' : 'scale-100'
+            }`}>
+              <img
+                src={images[currentImageIndex].src}
+                alt={images[currentImageIndex].alt}
+                className="w-full h-[400px] object-cover transition-all duration-500"
+              />
+              
+              {/* Previous Image Overlay - Partial Left */}
+              <div className="absolute left-0 top-0 h-full w-16 overflow-hidden">
+                <img
+                  src={images[getPreviousIndex()].src}
+                  alt={images[getPreviousIndex()].alt}
+                  className="w-full h-full object-cover opacity-30 scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/50"></div>
+              </div>
+              
+              {/* Next Image Overlay - Partial Right */}
+              <div className="absolute right-0 top-0 h-full w-16 overflow-hidden">
+                <img
+                  src={images[getNextIndex()].src}
+                  alt={images[getNextIndex()].alt}
+                  className="w-full h-full object-cover opacity-30 scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/50"></div>
+              </div>
+              
+              {/* Navigation Arrows - Always Visible on Mobile */}
+              <button
+                onClick={goToPrevious}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-2 rounded-full transition-all duration-200 hover:scale-110"
+                aria-label="Previous image"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              
+              <button
+                onClick={goToNext}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-2 rounded-full transition-all duration-200 hover:scale-110"
+                aria-label="Next image"
+              >
+                <ChevronRight size={20} />
+              </button>
+              
+              {/* Swipe Indicator */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/70 text-xs bg-black/30 px-3 py-1 rounded-full">
+                Swipe to navigate
+              </div>
+            </div>
           </div>
         </div>
         
