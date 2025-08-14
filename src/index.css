@@ -204,7 +204,6 @@
   .border-accent-green {
     border-color: var(--accent-green);
   }
-}
 
 /* Remove most neomorphic effects */
 .neomorphic-slider .slider-track {
