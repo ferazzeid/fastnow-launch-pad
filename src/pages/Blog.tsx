@@ -35,10 +35,10 @@ const Blog = () => {
       
       // Split posts into "my experience" and others first
       const experiencePosts = publishedPosts.filter(post => 
-        post.categories.includes('my experience')
+        post.categories.some(cat => cat.toLowerCase().includes('my experience') || cat.toLowerCase().includes('experience'))
       );
       const generalPosts = publishedPosts.filter(post => 
-        !post.categories.includes('my experience')
+        !post.categories.some(cat => cat.toLowerCase().includes('my experience') || cat.toLowerCase().includes('experience'))
       );
       
       // Get latest 3 "my experience" posts for the featured section
@@ -209,8 +209,8 @@ const Blog = () => {
         )}
 
         {/* My Experience Section - Always shows all "my experience" posts */}
-        <div className="mb-16">
-          <div className="text-center mb-8">
+        <div className="mt-20 mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-mint-600 mb-4">Peek into My Weight Loss Experience</h2>
             <p className="text-lg text-mint-500 max-w-2xl mx-auto">
               Thinking out loud and reflecting on my weight loss journey
