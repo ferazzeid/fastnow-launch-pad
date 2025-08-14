@@ -58,40 +58,57 @@ const BlogEditor = () => {
   const [newTag, setNewTag] = useState('');
 
   useEffect(() => {
-    // Only proceed if we're sure about the auth state (not loading)
-    if (!isLoading) {
-      if (!user) {
-        navigate('/admin/login');
-        return;
-      }
+    console.log('BlogEditor - Auth state:', { 
+      user: !!user, 
+      userEmail: user?.email,
+      isAdmin, 
+      isLoading,
+      isEditing,
+      currentPath: window.location.pathname 
+    });
+    
+    // Wait for loading to complete AND admin status to be determined
+    if (!isLoading && user) {
+      // Add a small delay to ensure admin status has time to resolve
+      const checkAdminStatus = setTimeout(() => {
+        if (!isAdmin) {
+          console.log('BlogEditor - Not admin after delay, redirecting to admin');
+          navigate('/admin');
+          return;
+        }
+        
+        console.log('BlogEditor - Admin access confirmed, initializing editor');
+        
+        if (isEditing && id) {
+          const loadPost = async () => {
+            const existingPost = await databaseBlogService.getPostById(id);
+            if (existingPost) {
+              setPost(existingPost);
+            } else {
+              toast.error('Post not found');
+              navigate('/admin/blog');
+            }
+          };
+          loadPost();
+        } else {
+          // Initialize new post
+          const now = new Date().toISOString();
+          setPost(prev => ({
+            ...prev,
+            id: generateId(),
+            createdAt: now,
+            updatedAt: now,
+            publishedAt: now
+          }));
+        }
+      }, 1000); // Wait 1 second for admin status to resolve
       
-      if (!isAdmin) {
-        navigate('/admin');
-        return;
-      }
-
-      if (isEditing && id) {
-        const loadPost = async () => {
-          const existingPost = await databaseBlogService.getPostById(id);
-          if (existingPost) {
-            setPost(existingPost);
-          } else {
-            toast.error('Post not found');
-            navigate('/admin/blog');
-          }
-        };
-        loadPost();
-      } else {
-        // Initialize new post
-        const now = new Date().toISOString();
-        setPost(prev => ({
-          ...prev,
-          id: generateId(),
-          createdAt: now,
-          updatedAt: now,
-          publishedAt: now
-        }));
-      }
+      return () => clearTimeout(checkAdminStatus);
+    }
+    
+    if (!isLoading && !user) {
+      console.log('BlogEditor - No user, redirecting to login');
+      navigate('/admin/login');
     }
   }, [isEditing, id, navigate, user, isAdmin, isLoading]);
 
