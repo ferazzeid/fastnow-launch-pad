@@ -115,7 +115,7 @@ const UserManagement: React.FC = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container flex justify-between items-center py-4">
-          <h1 className="text-2xl font-bold">Admin Account Management</h1>
+          <h1 className="text-2xl font-bold">Change Password</h1>
           <Button variant="outline" onClick={handleBack}>Back to Admin</Button>
         </div>
       </header>

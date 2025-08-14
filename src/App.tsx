@@ -88,12 +88,8 @@ const AppRoutes = () => {
       <Route path="/admin/homepage/slide3" element={<AdminHomeSlide3 />} />
       <Route path="/admin/homepage/slide4" element={<AdminHomeSlide4 />} />
       <Route path="/admin/about-me" element={<AdminAboutMeEditor />} />
-      <Route path="/admin/fast-now-protocol" element={<AdminFastNowProtocol />} />
-      <Route path="/admin/about-fastnow-app" element={<AdminAboutFastNowApp />} />
       <Route path="/admin/faq" element={<AdminFAQEditor />} />
       <Route path="/admin/faq-management" element={<AdminFAQ />} />
-      <Route path="/admin/privacy-policy" element={<AdminPrivacyPolicy />} />
-      <Route path="/admin/terms-of-service" element={<AdminTermsOfService />} />
       <Route path="/admin/contact" element={<AdminContactEditor />} />
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />

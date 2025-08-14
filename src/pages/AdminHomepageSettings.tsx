@@ -51,19 +51,20 @@ const AdminHomepageSettings = () => {
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
             <h1 className="text-3xl font-bold">Homepage Settings</h1>
+            <p className="text-muted-foreground">Manage all homepage content, images, and branding</p>
           </div>
-          <Tabs defaultValue="logo-images" className="w-full">
+          <Tabs defaultValue="content" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="logo-images">Logo & Images</TabsTrigger>
               <TabsTrigger value="content">Homepage Content</TabsTrigger>
+              <TabsTrigger value="branding">Branding & Images</TabsTrigger>
             </TabsList>
-            
-            <TabsContent value="logo-images" className="space-y-6">
-              <HomepageLogoSettings />
-            </TabsContent>
             
             <TabsContent value="content" className="space-y-6">
               <HomepageContentSettings />
+            </TabsContent>
+            
+            <TabsContent value="branding" className="space-y-6">
+              <HomepageLogoSettings />
             </TabsContent>
           </Tabs>
         </div>

@@ -154,19 +154,6 @@ const Admin = () => {
                 </Button>
               </Link>
               
-              <Link to="/admin/fast-now-protocol">
-                <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  FastNow Protocol
-                </Button>
-              </Link>
-
-              <Link to="/admin/about-fastnow-app">
-                <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  About FastNow App
-                </Button>
-              </Link>
 
               <Link to="/admin/faq">
                 <Button variant="outline" className="w-full justify-start">
@@ -188,20 +175,14 @@ const Admin = () => {
                   Contact Page
                 </Button>
               </Link>
-
-              <Link to="/admin/privacy-policy">
+              
+              <Link to="/admin/homepage-settings">
                 <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  Privacy Policy
+                  <Settings size={16} className="mr-2" />
+                  Homepage Settings
                 </Button>
               </Link>
 
-              <Link to="/admin/terms-of-service">
-                <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  Terms of Service
-                </Button>
-              </Link>
             </CardContent>
           </Card>
 
@@ -217,7 +198,7 @@ const Admin = () => {
               <Link to="/admin/users">
                 <Button variant="outline" className="w-full justify-start">
                   <Users size={16} className="mr-2" />
-                  Manage Admin Account
+                  Change Password
                 </Button>
               </Link>
             </CardContent>
@@ -271,23 +252,6 @@ const Admin = () => {
             </CardContent>
           </Card>
 
-          {/* Design & Media Management */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <PaintBucket size={20} />
-                Design & Media
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link to="/admin/homepage-settings">
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings size={16} className="mr-2" />
-                  Logo & Favicon Settings
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
         </div>
 
       </main>
