@@ -9,7 +9,6 @@ const RingBellGallery = () => {
     const loadItems = async () => {
       try {
         const data = await ringBellGalleryService.getAllItems();
-        console.log('Ring Bell Gallery loaded items:', data);
         setItems(data);
       } catch (error) {
         console.error('Error loading ring bell gallery items:', error);
@@ -70,19 +69,6 @@ const GalleryCard: React.FC<GalleryCardProps> = ({ position, item }) => {
   // Use the initial_state from the database item, fallback to alternating pattern for backwards compatibility
   const startsFlipped = item?.initial_state === 'text' || (!item?.initial_state && position % 2 === 0);
   const [isFlipped, setIsFlipped] = useState(startsFlipped);
-
-  // Debug logging
-  console.log(`Position ${position}:`, {
-    item: item ? {
-      initial_state: item.initial_state,
-      has_front_image: !!item.front_image_url,
-      has_front_text: !!item.front_text,
-      has_back_image: !!item.back_image_url,
-      has_back_text: !!item.back_text
-    } : 'no item',
-    startsFlipped,
-    isFlipped
-  });
 
   if (!item) {
     return (

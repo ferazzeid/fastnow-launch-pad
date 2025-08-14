@@ -351,9 +351,6 @@ const Index = () => {
                   <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
                     {heroTitle}
                   </h1>
-                  <div className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-6 drop-shadow-md">
-                    {heroSubtitle}
-                  </div>
                   
                   <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg">
                     <p className="drop-shadow-md">

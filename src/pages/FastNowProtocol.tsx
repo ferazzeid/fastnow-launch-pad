@@ -232,9 +232,6 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
               <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
                 {pageContent.title}
               </h1>
-              <p className="text-xl text-white/90 mb-8 drop-shadow-md">
-                {pageContent.subtitle}
-              </p>
               {pageContent.content && (
                 <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
                   {pageContent.content.split('\n\n').map((paragraph, index) => (
