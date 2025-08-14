@@ -12,7 +12,6 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
 import { pageContentService } from '@/services/PageContentService';
-import { FeatureShowcase } from '@/components/FeatureShowcase';
 
 const AboutFastNowApp = () => {
   const isMobile = useIsMobile();
@@ -125,22 +124,6 @@ const AboutFastNowApp = () => {
     return pageContent?.button_url || getScreenshotForFeature('fasting-timer');
   };
 
-  // Get feature showcase data
-  const getFeatureShowcaseData = () => {
-    const featureKeys = ['fasting-timer', 'walking-tracker', 'food-log', 'motivators'];
-    const featureTitles = {
-      'fasting-timer': 'Fasting Timer',
-      'walking-tracker': 'Walking Tracker', 
-      'food-log': 'Food Log',
-      'motivators': 'Motivators'
-    };
-    
-    return featureKeys.map(key => ({
-      key,
-      title: featureTitles[key as keyof typeof featureTitles],
-      imageUrl: getScreenshotForFeature(key)
-    }));
-  };
 
   return (
     <PageLayout>
@@ -231,8 +214,6 @@ const AboutFastNowApp = () => {
         </div>
       </div>
 
-      {/* Feature Screenshots Showcase */}
-      <FeatureShowcase features={getFeatureShowcaseData()} />
 
       {/* Content Section */}
       <div className="relative z-10">
@@ -283,15 +264,14 @@ const AboutFastNowApp = () => {
                         </div>
                       </div>
 
-                      {/* Visual Side - Placeholder for now since we're removing screenshots */}
+                      {/* Visual Side - Feature Screenshot */}
                       <div className={`flex justify-center ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
-                        <div className="w-64 h-40 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center border border-primary/20">
-                          <div className="text-center">
-                            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-2 mx-auto">
-                              {feature.icon}
-                            </div>
-                            <p className="text-sm text-muted-foreground">{feature.title}</p>
-                          </div>
+                        <div className="w-48">
+                          <FeatureScreenshotMockup 
+                            imageUrl={getScreenshotForFeature(feature.key)} 
+                            altText={`${feature.title} app screenshot`}
+                            featureKey={feature.key}
+                          />
                         </div>
                       </div>
                     </div>
