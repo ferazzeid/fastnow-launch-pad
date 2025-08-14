@@ -13,25 +13,10 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import AdminLoginPage from "./pages/AdminLoginPage";
-import AdminAboutFastNowApp from "./pages/AdminAboutFastNowApp";
-import AdminPageEditor from "./pages/AdminPageEditor";
 import AdminGeneral from "./pages/AdminGeneral";
-import AdminPages from "./pages/AdminPages";
-import AdminPagesNew from "./pages/AdminPagesNew";
-import AdminDesign from "./pages/AdminDesign";
-import AdminSeo from "./pages/AdminSeo";
-import AdminContactSettings from "./pages/AdminContactSettings";
-import AdminPageImages from "./pages/AdminPageImages";
-import AdminHomepageSettings from "./pages/AdminHomepageSettings";
-import AdminHomepage from "./pages/AdminHomepage";
 import AdminFAQEditor from "./pages/AdminFAQEditor";
-import AdminPrivacyPolicy from "./pages/AdminPrivacyPolicy";
-import AdminTermsOfService from "./pages/AdminTermsOfService";
-import AdminContactEditor from "./pages/AdminContactEditor";
 import FAQ from "./pages/FAQ";
 import AdminFAQ from "./pages/AdminFAQ";
-import AdminEmail from "./pages/AdminEmail";
-import AdminAboutMeEditor from "./pages/AdminAboutMeEditor";
 import ContentPage from "./pages/ContentPage";
 import UserManagement from "./pages/UserManagement";
 import FastingTimeline from "./pages/FastingTimeline";
@@ -42,16 +27,14 @@ import BlogEditor from "./pages/BlogEditor";
 import FastingTimelineBlog from "./pages/FastingTimelineBlog";
 import FastingTimelinePost from "./pages/FastingTimelinePost";
 import FastNowProtocol from "./pages/FastNowProtocol";
-import AdminFastNowProtocol from "./pages/AdminFastNowProtocol";
 import AboutFastNowApp from "./pages/AboutFastNowApp";
 import AboutMe from "./pages/AboutMe";
-import AdminFeatureScreenshots from "./pages/AdminFeatureScreenshots";
 import AdminFastingTimeline from "./pages/AdminFastingTimeline";
 import AdminFastingTimelineExport from "./pages/AdminFastingTimelineExport";
-import AdminHomeSlide2 from "./pages/AdminHomeSlide2";
-import AdminHomeSlide3 from "./pages/AdminHomeSlide3";
-import AdminHomeSlide4 from "./pages/AdminHomeSlide4";
-import AdminRingBellSection from "./pages/AdminRingBellSection";
+import AdminUnifiedHomepage from "./pages/AdminUnifiedHomepage";
+import AdminProtocolEditor from "./pages/AdminProtocolEditor";
+import AdminAboutAppEditor from "./pages/AdminAboutAppEditor";
+import AdminStaticContentEditor from "./pages/AdminStaticContentEditor";
 
 const queryClient = new QueryClient();
 
@@ -82,22 +65,17 @@ const AppRoutes = () => {
       <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route path="/admin/users" element={<UserManagement />} />
       <Route path="/admin/general" element={<AdminGeneral />} />
-      <Route path="/admin/homepage" element={<AdminHomepage />} />
-      <Route path="/admin/homepage-settings" element={<AdminHomepageSettings />} />
-      <Route path="/admin/homepage/slide2" element={<AdminHomeSlide2 />} />
-      <Route path="/admin/homepage/slide3" element={<AdminHomeSlide3 />} />
-      <Route path="/admin/homepage/slide4" element={<AdminHomeSlide4 />} />
-      <Route path="/admin/about-me" element={<AdminAboutMeEditor />} />
+      <Route path="/admin/homepage-unified" element={<AdminUnifiedHomepage />} />
+      <Route path="/admin/protocol" element={<AdminProtocolEditor />} />
+      <Route path="/admin/about-app" element={<AdminAboutAppEditor />} />
       <Route path="/admin/faq" element={<AdminFAQEditor />} />
       <Route path="/admin/faq-management" element={<AdminFAQ />} />
-      <Route path="/admin/contact" element={<AdminContactEditor />} />
+      <Route path="/admin/static-content" element={<AdminStaticContentEditor />} />
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
-      <Route path="/admin/feature-screenshots" element={<AdminFeatureScreenshots />} />
       <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
       <Route path="/admin/fasting-timeline/export" element={<AdminFastingTimelineExport />} />
-      <Route path="/admin/ring-bell-section" element={<AdminRingBellSection />} />
       
       {/* Content pages */}
       <Route path="/privacy" element={<ContentPage />} />

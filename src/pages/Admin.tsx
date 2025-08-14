@@ -82,20 +82,20 @@ const Admin = () => {
         </div>
       </header>
       
-      <main className="container py-8">
+      <main className="container mx-auto py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Content Management */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <FileText size={20} />
+                <Settings size={20} />
                 Content Management
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <Link to="/admin/general">
                 <Button variant="outline" className="w-full justify-start">
-                  <Settings size={16} className="mr-2" />
+                  <Settings className="mr-2 h-4 w-4" />
                   General Settings
                 </Button>
               </Link>
@@ -111,76 +111,83 @@ const Admin = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Link to="/admin/homepage">
+              <Link to="/admin/homepage-unified">
                 <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
+                  <FileText className="mr-2 h-4 w-4" />
                   Homepage
                 </Button>
               </Link>
-              
-              <Link to="/admin/homepage/slide2">
+
+              <Link to="/admin/protocol">
                 <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  Homepage Slide 2
+                  <Heart className="mr-2 h-4 w-4" />
+                  Protocol Page
                 </Button>
               </Link>
-              
-              <Link to="/admin/homepage/slide3">
+
+              <Link to="/admin/about-app">
                 <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  Homepage Slide 3
-                </Button>
-              </Link>
-              
-              <Link to="/admin/homepage/slide4">
-                <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  Homepage Slide 4
-                </Button>
-              </Link>
-              
-              <Link to="/admin/ring-bell-section">
-                <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  "Does this ring a bell?" Section
-                </Button>
-              </Link>
-              
-              <Link to="/admin/about-me">
-                <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  About Me
+                  <Users className="mr-2 h-4 w-4" />
+                  About App
                 </Button>
               </Link>
 
               <Link to="/admin/faq">
                 <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  FAQ Page Settings
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  FAQ Page Content
                 </Button>
               </Link>
+            </CardContent>
+          </Card>
 
+          {/* Static Content */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText size={20} />
+                Static Content
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/static-content">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Privacy, Terms & Contact
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Content Items */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BookOpen size={20} />
+                Content Items
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
               <Link to="/admin/faq-management">
                 <Button variant="outline" className="w-full justify-start">
-                  <Settings size={16} className="mr-2" />
-                  Manage FAQs
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  FAQ Items
                 </Button>
               </Link>
 
-              <Link to="/admin/contact">
+              <Link to="/admin/blog">
                 <Button variant="outline" className="w-full justify-start">
-                  <Edit size={16} className="mr-2" />
-                  Contact Page
-                </Button>
-              </Link>
-              
-              <Link to="/admin/homepage-settings">
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings size={16} className="mr-2" />
-                  Homepage Settings
+                  <FileText className="mr-2 h-4 w-4" />
+                  Manage Blog Posts
                 </Button>
               </Link>
 
+              <Link to="/admin/blog/new">
+                <Button variant="outline" className="w-full justify-start">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Create New Post
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -192,66 +199,41 @@ const Admin = () => {
                 Admin Account
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-3">
               <Link to="/admin/users">
                 <Button variant="outline" className="w-full justify-start">
-                  <Users size={16} className="mr-2" />
+                  <Users className="mr-2 h-4 w-4" />
                   Change Password
                 </Button>
               </Link>
             </CardContent>
           </Card>
 
-          {/* Blog Management */}
+          {/* Fasting Timeline */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <BookOpen size={20} />
-                Blog Management
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link to="/admin/blog">
-                <Button variant="outline" className="w-full justify-start">
-                  <BookOpen size={16} className="mr-2" />
-                  Manage Posts
-                </Button>
-              </Link>
-              <Link to="/admin/blog/new">
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText size={16} className="mr-2" />
-                  Create New Post
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-          {/* Fasting Timeline Management */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TimerIcon size={20} />
+                <Clock size={20} />
                 Fasting Timeline
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <Link to="/admin/fasting-timeline">
                 <Button variant="outline" className="w-full justify-start">
-                  <Clock size={16} className="mr-2" />
+                  <TimerIcon className="mr-2 h-4 w-4" />
                   Manage Timeline Posts
                 </Button>
               </Link>
+
               <Link to="/admin/fasting-timeline/export">
                 <Button variant="outline" className="w-full justify-start">
-                  <FileText size={16} className="mr-2" />
+                  <Calendar className="mr-2 h-4 w-4" />
                   Export Timeline Data
                 </Button>
               </Link>
             </CardContent>
           </Card>
-
         </div>
-
       </main>
     </div>
   );
