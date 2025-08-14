@@ -18,18 +18,29 @@ export const useAuth = () => {
 
     const checkAuth = async () => {
       try {
+        console.log('useAuth: Starting session check...');
         const session = await SupabaseAuthService.getCurrentSession();
-        console.log('useAuth: Session check complete', !!session?.user);
+        console.log('useAuth: Session check complete', {
+          hasSession: !!session,
+          hasUser: !!session?.user,
+          userEmail: session?.user?.email,
+          sessionValid: !!session?.access_token
+        });
         
         if (session?.user) {
           setUser(session.user);
           setIsLoading(false);
           clearTimeout(loadingTimeout);
           
+          console.log('useAuth: Starting admin role check for user:', session.user.email);
           // Check admin role in background without blocking UI
           SupabaseAuthService.hasAdminRole(session.user.id)
             .then(adminStatus => {
-              console.log('useAuth: Admin status check complete', adminStatus);
+              console.log('useAuth: Admin status check complete', {
+                userId: session.user.id,
+                isAdmin: adminStatus,
+                userEmail: session.user.email
+              });
               setIsAdmin(adminStatus);
             })
             .catch(error => {
@@ -37,6 +48,7 @@ export const useAuth = () => {
               setIsAdmin(false);
             });
         } else {
+          console.log('useAuth: No session or user found');
           setUser(null);
           setIsAdmin(false);
           setIsLoading(false);

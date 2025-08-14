@@ -46,18 +46,34 @@ const AdminFastingTimeline = () => {
   const [editingHour, setEditingHour] = useState<FastingHour | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  console.log('AdminFastingTimeline - isAdmin:', isAdmin, 'isLoading:', isLoading, 'user:', user?.email);
+  console.log('AdminFastingTimeline - Auth state:', {
+    user: !!user,
+    userEmail: user?.email,
+    isAdmin, 
+    isLoading,
+    currentPath: window.location.pathname
+  });
 
   useEffect(() => {
-    if (!isLoading && !isAdmin) {
-      navigate('/admin/login');
-      return;
-    }
+    console.log('AdminFastingTimeline - useEffect triggered', { user: !!user, isAdmin, isLoading });
     
-    if (isAdmin) {
+    if (!isLoading) {
+      if (!user) {
+        console.log('AdminFastingTimeline - No user, redirecting to login');
+        navigate('/admin/login');
+        return;
+      }
+      
+      if (!isAdmin) {
+        console.log('AdminFastingTimeline - Not admin, redirecting to admin');
+        navigate('/admin');
+        return;
+      }
+      
+      console.log('AdminFastingTimeline - Admin access granted, loading hours');
       loadHours();
     }
-  }, [isAdmin, isLoading, navigate]);
+  }, [user, isAdmin, isLoading, navigate]);
 
   const loadHours = async () => {
     setLoading(true);

@@ -20,18 +20,29 @@ const AdminBlog = () => {
   const { user, isAdmin, isLoading } = useAuth();
 
   useEffect(() => {
+    console.log('AdminBlog - Auth state:', { 
+      user: !!user, 
+      userEmail: user?.email,
+      isAdmin, 
+      isLoading,
+      currentPath: window.location.pathname 
+    });
+    
     // Only redirect if we're sure about the auth state (not loading)
     if (!isLoading) {
       if (!user) {
+        console.log('AdminBlog - No user, redirecting to login');
         navigate('/admin/login');
         return;
       }
       
       if (!isAdmin) {
+        console.log('AdminBlog - Not admin, redirecting to admin');
         navigate('/admin');
         return;
       }
 
+      console.log('AdminBlog - Admin access granted, loading posts');
       // Migrate any existing localStorage posts to database
       databaseBlogService.migrateFromLocalStorage().then(() => {
         // Load posts from database
