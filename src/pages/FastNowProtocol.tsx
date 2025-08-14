@@ -141,7 +141,7 @@ const FastNowProtocol = () => {
     }
   };
 
-  const initializeDefaultContent = async () => {
+   const initializeDefaultContent = async () => {
     try {
       // Check if any protocol content exists
       const { data: existingData } = await supabase
@@ -152,12 +152,16 @@ const FastNowProtocol = () => {
 
       // If no content exists, initialize with defaults
       if (!existingData) {
+        const defaultHeroContent = `Most programs tell you to do a little bit every day, wait a year or two, and call it "healthy and steady." The logic is fine — but if I don't see results quickly, I lose interest.
+
+I'd rather put in serious energy at the start, get solid results in the first 2–12 weeks, and build momentum I can ride. Once that momentum is there, I can ease into something sustainable. But without an early push, everyday life takes over — and the goal slips away.`;
+
         const defaultSettings = [
           { setting_key: 'protocol_title', setting_value: JSON.stringify(pageContent.title) },
           { setting_key: 'protocol_subtitle', setting_value: JSON.stringify(pageContent.subtitle) },
           { setting_key: 'protocol_meta_title', setting_value: JSON.stringify(pageContent.metaTitle) },
           { setting_key: 'protocol_meta_description', setting_value: JSON.stringify(pageContent.metaDescription) },
-          { setting_key: 'protocol_content', setting_value: JSON.stringify('') },
+          { setting_key: 'protocol_content', setting_value: JSON.stringify(defaultHeroContent) },
           { setting_key: 'protocol_featured_image', setting_value: JSON.stringify('') },
           // Phase 1 defaults
           { setting_key: 'protocol_phase1_title', setting_value: JSON.stringify(phaseContent.phase1.title) },
@@ -231,18 +235,19 @@ const FastNowProtocol = () => {
               <p className="text-xl text-white/90 mb-8 drop-shadow-md">
                 {pageContent.subtitle}
               </p>
-              <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
-                <p>
-                  Most programs tell you to do a little bit every day, wait a year or two, and call it "healthy and steady." The logic is fine — but if I don't see results quickly, I lose interest.
-                </p>
-                <p>
-                  I'd rather put in serious energy at the start, get solid results in the first 2–12 weeks, and build momentum I can ride. Once that momentum is there, I can ease into something sustainable. But without an early push, everyday life takes over — and the goal slips away.
-                </p>
-              </div>
+              {pageContent.content && (
+                <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
+                  {pageContent.content.split('\n\n').map((paragraph, index) => (
+                    <p key={index}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              )}
               
               {/* Launch App Button */}
               <div className="mt-8 pt-6 border-t border-white/20">
-                <button className="bg-accent-green hover:bg-accent-green-dark text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2">
+                <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2">
                   Launch App
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

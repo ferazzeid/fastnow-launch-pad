@@ -84,7 +84,9 @@ const UnifiedProtocolEditor = () => {
       setMetaTitle(settings.protocol_meta_title || 'The FastNow Protocol | FastNow');
       setMetaDescription(settings.protocol_meta_description || 'Learn how I lost fat with a 3-day fast plus calorie control using the FastNow Protocol');
       setHeroTitle(settings.protocol_title || 'The FastNow Protocol');
-      setHeroContent(settings.protocol_content || '');
+      setHeroContent(settings.protocol_content || `Most programs tell you to do a little bit every day, wait a year or two, and call it "healthy and steady." The logic is fine — but if I don't see results quickly, I lose interest.
+
+I'd rather put in serious energy at the start, get solid results in the first 2–12 weeks, and build momentum I can ride. Once that momentum is there, I can ease into something sustainable. But without an early push, everyday life takes over — and the goal slips away.`);
       
       // Phase 1
       setPhase1Title(settings.protocol_phase1_title || '3-Day Initiation Water Fast');
