@@ -25,7 +25,6 @@ const AdminAboutAppEditor = () => {
   
   // Content
   const [title, setTitle] = useState('');
-  const [subtitle, setSubtitle] = useState('');
   const [content, setContent] = useState('');
 
   React.useEffect(() => {
@@ -61,8 +60,11 @@ const AdminAboutAppEditor = () => {
         setMetaTitle(appContent.meta_title || 'About FastNow App - Intermittent Fasting Tracker');
         setMetaDescription(appContent.meta_description || 'Learn about the FastNow app and how it helps you track your intermittent fasting journey effectively.');
         setTitle(appContent.title || 'About the FastNow App');
-        setSubtitle(appContent.subtitle || '');
-        setContent(appContent.content || '');
+        setContent(appContent.content || `You could track this program on paper and still succeed. But the app keeps you immersed in the process — which is critical.
+
+Immersion makes your brain assign higher priority to what you're doing. It keeps the program front and center, helps you focus, and reveals how easy it is to sabotage yourself without even realizing it.
+
+The app removes those blind spots, keeps you accountable, and gives you the momentum to see the program through.`);
       }
     } catch (error) {
       console.error('Error loading app content:', error);
@@ -75,7 +77,6 @@ const AdminAboutAppEditor = () => {
       await pageContentService.savePageContent({
         page_key: 'about-fastnow-app',
         title,
-        subtitle,
         content,
         meta_title: metaTitle,
         meta_description: metaDescription,
@@ -155,24 +156,17 @@ const AdminAboutAppEditor = () => {
               </div>
 
               <div>
-                <Label htmlFor="subtitle">Subtitle</Label>
-                <Input
-                  id="subtitle"
-                  value={subtitle}
-                  onChange={(e) => setSubtitle(e.target.value)}
-                  placeholder="Your companion for intermittent fasting success"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="content">Content</Label>
+                <Label htmlFor="content">Hero Box Content</Label>
                 <Textarea
                   id="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Enter the full about app content (use \n\n for paragraph breaks)"
-                  rows={16}
+                  placeholder="Enter the text that appears in the hero box on top of the featured image"
+                  rows={8}
                 />
+                <p className="text-sm text-muted-foreground mt-1">
+                  This text will appear in the translucent box overlay on the hero section of the About App page.
+                </p>
               </div>
 
               <Button 
