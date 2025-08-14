@@ -22,7 +22,6 @@ const UnifiedHomepageEditor = () => {
   
   // Hero Content
   const [heroTitle, setHeroTitle] = useState('');
-  const [heroSubtitle, setHeroSubtitle] = useState('');
   const [heroDescription, setHeroDescription] = useState('');
   const [ctaText, setCtaText] = useState('Launch App');
   const [ctaUrl, setCtaUrl] = useState('https://go.fastnow.app');
@@ -49,7 +48,6 @@ const UnifiedHomepageEditor = () => {
         setMetaTitle(homeContent.meta_title || 'FastNow - Intermittent Fasting Protocol');
         setMetaDescription(homeContent.meta_description || 'Discover an effective intermittent fasting protocol that actually works for fat loss');
         setHeroTitle(homeContent.title || '');
-        setHeroSubtitle(homeContent.subtitle || '');
         setHeroDescription(homeContent.content || '');
         setCtaText(homeContent.button_text || 'Launch App');
         setCtaUrl(homeContent.button_url || 'https://go.fastnow.app');
@@ -87,7 +85,6 @@ const UnifiedHomepageEditor = () => {
       await pageContentService.savePageContent({
         page_key: 'home',
         title: heroTitle,
-        subtitle: heroSubtitle,
         content: heroDescription,
         button_text: ctaText,
         button_url: ctaUrl,
@@ -207,16 +204,6 @@ const UnifiedHomepageEditor = () => {
                   value={heroTitle}
                   onChange={(e) => setHeroTitle(e.target.value)}
                   placeholder="My Fasting Protocol for Fat Loss"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="hero-subtitle">Subtitle</Label>
-                <Input
-                  id="hero-subtitle"
-                  value={heroSubtitle}
-                  onChange={(e) => setHeroSubtitle(e.target.value)}
-                  placeholder="(That Actually Worked)"
                 />
               </div>
 
