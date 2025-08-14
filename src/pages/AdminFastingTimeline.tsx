@@ -57,21 +57,26 @@ const AdminFastingTimeline = () => {
   useEffect(() => {
     console.log('AdminFastingTimeline - useEffect triggered', { user: !!user, isAdmin, isLoading });
     
-    if (!isLoading) {
-      if (!user) {
-        console.log('AdminFastingTimeline - No user, redirecting to login');
-        navigate('/admin/login');
-        return;
-      }
+    // Wait for loading to complete AND admin status to be determined
+    if (!isLoading && user) {
+      // Add a small delay to ensure admin status has time to resolve
+      const checkAdminStatus = setTimeout(() => {
+        if (!isAdmin) {
+          console.log('AdminFastingTimeline - Not admin after delay, redirecting to admin');
+          navigate('/admin');
+          return;
+        }
+        
+        console.log('AdminFastingTimeline - Admin access confirmed, loading hours');
+        loadHours();
+      }, 1000); // Wait 1 second for admin status to resolve
       
-      if (!isAdmin) {
-        console.log('AdminFastingTimeline - Not admin, redirecting to admin');
-        navigate('/admin');
-        return;
-      }
-      
-      console.log('AdminFastingTimeline - Admin access granted, loading hours');
-      loadHours();
+      return () => clearTimeout(checkAdminStatus);
+    }
+    
+    if (!isLoading && !user) {
+      console.log('AdminFastingTimeline - No user, redirecting to login');
+      navigate('/admin/login');
     }
   }, [user, isAdmin, isLoading, navigate]);
 

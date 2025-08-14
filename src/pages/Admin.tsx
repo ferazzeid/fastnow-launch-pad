@@ -73,8 +73,17 @@ const Admin = () => {
   }
 
   // Show loading while auth is being determined OR while admin status is being checked
-  if (!user || !isAdmin) {
-    return null; // Prevent flash of content before redirect or while checking admin status
+  if (isLoading || (user && isAdmin === false)) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">
+            {isLoading ? 'Loading...' : 'Checking admin permissions...'}
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (

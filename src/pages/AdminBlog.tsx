@@ -28,26 +28,30 @@ const AdminBlog = () => {
       currentPath: window.location.pathname 
     });
     
-    // Only redirect if we're sure about the auth state (not loading)
-    if (!isLoading) {
-      if (!user) {
-        console.log('AdminBlog - No user, redirecting to login');
-        navigate('/admin/login');
-        return;
-      }
+    // Wait for loading to complete AND admin status to be determined
+    if (!isLoading && user) {
+      // Add a small delay to ensure admin status has time to resolve
+      const checkAdminStatus = setTimeout(() => {
+        if (!isAdmin) {
+          console.log('AdminBlog - Not admin after delay, redirecting to admin');
+          navigate('/admin');
+          return;
+        }
+        
+        console.log('AdminBlog - Admin access confirmed, loading posts');
+        // Migrate any existing localStorage posts to database
+        databaseBlogService.migrateFromLocalStorage().then(() => {
+          // Load posts from database
+          loadPosts();
+        });
+      }, 1000); // Wait 1 second for admin status to resolve
       
-      if (!isAdmin) {
-        console.log('AdminBlog - Not admin, redirecting to admin');
-        navigate('/admin');
-        return;
-      }
-
-      console.log('AdminBlog - Admin access granted, loading posts');
-      // Migrate any existing localStorage posts to database
-      databaseBlogService.migrateFromLocalStorage().then(() => {
-        // Load posts from database
-        loadPosts();
-      });
+      return () => clearTimeout(checkAdminStatus);
+    }
+    
+    if (!isLoading && !user) {
+      console.log('AdminBlog - No user, redirecting to login');
+      navigate('/admin/login');
     }
   }, [navigate, user, isAdmin, isLoading]);
 
