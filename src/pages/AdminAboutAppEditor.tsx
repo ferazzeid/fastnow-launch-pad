@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { pageContentService } from '@/services/PageContentService';
 import SeoSectionEditor from '@/components/admin/SeoSectionEditor';
+import PageFeaturedImageSettings from '@/components/admin/PageFeaturedImageSettings';
 
 const AdminAboutAppEditor = () => {
   const navigate = useNavigate();
@@ -132,6 +133,8 @@ const AdminAboutAppEditor = () => {
             setIsIndexed={setIsIndexed}
             pageName="About App"
           />
+
+          <PageFeaturedImageSettings pageKey="about-fastnow-app" title="About App Page Featured Image" />
 
           <Card>
             <CardHeader>

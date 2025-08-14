@@ -12,6 +12,7 @@ import { pageContentService, PageContent } from '@/services/PageContentService';
 import HeroSideImageSettings from './HeroSideImageSettings';
 import Slide2ImageSettings from './Slide2ImageSettings';
 import SlideshowAdminSettings from './SlideshowAdminSettings';
+import PageFeaturedImageSettings from './PageFeaturedImageSettings';
 
 const UnifiedHomepageEditor = () => {
   // SEO Settings
@@ -360,6 +361,7 @@ const UnifiedHomepageEditor = () => {
 
         <TabsContent value="images">
           <div className="space-y-6">
+            <PageFeaturedImageSettings pageKey="home" title="Homepage Featured Image" />
             <HeroSideImageSettings />
             <Slide2ImageSettings />
             <SlideshowAdminSettings />

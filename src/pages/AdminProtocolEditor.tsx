@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { pageContentService } from '@/services/PageContentService';
 import SeoSectionEditor from '@/components/admin/SeoSectionEditor';
+import PageFeaturedImageSettings from '@/components/admin/PageFeaturedImageSettings';
 
 const AdminProtocolEditor = () => {
   const navigate = useNavigate();
@@ -132,6 +133,8 @@ const AdminProtocolEditor = () => {
             setIsIndexed={setIsIndexed}
             pageName="Protocol"
           />
+
+          <PageFeaturedImageSettings pageKey="fast-now-protocol" title="Protocol Page Featured Image" />
 
           <Card>
             <CardHeader>
