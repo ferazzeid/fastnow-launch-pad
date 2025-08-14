@@ -14,6 +14,8 @@ import { BlogPost } from '@/types/blog';
 import { databaseBlogService } from '@/services/DatabaseBlogService';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tag } from 'lucide-react';
+import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
+import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -84,6 +86,7 @@ const Index = () => {
   
   // Latest blog posts state
   const [latestBlogPosts, setLatestBlogPosts] = useState<BlogPost[]>([]);
+  const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
 
   // Load content from database and localStorage
   useEffect(() => {
@@ -97,6 +100,16 @@ const Index = () => {
         setLatestBlogPosts(sortedPosts.slice(0, 3));
       } catch (error) {
         console.error('Error loading blog posts:', error);
+      }
+    };
+
+    // Load feature screenshots
+    const loadFeatureScreenshots = async () => {
+      try {
+        const screenshots = await FeatureScreenshotService.getFeatureScreenshots();
+        setFeatureScreenshots(screenshots);
+      } catch (error) {
+        console.error('Error loading feature screenshots:', error);
       }
     };
 
@@ -217,6 +230,7 @@ const Index = () => {
 
     // Load database content
     loadBlogPosts();
+    loadFeatureScreenshots();
     loadPhaseImages();
     loadContent();
     loadHeroSideImage();
@@ -735,30 +749,43 @@ const Index = () => {
         {/* What About the App Section */}
         <section className="relative z-10 py-16 bg-white">
           <div className="container max-w-6xl mx-auto px-4">
-            <div className="text-left max-w-4xl">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900">
-                What About the App
-              </h2>
-              
-              <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
-                <p>
-                  There's no magic formula for weight loss — just the right formula, done right.
-                </p>
-                <p>
-                  The real challenge is discipline and consistent execution for 90 days. You could track it on paper or in your phone's notes, but we've built a tool designed specifically for the FastNow program. Why not see how it can help you succeed?
-                </p>
+            <div className="grid lg:grid-cols-12 gap-8 items-start">
+              {/* Phone mockup - smaller and on the left */}
+              <div className="lg:col-span-3 flex justify-center lg:justify-start">
+                <div className="w-32 sm:w-40 lg:w-44">
+                  <FeatureScreenshotMockup
+                    imageUrl={featureScreenshots.find(s => s.feature_key === 'fasting-timer')?.image_url || ''}
+                    altText="FastNow App Screenshot"
+                  />
+                </div>
               </div>
               
-              <div className="mt-8">
-                <Link to="/about-fast-now-app">
-                  <Button 
-                    className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
-                    style={{ backgroundColor: launchButtonColor }}
-                  >
-                    Read More
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </Link>
+              {/* Content - takes up more space */}
+              <div className="lg:col-span-9 text-left">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900">
+                  What About the App
+                </h2>
+                
+                <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
+                  <p>
+                    There's no magic formula for weight loss — just the right formula, done right.
+                  </p>
+                  <p>
+                    The real challenge is discipline and consistent execution for 90 days. You could track it on paper or in your phone's notes, but we've built a tool designed specifically for the FastNow program. Why not see how it can help you succeed?
+                  </p>
+                </div>
+                
+                <div className="mt-8">
+                  <Link to="/about-fastnow-app">
+                    <Button 
+                      className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                      style={{ backgroundColor: launchButtonColor }}
+                    >
+                      Read More
+                      <ArrowRight className="w-5 h-5" />
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
