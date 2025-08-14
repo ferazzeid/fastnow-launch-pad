@@ -1186,6 +1186,45 @@ export type Database = {
         }
         Relationships: []
       }
+      ring_bell_gallery_items: {
+        Row: {
+          back_image_url: string | null
+          back_text: string | null
+          created_at: string
+          front_image_url: string | null
+          front_text: string | null
+          id: string
+          initial_state: string
+          is_active: boolean
+          order_position: number
+          updated_at: string
+        }
+        Insert: {
+          back_image_url?: string | null
+          back_text?: string | null
+          created_at?: string
+          front_image_url?: string | null
+          front_text?: string | null
+          id?: string
+          initial_state?: string
+          is_active?: boolean
+          order_position: number
+          updated_at?: string
+        }
+        Update: {
+          back_image_url?: string | null
+          back_text?: string | null
+          created_at?: string
+          front_image_url?: string | null
+          front_text?: string | null
+          id?: string
+          initial_state?: string
+          is_active?: boolean
+          order_position?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       shared_settings: {
         Row: {
           created_at: string

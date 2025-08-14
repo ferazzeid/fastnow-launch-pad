@@ -35,6 +35,7 @@ import AdminUnifiedHomepage from "./pages/AdminUnifiedHomepage";
 import AdminProtocolEditor from "./pages/AdminProtocolEditor";
 import AdminAboutAppEditor from "./pages/AdminAboutAppEditor";
 import AdminStaticContentEditor from "./pages/AdminStaticContentEditor";
+import AdminRingBellGallery from "./pages/AdminRingBellGallery";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,7 @@ const AppRoutes = () => {
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
       <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
       <Route path="/admin/fasting-timeline/export" element={<AdminFastingTimelineExport />} />
+      <Route path="/admin/ring-bell-gallery" element={<AdminRingBellGallery />} />
       
       {/* Content pages */}
       <Route path="/privacy" element={<ContentPage />} />
