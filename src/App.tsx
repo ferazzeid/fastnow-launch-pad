@@ -34,6 +34,8 @@ import AdminFastingTimelineExport from "./pages/AdminFastingTimelineExport";
 import AdminUnifiedHomepage from "./pages/AdminUnifiedHomepage";
 import AdminProtocolEditor from "./pages/AdminProtocolEditor";
 import AdminAboutAppEditor from "./pages/AdminAboutAppEditor";
+import AdminUnifiedProtocol from "./pages/AdminUnifiedProtocol";
+import AdminUnifiedAboutApp from "./pages/AdminUnifiedAboutApp";
 import AdminStaticContentEditor from "./pages/AdminStaticContentEditor";
 import AdminRingBellGallery from "./pages/AdminRingBellGallery";
 
@@ -68,7 +70,9 @@ const AppRoutes = () => {
       <Route path="/admin/general" element={<AdminGeneral />} />
       <Route path="/admin/homepage-unified" element={<AdminUnifiedHomepage />} />
       <Route path="/admin/protocol" element={<AdminProtocolEditor />} />
+      <Route path="/admin/protocol-unified" element={<AdminUnifiedProtocol />} />
       <Route path="/admin/about-app" element={<AdminAboutAppEditor />} />
+      <Route path="/admin/about-app-unified" element={<AdminUnifiedAboutApp />} />
       <Route path="/admin/faq" element={<AdminFAQEditor />} />
       <Route path="/admin/faq-management" element={<AdminFAQ />} />
       <Route path="/admin/static-content" element={<AdminStaticContentEditor />} />

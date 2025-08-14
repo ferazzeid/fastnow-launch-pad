@@ -118,14 +118,14 @@ const Admin = () => {
                 </Button>
               </Link>
 
-              <Link to="/admin/protocol">
+              <Link to="/admin/protocol-unified">
                 <Button variant="outline" className="w-full justify-start">
                   <Heart className="mr-2 h-4 w-4" />
                   Protocol Page
                 </Button>
               </Link>
 
-              <Link to="/admin/about-app">
+              <Link to="/admin/about-app-unified">
                 <Button variant="outline" className="w-full justify-start">
                   <Users className="mr-2 h-4 w-4" />
                   About App
