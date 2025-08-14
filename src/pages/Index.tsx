@@ -743,9 +743,12 @@ const Index = () => {
                 What About the App
               </h2>
               
-              <div className="text-lg md:text-xl text-gray-700 mb-8">
+              <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
                 <p>
-                  Content will be added here later.
+                  There's no magic formula for weight loss — just the right formula, done right.
+                </p>
+                <p>
+                  The real challenge is discipline and consistent execution for 90 days. You could track it on paper or in your phone's notes, but we've built a tool designed specifically for the FastNow program. Why not see how it can help you succeed?
                 </p>
               </div>
               
