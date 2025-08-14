@@ -7,25 +7,44 @@ import UnifiedHomepageEditor from '@/components/admin/UnifiedHomepageEditor';
 
 const AdminUnifiedHomepage = () => {
   const navigate = useNavigate();
-  const { isAdmin } = useAuth();
+  const { user, isAdmin, isLoading } = useAuth();
 
-  useEffect(() => {
-    if (isAdmin === false) {
-      setTimeout(() => {
-        navigate('/admin');
-      }, 1000);
-      return;
+  React.useEffect(() => {
+    // Only redirect if we're sure about the auth state (not loading)
+    if (!isLoading) {
+      if (!user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      // Give admin check more time - don't redirect immediately
+      if (!isAdmin) {
+        // Set a small delay to let admin status resolve
+        const timeout = setTimeout(() => {
+          if (!isAdmin) {
+            navigate('/admin');
+          }
+        }, 1000);
+        
+        return () => clearTimeout(timeout);
+      }
     }
-  }, [isAdmin, navigate]);
+  }, [user, isAdmin, isLoading, navigate]);
 
-  if (isAdmin === false) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <p className="text-gray-600">Access denied. Redirecting...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
+  }
+
+  // Show loading while auth is being determined OR while admin status is being checked
+  if (!user || !isAdmin) {
+    return null; // Prevent flash of content before redirect or while checking admin status
   }
 
   return (

@@ -14,8 +14,8 @@ import SeoSectionEditor from '@/components/admin/SeoSectionEditor';
 
 const AdminStaticContentEditor = () => {
   const navigate = useNavigate();
-  const { isAdmin } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const { user, isAdmin, isLoading } = useAuth();
+  const [isSaving, setIsSaving] = useState(false);
   
   // Privacy Policy
   const [privacyMetaTitle, setPrivacyMetaTitle] = useState('');
@@ -38,16 +38,29 @@ const AdminStaticContentEditor = () => {
   const [contactTitle, setContactTitle] = useState('');
   const [contactContent, setContactContent] = useState('');
 
-  useEffect(() => {
-    if (isAdmin === false) {
-      setTimeout(() => {
-        navigate('/admin');
-      }, 1000);
-      return;
+  React.useEffect(() => {
+    // Only redirect if we're sure about the auth state (not loading)
+    if (!isLoading) {
+      if (!user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      // Give admin check more time - don't redirect immediately
+      if (!isAdmin) {
+        // Set a small delay to let admin status resolve
+        const timeout = setTimeout(() => {
+          if (!isAdmin) {
+            navigate('/admin');
+          }
+        }, 1000);
+        
+        return () => clearTimeout(timeout);
+      }
     }
-  }, [isAdmin, navigate]);
+  }, [user, isAdmin, isLoading, navigate]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     loadAllContent();
   }, []);
 
@@ -85,7 +98,7 @@ const AdminStaticContentEditor = () => {
   };
 
   const savePrivacyPolicy = async () => {
-    setIsLoading(true);
+    setIsSaving(true);
     try {
       await pageContentService.savePageContent({
         page_key: 'privacy-policy',
@@ -100,12 +113,12 @@ const AdminStaticContentEditor = () => {
       console.error('Error saving privacy policy:', error);
       toast.error('Failed to save privacy policy');
     } finally {
-      setIsLoading(false);
+      setIsSaving(false);
     }
   };
 
   const saveTermsOfService = async () => {
-    setIsLoading(true);
+    setIsSaving(true);
     try {
       await pageContentService.savePageContent({
         page_key: 'terms-of-service',
@@ -120,12 +133,12 @@ const AdminStaticContentEditor = () => {
       console.error('Error saving terms of service:', error);
       toast.error('Failed to save terms of service');
     } finally {
-      setIsLoading(false);
+      setIsSaving(false);
     }
   };
 
   const saveContactPage = async () => {
-    setIsLoading(true);
+    setIsSaving(true);
     try {
       await pageContentService.savePageContent({
         page_key: 'contact',
@@ -140,18 +153,24 @@ const AdminStaticContentEditor = () => {
       console.error('Error saving contact page:', error);
       toast.error('Failed to save contact page');
     } finally {
-      setIsLoading(false);
+      setIsSaving(false);
     }
   };
 
-  if (isAdmin === false) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <p className="text-gray-600">Access denied. Redirecting...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
+  }
+
+  // Show loading while auth is being determined OR while admin status is being checked
+  if (!user || !isAdmin) {
+    return null; // Prevent flash of content before redirect or while checking admin status
   }
 
   return (
@@ -228,11 +247,11 @@ const AdminStaticContentEditor = () => {
 
                   <Button 
                     onClick={savePrivacyPolicy} 
-                    disabled={isLoading}
+                    disabled={isSaving}
                     className="w-full"
                   >
                     <Save className="mr-2 h-4 w-4" />
-                    {isLoading ? 'Saving...' : 'Save Privacy Policy'}
+                    {isSaving ? 'Saving...' : 'Save Privacy Policy'}
                   </Button>
                 </CardContent>
               </Card>
@@ -279,11 +298,11 @@ const AdminStaticContentEditor = () => {
 
                   <Button 
                     onClick={saveTermsOfService} 
-                    disabled={isLoading}
+                    disabled={isSaving}
                     className="w-full"
                   >
                     <Save className="mr-2 h-4 w-4" />
-                    {isLoading ? 'Saving...' : 'Save Terms of Service'}
+                    {isSaving ? 'Saving...' : 'Save Terms of Service'}
                   </Button>
                 </CardContent>
               </Card>
@@ -333,11 +352,11 @@ const AdminStaticContentEditor = () => {
 
                   <Button 
                     onClick={saveContactPage} 
-                    disabled={isLoading}
+                    disabled={isSaving}
                     className="w-full"
                   >
                     <Save className="mr-2 h-4 w-4" />
-                    {isLoading ? 'Saving...' : 'Save Contact Page'}
+                    {isSaving ? 'Saving...' : 'Save Contact Page'}
                   </Button>
                 </CardContent>
               </Card>

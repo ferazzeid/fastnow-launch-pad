@@ -13,8 +13,8 @@ import SeoSectionEditor from '@/components/admin/SeoSectionEditor';
 
 const AdminProtocolEditor = () => {
   const navigate = useNavigate();
-  const { isAdmin } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const { user, isAdmin, isLoading } = useAuth();
+  const [isSaving, setIsSaving] = useState(false);
   
   // SEO Settings
   const [metaTitle, setMetaTitle] = useState('');
@@ -26,14 +26,27 @@ const AdminProtocolEditor = () => {
   const [subtitle, setSubtitle] = useState('');
   const [content, setContent] = useState('');
 
-  useEffect(() => {
-    if (isAdmin === false) {
-      setTimeout(() => {
-        navigate('/admin');
-      }, 1000);
-      return;
+  React.useEffect(() => {
+    // Only redirect if we're sure about the auth state (not loading)
+    if (!isLoading) {
+      if (!user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      // Give admin check more time - don't redirect immediately
+      if (!isAdmin) {
+        // Set a small delay to let admin status resolve
+        const timeout = setTimeout(() => {
+          if (!isAdmin) {
+            navigate('/admin');
+          }
+        }, 1000);
+        
+        return () => clearTimeout(timeout);
+      }
     }
-  }, [isAdmin, navigate]);
+  }, [user, isAdmin, isLoading, navigate]);
 
   useEffect(() => {
     loadContent();
@@ -55,7 +68,7 @@ const AdminProtocolEditor = () => {
   };
 
   const saveContent = async () => {
-    setIsLoading(true);
+    setIsSaving(true);
     try {
       await pageContentService.savePageContent({
         page_key: 'fast-now-protocol',
@@ -71,18 +84,24 @@ const AdminProtocolEditor = () => {
       console.error('Error saving protocol content:', error);
       toast.error('Failed to save protocol content');
     } finally {
-      setIsLoading(false);
+      setIsSaving(false);
     }
   };
 
-  if (isAdmin === false) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <p className="text-gray-600">Access denied. Redirecting...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
+  }
+
+  // Show loading while auth is being determined OR while admin status is being checked
+  if (!user || !isAdmin) {
+    return null; // Prevent flash of content before redirect or while checking admin status
   }
 
   return (
@@ -152,11 +171,11 @@ const AdminProtocolEditor = () => {
 
               <Button 
                 onClick={saveContent} 
-                disabled={isLoading}
+                disabled={isSaving}
                 className="w-full"
               >
                 <Save className="mr-2 h-4 w-4" />
-                {isLoading ? 'Saving...' : 'Save Protocol Content'}
+                {isSaving ? 'Saving...' : 'Save Protocol Content'}
               </Button>
             </CardContent>
           </Card>
