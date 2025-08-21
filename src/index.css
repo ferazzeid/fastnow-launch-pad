@@ -98,6 +98,27 @@
     --radius: 0.5rem;
   }
 
+  .dark {
+    /* Dark ceramic colors (brightened for visibility) */
+    --ceramic-light: 220 8% 30%;
+    --ceramic-base: 220 6% 25%;
+    --ceramic-warm: 220 4% 28%;
+    --ceramic-shadow: 220 6% 18%;
+    --ceramic-deep: 220 8% 15%;
+    --ceramic-plate: 220 6% 22%;
+    --ceramic-rim: 220 4% 35%;
+
+    /* Dark 3D Effects */
+    --shadow-plate: 0 25px 50px -12px hsl(0 0% 0% / 0.8), 0 0 0 1px hsl(0 0% 25% / 0.1), inset 0 1px 0 hsl(0 0% 25% / 0.1);
+    --shadow-rim: inset 0 2px 8px hsl(0 0% 0% / 0.3), inset 0 -2px 4px hsl(0 0% 25% / 0.1), 0 1px 2px hsl(0 0% 0% / 0.2);
+    --shadow-well: inset 0 4px 12px hsl(0 0% 0% / 0.6), inset 0 -1px 2px hsl(0 0% 20% / 0.1), 0 1px 2px hsl(0 0% 25% / 0.1);
+
+    /* Dark gradients */
+    --gradient-ceramic: radial-gradient(ellipse at 30% 20%, hsl(var(--ceramic-light)), hsl(var(--ceramic-base)) 30%, hsl(var(--ceramic-shadow)) 70%, hsl(var(--ceramic-deep)));
+    --gradient-rim: linear-gradient(135deg, hsl(var(--ceramic-light)), hsl(var(--ceramic-warm)) 50%, hsl(var(--ceramic-shadow)));
+    --gradient-well: radial-gradient(circle at 60% 70%, hsl(var(--ceramic-shadow)), hsl(var(--ceramic-base)) 40%, hsl(var(--ceramic-warm)) 80%, hsl(var(--ceramic-light)));
+  }
+
   /* 3D Flip Animation Utilities */
   .perspective-1000 {
     perspective: 1000px;
@@ -216,4 +237,76 @@
 .neomorphic-slider .slider-thumb {
   @apply bg-accent-green h-5 w-5 rounded-full cursor-pointer -mt-1.5 border-2 border-white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ceramic Plate Styles */
+.ceramic-plate-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ceramic-plate {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: var(--gradient-ceramic);
+  box-shadow: var(--shadow-plate);
+}
+
+.ceramic-plate-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--gradient-rim);
+  box-shadow: var(--shadow-rim);
+}
+
+.ceramic-plate-well {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 208px;
+  height: 208px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-well);
+  box-shadow: var(--shadow-well);
+}
+
+.ceramic-plate-highlight {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5;
+  background: conic-gradient(from 45deg, transparent 0deg, hsl(0 0% 100% / 0.1) 90deg, transparent 180deg, hsl(0 0% 100% / 0.05) 270deg, transparent 360deg);
+}
+
+.ceramic-plate-inner-rim {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  top: 12%;
+  left: 12%;
+  right: 12%;
+  bottom: 12%;
+  z-index: 5;
+  background: radial-gradient(circle, transparent 60%, hsl(var(--ceramic-shadow) / 0.2) 65%, transparent 70%);
+}
+
+.ceramic-plate-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: hsl(var(--ceramic-deep));
 }

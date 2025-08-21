@@ -16,6 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tag } from 'lucide-react';
 import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
+import { CeramicPlate } from '@/components/CeramicPlate';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -462,9 +463,9 @@ const Index = () => {
         {/* What About the App Section */}
         <section className="relative z-10 py-16 bg-white">
           <div className="container max-w-6xl mx-auto px-4">
-            <div className="grid lg:grid-cols-12 gap-6 items-start">
+            <div className="grid lg:grid-cols-12 gap-8 items-center">
               {/* Phone mockup - smaller and on the left */}
-              <div className="lg:col-span-2 flex justify-center lg:justify-start">
+              <div className="lg:col-span-2 flex justify-center lg:justify-start order-2 lg:order-1">
                 <div className="w-28 sm:w-32 lg:w-36">
                   <div className="relative">
                     {/* Simplified phone frame - thinner borders */}
@@ -488,8 +489,8 @@ const Index = () => {
                 </div>
               </div>
               
-              {/* Content - takes up more space */}
-              <div className="lg:col-span-10 text-left">
+              {/* Content - center column */}
+              <div className="lg:col-span-7 text-left order-1 lg:order-2">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900">
                   What About the App
                 </h2>
@@ -514,6 +515,17 @@ const Index = () => {
                     </Button>
                   </Link>
                 </div>
+              </div>
+
+              {/* Ceramic Plate - right side on desktop, top on mobile */}
+              <div className="lg:col-span-3 flex justify-center order-0 lg:order-3 mb-8 lg:mb-0">
+                <CeramicPlate size="md" className="scale-75 sm:scale-90 lg:scale-100">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-800 mb-2">90</div>
+                    <div className="text-sm text-gray-600 uppercase tracking-wider">Days</div>
+                    <div className="text-xs text-gray-500 mt-1">Protocol</div>
+                  </div>
+                </CeramicPlate>
               </div>
             </div>
           </div>
