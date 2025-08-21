@@ -17,6 +17,7 @@ import { Tag } from 'lucide-react';
 import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
 import { CeramicPlate } from '@/components/CeramicPlate';
+import { HomepagePhaseCard } from '@/components/HomepagePhaseCard';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -617,162 +618,60 @@ const Index = () => {
                 Why This Is Working
               </h2>
 
-              {/* Protocol Phases Section - Smaller and Compact */}
-              <div className="my-4">
+              {/* Protocol Phases Section - Ceramic Plates */}
+              <div className="my-8">
                 {/* Desktop Layout */}
-                <div className="hidden md:flex items-center justify-start gap-4 mb-4">
-                  {/* Phase 1 */}
-                  <div className="max-w-[200px]">
-                    <div className="bg-card rounded-lg shadow-sm overflow-hidden border-l-4 border-blue-500 text-center">
-                      {phaseImages.phase1 && (
-                        <div className="mb-2 -m-4 mt-0 mx-0">
-                          <img 
-                            src={phaseImages.phase1} 
-                            alt="Phase 1 - Water Fast" 
-                            className="w-full h-20 object-cover"
-                          />
-                        </div>
-                      )}
-                      <div className="px-4 pb-4">
-                        <div className="bg-blue-500/10 p-2 rounded-full inline-flex mb-2 mx-auto">
-                          <Clock className="w-4 h-4 text-blue-600" />
-                        </div>
-                        <span className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-medium">Phase 1</span>
-                        <h3 className="text-sm font-bold mt-2 text-foreground">3-Day Water Fast</h3>
-                      </div>
-                    </div>
-                  </div>
+                <div className="hidden md:flex items-center justify-center gap-8 mb-8">
+                  <HomepagePhaseCard
+                    phaseNumber={1}
+                    title="3-Day Water Fast"
+                    image={phaseImages.phase1}
+                  />
                   
                   {/* Plus Icon */}
-                  <div className="text-2xl font-bold text-muted-foreground">+</div>
+                  <div className="text-3xl font-bold text-muted-foreground">+</div>
                   
-                  {/* Phase 2 */}
-                  <div className="max-w-[200px]">
-                    <div className="bg-card rounded-lg shadow-sm overflow-hidden border-l-4 border-orange-500 text-center">
-                      {phaseImages.phase2 && (
-                        <div className="mb-2 -m-4 mt-0 mx-0">
-                          <img 
-                            src={phaseImages.phase2} 
-                            alt="Phase 2 - Diet Control" 
-                            className="w-full h-20 object-cover"
-                          />
-                        </div>
-                      )}
-                      <div className="px-4 pb-4">
-                        <div className="bg-orange-500/10 p-2 rounded-full inline-flex mb-2 mx-auto">
-                          <Utensils className="w-4 h-4 text-orange-600" />
-                        </div>
-                        <span className="bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-medium">Phase 2</span>
-                        <h3 className="text-sm font-bold mt-2 text-foreground">Diet Control</h3>
-                      </div>
-                    </div>
-                  </div>
+                  <HomepagePhaseCard
+                    phaseNumber={2}
+                    title="Diet Control"
+                    image={phaseImages.phase2}
+                  />
                   
                   {/* Plus Icon */}
-                  <div className="text-2xl font-bold text-muted-foreground">+</div>
+                  <div className="text-3xl font-bold text-muted-foreground">+</div>
                   
-                  {/* Phase 3 */}
-                  <div className="max-w-[200px]">
-                    <div className="bg-card rounded-lg shadow-sm overflow-hidden border-l-4 border-green-500 text-center">
-                      {phaseImages.phase3 && (
-                        <div className="mb-2 -m-4 mt-0 mx-0">
-                          <img 
-                            src={phaseImages.phase3} 
-                            alt="Phase 3 - Daily Walking" 
-                            className="w-full h-20 object-cover"
-                          />
-                        </div>
-                      )}
-                      <div className="px-4 pb-4">
-                        <div className="bg-green-500/10 p-2 rounded-full inline-flex mb-2 mx-auto">
-                          <Activity className="w-4 h-4 text-green-600" />
-                        </div>
-                        <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">Phase 3</span>
-                        <h3 className="text-sm font-bold mt-2 text-foreground">Daily Walking</h3>
-                      </div>
-                    </div>
-                  </div>
+                  <HomepagePhaseCard
+                    phaseNumber={3}
+                    title="Daily Walking"
+                    image={phaseImages.phase3}
+                  />
                 </div>
 
                 {/* Mobile Layout */}
-                <div className="md:hidden space-y-3 mb-4">
-                  {/* Phase 1 */}
-                  <div className="bg-card rounded-lg shadow-sm overflow-hidden border-l-4 border-blue-500">
-                    {phaseImages.phase1 && (
-                      <div className="mb-2 -m-3 mt-0 mx-0">
-                        <img 
-                          src={phaseImages.phase1} 
-                          alt="Phase 1 - Water Fast" 
-                          className="w-full h-16 object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="px-3 pb-3">
-                      <div className="flex items-center gap-2">
-                        <div className="bg-blue-500/10 p-2 rounded-full">
-                          <Clock className="w-4 h-4 text-blue-600" />
-                        </div>
-                        <div>
-                          <span className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-medium">Phase 1</span>
-                          <h3 className="text-sm font-bold mt-1 text-foreground">3-Day Water Fast</h3>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="md:hidden flex flex-col items-center space-y-6 mb-8">
+                  <HomepagePhaseCard
+                    phaseNumber={1}
+                    title="3-Day Water Fast"
+                    image={phaseImages.phase1}
+                  />
                   
                   {/* Plus Icon */}
-                  <div className="text-center text-lg font-bold text-muted-foreground">+</div>
+                  <div className="text-2xl font-bold text-muted-foreground">+</div>
                   
-                  {/* Phase 2 */}
-                  <div className="bg-card rounded-lg shadow-sm overflow-hidden border-l-4 border-orange-500">
-                    {phaseImages.phase2 && (
-                      <div className="mb-2 -m-3 mt-0 mx-0">
-                        <img 
-                          src={phaseImages.phase2} 
-                          alt="Phase 2 - Diet Control" 
-                          className="w-full h-16 object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="px-3 pb-3">
-                      <div className="flex items-center gap-2">
-                        <div className="bg-orange-500/10 p-2 rounded-full">
-                          <Utensils className="w-4 h-4 text-orange-600" />
-                        </div>
-                        <div>
-                          <span className="bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-medium">Phase 2</span>
-                          <h3 className="text-sm font-bold mt-1 text-foreground">Diet Control</h3>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <HomepagePhaseCard
+                    phaseNumber={2}
+                    title="Diet Control"
+                    image={phaseImages.phase2}
+                  />
                   
                   {/* Plus Icon */}
-                  <div className="text-center text-lg font-bold text-muted-foreground">+</div>
+                  <div className="text-2xl font-bold text-muted-foreground">+</div>
                   
-                  {/* Phase 3 */}
-                  <div className="bg-card rounded-lg shadow-sm overflow-hidden border-l-4 border-green-500">
-                    {phaseImages.phase3 && (
-                      <div className="mb-2 -m-3 mt-0 mx-0">
-                        <img 
-                          src={phaseImages.phase3} 
-                          alt="Phase 3 - Daily Walking" 
-                          className="w-full h-16 object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="px-3 pb-3">
-                      <div className="flex items-center gap-2">
-                        <div className="bg-green-500/10 p-2 rounded-full">
-                          <Activity className="w-4 h-4 text-green-600" />
-                        </div>
-                        <div>
-                          <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">Phase 3</span>
-                          <h3 className="text-sm font-bold mt-1 text-foreground">Daily Walking</h3>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <HomepagePhaseCard
+                    phaseNumber={3}
+                    title="Daily Walking"
+                    image={phaseImages.phase3}
+                  />
                 </div>
               </div>
 
