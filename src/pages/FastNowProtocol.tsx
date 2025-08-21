@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Clock, Utensils, Activity, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
+import { AlertTriangle, CheckCircle } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
 import ProtocolPhasesIntro from '@/components/fasting/ProtocolPhasesIntro';
+import { ProtocolPhaseCard } from '@/components/ProtocolPhaseCard';
 import FAQSection from '@/components/FAQSection';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -262,219 +263,45 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
       {/* Content Section */}
       <div className="relative z-10 bg-background">
         <main className="flex-1 py-12">
-          <div className="container max-w-4xl mx-auto px-8">
-            <div>
-              {/* Phase Content - Always Display */}
+          <div className="container max-w-7xl mx-auto px-4">
+            {/* Protocol Phases with Ceramic Plates */}
+            <div className="mb-16">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold text-foreground mb-4">The Three Phases</h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  A systematic approach to sustainable fat loss through strategic fasting, calorie control, and daily movement.
+                </p>
+              </div>
               
-              {/* Phase 1: 3-Day Initiation Water Fast */}
-                  <div className="mb-12">
-                    <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-accent-green">
-                      {phaseContent.phase1.image && (
-                        <div className="mb-8 -m-8 mt-0 mx-0">
-                          <img 
-                            src={phaseContent.phase1.image} 
-                            alt="Phase 1 - 3-Day Water Fast" 
-                            className="w-full h-64 object-cover"
-                          />
-                        </div>
-                      )}
-                      <div className="px-8 pb-8">
-                        <div className="bg-black text-white p-6 -m-8 mb-6 flex items-center gap-4 h-24">
-                          <div className="bg-white/10 p-3 rounded-full">
-                            <Clock className="w-6 h-6 text-accent-green" />
-                          </div>
-                          <div className="flex-1">
-                            <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
-                            <h2 className="text-2xl font-bold mt-2 text-white">{phaseContent.phase1.title}</h2>
-                          </div>
-                        </div>
-                      
+              {/* Ceramic Plates Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 justify-items-center">
+                <ProtocolPhaseCard
+                  phaseNumber={1}
+                  title={phaseContent.phase1.title}
+                  content={phaseContent.phase1}
+                  image={phaseContent.phase1.image}
+                  readMoreLink={phaseContent.phase1.readMoreLink}
+                />
+                
+                <ProtocolPhaseCard
+                  phaseNumber={2}
+                  title={phaseContent.phase2.title}
+                  content={phaseContent.phase2}
+                  image={phaseContent.phase2.image}
+                  readMoreLink={phaseContent.phase2.readMoreLink}
+                />
+                
+                <ProtocolPhaseCard
+                  phaseNumber={3}
+                  title={phaseContent.phase3.title}
+                  content={phaseContent.phase3}
+                  image={phaseContent.phase3.image}
+                  readMoreLink={phaseContent.phase3.readMoreLink}
+                />
+              </div>
+            </div>
 
-                        <div className="space-y-4">
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h4 className="text-lg font-semibold text-foreground mb-2">Duration</h4>
-                            <p className="text-muted-foreground">{phaseContent.phase1.duration}</p>
-                          </div>
-                          
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h4 className="text-lg font-semibold text-foreground mb-2">Purpose</h4>
-                            <p className="text-muted-foreground">{phaseContent.phase1.purpose}</p>
-                          </div>
-                          
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h4 className="text-lg font-semibold text-foreground mb-2">Instructions</h4>
-                            <p className="text-muted-foreground">{phaseContent.phase1.instructions}</p>
-                          </div>
-                          
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h4 className="text-lg font-semibold text-foreground mb-2">What to Expect</h4>
-                            <div className="text-muted-foreground">
-                              {phaseContent.phase1.details.split('\n\n').map((paragraph, index) => (
-                                <p key={index} className="mb-2 last:mb-0">
-                                  {paragraph}
-                                </p>
-                              ))}
-                            </div>
-                          </div>
-                          
-                          {/* Read More Button */}
-                          {phaseContent.phase1.readMoreLink && (
-                            <div className="mt-6 pt-4 border-t border-gray-200">
-                              <a 
-                                href={phaseContent.phase1.readMoreLink}
-                                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                              >
-                                Read More
-                                <ExternalLink className="w-4 h-4" />
-                              </a>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Phase 2: Strict Simple Diet + Daily Calorie Limit */}
-                  <div className="mb-12">
-                    <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-accent-green">
-                      {phaseContent.phase2.image && (
-                        <div className="mb-8 -m-8 mt-0 mx-0">
-                          <img 
-                            src={phaseContent.phase2.image} 
-                            alt="Phase 2 - Diet and Calorie Control" 
-                            className="w-full h-64 object-cover"
-                          />
-                        </div>
-                      )}
-                      <div className="px-8 pb-8">
-                         <div className="bg-black text-white p-6 -m-8 mb-6 flex items-center gap-4 h-24">
-                           <div className="bg-white/10 p-3 rounded-full">
-                             <Utensils className="w-6 h-6 text-accent-green" />
-                           </div>
-                           <div className="flex-1">
-                             <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
-                             <h2 className="text-2xl font-bold mt-2 text-white">{phaseContent.phase2.title}</h2>
-                           </div>
-                         </div>
-                         
-                         <div className="grid md:grid-cols-4 gap-6 mb-6">
-                           <div className="bg-gray-100 p-4 rounded-lg">
-                             <h3 className="text-lg font-semibold mb-2 text-foreground">Duration</h3>
-                             <p className="text-muted-foreground">{phaseContent.phase2.duration}</p>
-                           </div>
-                           <div className="bg-gray-100 p-4 rounded-lg">
-                             <h3 className="text-lg font-semibold mb-2 text-foreground">Calorie Cap</h3>
-                             <p className="text-muted-foreground">{phaseContent.phase2.calorieCap}</p>
-                           </div>
-                           <div className="bg-gray-100 p-4 rounded-lg">
-                             <h3 className="text-lg font-semibold mb-2 text-foreground">Carb Cap</h3>
-                             <p className="text-muted-foreground">{phaseContent.phase2.carbCap}</p>
-                           </div>
-                           <div className="bg-gray-100 p-4 rounded-lg">
-                             <h3 className="text-lg font-semibold mb-2 text-foreground">Calorie Deficit</h3>
-                             <p className="text-muted-foreground">{phaseContent.phase2.deficit}</p>
-                           </div>
-                         </div>
-
-                        <div className="space-y-6">
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-3 text-foreground">Why This Deficit?</h3>
-                            <p className="text-muted-foreground">{phaseContent.phase2.whyDeficit}</p>
-                          </div>
-
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-3 text-foreground">How to Set Your Calories</h3>
-                            <pre className="text-sm text-muted-foreground whitespace-pre-wrap font-mono">
-                              {phaseContent.phase2.howToSet}
-                            </pre>
-                          </div>
-
-                           <div className="bg-gray-100 p-4 rounded-lg">
-                             <h3 className="text-lg font-semibold mb-3 text-foreground">What to Eat</h3>
-                             <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
-                               {phaseContent.phase2.whatToEat}
-                             </pre>
-                           </div>
-
-                          <div className="bg-gray-100 rounded-lg p-4">
-                            <h4 className="text-lg font-semibold text-foreground mb-2">Critical: Track Everything</h4>
-                            <p className="text-muted-foreground text-sm">{phaseContent.phase2.tracking}</p>
-                          </div>
-
-                          <div className="bg-gray-100 p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-3 text-foreground">Recovery Plan</h3>
-                            <p className="text-muted-foreground">{phaseContent.phase2.recovery}</p>
-                           </div>
-                         </div>
-                         
-                         {/* Read More Button */}
-                         {phaseContent.phase2.readMoreLink && (
-                           <div className="mt-6 pt-4 border-t border-gray-200">
-                             <a 
-                               href={phaseContent.phase2.readMoreLink}
-                               className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                             >
-                               Read More
-                               <ExternalLink className="w-4 h-4" />
-                             </a>
-                           </div>
-                         )}
-                       </div>
-                     </div>
-                   </div>
-
-                  {/* Phase 3: Daily Walking */}
-                  <div className="mb-12">
-                    <div className="bg-card rounded-lg shadow-soft overflow-hidden border-l-4 border-accent-green">
-                      {phaseContent.phase3.image && (
-                        <div className="mb-8 -m-8 mt-0 mx-0">
-                          <img 
-                            src={phaseContent.phase3.image} 
-                            alt="Phase 3 - Daily Walking" 
-                            className="w-full h-64 object-cover"
-                          />
-                        </div>
-                      )}
-                       <div className="px-8 pb-8">
-                         <div className="bg-black text-white p-6 -m-8 mb-6 flex items-center gap-4 h-24">
-                           <div className="bg-white/10 p-3 rounded-full">
-                             <Activity className="w-6 h-6 text-accent-green" />
-                           </div>
-                           <div className="flex-1 min-h-[3rem] flex flex-col justify-center">
-                             <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
-                             <h2 className="text-2xl font-bold mt-2 text-white">{phaseContent.phase3.title}</h2>
-                           </div>
-                         </div>
-                         
-                         <div className="space-y-6">
-                           <div className="bg-gray-100 p-6 rounded-lg">
-                             <h3 className="text-lg font-semibold mb-3 text-foreground">The Rule</h3>
-                             <p className="text-xl font-medium text-foreground">{phaseContent.phase3.rule}</p>
-                           </div>
-
-                           <div className="bg-gray-100 p-4 rounded-lg">
-                             <h3 className="text-lg font-semibold mb-3 text-foreground">Why Walking?</h3>
-                             <p className="text-muted-foreground">{phaseContent.phase3.why}</p>
-                            </div>
-                          </div>
-                          
-                          {/* Read More Button */}
-                          {phaseContent.phase3.readMoreLink && (
-                            <div className="mt-6 pt-4 border-t border-gray-200">
-                              <a 
-                                href={phaseContent.phase3.readMoreLink}
-                                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                              >
-                                Read More
-                                <ExternalLink className="w-4 h-4" />
-                              </a>
-                            </div>
-                          )}
-                        </div>
-                     </div>
-                   </div>
-
-                  {/* Results Expectations Section */}
+            {/* Results Expectations Section */}
                   <div className="mt-12">
                     <div className="rounded-lg shadow-soft overflow-hidden">
                       {/* Header Section */}
@@ -524,10 +351,9 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-            </div>
+                         </div>
+                       </div>
+                   </div>
           </div>
         </main>
 
