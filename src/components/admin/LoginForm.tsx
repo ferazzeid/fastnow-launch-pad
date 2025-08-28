@@ -38,7 +38,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username">Email Address</Label>
               <Input 
                 id="username"
                 type="text" 

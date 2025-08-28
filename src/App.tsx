@@ -13,6 +13,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminResetPassword from "./pages/AdminResetPassword";
 import AdminGeneral from "./pages/AdminGeneral";
 import AdminFAQEditor from "./pages/AdminFAQEditor";
 import FAQ from "./pages/FAQ";
@@ -67,6 +68,7 @@ const AppRoutes = () => {
       {/* Admin routes */}
       <Route path="/admin" element={<Admin />} />
       <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route path="/admin/reset-password" element={<AdminResetPassword />} />
       <Route path="/admin/users" element={<UserManagement />} />
       <Route path="/admin/general" element={<AdminGeneral />} />
       <Route path="/admin/homepage-unified" element={<AdminUnifiedHomepage />} />
