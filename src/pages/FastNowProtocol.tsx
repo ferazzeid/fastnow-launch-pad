@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { AlertTriangle, CheckCircle } from 'lucide-react';
+import { SchemaService } from '@/services/SchemaService';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
 import ProtocolPhasesIntro from '@/components/fasting/ProtocolPhasesIntro';
@@ -51,6 +52,7 @@ const FastNowProtocol = () => {
     }
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [howToSchema, setHowToSchema] = useState<any>(null);
 
   useEffect(() => {
     loadContent();
@@ -135,6 +137,16 @@ const FastNowProtocol = () => {
           readMoreLink: settings.protocol_phase3_read_more_link || ''
         }
       });
+
+      // Generate HowTo schema
+      const schema = SchemaService.generateHowToSchema({
+        title: settings.protocol_title || pageContent.title,
+        metaDescription: settings.protocol_meta_description || settings.protocol_subtitle || pageContent.metaDescription,
+        phase1: { image: settings.protocol_phase1_image },
+        phase2: { image: settings.protocol_phase2_image },
+        phase3: { image: settings.protocol_phase3_image }
+      });
+      setHowToSchema(schema);
     } catch (error) {
       console.error('Error loading FastNow Protocol page content:', error);
     } finally {
@@ -217,6 +229,11 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
       <Helmet>
         <title>{pageContent.metaTitle}</title>
         <meta name="description" content={pageContent.metaDescription} />
+        {howToSchema && (
+          <script type="application/ld+json">
+            {JSON.stringify(howToSchema)}
+          </script>
+        )}
       </Helmet>
       
       {/* Hero Background Image */}

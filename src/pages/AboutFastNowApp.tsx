@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { SchemaService } from '@/services/SchemaService';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
 import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
@@ -24,6 +25,7 @@ const AboutFastNowApp = () => {
   const [pageContent, setPageContent] = useState<any>(null);
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
   const [launchButtonColor, setLaunchButtonColor] = useState('#10B981');
+  const [appSchema, setAppSchema] = useState<any>(null);
 
   const features = [
     {
@@ -107,6 +109,10 @@ const AboutFastNowApp = () => {
         
         setPageContent(aboutAppPageContent);
         setFeatureScreenshots(screenshots);
+
+        // Generate SoftwareApplication schema
+        const schema = await SchemaService.generateSoftwareApplicationSchema();
+        setAppSchema(schema);
       } catch (error) {
         console.error('Error loading About App content:', error);
       }
@@ -130,6 +136,11 @@ const AboutFastNowApp = () => {
       <Helmet>
         <title>About App | fastnow.app</title>
         <meta name="description" content="Learn about the FastNow app - your ultimate companion for intermittent fasting, health tracking, and wellness goals." />
+        {appSchema && (
+          <script type="application/ld+json">
+            {JSON.stringify(appSchema)}
+          </script>
+        )}
       </Helmet>
 
       {/* Hero Background Image */}

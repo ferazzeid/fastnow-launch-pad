@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/integrations/supabase/client';
+import { SchemaService } from '@/services/SchemaService';
 
 interface FAQ {
   id: string;
@@ -24,6 +26,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({ category, title, className = ''
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
+  const [faqSchema, setFaqSchema] = useState<any>(null);
 
   useEffect(() => {
     loadFAQs();
@@ -39,10 +42,24 @@ const FAQSection: React.FC<FAQSectionProps> = ({ category, title, className = ''
         .order('display_order', { ascending: true });
 
       if (error) throw error;
-      setFaqs((data || []).map(item => ({
+      const processedFaqs = (data || []).map(item => ({
         ...item,
         image_alignment: (item.image_alignment as 'left' | 'right') || 'left'
-      })));
+      }));
+      
+      setFaqs(processedFaqs);
+
+      // Generate FAQ schema
+      if (processedFaqs.length > 0) {
+        const schema = SchemaService.generateFAQPageSchema(
+          processedFaqs.map(faq => ({
+            question: faq.question,
+            answer: faq.answer
+          })),
+          category
+        );
+        setFaqSchema(schema);
+      }
     } catch (error) {
       console.error('Error loading FAQs:', error);
     } finally {
@@ -76,6 +93,13 @@ const FAQSection: React.FC<FAQSectionProps> = ({ category, title, className = ''
 
   return (
     <div className={`py-16 ${className}`}>
+      {faqSchema && (
+        <Helmet>
+          <script type="application/ld+json">
+            {JSON.stringify(faqSchema)}
+          </script>
+        </Helmet>
+      )}
       <div className="container max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">

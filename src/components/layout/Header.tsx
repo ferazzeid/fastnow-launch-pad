@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MainNavigation from '../MainNavigation';
+import GlobalSchema from '../GlobalSchema';
 import { pageContentService } from '@/services/PageContentService';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -100,7 +101,9 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 left-0 right-0 py-4 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <>
+      <GlobalSchema />
+      <header className="sticky top-0 left-0 right-0 py-4 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="container flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           {logoUrl && (
@@ -116,6 +119,7 @@ const Header = () => {
         <MainNavigation />
       </div>
     </header>
+    </>
   );
 };
 
