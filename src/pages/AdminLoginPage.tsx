@@ -80,16 +80,19 @@ const AdminLoginPage = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const result = await SupabaseAuthService.resetPassword(email);
       if (result.success) {
-        toast.success("Password reset email sent! Check your inbox.");
+        toast.success("Password reset email sent! Check your inbox and spam folder. The link will expire in 1 hour.");
       } else {
         toast.error(result.error || "Failed to send reset email");
       }
     } catch (error) {
       console.error('Password reset error:', error);
       toast.error("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
     }
   };
 

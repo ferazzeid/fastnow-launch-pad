@@ -10,7 +10,7 @@ max_rows = 1000
 [auth]
 enabled = true
 port = 54322
-external_url = "http://localhost:3000"
+external_url = "https://fastnow.app"
 
 [functions.send-contact-email]
 verify_jwt = false

@@ -19,11 +19,23 @@ const AdminResetPassword = () => {
     // Check if we have valid reset parameters
     const accessToken = searchParams.get('access_token');
     const refreshToken = searchParams.get('refresh_token');
+    const error = searchParams.get('error');
+    const errorDescription = searchParams.get('error_description');
+    
+    if (error) {
+      if (error === 'otp_expired') {
+        toast.error('Password reset link has expired. Please request a new one.');
+      } else {
+        toast.error(errorDescription || 'Invalid reset link');
+      }
+      navigate('/admin/login');
+      return;
+    }
     
     if (accessToken && refreshToken) {
       setHasValidToken(true);
     } else {
-      toast.error('Invalid or expired reset link');
+      toast.error('Invalid or expired reset link. Please request a new one.');
       navigate('/admin/login');
     }
   }, [searchParams, navigate]);
