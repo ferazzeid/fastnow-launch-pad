@@ -52,7 +52,7 @@ const Footer = () => {
                   Blog
                 </Link>
                 
-                {/* Admin access - always routes to /admin */}
+                {/* Admin access - show appropriate link based on auth state */}
                 {!isLoading && isAdmin ? (
                   <>
                     <Link to="/admin" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
@@ -68,9 +68,9 @@ const Footer = () => {
                     </button>
                   </>
                 ) : (
-                  <Link to="/admin" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
+                  <Link to="/admin/login" className="text-sm text-gray-600 hover:text-foreground flex items-center gap-1">
                     <User size={14} />
-                    Admin
+                    Login
                   </Link>
                 )}
               </div>

@@ -13,43 +13,19 @@ const Admin = () => {
   const { user, isAdmin, isLoading } = useAuth();
 
   React.useEffect(() => {
-    console.log('Admin page: Auth state', { 
-      user: !!user, 
-      userEmail: user?.email,
-      isAdmin, 
-      isLoading,
-      currentPath: window.location.pathname 
-    });
-    
     // Only redirect if we're sure about the auth state (not loading)
     if (!isLoading) {
       if (!user) {
-        console.log('Admin page: No user, redirecting to login');
         navigate('/admin/login');
         return;
       }
       
-      // Give admin check more time - don't redirect immediately  
-      if (!isAdmin) {
-        console.log('Admin page: User not admin, waiting for admin status...');
-        // Set a longer delay to let admin status resolve properly in production
-        const timeout = setTimeout(() => {
-          console.log('Admin page: Checking admin status again after delay...', { isAdmin });
-          // Only redirect if still not admin after extended wait
-          setTimeout(() => {
-            console.log('Admin page: Final admin check', { isAdmin });
-            if (!isAdmin) {
-              console.log('Admin page: Still not admin after extended delay, redirecting');
-              navigate('/');
-              toast.error("Access denied. Admin privileges required.");
-            }
-          }, 2000);
-        }, 5000); // Increased to 5 seconds
-        
-        return () => clearTimeout(timeout);
+      // If user exists but is not admin, redirect with error message
+      if (user && isAdmin === false) {
+        navigate('/');
+        toast.error("Access denied. Admin privileges required.");
+        return;
       }
-      
-      console.log('Admin page: Access granted to admin user');
     }
   }, [user, isAdmin, isLoading, navigate]);
 
