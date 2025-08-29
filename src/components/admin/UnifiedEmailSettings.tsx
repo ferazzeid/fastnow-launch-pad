@@ -7,50 +7,73 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/components/ui/sonner';
 import { Mail, Send, Key, Server, Webhook, ExternalLink } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const UnifiedEmailSettings = () => {
   const [contactEmail, setContactEmail] = useState('');
   const [resendApiKey, setResendApiKey] = useState('');
   const [brevoApiKey, setBrevoApiKey] = useState('');
   const [testMessage, setTestMessage] = useState('This is a test email from FastNow contact form.');
-  
-  // SMTP Settings
-  const [smtpHost, setSmtpHost] = useState('');
-  const [smtpPort, setSmtpPort] = useState('587');
-  const [smtpUsername, setSmtpUsername] = useState('');
-  const [smtpPassword, setSmtpPassword] = useState('');
-  const [smtpSecure, setSmtpSecure] = useState(true);
-  
-  // Webhook Settings
   const [webhookUrl, setWebhookUrl] = useState('');
-  
   const [activeTab, setActiveTab] = useState('brevo');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Load saved settings
-    const savedEmail = localStorage.getItem('fastingApp_contactEmail') || 'fastnowapp@pm.me';
-    const savedResendApiKey = localStorage.getItem('fastingApp_resendApiKey') || '';
-    const savedBrevoApiKey = localStorage.getItem('fastingApp_brevoApiKey') || '';
-    const savedSmtpHost = localStorage.getItem('fastingApp_smtpHost') || '';
-    const savedSmtpUsername = localStorage.getItem('fastingApp_smtpUsername') || '';
-    const savedWebhookUrl = localStorage.getItem('fastingApp_webhookUrl') || '';
-    
-    setContactEmail(savedEmail);
-    setResendApiKey(savedResendApiKey);
-    setBrevoApiKey(savedBrevoApiKey);
-    setSmtpHost(savedSmtpHost);
-    setSmtpUsername(savedSmtpUsername);
-    setWebhookUrl(savedWebhookUrl);
+    loadSettings();
   }, []);
 
-  const handleSaveSettings = () => {
-    localStorage.setItem('fastingApp_contactEmail', contactEmail);
-    localStorage.setItem('fastingApp_resendApiKey', resendApiKey);
-    localStorage.setItem('fastingApp_brevoApiKey', brevoApiKey);
-    localStorage.setItem('fastingApp_smtpHost', smtpHost);
-    localStorage.setItem('fastingApp_smtpUsername', smtpUsername);
-    localStorage.setItem('fastingApp_webhookUrl', webhookUrl);
-    toast.success('Email settings saved successfully!');
+  const loadSettings = async () => {
+    try {
+      const { data: settings, error } = await supabase
+        .from('site_settings')
+        .select('setting_key, setting_value')
+        .in('setting_key', ['contact_email', 'resend_api_key', 'brevo_api_key', 'webhook_url']);
+
+      if (error) {
+        console.error('Error loading email settings:', error);
+        return;
+      }
+
+      const settingsMap = settings?.reduce((acc, setting) => {
+        acc[setting.setting_key] = setting.setting_value;
+        return acc;
+      }, {} as Record<string, any>) || {};
+
+      setContactEmail(settingsMap.contact_email || 'fastnowapp@pm.me');
+      setResendApiKey(settingsMap.resend_api_key || '');
+      setBrevoApiKey(settingsMap.brevo_api_key || '');
+      setWebhookUrl(settingsMap.webhook_url || '');
+    } catch (error) {
+      console.error('Error loading settings:', error);
+    }
+  };
+
+  const handleSaveSettings = async () => {
+    setLoading(true);
+    try {
+      const settings = [
+        { setting_key: 'contact_email', setting_value: contactEmail },
+        { setting_key: 'resend_api_key', setting_value: resendApiKey },
+        { setting_key: 'brevo_api_key', setting_value: brevoApiKey },
+        { setting_key: 'webhook_url', setting_value: webhookUrl }
+      ];
+
+      const { error } = await supabase
+        .from('site_settings')
+        .upsert(settings, { onConflict: 'setting_key' });
+
+      if (error) {
+        console.error('Error saving settings:', error);
+        toast.error('Failed to save email settings');
+      } else {
+        toast.success('Email settings saved successfully!');
+      }
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      toast.error('Failed to save email settings');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleTestEmail = async () => {
@@ -60,13 +83,10 @@ const UnifiedEmailSettings = () => {
       return;
     }
 
+    setLoading(true);
     try {
-      const response = await fetch(`${window.location.origin}/functions/v1/send-contact-email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: {
           name: 'Test User',
           email: contactEmail,
           subject: 'Test Email from FastNow',
@@ -74,18 +94,20 @@ const UnifiedEmailSettings = () => {
           provider: activeTab,
           resendApiKey: activeTab === 'resend' ? resendApiKey : undefined,
           brevoApiKey: activeTab === 'brevo' ? brevoApiKey : undefined
-        }),
+        },
       });
 
-      if (response.ok) {
-        toast.success('Test email sent successfully!');
+      if (error) {
+        console.error('Error sending test email:', error);
+        toast.error(`Failed to send test email: ${error.message}`);
       } else {
-        const error = await response.json();
-        toast.error(`Failed to send test email: ${error.error || 'Unknown error'}`);
+        toast.success('Test email sent successfully!');
       }
     } catch (error) {
       console.error('Error sending test email:', error);
       toast.error('Failed to send test email. Please check your configuration.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,6 +117,7 @@ const UnifiedEmailSettings = () => {
       return;
     }
 
+    setLoading(true);
     try {
       const response = await fetch(webhookUrl, {
         method: 'POST',
@@ -118,6 +141,8 @@ const UnifiedEmailSettings = () => {
     } catch (error) {
       console.error('Error sending test webhook:', error);
       toast.error('Failed to send test webhook. Please check your configuration.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -155,7 +180,7 @@ const UnifiedEmailSettings = () => {
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="brevo" className="flex items-center gap-2">
                 <Key className="w-4 h-4" />
                 Brevo (Recommended)
@@ -163,10 +188,6 @@ const UnifiedEmailSettings = () => {
               <TabsTrigger value="resend" className="flex items-center gap-2">
                 <Key className="w-4 h-4" />
                 Resend
-              </TabsTrigger>
-              <TabsTrigger value="smtp" className="flex items-center gap-2">
-                <Server className="w-4 h-4" />
-                SMTP Server
               </TabsTrigger>
               <TabsTrigger value="webhook" className="flex items-center gap-2">
                 <Webhook className="w-4 h-4" />
@@ -235,51 +256,6 @@ const UnifiedEmailSettings = () => {
               </div>
             </TabsContent>
 
-            <TabsContent value="smtp" className="space-y-4 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="smtpHost">SMTP Host</Label>
-                  <Input
-                    id="smtpHost"
-                    value={smtpHost}
-                    onChange={(e) => setSmtpHost(e.target.value)}
-                    placeholder="smtp.gmail.com"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="smtpPort">SMTP Port</Label>
-                  <Input
-                    id="smtpPort"
-                    value={smtpPort}
-                    onChange={(e) => setSmtpPort(e.target.value)}
-                    placeholder="587"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="smtpUsername">Username</Label>
-                  <Input
-                    id="smtpUsername"
-                    value={smtpUsername}
-                    onChange={(e) => setSmtpUsername(e.target.value)}
-                    placeholder="your@email.com"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="smtpPassword">Password</Label>
-                  <Input
-                    id="smtpPassword"
-                    type="password"
-                    value={smtpPassword}
-                    onChange={(e) => setSmtpPassword(e.target.value)}
-                    placeholder="your-app-password"
-                  />
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Note: SMTP configuration requires server-side implementation. This is for future use.
-              </p>
-            </TabsContent>
-
             <TabsContent value="webhook" className="space-y-4 mt-6">
               <div className="space-y-2">
                 <Label htmlFor="webhookUrl">Webhook URL</Label>
@@ -298,9 +274,10 @@ const UnifiedEmailSettings = () => {
                 variant="outline" 
                 onClick={handleTestWebhook}
                 className="flex items-center gap-2"
+                disabled={loading}
               >
                 <Send className="w-4 h-4" />
-                Test Webhook
+                {loading ? 'Testing...' : 'Test Webhook'}
               </Button>
             </TabsContent>
           </Tabs>
@@ -318,18 +295,23 @@ const UnifiedEmailSettings = () => {
             </div>
 
             <div className="flex gap-2">
-              <Button onClick={handleSaveSettings} className="flex items-center gap-2">
+              <Button 
+                onClick={handleSaveSettings} 
+                className="flex items-center gap-2"
+                disabled={loading}
+              >
                 <Mail className="w-4 h-4" />
-                Save Settings
+                {loading ? 'Saving...' : 'Save Settings'}
               </Button>
               {(activeTab === 'resend' || activeTab === 'brevo') && (
                 <Button 
                   variant="outline" 
                   onClick={handleTestEmail}
                   className="flex items-center gap-2"
+                  disabled={loading}
                 >
                   <Send className="w-4 h-4" />
-                  Send Test Email
+                  {loading ? 'Sending...' : 'Send Test Email'}
                 </Button>
               )}
             </div>
@@ -362,11 +344,6 @@ const UnifiedEmailSettings = () => {
                 <li>Create an API key and enter it above</li>
                 <li>Test the integration using the "Send Test Email" button</li>
               </ol>
-            </div>
-            
-            <div>
-              <h4 className="font-medium text-foreground mb-2">SMTP Server</h4>
-              <p>Configure your own SMTP server for email delivery. Requires backend implementation.</p>
             </div>
             
             <div>
