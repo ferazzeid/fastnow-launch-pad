@@ -294,7 +294,7 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
           <div className="grid md:grid-cols-3 gap-8">
             {/* Phase 1 - Complete Content */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6">
+              <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-6">
                 <div className="flex items-center gap-4">
                   <div className="bg-white/20 p-3 rounded-full">
                     <Clock className="w-6 h-6" />
@@ -341,7 +341,7 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                       href={phaseContent.phase1.readMoreLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      className="text-gray-700 hover:text-gray-900 text-sm font-medium"
                     >
                       Read More â†’
                     </a>
@@ -352,7 +352,7 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
 
             {/* Phase 2 - Complete Content */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-              <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6">
+              <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-6">
                 <div className="flex items-center gap-4">
                   <div className="bg-white/20 p-3 rounded-full">
                     <Utensils className="w-6 h-6" />
@@ -431,7 +431,7 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                       href={phaseContent.phase2.readMoreLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-green-600 hover:text-green-800 text-sm font-medium"
+                      className="text-gray-700 hover:text-gray-900 text-sm font-medium"
                     >
                       Read More â†’
                     </a>
@@ -442,7 +442,7 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
 
             {/* Phase 3 - Complete Content */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-              <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6">
+              <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-6">
                 <div className="flex items-center gap-4">
                   <div className="bg-white/20 p-3 rounded-full">
                     <Activity className="w-6 h-6" />
@@ -479,7 +479,7 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                       href={phaseContent.phase3.readMoreLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-purple-600 hover:text-purple-800 text-sm font-medium"
+                      className="text-gray-700 hover:text-gray-900 text-sm font-medium"
                     >
                       Read More â†’
                     </a>
