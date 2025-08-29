@@ -78,69 +78,71 @@ const PermanentInfoTooltip: React.FC<PermanentInfoTooltipProps> = ({
         }}
       />
 
-      {/* Elegant Pulsating Speech Bubble Button */}
-      <button
-        ref={buttonRef}
-        className={cn(
-          "relative overflow-hidden transition-all duration-300",
-          "hover:scale-105",
-          sizeClasses[size]
-        )}
-        style={{
-          borderRadius: '50% 50% 50% 10%', // Speech bubble shape
-          animation: 'elegantPulse 3s ease-in-out infinite'
-        }}
-        aria-label="Information tooltip"
-        disabled // No clicking since it's permanently visible
-      >
-        {/* Outer border with elegant pulsing - medium thickness */}
-        <div 
-          className="absolute inset-0 border-3 transition-all duration-1000"
+      {/* Container for button and tooltip */}
+      <div className="flex items-start gap-4">
+        {/* Elegant Pulsating Speech Bubble Button */}
+        <button
+          ref={buttonRef}
+          className={cn(
+            "relative overflow-hidden transition-all duration-300 flex-shrink-0",
+            "hover:scale-105",
+            sizeClasses[size]
+          )}
           style={{
-            borderColor: '#dac471',
-            borderRadius: '50% 50% 50% 10%',
-            animation: 'borderPulse 4s ease-in-out infinite',
-            borderWidth: '3px'
+            borderRadius: '50% 50% 50% 10%', // Speech bubble shape
+            animation: 'elegantPulse 3s ease-in-out infinite'
           }}
-        />
-        
-        {/* Inner content container - Circular area only */}
-        <div 
-          className="absolute inset-1 rounded-full overflow-hidden"
+          aria-label="Information tooltip"
+          disabled // No clicking since it's permanently visible
         >
-          <img 
-            src={finalAuthorImage} 
-            alt={finalAuthorName}
-            className="w-full h-full object-cover grayscale"
+          {/* Outer border with elegant pulsing - medium thickness */}
+          <div 
+            className="absolute inset-0 border-3 transition-all duration-1000"
+            style={{
+              borderColor: '#dac471',
+              borderRadius: '50% 50% 50% 10%',
+              animation: 'borderPulse 4s ease-in-out infinite',
+              borderWidth: '3px'
+            }}
+          />
+          
+          {/* Inner content container - Circular area only */}
+          <div 
+            className="absolute inset-1 rounded-full overflow-hidden"
+          >
+            <img 
+              src={finalAuthorImage} 
+              alt={finalAuthorName}
+              className="w-full h-full object-cover grayscale"
+            />
+          </div>
+        </button>
+
+        {/* Permanently Visible Tooltip - now in document flow */}
+        <div 
+          className={cn(
+            "relative w-80 bg-white rounded-lg shadow-xl overflow-hidden",
+            "animate-fade-in mt-2"
+          )}
+        >
+          {/* Header - Green background */}
+          <div style={{ backgroundColor: '#dac471' }} className="text-white px-4 py-3 flex items-center justify-center">
+            <h3 className="font-medium text-sm">{finalTitle}</h3>
+          </div>
+
+          {/* Content */}
+          <div className="p-4">
+            <p className="text-gray-700 text-sm leading-relaxed">
+              {content}
+            </p>
+          </div>
+
+          {/* White speech bubble tail pointing left - centered */}
+          <div 
+            className="absolute w-3 h-3 bg-white transform rotate-45 -left-1.5"
+            style={{ top: '50%', transform: 'translateY(-50%) rotate(45deg)' }}
           />
         </div>
-      </button>
-
-      {/* Permanently Visible Tooltip */}
-      <div 
-        className={cn(
-          "absolute z-50 w-80 bg-white rounded-lg shadow-xl overflow-hidden",
-          "animate-fade-in",
-          position === 'bottom-right' ? 'left-full top-0 ml-4' : 'left-full bottom-0 ml-4'
-        )}
-      >
-        {/* Header with Author Image - Green background */}
-        <div style={{ backgroundColor: '#dac471' }} className="text-white px-4 py-3 flex items-center justify-center">
-          <h3 className="font-medium text-sm">{finalTitle}</h3>
-        </div>
-
-        {/* Content */}
-        <div className="p-4">
-          <p className="text-gray-700 text-sm leading-relaxed">
-            {content}
-          </p>
-        </div>
-
-        {/* White speech bubble tail pointing left - centered */}
-        <div 
-          className="absolute w-3 h-3 bg-white transform rotate-45 -left-1.5"
-          style={{ top: '50%', transform: 'translateY(-50%) rotate(45deg)' }}
-        />
       </div>
     </div>
   );
