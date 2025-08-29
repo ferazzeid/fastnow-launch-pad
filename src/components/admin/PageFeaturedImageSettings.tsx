@@ -25,29 +25,11 @@ const PageFeaturedImageSettings: React.FC<PageFeaturedImageSettingsProps> = ({
 
   const loadFeaturedImage = async () => {
     try {
-      const { supabase } = await import('@/integrations/supabase/client');
+      const { pageContentService } = await import('@/services/PageContentService');
       
-      // Map frontend page keys to database keys
-      const databaseKeyMap: Record<string, string> = {
-        'home': 'homepage_featured_image',
-        'fast-now-protocol': 'protocol_featured_image',
-        'about-fastnow-app': 'about_app_featured_image'
-      };
-
-      const databaseKey = databaseKeyMap[pageKey];
-      if (databaseKey) {
-        const { data, error } = await supabase
-          .from('site_settings')
-          .select('setting_value')
-          .eq('setting_key', databaseKey)
-          .single();
-
-        if (!error && data?.setting_value) {
-          const url = typeof data.setting_value === 'string' 
-            ? JSON.parse(data.setting_value || '""') 
-            : String(data.setting_value || '');
-          setImageUrl(url || '');
-        }
+      const content = await pageContentService.getPageContent(pageKey);
+      if (content?.featured_image_url) {
+        setImageUrl(content.featured_image_url);
       }
     } catch (error) {
       console.error('Error loading featured image:', error);
@@ -105,26 +87,24 @@ const PageFeaturedImageSettings: React.FC<PageFeaturedImageSettingsProps> = ({
   const saveFeaturedImage = async () => {
     setIsSaving(true);
     try {
-      const { supabase } = await import('@/integrations/supabase/client');
+      const { pageContentService } = await import('@/services/PageContentService');
       
-      const databaseKeyMap: Record<string, string> = {
-        'home': 'homepage_featured_image',
-        'fast-now-protocol': 'protocol_featured_image',
-        'about-fastnow-app': 'about_app_featured_image'
-      };
+      // Get existing content and update only the featured image
+      const existingContent = await pageContentService.getPageContent(pageKey);
+      
+      await pageContentService.savePageContent({
+        page_key: pageKey,
+        title: existingContent?.title || '',
+        content: existingContent?.content || '',
+        button_text: existingContent?.button_text || '',
+        button_url: existingContent?.button_url || '',
+        meta_title: existingContent?.meta_title || '',
+        meta_description: existingContent?.meta_description || '',
+        featured_image_url: imageUrl,
+        is_published: existingContent?.is_published ?? true
+      });
 
-      const databaseKey = databaseKeyMap[pageKey];
-      if (databaseKey) {
-        const { error } = await supabase
-          .from('site_settings')
-          .upsert({
-            setting_key: databaseKey,
-            setting_value: JSON.stringify(imageUrl)
-          });
-
-        if (error) throw error;
-        toast.success('Featured image saved successfully!');
-      }
+      toast.success('Featured image saved successfully!');
     } catch (error) {
       console.error('Error saving featured image:', error);
       toast.error('Failed to save featured image');
