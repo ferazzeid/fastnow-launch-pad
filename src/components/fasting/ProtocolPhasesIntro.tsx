@@ -89,7 +89,7 @@ const ProtocolPhasesIntro = () => {
                   <Utensils className="w-8 h-8 text-orange-600" />
                 </div>
                 <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">Phase 2</span>
-                <h3 className="text-xl font-bold text-foreground flex-grow">Strict Simple Diet with Daily Calorie Deficit</h3>
+                <h3 className="text-xl font-bold text-foreground flex-grow">Daily Calorie Limit</h3>
               </div>
             </div>
           </div>
@@ -167,7 +167,7 @@ const ProtocolPhasesIntro = () => {
                 </div>
                 <div>
                   <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
-                  <h3 className="text-lg font-bold mt-2 text-foreground">Strict Simple Diet with Daily Calorie Deficit</h3>
+                  <h3 className="text-lg font-bold mt-2 text-foreground">Daily Calorie Limit</h3>
                 </div>
               </div>
             </div>

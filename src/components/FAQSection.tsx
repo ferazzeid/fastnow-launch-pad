@@ -125,7 +125,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({ category, title, className = ''
               <CardContent className="p-0">
                 <button
                   onClick={() => toggleItem(faq.id)}
-                  className="w-full text-left p-6 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
+                  className="w-full text-left p-6 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-inset"
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold text-lg pr-4">

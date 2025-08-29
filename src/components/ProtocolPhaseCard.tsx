@@ -43,13 +43,13 @@ export const ProtocolPhaseCard: React.FC<ProtocolPhaseCardProps> = ({
         <CeramicPlate size="md" className="hover:scale-105 transition-transform duration-300">
           <div className="flex flex-col items-center justify-center text-center space-y-3 p-4">
             {/* Phase Number */}
-            <div className="bg-accent-green/10 text-accent-green rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
+            <div className="bg-gray-900/10 text-gray-900 rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
               {phaseNumber}
             </div>
             
             {/* Icon */}
-            <div className="bg-accent-green/20 p-4 rounded-full">
-              <IconComponent className="w-8 h-8 text-accent-green" />
+            <div className="bg-gray-900/20 p-4 rounded-full">
+              <IconComponent className="w-8 h-8 text-gray-900" />
             </div>
             
             {/* Phase Title */}
@@ -179,20 +179,6 @@ export const ProtocolPhaseCard: React.FC<ProtocolPhaseCardProps> = ({
               </div>
             )}
             
-            {/* Read More Link */}
-            {readMoreLink && (
-              <div className="pt-2">
-                <a 
-                  href={readMoreLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-accent-green hover:text-accent-green/80 text-sm font-medium transition-colors"
-                >
-                  Read More
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </div>
-            )}
           </div>
         </div>
       </div>
