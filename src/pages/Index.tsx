@@ -657,7 +657,7 @@ const Index = () => {
         </section>
 
         {/* Personal Touch Section - Speech Bubble Explanation */}
-        <section className="relative z-10 py-16 bg-gradient-to-b from-white to-gray-50">
+        <section className="relative z-10 py-16 bg-gray-100">
           <div className="container max-w-6xl mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900">
@@ -668,18 +668,20 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
               {/* Left Column - Interactive Demo */}
               <div className="flex justify-center lg:justify-end">
                 <div className="relative">
-                  <div className="text-center mb-6">
+                  <div className="text-center mb-4">
                     <p className="text-base text-gray-500 mb-2">Try clicking the bubble below</p>
                   </div>
-                  <SiteInfoTooltip 
-                    content="This is exactly how the speech bubbles work throughout the site. Each one contains a personal note, experience, or perspective that I hope makes the information more relatable and human."
-                    size="lg"
-                    className="mx-auto"
-                  />
+                  <div className="scale-150 transform">
+                    <SiteInfoTooltip 
+                      content="This is exactly how the speech bubbles work throughout the site. Each one contains a personal note, experience, or perspective that I hope makes the information more relatable and human."
+                      size="lg"
+                      className="mx-auto"
+                    />
+                  </div>
                 </div>
               </div>
               
