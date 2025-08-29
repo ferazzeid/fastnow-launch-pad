@@ -136,18 +136,7 @@ const BlogPost = () => {
             <Header transparent />
           </div>
 
-          {/* Back to Blog Button */}
-          <div className="absolute top-24 left-4 lg:left-8 z-40">
-            <Link to="/blog">
-              <Button 
-                variant="secondary"
-                className="bg-white/90 text-gray-900 hover:bg-white border-0 backdrop-blur-sm shadow-lg"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Blog
-              </Button>
-            </Link>
-          </div>
+          {/* Back to Blog Button - REMOVED */}
 
           {/* Edit Button for Admins */}
           {isAdmin && (
@@ -198,18 +187,9 @@ const BlogPost = () => {
           <Header />
           <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-16">
             <div className="container">
-              <div className="flex justify-between items-start mb-8">
-                <Link to="/blog">
-                  <Button 
-                    variant="secondary"
-                    className="bg-white/90 text-gray-900 hover:bg-white border-0"
-                  >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Blog
-                  </Button>
-                </Link>
-                
-                {isAdmin && (
+              {/* Edit Button for Admins */}
+              {isAdmin && (
+                <div className="flex justify-end mb-8">
                   <Button 
                     onClick={handleEdit} 
                     variant="secondary"
@@ -218,8 +198,8 @@ const BlogPost = () => {
                     <Edit className="w-4 h-4 mr-2" />
                     Edit Post
                   </Button>
-                )}
-              </div>
+                </div>
+              )}
 
               <h1 className="text-4xl md:text-5xl font-bold mb-6">{post.title}</h1>
               
@@ -271,7 +251,7 @@ const BlogPost = () => {
           </div>
         )}
 
-        {/* Back to Blog */}
+        {/* Back to Blog - REMOVED, now in nav menu */}
         <div className="mt-16 text-center">
           <Link to="/blog">
             <Button variant="outline" size="lg">

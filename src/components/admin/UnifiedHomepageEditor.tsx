@@ -26,13 +26,11 @@ const UnifiedHomepageEditor = () => {
   const [ctaText, setCtaText] = useState('Launch App');
   const [ctaUrl, setCtaUrl] = useState('https://go.fastnow.app');
   
-  // Slide Content
+  // Slide Content (removing slide 4 as it's not used)
   const [slide2Title, setSlide2Title] = useState('');
   const [slide2Content, setSlide2Content] = useState('');
   const [slide3Title, setSlide3Title] = useState('');
   const [slide3Content, setSlide3Content] = useState('');
-  const [slide4Title, setSlide4Title] = useState('');
-  const [slide4Content, setSlide4Content] = useState('');
   
   const [loading, setLoading] = useState(false);
 
@@ -66,11 +64,7 @@ const UnifiedHomepageEditor = () => {
         setSlide3Content(slide3.content || '');
       }
 
-      const slide4 = await pageContentService.getPageContent('home-slide4');
-      if (slide4) {
-        setSlide4Title(slide4.title || 'New Slide');
-        setSlide4Content(slide4.content || '');
-      }
+      // Removed slide4 loading as it's not used
 
     } catch (error) {
       console.error('Error loading homepage content:', error);
@@ -108,12 +102,7 @@ const UnifiedHomepageEditor = () => {
         is_published: true
       });
 
-      await pageContentService.savePageContent({
-        page_key: 'home-slide4',
-        title: slide4Title,
-        content: slide4Content,
-        is_published: true
-      });
+      // Removed slide4 saving as it's not used
 
 
       toast.success('All homepage content saved successfully!');
@@ -299,32 +288,7 @@ const UnifiedHomepageEditor = () => {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Slide 4 Content</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="slide4-title">Title</Label>
-                  <Input
-                    id="slide4-title"
-                    value={slide4Title}
-                    onChange={(e) => setSlide4Title(e.target.value)}
-                    placeholder="New Slide"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="slide4-content">Content</Label>
-                  <Textarea
-                    id="slide4-content"
-                    value={slide4Content}
-                    onChange={(e) => setSlide4Content(e.target.value)}
-                    placeholder="Enter slide content (use \n\n for paragraph breaks)"
-                    rows={6}
-                  />
-                </div>
-              </CardContent>
-            </Card>
+            {/* Removed Slide 4 as it's not used on the homepage */}
           </div>
         </TabsContent>
 

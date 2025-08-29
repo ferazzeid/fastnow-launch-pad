@@ -26,7 +26,8 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
   const navigationLinks = [
     { path: '/', title: 'Home' },
     { path: '/fast-now-protocol', title: 'The Protocol' },
-    { path: '/about-fastnow-app', title: 'About App' }
+    { path: '/about-fastnow-app', title: 'About App' },
+    { path: '/blog', title: 'Blog' }
   ];
 
   // Simple mobile detection
