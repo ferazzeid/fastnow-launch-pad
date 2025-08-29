@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Save, Settings } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
@@ -18,6 +19,8 @@ interface GeneralSettings {
   defaultTimezone: string;
   supportUrl: string;
   companyName: string;
+  googleAnalyticsId: string;
+  defaultIndexable: boolean;
 }
 
 interface DesignSettings {
@@ -35,6 +38,8 @@ const AdminGeneral = () => {
     defaultTimezone: 'UTC',
     supportUrl: '',
     companyName: 'FastingApp Inc.',
+    googleAnalyticsId: '',
+    defaultIndexable: true,
   });
   const [designSettings, setDesignSettings] = useState<DesignSettings>({
     primaryColor: '#10B981',
@@ -78,7 +83,7 @@ const AdminGeneral = () => {
     }
   };
 
-  const handleInputChange = (field: keyof GeneralSettings, value: string) => {
+  const handleInputChange = (field: keyof GeneralSettings, value: string | boolean) => {
     setSettings(prev => ({
       ...prev,
       [field]: value
@@ -239,6 +244,44 @@ const AdminGeneral = () => {
                   value={settings.defaultTimezone}
                   onChange={(e) => handleInputChange('defaultTimezone', e.target.value)}
                   placeholder="UTC"
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* SEO & Analytics Settings */}
+          <Card>
+            <CardHeader>
+              <CardTitle>SEO & Analytics</CardTitle>
+              <CardDescription>
+                Basic SEO and analytics settings for your website
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="googleAnalyticsId">Google Analytics ID</Label>
+                <Input
+                  id="googleAnalyticsId"
+                  value={settings.googleAnalyticsId}
+                  onChange={(e) => handleInputChange('googleAnalyticsId', e.target.value)}
+                  placeholder="G-XXXXXXXXXX or UA-XXXXXXXX-X"
+                />
+                <p className="text-sm text-muted-foreground mt-1">
+                  Enter your Google Analytics Measurement ID to enable tracking on all pages.
+                </p>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <Label htmlFor="defaultIndexable">Default Page Indexing</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Make all pages indexable by search engines by default. You can override this on individual pages.
+                  </p>
+                </div>
+                <Switch
+                  id="defaultIndexable"
+                  checked={settings.defaultIndexable}
+                  onCheckedChange={(checked) => handleInputChange('defaultIndexable', checked)}
                 />
               </div>
             </CardContent>
