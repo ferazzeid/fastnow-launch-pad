@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { AlertTriangle, CheckCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Clock, Utensils, Activity } from 'lucide-react';
 import { SchemaService } from '@/services/SchemaService';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
-import { ProtocolPhaseCard } from '@/components/ProtocolPhaseCard';
 import FAQSection from '@/components/FAQSection';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -285,45 +284,96 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
             </p>
           </div>
 
+          {/* Three Phase Cards */}
           <div className="grid md:grid-cols-3 gap-8">
-            <ProtocolPhaseCard
-              phaseNumber={1}
-              title={phaseContent.phase1.title}
-              content={{
-                duration: phaseContent.phase1.duration,
-                purpose: phaseContent.phase1.purpose,
-                instructions: phaseContent.phase1.instructions,
-                details: phaseContent.phase1.details
-              }}
-              image={phaseContent.phase1.image}
-            />
-            
-            <ProtocolPhaseCard
-              phaseNumber={2}
-              title={phaseContent.phase2.title}
-              content={{
-                duration: phaseContent.phase2.duration,
-                calorieCap: phaseContent.phase2.calorieCap,
-                carbCap: phaseContent.phase2.carbCap,
-                deficit: phaseContent.phase2.deficit,
-                whyDeficit: phaseContent.phase2.whyDeficit,
-                howToSet: phaseContent.phase2.howToSet,
-                whatToEat: phaseContent.phase2.whatToEat,
-                tracking: phaseContent.phase2.tracking,
-                recovery: phaseContent.phase2.recovery
-              }}
-              image={phaseContent.phase2.image}
-            />
-            
-            <ProtocolPhaseCard
-              phaseNumber={3}
-              title={phaseContent.phase3.title}
-              content={{
-                rule: phaseContent.phase3.rule,
-                why: phaseContent.phase3.why
-              }}
-              image={phaseContent.phase3.image}
-            />
+            {/* Phase 1 */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6">
+                <div className="flex items-center gap-4">
+                  <div className="bg-white/20 p-3 rounded-full">
+                    <Clock className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="bg-white/20 rounded-full px-3 py-1 text-sm font-medium mb-2">Phase 1</div>
+                    <h3 className="text-xl font-bold">{phaseContent.phase1.title}</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6 space-y-4">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Duration</h4>
+                  <p className="text-gray-600">{phaseContent.phase1.duration}</p>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Purpose</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase1.purpose}</p>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Instructions</h4>
+                  <p className="text-gray-600 text-sm">{phaseContent.phase1.instructions}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Phase 2 */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6">
+                <div className="flex items-center gap-4">
+                  <div className="bg-white/20 p-3 rounded-full">
+                    <Utensils className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="bg-white/20 rounded-full px-3 py-1 text-sm font-medium mb-2">Phase 2</div>
+                    <h3 className="text-xl font-bold">{phaseContent.phase2.title}</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6 space-y-4">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Duration</h4>
+                  <p className="text-gray-600">{phaseContent.phase2.duration}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-red-50 p-3 rounded-lg border border-red-100">
+                    <h5 className="font-medium text-red-800 text-sm mb-1">Calorie Cap</h5>
+                    <p className="text-red-700 text-xs">{phaseContent.phase2.calorieCap}</p>
+                  </div>
+                  <div className="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                    <h5 className="font-medium text-orange-800 text-sm mb-1">Carb Cap</h5>
+                    <p className="text-orange-700 text-xs">{phaseContent.phase2.carbCap}</p>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Key Focus</h4>
+                  <p className="text-gray-600 text-sm">{phaseContent.phase2.deficit}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Phase 3 */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+              <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6">
+                <div className="flex items-center gap-4">
+                  <div className="bg-white/20 p-3 rounded-full">
+                    <Activity className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="bg-white/20 rounded-full px-3 py-1 text-sm font-medium mb-2">Phase 3</div>
+                    <h3 className="text-xl font-bold">{phaseContent.phase3.title}</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6 space-y-4">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Rule</h4>
+                  <p className="text-gray-600 font-medium">{phaseContent.phase3.rule}</p>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Why</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase3.why}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
