@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Search, Edit, Trash2, Eye, Calendar } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, Eye, Calendar, Image } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
 import { BlogPost } from '@/types/blog';
 import { databaseBlogService } from '@/services/DatabaseBlogService';
@@ -180,8 +180,26 @@ const AdminBlog = () => {
             {filteredPosts.map((post) => (
               <Card key={post.id}>
                 <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
+                  <div className="flex items-start gap-4">
+                    {/* Featured Image Preview */}
+                    <div className="flex-shrink-0 w-24 h-24 bg-muted rounded-lg overflow-hidden border-2 border-dashed border-muted-foreground/20">
+                      {post.featuredImage ? (
+                        <img 
+                          src={post.featuredImage} 
+                          alt={`Featured image for ${post.title}`}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-muted">
+                          <div className="text-center">
+                            <Image className="w-6 h-6 mx-auto text-muted-foreground/40 mb-1" />
+                            <span className="text-xs text-muted-foreground/60">No Image</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <Badge variant={post.status === 'published' ? 'default' : 'secondary'}>
                           {post.status}
@@ -190,12 +208,17 @@ const AdminBlog = () => {
                           <Calendar className="w-4 h-4" />
                           {formatDate(post.updatedAt)}
                         </div>
+                        {!post.featuredImage && (
+                          <Badge variant="outline" className="text-xs text-orange-600 border-orange-200">
+                            Missing Image
+                          </Badge>
+                        )}
                       </div>
-                      <CardTitle className="mb-2">{post.title}</CardTitle>
-                      <CardDescription>{post.excerpt}</CardDescription>
+                      <CardTitle className="mb-2 truncate">{post.title}</CardTitle>
+                      <CardDescription className="line-clamp-2">{post.excerpt}</CardDescription>
                       
                       {post.categories.length > 0 && (
-                        <div className="flex gap-1 mt-2">
+                        <div className="flex gap-1 mt-2 flex-wrap">
                           {post.categories.map(category => (
                             <Badge key={category} variant="outline" className="text-xs">
                               {category}
@@ -205,16 +228,16 @@ const AdminBlog = () => {
                       )}
                     </div>
                     
-                    <div className="flex items-center gap-2 ml-4">
+                    <div className="flex flex-col items-center gap-2">
                       {post.status === 'published' && (
                         <Link to={`/blog/${post.slug}`} target="_blank">
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" title="View Post">
                             <Eye className="w-4 h-4" />
                           </Button>
                         </Link>
                       )}
                       <Link to={`/admin/blog/edit/${post.id}`}>
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost" size="sm" title="Edit Post">
                           <Edit className="w-4 h-4" />
                         </Button>
                       </Link>
@@ -223,6 +246,7 @@ const AdminBlog = () => {
                         size="sm" 
                         onClick={() => handleDeletePost(post.id)}
                         className="text-red-600 hover:text-red-700"
+                        title="Delete Post"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
