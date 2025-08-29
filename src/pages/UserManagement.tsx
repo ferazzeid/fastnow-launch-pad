@@ -1,105 +1,78 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/sonner";
-import { AuthService, User } from "@/services/AuthService";
+import { SupabaseAuthService } from "@/services/SupabaseAuthService";
+import { useAuth } from "@/hooks/useAuth";
 import { Eye, EyeOff } from "lucide-react";
 
 const UserManagement: React.FC = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const { user, isAdmin, isLoading } = useAuth();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  useEffect(() => {
-    console.log('UserManagement: Component mounted');
-    
-    // Check legacy authentication first
-    const legacyAuth = localStorage.getItem('fastingApp_auth');
-    console.log('UserManagement: Legacy auth status:', legacyAuth);
-    
-    // Check modern session authentication
-    const session = AuthService.getCurrentSession();
-    console.log('UserManagement: Current session:', session);
-    
-    const hasAdminPermission = AuthService.hasPermission('admin');
-    console.log('UserManagement: Has admin permission:', hasAdminPermission);
-    
-    // Allow access if either legacy auth OR session auth is valid
-    if (legacyAuth !== 'true' && (!session || !hasAdminPermission)) {
-      console.log('UserManagement: Authentication failed, redirecting to admin');
-      navigate('/admin');
-      return;
+  // Redirect if not authenticated or not admin
+  React.useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      if (user && isAdmin === false) {
+        navigate('/admin');
+        toast.error("Access denied. Admin privileges required.");
+        return;
+      }
     }
-    
-    console.log('UserManagement: Authentication successful');
-    setIsAuthenticated(true);
-
-    // Load current admin user
-    AuthService.getUsers().then(users => {
-      console.log('UserManagement: All users:', users);
-      const adminUser = users.find(user => user.role === 'admin');
-      console.log('UserManagement: Admin user found:', adminUser);
-      setCurrentUser(adminUser || null);
-    });
-  }, [navigate]);
+  }, [user, isAdmin, isLoading, navigate]);
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!currentUser) {
-      toast.error("No admin user found");
+    if (!user) {
+      toast.error("No user found");
       return;
     }
-
-    console.log('Password validation:', {
-      newPassword: `"${newPassword}"`,
-      confirmPassword: `"${confirmPassword}"`,
-      newPasswordLength: newPassword.length,
-      confirmPasswordLength: confirmPassword.length,
-      areEqual: newPassword === confirmPassword,
-      trimmedEqual: newPassword.trim() === confirmPassword.trim()
-    });
 
     if (newPassword.trim() !== confirmPassword.trim()) {
       toast.error("Passwords do not match");
       return;
     }
 
-    if (newPassword.length < 8) {
-      toast.error("Password must be at least 8 characters long");
+    if (newPassword.length < 6) {
+      toast.error("Password must be at least 6 characters long");
       return;
     }
 
-    // Update the admin user's password
+    setIsUpdating(true);
+    
     try {
-      const users = await AuthService.getUsers();
-      const updatedUsers = await Promise.all(users.map(async (user) => {
-        if (user.id === currentUser.id) {
-          const hashedPassword = await AuthService.hashPassword(newPassword.trim());
-          return { ...user, password: hashedPassword };
-        }
-        return user;
-      }));
-
-      AuthService.saveUsers(updatedUsers);
-      toast.success("Password updated successfully");
+      const result = await SupabaseAuthService.updatePassword(newPassword);
       
-      // Clear form
-      setNewPassword('');
-      setConfirmPassword('');
-      setShowPassword(false);
-      setShowConfirmPassword(false);
+      if (result.success) {
+        toast.success("Password updated successfully!");
+        
+        // Clear the form
+        setNewPassword('');
+        setConfirmPassword('');
+        setShowPassword(false);
+        setShowConfirmPassword(false);
+      } else {
+        toast.error(result.error || "Failed to update password");
+      }
     } catch (error) {
-      console.error('Password update error:', error);
+      console.error('Error updating password:', error);
       toast.error("Failed to update password");
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -107,7 +80,18 @@ const UserManagement: React.FC = () => {
     navigate('/admin');
   };
 
-  if (!isAuthenticated) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user || isAdmin !== true) {
     return null;
   }
 
@@ -125,18 +109,14 @@ const UserManagement: React.FC = () => {
           {/* Admin Account Info */}
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Current Admin Account</CardTitle>
+              <CardTitle>Current Admin User</CardTitle>
             </CardHeader>
             <CardContent>
-              {currentUser ? (
-                <div className="space-y-2">
-                  <p><strong>Username:</strong> {currentUser.username}</p>
-                  <p><strong>Role:</strong> {currentUser.role}</p>
-                  <p><strong>Account Created:</strong> {new Date(currentUser.dateAdded).toLocaleDateString()}</p>
-                </div>
-              ) : (
-                <p className="text-muted-foreground">No admin account found</p>
-              )}
+              <div className="space-y-2">
+                <p><strong>Email:</strong> {user.email}</p>
+                <p><strong>Role:</strong> Admin</p>
+                <p><strong>User ID:</strong> {user.id}</p>
+              </div>
             </CardContent>
           </Card>
 
@@ -155,9 +135,9 @@ const UserManagement: React.FC = () => {
                       type={showPassword ? "text" : "password"}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="Enter new password (min 8 characters)"
+                      placeholder="Enter new password (min 6 characters)"
                       required
-                      minLength={8}
+                      minLength={6}
                       className="pr-10"
                     />
                     <Button
@@ -185,7 +165,7 @@ const UserManagement: React.FC = () => {
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Confirm new password"
                       required
-                      minLength={8}
+                      minLength={6}
                       className="pr-10"
                     />
                     <Button
@@ -203,8 +183,12 @@ const UserManagement: React.FC = () => {
                     </Button>
                   </div>
                 </div>
-                <Button type="submit" className="w-full">
-                  Update Password
+                <Button 
+                  type="submit" 
+                  className="w-full"
+                  disabled={isUpdating}
+                >
+                  {isUpdating ? 'Updating...' : 'Change Password'}
                 </Button>
               </form>
             </CardContent>
