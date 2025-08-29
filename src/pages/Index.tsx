@@ -612,13 +612,33 @@ const Index = () => {
                 Why This Is Working
               </h2>
 
-
               <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
                 {slide3Content.split('\n\n').map((paragraph, index) => (
                   <p key={index}>
                     {paragraph}
                   </p>
                 ))}
+              </div>
+              
+              {/* Three Phases Ceramic Plates */}
+              <div className="mt-12 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                  <HomepagePhaseCard
+                    phaseNumber={1}
+                    title="3-Day Water Fast"
+                    image={phaseImages.phase1}
+                  />
+                  <HomepagePhaseCard
+                    phaseNumber={2}
+                    title="Strict Simple Diet"
+                    image={phaseImages.phase2}
+                  />
+                  <HomepagePhaseCard
+                    phaseNumber={3}
+                    title="Daily Walking"
+                    image={phaseImages.phase3}
+                  />
+                </div>
               </div>
               
               <div className="mt-8">
