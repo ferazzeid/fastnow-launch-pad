@@ -186,12 +186,12 @@ const AboutFastNowApp = () => {
                 {/* Launch App Button */}
                 <div className="mt-6 lg:mt-8 pt-4 lg:pt-6 border-t border-white/20"> 
                   <Button 
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2 hover:shadow-xl hover:scale-105"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 inline-flex items-center gap-2 hover:shadow-xl hover:scale-105"
                     asChild
                   >
                     <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
                       Launch App
-                      <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </a>
@@ -237,8 +237,8 @@ const AboutFastNowApp = () => {
                       <div className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                         <div className="text-center lg:text-left">
                           <div className="flex items-center gap-3 mb-4 justify-center lg:justify-start">
-                            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                              {feature.icon}
+                            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                              {React.cloneElement(feature.icon, { className: "w-8 h-8 text-gray-700" })}
                             </div>
                             <h3 className="text-3xl font-bold">{feature.title}</h3>
                           </div>
@@ -254,7 +254,7 @@ const AboutFastNowApp = () => {
                           <ul className="space-y-3">
                             {feature.features.map((item, featureIndex) => (
                               <li key={featureIndex} className="flex items-start gap-3">
-                                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                                <div className="w-2 h-2 bg-gray-600 rounded-full mt-2 flex-shrink-0"></div>
                                 <span className="text-muted-foreground">{item}</span>
                               </li>
                             ))}
@@ -283,7 +283,7 @@ const AboutFastNowApp = () => {
         {/* Pricing Section: Free vs Premium */}
         <div className="py-16 bg-gray-50 w-full">
           <div className="container max-w-5xl mx-auto">
-            <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-4">
+            <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
               Free vs Premium — 7‑day trial included
             </h2>
             <p className="text-center text-muted-foreground mb-10">
@@ -298,10 +298,10 @@ const AboutFastNowApp = () => {
                   <span className="text-lg text-muted-foreground">$0</span>
                 </div>
                 <ul className="space-y-3 text-muted-foreground mb-6 flex-grow">
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Fasting Timer</li>
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Walking Tracker</li>
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Motivators</li>
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Food Log locked after trial</li>
+                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Fasting Timer</li>
+                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Walking Tracker</li>
+                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Motivators</li>
+                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Food Log locked after trial</li>
                 </ul>
                 <div className="text-center">
                   <Button variant="outline" asChild>
@@ -317,8 +317,8 @@ const AboutFastNowApp = () => {
                   <span className="text-lg text-foreground">$9/month</span>
                 </div>
                 <ul className="space-y-3 text-muted-foreground mb-6 flex-grow">
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Everything in Free</li>
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-primary mt-2" />Food Log unlocked after trial</li>
+                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Everything in Free</li>
+                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Food Log unlocked after trial</li>
                 </ul>
                 <div className="text-center">
                   <Button asChild>
@@ -339,12 +339,12 @@ const AboutFastNowApp = () => {
           <div className="container max-w-3xl mx-auto">
             <div className="bg-white rounded-xl shadow-lg border border-primary/20 p-6">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-primary mb-2">💡 Pro Tip: Install as App</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">💡 Pro Tip: Install as App</h3>
                 <p className="text-muted-foreground text-sm">Add FastNow to your home screen for full-screen access and daily convenience</p>
               </div>
 
@@ -361,8 +361,8 @@ const AboutFastNowApp = () => {
                 <TabsContent value="why" className="mt-4">
                   <div className="grid md:grid-cols-3 gap-4 text-center">
                     <div>
-                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                       </div>
@@ -370,8 +370,8 @@ const AboutFastNowApp = () => {
                       <p className="text-xs text-muted-foreground">No typing URLs</p>
                     </div>
                     <div>
-                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                         </svg>
                       </div>
@@ -379,8 +379,8 @@ const AboutFastNowApp = () => {
                       <p className="text-xs text-muted-foreground">No browser distractions</p>
                     </div>
                     <div>
-                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
@@ -393,19 +393,19 @@ const AboutFastNowApp = () => {
                 <TabsContent value="android" className="mt-4">
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">1</div>
+                      <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">1</div>
                       <div>
                         <p className="text-sm"><strong>Open in Chrome:</strong> Go to fastnow.app</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">2</div>
+                      <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">2</div>
                       <div>
                         <p className="text-sm"><strong>Add to Home:</strong> Tap ⋮ menu → "Add to Home screen"</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">3</div>
+                      <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">3</div>
                       <div>
                         <p className="text-sm"><strong>Done:</strong> Tap FastNow icon on home screen</p>
                       </div>
@@ -416,19 +416,19 @@ const AboutFastNowApp = () => {
                 <TabsContent value="iphone" className="mt-4">
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">1</div>
+                      <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">1</div>
                       <div>
                         <p className="text-sm"><strong>Open in Safari:</strong> Go to fastnow.app</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">2</div>
+                      <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">2</div>
                       <div>
                         <p className="text-sm"><strong>Add to Home:</strong> Tap Share button → "Add to Home Screen"</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">3</div>
+                      <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">3</div>
                       <div>
                         <p className="text-sm"><strong>Done:</strong> Tap FastNow icon on home screen</p>
                       </div>
@@ -438,28 +438,28 @@ const AboutFastNowApp = () => {
 
                 <TabsContent value="access" className="mt-4">
                   <div className="space-y-4">
-                    <div className="bg-gray-50 rounded-lg p-4">
-                      <div className="flex items-start gap-3">
-                        <svg className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.43 11.43 0 0 0-8.94 0L5.65 5.67a.637.637 0 0 0-.83-.22c-.3.16-.42.54-.26.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/>
-                        </svg>
-                        <div>
-                          <h4 className="font-semibold text-sm mb-1">Android - Add to Navigation Dock</h4>
-                          <p className="text-xs text-muted-foreground">After adding to home screen, long-press the FastNow icon and drag it to the bottom navigation dock for instant daily access.</p>
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex items-start gap-3">
+                          <svg className="w-6 h-6 text-gray-700 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.43 11.43 0 0 0-8.94 0L5.65 5.67a.637.637 0 0 0-.83-.22c-.3.16-.42.54-.26.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/>
+                          </svg>
+                          <div>
+                            <h4 className="font-semibold text-sm mb-1">Android - Add to Navigation Dock</h4>
+                            <p className="text-xs text-muted-foreground">After adding to home screen, long-press the FastNow icon and drag it to the bottom navigation dock for instant daily access.</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-4">
-                      <div className="flex items-start gap-3">
-                        <svg className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                        </svg>
-                        <div>
-                          <h4 className="font-semibold text-sm mb-1">iPhone - Add to Dock</h4>
-                          <p className="text-xs text-muted-foreground">After adding to home screen, touch and hold the FastNow icon, tap "Edit Home Screen", then drag it to the dock at the bottom for quick access.</p>
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex items-start gap-3">
+                          <svg className="w-6 h-6 text-gray-700 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                          </svg>
+                          <div>
+                            <h4 className="font-semibold text-sm mb-1">iPhone - Add to Dock</h4>
+                            <p className="text-xs text-muted-foreground">After adding to home screen, touch and hold the FastNow icon, tap "Edit Home Screen", then drag it to the dock at the bottom for quick access.</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
                   </div>
                 </TabsContent>
               </Tabs>
