@@ -175,13 +175,6 @@ const Admin = () => {
                 </Button>
               </Link>
 
-              <Link to="/admin/blog/new">
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Create New Post
-                </Button>
-              </Link>
-
               <Link to="/admin/ring-bell-gallery">
                 <Button variant="outline" className="w-full justify-start">
                   <Image className="mr-2 h-4 w-4" />
