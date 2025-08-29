@@ -54,23 +54,19 @@ const PageFeaturedImageSettings: React.FC<PageFeaturedImageSettingsProps> = ({
 
     setIsUploading(true);
     try {
-      const { supabase } = await import('@/integrations/supabase/client');
+      const { ImageUploadService } = await import('@/services/ImageUploadService');
       
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${pageKey}-featured-${Date.now()}.${fileExt}`;
-      const filePath = `featured-images/${fileName}`;
+      const fileName = `${pageKey}-featured-${Date.now()}`;
+      
+      // Use replaceImage to delete old image and upload new one
+      const result = await ImageUploadService.replaceImage(
+        file, 
+        'featured-images', 
+        imageUrl, // Pass current image URL to delete it
+        fileName
+      );
 
-      const { error: uploadError } = await supabase.storage
-        .from('website-images')
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('website-images')
-        .getPublicUrl(filePath);
-
-      setImageUrl(publicUrl);
+      setImageUrl(result.url);
       toast.success('Image uploaded successfully!');
     } catch (error) {
       console.error('Error uploading image:', error);

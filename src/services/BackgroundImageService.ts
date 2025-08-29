@@ -104,13 +104,48 @@ export class BackgroundImageService {
   }
 
   static async deleteImage(id: string): Promise<void> {
+    // First get the image URL to extract the storage path
+    const { data: imageData, error: fetchError } = await supabase
+      .from('background_images')
+      .select('image_url')
+      .eq('id', id)
+      .single();
+
+    if (fetchError) {
+      console.error('Error fetching background image for deletion:', fetchError);
+      throw fetchError;
+    }
+
+    // Extract storage path and delete from storage
+    if (imageData?.image_url) {
+      try {
+        const { ImageUploadService } = await import('./ImageUploadService');
+        const storagePath = ImageUploadService.extractPathFromUrl(imageData.image_url);
+        
+        if (storagePath) {
+          // Delete from storage (use background-images bucket)
+          const { error: storageError } = await supabase.storage
+            .from('background-images')
+            .remove([storagePath.replace('backgrounds/', '')]); // Remove folder prefix as it's implied in bucket structure
+          
+          if (storageError) {
+            console.warn('Failed to delete image from storage:', storageError);
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to delete image from storage:', error);
+        // Continue with database deletion even if storage deletion fails
+      }
+    }
+
+    // Delete from database
     const { error } = await supabase
       .from('background_images')
       .delete()
       .eq('id', id);
 
     if (error) {
-      console.error('Error deleting background image:', error);
+      console.error('Error deleting background image from database:', error);
       throw error;
     }
   }

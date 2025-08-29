@@ -56,9 +56,14 @@ export default function FeatureScreenshotSettings() {
 
     setUploadingFeature(featureKey);
     try {
-      const uploadResult = await ImageUploadService.uploadImage(
+      // Get current screenshot to delete old image
+      const currentScreenshot = screenshots.find(s => s.feature_key === featureKey);
+      const oldImageUrl = currentScreenshot?.image_url;
+      
+      const uploadResult = await ImageUploadService.replaceImage(
         file, 
         'feature-screenshots', 
+        oldImageUrl, // Pass old image URL for deletion
         `${featureKey}-${Date.now()}`
       );
       

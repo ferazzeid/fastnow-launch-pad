@@ -37,24 +37,35 @@ const BlogFeaturedImageUpload: React.FC<BlogFeaturedImageUploadProps> = ({
 
     setIsUploading(true);
     try {
-      const { supabase } = await import('@/integrations/supabase/client');
+      const { BlogImageService } = await import('@/services/BlogImageService');
       
-      const fileExt = file.name.split('.').pop();
-      const fileName = `blog-featured-${Date.now()}.${fileExt}`;
-      const filePath = `featured/${fileName}`;
+      const fileName = `blog-featured-${Date.now()}`;
+      
+      // Check if current image is one of our predefined featured images
+      const predefinedImages = [
+        'blog-featured-1.jpg', 'blog-featured-2.jpg', 'blog-featured-3.jpg', 
+        'blog-featured-4.jpg', 'blog-featured-5.jpg'
+      ];
+      const shouldDeleteOld = currentImageUrl && !predefinedImages.some(img => currentImageUrl.includes(img));
+      
+      // Upload new image (with old image deletion if applicable)
+      const result = await BlogImageService.uploadBlogImage(file, fileName);
 
-      const { error: uploadError } = await supabase.storage
-        .from('blog-images')
-        .upload(filePath, file);
+      // Delete old image if it's not a predefined one and exists
+      if (shouldDeleteOld) {
+        try {
+          const { ImageUploadService } = await import('@/services/ImageUploadService');
+          const oldPath = ImageUploadService.extractPathFromUrl(currentImageUrl);
+          if (oldPath) {
+            await ImageUploadService.deleteImage(oldPath);
+          }
+        } catch (error) {
+          console.warn('Failed to delete old image:', error);
+        }
+      }
 
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('blog-images')
-        .getPublicUrl(filePath);
-
-      setImageUrl(publicUrl);
-      onImageChange(publicUrl);
+      setImageUrl(result.url);
+      onImageChange(result.url);
       toast.success('Featured image uploaded successfully!');
     } catch (error) {
       console.error('Error uploading image:', error);
