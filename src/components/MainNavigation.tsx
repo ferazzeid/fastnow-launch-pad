@@ -18,8 +18,6 @@ const MainNavigation = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [launchButtonColor, setLaunchButtonColor] = useState('#10B981');
-
   // Static navigation links - no database calls needed
   const navigationLinks = [
     { path: '/', title: 'Home' },
@@ -27,25 +25,11 @@ const MainNavigation = () => {
     { path: '/about-fastnow-app', title: 'About App' }
   ];
 
-  // Simple mobile detection and load launch button color
+  // Simple mobile detection
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
-    // Load launch button color
-    const loadLaunchButtonColor = async () => {
-      try {
-        const color = await SiteSettingsService.getSetting('launch_button_color');
-        if (color) {
-          setLaunchButtonColor(String(color));
-        }
-      } catch (error) {
-        console.error('Error loading launch button color:', error);
-      }
-    };
-    
-    loadLaunchButtonColor();
     
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -83,17 +67,7 @@ const MainNavigation = () => {
           target="_blank" 
           rel="noopener noreferrer" 
           onClick={onLinkClick}
-          className="px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 text-white inline-flex items-center gap-2 hover:shadow-lg hover:scale-105"
-          style={{ 
-            backgroundColor: launchButtonColor,
-            boxShadow: `0 2px 8px 0 ${launchButtonColor}40`
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = `${launchButtonColor}dd`;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = launchButtonColor;
-          }}
+          className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 inline-flex items-center gap-2 hover:shadow-lg hover:scale-105"
         >
           Launch App
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

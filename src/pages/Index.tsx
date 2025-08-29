@@ -513,8 +513,7 @@ const Index = () => {
                 <div className="mt-8">
                   <Link to="/about-fastnow-app">
                     <Button 
-                      className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
-                      style={{ backgroundColor: launchButtonColor }}
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
                     >
                       Read More
                       <ArrowRight className="w-5 h-5" />
@@ -613,62 +612,6 @@ const Index = () => {
                 Why This Is Working
               </h2>
 
-              {/* Protocol Phases Section - Ceramic Plates */}
-              <div className="my-8">
-                {/* Desktop Layout */}
-                <div className="hidden md:flex items-center justify-center gap-8 mb-8">
-                  <HomepagePhaseCard
-                    phaseNumber={1}
-                    title="3-Day Water Fast"
-                    image={phaseImages.phase1}
-                  />
-                  
-                  {/* Plus Icon */}
-                  <div className="text-3xl font-bold text-muted-foreground">+</div>
-                  
-                  <HomepagePhaseCard
-                    phaseNumber={2}
-                    title="Diet Control"
-                    image={phaseImages.phase2}
-                  />
-                  
-                  {/* Plus Icon */}
-                  <div className="text-3xl font-bold text-muted-foreground">+</div>
-                  
-                  <HomepagePhaseCard
-                    phaseNumber={3}
-                    title="Daily Walking"
-                    image={phaseImages.phase3}
-                  />
-                </div>
-
-                {/* Mobile Layout */}
-                <div className="md:hidden flex flex-col items-center space-y-6 mb-8">
-                  <HomepagePhaseCard
-                    phaseNumber={1}
-                    title="3-Day Water Fast"
-                    image={phaseImages.phase1}
-                  />
-                  
-                  {/* Plus Icon */}
-                  <div className="text-2xl font-bold text-muted-foreground">+</div>
-                  
-                  <HomepagePhaseCard
-                    phaseNumber={2}
-                    title="Diet Control"
-                    image={phaseImages.phase2}
-                  />
-                  
-                  {/* Plus Icon */}
-                  <div className="text-2xl font-bold text-muted-foreground">+</div>
-                  
-                  <HomepagePhaseCard
-                    phaseNumber={3}
-                    title="Daily Walking"
-                    image={phaseImages.phase3}
-                  />
-                </div>
-              </div>
 
               <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
                 {slide3Content.split('\n\n').map((paragraph, index) => (
@@ -681,8 +624,7 @@ const Index = () => {
               <div className="mt-8">
                 <Link to="/fast-now-protocol">
                   <Button 
-                    className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
-                    style={{ backgroundColor: launchButtonColor }}
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
                   >
                     Read More
                     <ArrowRight className="w-5 h-5" />

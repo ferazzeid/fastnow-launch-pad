@@ -24,7 +24,7 @@ const AboutFastNowApp = () => {
 
   const [pageContent, setPageContent] = useState<any>(null);
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
-  const [launchButtonColor, setLaunchButtonColor] = useState('#10B981');
+  
   const [appSchema, setAppSchema] = useState<any>(null);
 
   const features = [
@@ -100,12 +100,6 @@ const AboutFastNowApp = () => {
           setContent(settings.aboutAppContent);
         }
         
-        // Load launch button color from settings
-        if (settings.launch_button_color) {
-          setLaunchButtonColor(settings.launch_button_color);
-          // Apply to CSS custom property
-          document.documentElement.style.setProperty('--launch-button-color', settings.launch_button_color);
-        }
         
         setPageContent(aboutAppPageContent);
         setFeatureScreenshots(screenshots);
@@ -191,24 +185,17 @@ const AboutFastNowApp = () => {
                 
                 {/* Launch App Button */}
                 <div className="mt-6 lg:mt-8 pt-4 lg:pt-6 border-t border-white/20"> 
-                  <button 
-                    className="text-white px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2 hover:shadow-xl hover:scale-105"
-                    style={{ 
-                      backgroundColor: launchButtonColor,
-                      boxShadow: `0 4px 14px 0 ${launchButtonColor}40`
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = `${launchButtonColor}dd`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = launchButtonColor;
-                    }}
+                  <Button 
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2 hover:shadow-xl hover:scale-105"
+                    asChild
                   >
-                    Launch App
-                    <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </button>
+                    <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
+                      Launch App
+                      <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  </Button>
                 </div>
               </div>
             </div>
