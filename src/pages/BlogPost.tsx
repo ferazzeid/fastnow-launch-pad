@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet-async';
 import { BlogPost as BlogPostType } from '@/types/blog';
 import { databaseBlogService } from '@/services/DatabaseBlogService';
 import ReactMarkdown from 'react-markdown';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -16,6 +17,7 @@ const BlogPost = () => {
   const [post, setPost] = useState<BlogPostType | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [relatedPosts, setRelatedPosts] = useState<BlogPostType[]>([]);
 
   useEffect(() => {
     // Check if user is authenticated as admin
@@ -27,6 +29,16 @@ const BlogPost = () => {
     const loadPost = async () => {
       const foundPost = await databaseBlogService.getPostBySlug(slug);
       setPost(foundPost);
+      
+      if (foundPost) {
+        // Load related posts (excluding current post)
+        const allPosts = await databaseBlogService.getAllPosts();
+        const related = allPosts
+          .filter(p => p.id !== foundPost.id && p.status === 'published')
+          .slice(0, 3);
+        setRelatedPosts(related);
+      }
+      
       setLoading(false);
     };
 
@@ -251,15 +263,64 @@ const BlogPost = () => {
           </div>
         )}
 
-        {/* Back to Blog - REMOVED, now in nav menu */}
-        <div className="mt-16 text-center">
-          <Link to="/blog">
-            <Button variant="outline" size="lg">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to All Posts
-            </Button>
-          </Link>
-        </div>
+        {/* Related Posts Section */}
+        {relatedPosts.length > 0 && (
+          <div className="mt-16 pt-8 border-t border-gray-200 max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold mb-8 text-center">You may also be interested in</h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              {relatedPosts.map((relatedPost) => (
+                <Card key={relatedPost.id} className="hover:shadow-lg transition-shadow border-l-4 border-l-accent-green">
+                  {relatedPost.featuredImage && (
+                    <Link to={`/blog/${relatedPost.slug}`} className="block">
+                      <div className="aspect-video overflow-hidden rounded-t-lg">
+                        <img
+                          src={relatedPost.featuredImage}
+                          alt={relatedPost.title}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    </Link>
+                  )}
+                  <CardHeader className="pb-2">
+                    <CardTitle className="line-clamp-2 text-lg">
+                      <Link 
+                        to={`/blog/${relatedPost.slug}`}
+                        className="hover:text-accent-green transition-colors"
+                      >
+                        {relatedPost.title}
+                      </Link>
+                    </CardTitle>
+                    <CardDescription className="line-clamp-2 text-sm">
+                      {relatedPost.excerpt}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-1 flex-wrap">
+                        {relatedPost.categories.slice(0, 1).map(category => (
+                          <span
+                            key={category}
+                            className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-accent-green/10 text-accent-green"
+                          >
+                            <Tag className="w-3 h-3" />
+                            {category}
+                          </span>
+                        ))}
+                      </div>
+                      <Link
+                        to={`/blog/${relatedPost.slug}`}
+                        className="text-accent-green hover:underline text-sm font-medium"
+                      >
+                        Read More
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
       </article>
 
       <Footer />
