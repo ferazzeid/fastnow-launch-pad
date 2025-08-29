@@ -82,6 +82,7 @@ const AppRoutes = () => {
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
+      <Route path="/admin/faq" element={<AdminFAQ />} />
       <Route path="/admin/fasting-timeline" element={<AdminFastingTimeline />} />
       <Route path="/admin/fasting-timeline/export" element={<AdminFastingTimelineExport />} />
       <Route path="/admin/ring-bell-gallery" element={<AdminRingBellGallery />} />
