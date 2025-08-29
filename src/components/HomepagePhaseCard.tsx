@@ -43,7 +43,6 @@ export const HomepagePhaseCard: React.FC<HomepagePhaseCardProps> = ({
   className
 }) => {
   const Icon = getPhaseIcon(phaseNumber);
-  const iconColor = getPhaseColor(phaseNumber);
 
   return (
     <div className={cn("flex flex-col items-center", className)}>
@@ -57,18 +56,9 @@ export const HomepagePhaseCard: React.FC<HomepagePhaseCardProps> = ({
             />
           )}
           
-          {/* Phase Number */}
-          <div className="relative z-10 mb-3">
-            <span className="text-2xl font-bold text-muted-foreground">
-              {phaseNumber}
-            </span>
-          </div>
-          
-          {/* Icon */}
-          <div className="relative z-10 mb-3">
-            <div className="p-3 rounded-full bg-background/80 backdrop-blur-sm">
-              <Icon className={cn("w-8 h-8", iconColor)} />
-            </div>
+          {/* Large Black Icon */}
+          <div className="relative z-10 mb-6">
+            <Icon className="w-16 h-16 text-black" />
           </div>
           
           {/* Title */}

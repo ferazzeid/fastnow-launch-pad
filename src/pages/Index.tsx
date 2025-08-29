@@ -675,17 +675,33 @@ const Index = () => {
               
               {/* Three Phases Ceramic Plates */}
               <div className="mt-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-16 max-w-5xl mx-auto">
                   <HomepagePhaseCard
                     phaseNumber={1}
                     title="3-Day Water Fast"
                     image={phaseImages.phase1}
                   />
+                  
+                  {/* Plus Sign */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
+                      +
+                    </div>
+                  </div>
+                  
                   <HomepagePhaseCard
                     phaseNumber={2}
                     title="Strict Simple Diet"
                     image={phaseImages.phase2}
                   />
+                  
+                  {/* Plus Sign */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
+                      +
+                    </div>
+                  </div>
+                  
                   <HomepagePhaseCard
                     phaseNumber={3}
                     title="Daily Walking"
