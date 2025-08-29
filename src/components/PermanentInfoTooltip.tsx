@@ -125,12 +125,7 @@ const PermanentInfoTooltip: React.FC<PermanentInfoTooltipProps> = ({
         )}
       >
         {/* Header with Author Image - Green background */}
-        <div style={{ backgroundColor: '#dac471' }} className="text-white px-4 py-3 flex items-center gap-3">
-          <img 
-            src={finalAuthorImage} 
-            alt={finalAuthorName}
-            className="w-8 h-8 rounded-full object-cover border-2 border-white/50 grayscale"
-          />
+        <div style={{ backgroundColor: '#dac471' }} className="text-white px-4 py-3 flex items-center justify-center">
           <h3 className="font-medium text-sm">{finalTitle}</h3>
         </div>
 
@@ -141,9 +136,10 @@ const PermanentInfoTooltip: React.FC<PermanentInfoTooltipProps> = ({
           </p>
         </div>
 
-        {/* White speech bubble tail pointing left */}
+        {/* White speech bubble tail pointing left - centered */}
         <div 
-          className="absolute w-3 h-3 bg-white transform rotate-45 -left-1.5 top-8"
+          className="absolute w-3 h-3 bg-white transform rotate-45 -left-1.5"
+          style={{ top: '50%', transform: 'translateY(-50%) rotate(45deg)' }}
         />
       </div>
     </div>

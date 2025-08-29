@@ -6,6 +6,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { pageContentService } from '@/services/PageContentService';
 import { BackgroundImageService } from '@/services/BackgroundImageService';
 import { supabase } from '@/integrations/supabase/client';
+import SiteInfoTooltip from '@/components/SiteInfoTooltip';
 import PermanentInfoTooltip from '@/components/PermanentInfoTooltip';
 import ImageSlideshow from '@/components/ImageSlideshow';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
@@ -427,7 +428,7 @@ const Index = () => {
                       </a>
                     </Button>
                     
-                    <PermanentInfoTooltip
+                    <SiteInfoTooltip
                       content="After years of struggling with complicated diet plans and fitness programs, I realized that simplicity is key. This protocol combines the most effective elements I've discovered through personal experience and research. It's not about perfection - it's about consistent progress that actually fits into your real life."
                       size="md"
                     />
@@ -686,24 +687,28 @@ const Index = () => {
         {/* Personal Touch Section - Speech Bubble Explanation */}
         <section className="relative z-10 py-16 bg-gray-100">
           <div className="container max-w-6xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900">
-                Adding a Human Touch
-              </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Throughout this site, you'll notice little speech bubbles that add a personal perspective to the content.
-              </p>
-            </div>
-            
-            <div className="flex justify-center">
-              <div className="relative">
-                <div className="scale-150 transform">
-                  <PermanentInfoTooltip 
-                    content="It's important to me to attach personal flair to the application and throughout the information that I'm sharing here. I'm trying to integrate these little bubbles where I specifically leave a personal note, a personal experience, or some kind of personal perspective on a particular topic. I think it's quite dry - even though I try to make it not as dry - every time you get to deal with a lot of theory and nutrition/weight loss topics, it's nice to have a real personal touch from a real human being who has actually gone through this process before."
-                    size="lg"
-                    className="mx-auto"
-                    position="bottom-right"
-                  />
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+              {/* Left Column - Title and Description */}
+              <div className="flex flex-col justify-start">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900">
+                  Adding a Human Touch
+                </h2>
+                <p className="text-lg text-gray-600 max-w-xl">
+                  Throughout this site, you'll notice little speech bubbles that add personal perspective and real experience to the content.
+                </p>
+              </div>
+              
+              {/* Right Column - Permanent Speech Bubble */}
+              <div className="flex justify-center lg:justify-start lg:pt-8">
+                <div className="relative">
+                  <div className="scale-125 transform">
+                    <PermanentInfoTooltip 
+                      content="I'm trying to integrate these little bubbles where I leave a personal note or perspective on particular topics. Weight loss theory can be quite dry, so it's nice to have a real personal touch from someone who has actually gone through this process."
+                      size="lg"
+                      className="mx-auto"
+                      position="bottom-right"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
