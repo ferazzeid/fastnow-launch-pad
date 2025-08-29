@@ -284,9 +284,9 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
             </p>
           </div>
 
-          {/* Three Phase Cards */}
+          {/* Three Phase Cards - Full Content */}
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Phase 1 */}
+            {/* Phase 1 - Complete Content */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6">
                 <div className="flex items-center gap-4">
@@ -299,6 +299,17 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                   </div>
                 </div>
               </div>
+              
+              {phaseContent.phase1.image && (
+                <div className="w-full h-48 overflow-hidden">
+                  <img 
+                    src={phaseContent.phase1.image} 
+                    alt={phaseContent.phase1.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              
               <div className="p-6 space-y-4">
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">Duration</h4>
@@ -312,10 +323,28 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                   <h4 className="font-semibold text-gray-900 mb-2">Instructions</h4>
                   <p className="text-gray-600 text-sm">{phaseContent.phase1.instructions}</p>
                 </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Details</h4>
+                  <div className="text-gray-600 text-sm leading-relaxed space-y-3">
+                    {formatContent(phaseContent.phase1.details)}
+                  </div>
+                </div>
+                {phaseContent.phase1.readMoreLink && (
+                  <div className="pt-4 border-t border-gray-200">
+                    <a 
+                      href={phaseContent.phase1.readMoreLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    >
+                      Read More â†’
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Phase 2 */}
+            {/* Phase 2 - Complete Content */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6">
                 <div className="flex items-center gap-4">
@@ -328,11 +357,23 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                   </div>
                 </div>
               </div>
+              
+              {phaseContent.phase2.image && (
+                <div className="w-full h-48 overflow-hidden">
+                  <img 
+                    src={phaseContent.phase2.image} 
+                    alt={phaseContent.phase2.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              
               <div className="p-6 space-y-4">
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">Duration</h4>
                   <p className="text-gray-600">{phaseContent.phase2.duration}</p>
                 </div>
+                
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-red-50 p-3 rounded-lg border border-red-100">
                     <h5 className="font-medium text-red-800 text-sm mb-1">Calorie Cap</h5>
@@ -343,14 +384,57 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                     <p className="text-orange-700 text-xs">{phaseContent.phase2.carbCap}</p>
                   </div>
                 </div>
+                
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Key Focus</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2">Deficit Goal</h4>
                   <p className="text-gray-600 text-sm">{phaseContent.phase2.deficit}</p>
                 </div>
+                
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Why This Deficit?</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase2.whyDeficit}</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">How to Set Calories</h4>
+                  <div className="text-gray-600 text-sm leading-relaxed space-y-2">
+                    {formatContent(phaseContent.phase2.howToSet)}
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">What to Eat</h4>
+                  <div className="text-gray-600 text-sm leading-relaxed space-y-2">
+                    {formatContent(phaseContent.phase2.whatToEat)}
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Tracking</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase2.tracking}</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Recovery</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase2.recovery}</p>
+                </div>
+                
+                {phaseContent.phase2.readMoreLink && (
+                  <div className="pt-4 border-t border-gray-200">
+                    <a 
+                      href={phaseContent.phase2.readMoreLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-green-600 hover:text-green-800 text-sm font-medium"
+                    >
+                      Read More â†’
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Phase 3 */}
+            {/* Phase 3 - Complete Content */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6">
                 <div className="flex items-center gap-4">
@@ -363,6 +447,17 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                   </div>
                 </div>
               </div>
+              
+              {phaseContent.phase3.image && (
+                <div className="w-full h-48 overflow-hidden">
+                  <img 
+                    src={phaseContent.phase3.image} 
+                    alt={phaseContent.phase3.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              
               <div className="p-6 space-y-4">
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">Rule</h4>
@@ -372,6 +467,18 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                   <h4 className="font-semibold text-gray-900 mb-2">Why</h4>
                   <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase3.why}</p>
                 </div>
+                {phaseContent.phase3.readMoreLink && (
+                  <div className="pt-4 border-t border-gray-200">
+                    <a 
+                      href={phaseContent.phase3.readMoreLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-600 hover:text-purple-800 text-sm font-medium"
+                    >
+                      Read More â†’
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </div>
