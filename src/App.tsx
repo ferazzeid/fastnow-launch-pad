@@ -77,9 +77,8 @@ const AppRoutes = () => {
       <Route path="/admin/protocol-unified" element={<AdminUnifiedProtocol />} />
       <Route path="/admin/about-app" element={<AdminAboutAppEditor />} />
       <Route path="/admin/about-app-unified" element={<AdminUnifiedAboutApp />} />
-      <Route path="/admin/faq" element={<AdminFAQEditor />} />
-      <Route path="/admin/faq-management" element={<AdminFAQ />} />
       <Route path="/admin/static-content" element={<AdminStaticContentEditor />} />
+      <Route path="/admin/contact" element={<AdminContactSettings />} />
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
@@ -87,7 +86,6 @@ const AppRoutes = () => {
       <Route path="/admin/fasting-timeline/export" element={<AdminFastingTimelineExport />} />
       <Route path="/admin/ring-bell-gallery" element={<AdminRingBellGallery />} />
       <Route path="/admin/sitemap" element={<AdminSitemapGenerator />} />
-        <Route path="/admin/contact" element={<AdminContactSettings />} />
       
       {/* Content pages */}
       <Route path="/privacy" element={<ContentPage />} />

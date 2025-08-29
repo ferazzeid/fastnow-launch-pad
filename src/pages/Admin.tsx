@@ -131,13 +131,6 @@ const Admin = () => {
                   About App
                 </Button>
               </Link>
-
-              <Link to="/admin/faq">
-                <Button variant="outline" className="w-full justify-start">
-                  <BookOpen className="mr-2 h-4 w-4" />
-                  FAQ Page Settings
-                </Button>
-              </Link>
             </CardContent>
           </Card>
 
@@ -168,13 +161,6 @@ const Admin = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Link to="/admin/faq-management">
-                <Button variant="outline" className="w-full justify-start">
-                  <BookOpen className="mr-2 h-4 w-4" />
-                  FAQ Items
-                </Button>
-              </Link>
-
               <Link to="/admin/blog">
                 <Button variant="outline" className="w-full justify-start">
                   <FileText className="mr-2 h-4 w-4" />
