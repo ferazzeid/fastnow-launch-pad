@@ -199,13 +199,19 @@ const BlogEditor = () => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Blog
             </Button>
+            
+            {/* Status indicator */}
+            <Badge variant={post.status === 'published' ? 'default' : 'outline'} className="mr-2">
+              {post.status === 'published' ? 'Published' : 'Draft'}
+            </Badge>
+            
             <Button variant="outline" onClick={() => handleSave('draft')}>
               <Save className="w-4 h-4 mr-2" />
-              Save Draft
+              Save as Draft
             </Button>
             <Button onClick={() => handleSave('published')}>
               <Eye className="w-4 h-4 mr-2" />
-              Publish
+              {post.status === 'published' ? 'Update & Publish' : 'Publish'}
             </Button>
           </div>
         </div>
@@ -295,7 +301,7 @@ const BlogEditor = () => {
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {post.categories.map(category => (
-                        <Badge key={category} variant="secondary" className="cursor-pointer">
+                        <Badge key={category} variant="outline" className="cursor-pointer bg-background hover:bg-muted">
                           {category}
                           <X 
                             className="w-3 h-3 ml-1" 
