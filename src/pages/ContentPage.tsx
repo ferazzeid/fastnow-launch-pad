@@ -16,8 +16,8 @@ const ContentPage = () => {
     if (urlPageType) return urlPageType;
     
     const path = location.pathname;
-    if (path === '/privacy') return 'privacy';
-    if (path === '/terms') return 'terms';
+    if (path === '/privacy') return 'privacy-policy'; // Match database key
+    if (path === '/terms') return 'terms-of-service'; // Match database key
     if (path === '/contact') return 'contact';
     
     return null;
@@ -26,6 +26,9 @@ const ContentPage = () => {
   const pageType = getPageTypeFromPath();
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
+  const [metaTitle, setMetaTitle] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
+  const [isIndexed, setIsIndexed] = useState(true); // Default to indexable
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -33,16 +36,16 @@ const ContentPage = () => {
       try {
         // Set the page title based on the page type
         switch(pageType) {
-          case 'privacy':
+          case 'privacy-policy':
             setTitle('Privacy Policy');
             break;
-          case 'terms':
+          case 'terms-of-service':
             setTitle('Terms of Service');
             break;
           case 'contact':
             setTitle('Contact Us');
-            setIsLoading(false);
-            return; // Don't load content for contact page
+            // Don't return early - load content for contact page too
+            break;
           default:
             setTitle('fastnow.app');
         }
@@ -51,8 +54,22 @@ const ContentPage = () => {
         let loadedContent = '';
         try {
           const pageContent = await pageContentService.getPageContent(pageType || '');
-          if (pageContent?.content) {
-            loadedContent = pageContent.content;
+          if (pageContent) {
+            // Load content and SEO data
+            if (pageContent.content) {
+              loadedContent = pageContent.content;
+            }
+            if (pageContent.title) {
+              setTitle(pageContent.title);
+            }
+            if (pageContent.meta_title) {
+              setMetaTitle(pageContent.meta_title);
+            }
+            if (pageContent.meta_description) {
+              setMetaDescription(pageContent.meta_description);
+            }
+            // Check if there's indexing preference saved (placeholder for future feature)
+            // setIsIndexed(pageContent.is_indexed ?? true);
           }
         } catch (error) {
           console.error('Failed to load content from database:', error);
@@ -66,12 +83,19 @@ const ContentPage = () => {
           }
         }
 
-        // Final fallback to default content
+        // Final fallback to default content and SEO
         if (!loadedContent) {
-          if (pageType === 'privacy') {
+          if (pageType === 'privacy-policy') {
             loadedContent = getDefaultPrivacyPolicy();
-          } else if (pageType === 'terms') {
+            if (!metaTitle) setMetaTitle('Privacy Policy - FastNow');
+            if (!metaDescription) setMetaDescription('Read our privacy policy to understand how we protect and handle your personal data.');
+          } else if (pageType === 'terms-of-service') {
             loadedContent = getDefaultTermsOfService();
+            if (!metaTitle) setMetaTitle('Terms of Service - FastNow');
+            if (!metaDescription) setMetaDescription('Read our terms of service and usage policies for the FastNow application.');
+          } else if (pageType === 'contact') {
+            if (!metaTitle) setMetaTitle('Contact Us - FastNow');
+            if (!metaDescription) setMetaDescription('Get in touch with us for support, questions, or feedback about FastNow.');
           } else {
             loadedContent = 'Content for this page has not been created yet.';
           }
@@ -80,11 +104,18 @@ const ContentPage = () => {
         setContent(loadedContent);
       } catch (error) {
         console.error('Error loading content:', error);
-        // Set fallback content even on error
-        if (pageType === 'privacy') {
+        // Set fallback content and SEO even on error
+        if (pageType === 'privacy-policy') {
           setContent(getDefaultPrivacyPolicy());
-        } else if (pageType === 'terms') {
+          if (!metaTitle) setMetaTitle('Privacy Policy - FastNow');
+          if (!metaDescription) setMetaDescription('Read our privacy policy to understand how we protect and handle your personal data.');
+        } else if (pageType === 'terms-of-service') {
           setContent(getDefaultTermsOfService());
+          if (!metaTitle) setMetaTitle('Terms of Service - FastNow');
+          if (!metaDescription) setMetaDescription('Read our terms of service and usage policies for the FastNow application.');
+        } else if (pageType === 'contact') {
+          if (!metaTitle) setMetaTitle('Contact Us - FastNow');
+          if (!metaDescription) setMetaDescription('Get in touch with us for support, questions, or feedback about FastNow.');
         } else {
           setContent('Content for this page has not been created yet.');
         }
@@ -256,8 +287,9 @@ We may update these Terms at any time. Continued use after changes means you acc
   return (
     <PageLayout>
       <Helmet>
-        <title>{title} | fastnow.app</title>
-        <meta name="robots" content="noindex" />
+        <title>{metaTitle || `${title} | fastnow.app`}</title>
+        {metaDescription && <meta name="description" content={metaDescription} />}
+        <meta name="robots" content={isIndexed ? "index, follow" : "noindex, nofollow"} />
       </Helmet>
       
       <main className="flex-1 py-12">
@@ -270,9 +302,26 @@ We may update these Terms at any time. Continued use after changes means you acc
             <div className="space-y-8">
               <div className="text-center">
                 <h1 className="text-3xl font-bold mb-6">{title}</h1>
-                <p className="text-lg text-gray-600 mb-8">
-                  Have questions about Fast Now or need support? We'd love to hear from you.
-                </p>
+                {/* Display custom content if available */}
+                {content ? (
+                  <div className="prose prose-sm mx-auto mb-8">
+                    <ReactMarkdown 
+                      components={{
+                        p: ({children}) => <p className="text-lg text-gray-600 mb-4">{children}</p>,
+                        h1: ({children}) => <h1 className="text-xl font-semibold mb-3">{children}</h1>,
+                        h2: ({children}) => <h2 className="text-lg font-semibold mb-2">{children}</h2>,
+                        ul: ({children}) => <ul className="text-left list-disc ml-6 mb-4">{children}</ul>,
+                        li: ({children}) => <li className="mb-1">{children}</li>,
+                      }}
+                    >
+                      {content}
+                    </ReactMarkdown>
+                  </div>
+                ) : (
+                  <p className="text-lg text-gray-600 mb-8">
+                    Have questions about Fast Now or need support? We'd love to hear from you.
+                  </p>
+                )}
               </div>
               <ContactForm />
             </div>
