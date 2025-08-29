@@ -620,8 +620,20 @@ const Index = () => {
                 ))}
               </div>
               
+              {/* Read More Button - Centered above graphics */}
+              <div className="mt-8 mb-12 flex justify-center">
+                <Link to="/fast-now-protocol">
+                  <Button 
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                  >
+                    Read More
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
+              
               {/* Three Phases Ceramic Plates */}
-              <div className="mt-12 mb-8">
+              <div className="mt-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
                   <HomepagePhaseCard
                     phaseNumber={1}
@@ -640,17 +652,6 @@ const Index = () => {
                   />
                 </div>
               </div>
-              
-              <div className="mt-8">
-                <Link to="/fast-now-protocol">
-                  <Button 
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
-                  >
-                    Read More
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </Link>
-              </div>
             </div>
           </div>
         </section>
@@ -667,12 +668,12 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               {/* Left Column - Interactive Demo */}
               <div className="flex justify-center lg:justify-end">
                 <div className="relative">
-                  <div className="text-center mb-4">
-                    <p className="text-sm text-gray-500 mb-2">Try clicking the bubble below</p>
+                  <div className="text-center mb-6">
+                    <p className="text-base text-gray-500 mb-2">Try clicking the bubble below</p>
                   </div>
                   <SiteInfoTooltip 
                     content="This is exactly how the speech bubbles work throughout the site. Each one contains a personal note, experience, or perspective that I hope makes the information more relatable and human."
@@ -684,25 +685,19 @@ const Index = () => {
               
               {/* Right Column - Speech Bubble Explanation */}
               <div className="relative">
-                <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-8 relative">
-                  {/* Speech bubble tail */}
-                  <div className="absolute -left-4 top-8 w-0 h-0 border-t-[16px] border-t-transparent border-r-[20px] border-r-white border-b-[16px] border-b-transparent"></div>
-                  <div className="absolute -left-[18px] top-8 w-0 h-0 border-t-[16px] border-t-transparent border-r-[20px] border-r-gray-200 border-b-[16px] border-b-transparent"></div>
+                <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-200 p-12 relative">
+                  {/* Speech bubble tail - better aligned */}
+                  <div className="absolute -left-5 top-12 w-0 h-0 border-t-[20px] border-t-transparent border-r-[24px] border-r-white border-b-[20px] border-b-transparent"></div>
+                  <div className="absolute -left-[22px] top-12 w-0 h-0 border-t-[20px] border-t-transparent border-r-[24px] border-r-gray-200 border-b-[20px] border-b-transparent"></div>
                   
-                  <div className="space-y-4 text-gray-700">
-                    <p className="text-lg leading-relaxed">
+                  <div className="space-y-6 text-gray-700">
+                    <p className="text-xl leading-relaxed">
                       It's important to me to attach personal flair to the application and throughout the information that I'm sharing here. I'm trying to integrate these little bubbles where I specifically leave a personal note, a personal experience, or some kind of personal perspective on a particular topic.
                     </p>
                     
-                    <p className="text-lg leading-relaxed">
+                    <p className="text-xl leading-relaxed">
                       I think it's quite dry - even though I try to make it not as dry - every time you get to deal with a lot of theory and nutrition/weight loss topics, it's nice to have a real personal touch from a real human being who has actually gone through this process before.
                     </p>
-                    
-                    <div className="mt-6 p-4 bg-primary/5 rounded-lg border-l-4 border-primary">
-                      <p className="text-sm text-gray-600 italic">
-                        Look out for these bubbles as you explore the site - each one contains something personal I wanted to share with you.
-                      </p>
-                    </div>
                   </div>
                 </div>
               </div>
