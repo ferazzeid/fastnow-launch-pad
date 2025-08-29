@@ -12,8 +12,6 @@ export const FeatureScreenshotMockup: React.FC<FeatureScreenshotMockupProps> = (
   featureKey 
 }) => {
   const [imageError, setImageError] = useState(false);
-  const [imageLoading, setImageLoading] = useState(true);
-  const [imageLoaded, setImageLoaded] = useState(false);
   return (
     <div className="relative">
       {/* Mobile phone frame */}
@@ -25,39 +23,13 @@ export const FeatureScreenshotMockup: React.FC<FeatureScreenshotMockupProps> = (
             
             {/* Screenshot content */}
             {imageUrl && !imageError ? (
-              <div className="relative w-full h-full">
-                {/* Loading state */}
-                {imageLoading && (
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center transition-opacity duration-300">
-                    <div className="text-center text-muted-foreground">
-                      <div className="w-16 h-16 bg-muted rounded-full mx-auto mb-4 flex items-center justify-center animate-pulse">
-                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <p className="text-sm">Loading...</p>
-                    </div>
-                  </div>
-                )}
-                
-                {/* Actual image */}
-                <div className={`relative w-full h-full transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                  <img 
-                    src={imageUrl} 
-                    alt={altText}
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                    onLoad={() => {
-                      setImageLoaded(true);
-                      setImageLoading(false);
-                    }}
-                    onError={() => {
-                      setImageError(true);
-                      setImageLoading(false);
-                    }}
-                  />
-                </div>
-              </div>
+              <img 
+                src={imageUrl} 
+                alt={altText}
+                className="w-full h-full object-cover"
+                loading="eager"
+                onError={() => setImageError(true)}
+              />
             ) : (
               <div className={`w-full h-full flex items-center justify-center ${featureKey === 'fasting-timer' ? 'bg-muted/30' : 'bg-gradient-to-br from-primary/20 to-primary/10'}`}>
                 {featureKey === 'fasting-timer' ? (
