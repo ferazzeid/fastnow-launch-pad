@@ -287,6 +287,81 @@ export type Database = {
         }
         Relationships: []
       }
+      conversation_summaries: {
+        Row: {
+          created_at: string | null
+          date_range_end: string
+          date_range_start: string
+          id: string
+          relevance_score: number | null
+          summary_data: Json
+          summary_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          date_range_end: string
+          date_range_start: string
+          id?: string
+          relevance_score?: number | null
+          summary_data: Json
+          summary_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          date_range_end?: string
+          date_range_start?: string
+          id?: string
+          relevance_score?: number | null
+          summary_data?: Json
+          summary_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      coupon_codes: {
+        Row: {
+          code: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          duration_days: number
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          updated_at: string
+          usage_limit: number | null
+          used_count: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_days?: number
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+          usage_limit?: number | null
+          used_count?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_days?: number
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+          usage_limit?: number | null
+          used_count?: number
+        }
+        Relationships: []
+      }
       daily_activity_overrides: {
         Row: {
           activity_level: string
@@ -453,6 +528,7 @@ export type Database = {
       }
       fasting_hours: {
         Row: {
+          admin_personal_log: string | null
           autophagy_milestone: boolean | null
           benefits_challenges: string | null
           body_state: string
@@ -475,6 +551,7 @@ export type Database = {
           phase: string
           physiological_effects: string | null
           positive_symptoms: string[] | null
+          read_more_url: string | null
           scientific_info: string | null
           stage: string | null
           tips: string[] | null
@@ -482,6 +559,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          admin_personal_log?: string | null
           autophagy_milestone?: boolean | null
           benefits_challenges?: string | null
           body_state: string
@@ -504,6 +582,7 @@ export type Database = {
           phase?: string
           physiological_effects?: string | null
           positive_symptoms?: string[] | null
+          read_more_url?: string | null
           scientific_info?: string | null
           stage?: string | null
           tips?: string[] | null
@@ -511,6 +590,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          admin_personal_log?: string | null
           autophagy_milestone?: boolean | null
           benefits_challenges?: string | null
           body_state?: string
@@ -533,6 +613,7 @@ export type Database = {
           phase?: string
           physiological_effects?: string | null
           positive_symptoms?: string[] | null
+          read_more_url?: string | null
           scientific_info?: string | null
           stage?: string | null
           tips?: string[] | null
@@ -873,6 +954,7 @@ export type Database = {
           id: string
           image_url: string | null
           is_active: boolean | null
+          show_in_animations: boolean
           title: string
           updated_at: string
           user_id: string
@@ -884,6 +966,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          show_in_animations?: boolean
           title: string
           updated_at?: string
           user_id: string
@@ -895,6 +978,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          show_in_animations?: boolean
           title?: string
           updated_at?: string
           user_id?: string
@@ -1050,6 +1134,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          access_level: Database["public"]["Enums"]["access_level"] | null
           activity_level: string | null
           age: number | null
           ai_requests_reset_date: string | null
@@ -1061,6 +1146,7 @@ export type Database = {
           deletion_reason: string | null
           deletion_scheduled_at: string | null
           display_name: string | null
+          enable_ceramic_animations: boolean | null
           enable_daily_reset: boolean | null
           enable_fasting_slideshow: boolean | null
           enable_food_image_generation: boolean | null
@@ -1071,11 +1157,13 @@ export type Database = {
           id: string
           is_paid_user: boolean | null
           last_activity_at: string | null
+          manual_tdee_override: number | null
           monthly_ai_requests: number | null
           onboarding_completed: boolean | null
           payment_method: string | null
           payment_provider: string | null
           platform_subscription_id: string | null
+          premium_expires_at: string | null
           sex: string | null
           speech_model: string | null
           stripe_customer_id: string | null
@@ -1095,6 +1183,7 @@ export type Database = {
           weight: number | null
         }
         Insert: {
+          access_level?: Database["public"]["Enums"]["access_level"] | null
           activity_level?: string | null
           age?: number | null
           ai_requests_reset_date?: string | null
@@ -1106,6 +1195,7 @@ export type Database = {
           deletion_reason?: string | null
           deletion_scheduled_at?: string | null
           display_name?: string | null
+          enable_ceramic_animations?: boolean | null
           enable_daily_reset?: boolean | null
           enable_fasting_slideshow?: boolean | null
           enable_food_image_generation?: boolean | null
@@ -1116,11 +1206,13 @@ export type Database = {
           id?: string
           is_paid_user?: boolean | null
           last_activity_at?: string | null
+          manual_tdee_override?: number | null
           monthly_ai_requests?: number | null
           onboarding_completed?: boolean | null
           payment_method?: string | null
           payment_provider?: string | null
           platform_subscription_id?: string | null
+          premium_expires_at?: string | null
           sex?: string | null
           speech_model?: string | null
           stripe_customer_id?: string | null
@@ -1140,6 +1232,7 @@ export type Database = {
           weight?: number | null
         }
         Update: {
+          access_level?: Database["public"]["Enums"]["access_level"] | null
           activity_level?: string | null
           age?: number | null
           ai_requests_reset_date?: string | null
@@ -1151,6 +1244,7 @@ export type Database = {
           deletion_reason?: string | null
           deletion_scheduled_at?: string | null
           display_name?: string | null
+          enable_ceramic_animations?: boolean | null
           enable_daily_reset?: boolean | null
           enable_fasting_slideshow?: boolean | null
           enable_food_image_generation?: boolean | null
@@ -1161,11 +1255,13 @@ export type Database = {
           id?: string
           is_paid_user?: boolean | null
           last_activity_at?: string | null
+          manual_tdee_override?: number | null
           monthly_ai_requests?: number | null
           onboarding_completed?: boolean | null
           payment_method?: string | null
           payment_provider?: string | null
           platform_subscription_id?: string | null
+          premium_expires_at?: string | null
           sex?: string | null
           speech_model?: string | null
           stripe_customer_id?: string | null
@@ -1348,6 +1444,30 @@ export type Database = {
         }
         Relationships: []
       }
+      tooltip_content: {
+        Row: {
+          content: string
+          content_key: string
+          created_at: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          content_key: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          content_key?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       usage_analytics: {
         Row: {
           created_at: string
@@ -1374,6 +1494,77 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      user_conversation_context: {
+        Row: {
+          common_foods: Json | null
+          conversation_patterns: Json | null
+          created_at: string | null
+          food_preferences: Json | null
+          frequent_clarifications: string[] | null
+          id: string
+          last_updated: string | null
+          preferred_units: string | null
+          typical_serving_sizes: Json | null
+          user_id: string
+        }
+        Insert: {
+          common_foods?: Json | null
+          conversation_patterns?: Json | null
+          created_at?: string | null
+          food_preferences?: Json | null
+          frequent_clarifications?: string[] | null
+          id?: string
+          last_updated?: string | null
+          preferred_units?: string | null
+          typical_serving_sizes?: Json | null
+          user_id: string
+        }
+        Update: {
+          common_foods?: Json | null
+          conversation_patterns?: Json | null
+          created_at?: string | null
+          food_preferences?: Json | null
+          frequent_clarifications?: string[] | null
+          id?: string
+          last_updated?: string | null
+          preferred_units?: string | null
+          typical_serving_sizes?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_coupons: {
+        Row: {
+          coupon_code_id: string
+          days_granted: number
+          id: string
+          redeemed_at: string
+          user_id: string
+        }
+        Insert: {
+          coupon_code_id: string
+          days_granted: number
+          id?: string
+          redeemed_at?: string
+          user_id: string
+        }
+        Update: {
+          coupon_code_id?: string
+          days_granted?: number
+          id?: string
+          redeemed_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_coupons_coupon_code_id_fkey"
+            columns: ["coupon_code_id"]
+            isOneToOne: false
+            referencedRelation: "coupon_codes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_foods: {
         Row: {
@@ -1503,16 +1694,38 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_all_referenced_images: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          column_name: string
+          image_url: string
+          record_count: number
+          table_name: string
+        }[]
+      }
       get_payment_provider_for_platform: {
         Args: { _platform: string }
         Returns: string
       }
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
+      is_current_user_admin: {
+        Args: Record<PropertyKey, never>
         Returns: boolean
+      }
+      is_user_admin: {
+        Args: { check_user_id: string }
+        Returns: boolean
+      }
+      redeem_coupon_code: {
+        Args: { coupon_code: string }
+        Returns: {
+          days_granted: number
+          message: string
+          success: boolean
+        }[]
+      }
+      test_auth_uid: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       track_usage_event: {
         Args: {
@@ -1538,8 +1751,21 @@ export type Database = {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["user_tier"]
       }
+      user_has_premium_access: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      validate_unified_auth_system: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          details: string
+          status: string
+          test_name: string
+        }[]
+      }
     }
     Enums: {
+      access_level: "free" | "trial" | "premium" | "admin"
       app_role: "admin" | "user"
       user_tier: "api_user" | "paid_user" | "granted_user" | "free_user"
     }
@@ -1669,6 +1895,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      access_level: ["free", "trial", "premium", "admin"],
       app_role: ["admin", "user"],
       user_tier: ["api_user", "paid_user", "granted_user", "free_user"],
     },
