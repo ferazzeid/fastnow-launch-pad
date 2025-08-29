@@ -4,7 +4,7 @@ import { AlertTriangle, CheckCircle } from 'lucide-react';
 import { SchemaService } from '@/services/SchemaService';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
-import ProtocolPhasesIntro from '@/components/fasting/ProtocolPhasesIntro';
+import { ProtocolPhaseCard } from '@/components/ProtocolPhaseCard';
 import FAQSection from '@/components/FAQSection';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -273,171 +273,65 @@ I'd rather put in serious energy at the start, get solid results in the first 2�
         </div>
       </section>
 
-      {/* Protocol Phases Introduction */}
-      <ProtocolPhasesIntro />
+      {/* Three Phases Section */}
+      <section className="py-16 bg-gradient-to-b from-green-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              The Three Phases
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Our protocol consists of three carefully designed phases that work together to maximize your health benefits while maintaining safety and sustainability.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <ProtocolPhaseCard
+              phaseNumber={1}
+              title={phaseContent.phase1.title}
+              content={{
+                duration: phaseContent.phase1.duration,
+                purpose: phaseContent.phase1.purpose,
+                instructions: phaseContent.phase1.instructions,
+                details: phaseContent.phase1.details
+              }}
+              image={phaseContent.phase1.image}
+            />
+            
+            <ProtocolPhaseCard
+              phaseNumber={2}
+              title={phaseContent.phase2.title}
+              content={{
+                duration: phaseContent.phase2.duration,
+                calorieCap: phaseContent.phase2.calorieCap,
+                carbCap: phaseContent.phase2.carbCap,
+                deficit: phaseContent.phase2.deficit,
+                whyDeficit: phaseContent.phase2.whyDeficit,
+                howToSet: phaseContent.phase2.howToSet,
+                whatToEat: phaseContent.phase2.whatToEat,
+                tracking: phaseContent.phase2.tracking,
+                recovery: phaseContent.phase2.recovery
+              }}
+              image={phaseContent.phase2.image}
+            />
+            
+            <ProtocolPhaseCard
+              phaseNumber={3}
+              title={phaseContent.phase3.title}
+              content={{
+                rule: phaseContent.phase3.rule,
+                why: phaseContent.phase3.why
+              }}
+              image={phaseContent.phase3.image}
+            />
+          </div>
+        </div>
+      </section>
 
       {/* Content Section */}
       <div className="relative z-10 bg-background">
         <main className="flex-1 py-12">
           <div className="container max-w-7xl mx-auto px-4">
-            {/* Detailed Protocol Phases */}
-            <div className="space-y-16">
-              {/* Phase 1: Water Fast */}
-              <div className="bg-card rounded-lg shadow-lg overflow-hidden">
-                <div className="bg-primary text-primary-foreground p-6">
-                  <h2 className="text-2xl font-bold">Phase 1: {phaseContent.phase1.title}</h2>
-                  <p className="text-primary-foreground/90 mt-2">Duration: {phaseContent.phase1.duration}</p>
-                </div>
-                <div className="p-8">
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-foreground mb-3">Purpose</h3>
-                    <p className="text-muted-foreground leading-relaxed">{phaseContent.phase1.purpose}</p>
-                  </div>
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-foreground mb-3">Instructions</h3>
-                    <p className="text-muted-foreground leading-relaxed">{phaseContent.phase1.instructions}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-3">Details</h3>
-                    <div className="text-muted-foreground leading-relaxed">
-                      {formatContent(phaseContent.phase1.details)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Phase 2: Strict Diet */}
-              <div className="bg-card rounded-lg shadow-lg overflow-hidden">
-                <div className="bg-secondary text-secondary-foreground p-6">
-                  <h2 className="text-2xl font-bold">Phase 2: {phaseContent.phase2.title}</h2>
-                  <p className="text-secondary-foreground/90 mt-2">Duration: {phaseContent.phase2.duration}</p>
-                </div>
-                <div className="p-8 space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-muted/50 p-4 rounded-lg">
-                      <h3 className="font-semibold text-foreground mb-2">Calorie Cap</h3>
-                      <p className="text-muted-foreground">{phaseContent.phase2.calorieCap}</p>
-                    </div>
-                    <div className="bg-muted/50 p-4 rounded-lg">
-                      <h3 className="font-semibold text-foreground mb-2">Carb Cap</h3>
-                      <p className="text-muted-foreground">{phaseContent.phase2.carbCap}</p>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-3">Calorie Deficit</h3>
-                    <p className="text-muted-foreground mb-3">{phaseContent.phase2.deficit}</p>
-                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                      <h4 className="font-medium text-amber-800 mb-2">Why This Deficit?</h4>
-                      <p className="text-amber-700 text-sm leading-relaxed">{phaseContent.phase2.whyDeficit}</p>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-3">How to Set Your Calories</h3>
-                    <div className="text-muted-foreground leading-relaxed">
-                      {formatContent(phaseContent.phase2.howToSet)}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-3">What to Eat</h3>
-                    <div className="text-muted-foreground leading-relaxed">
-                      {formatContent(phaseContent.phase2.whatToEat)}
-                    </div>
-                  </div>
-
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold text-red-800 mb-3 flex items-center gap-2">
-                      <AlertTriangle className="w-5 h-5" />
-                      Critical: Tracking Everything
-                    </h3>
-                    <div className="text-red-700 text-sm leading-relaxed">
-                      {formatContent(phaseContent.phase2.tracking)}
-                    </div>
-                  </div>
-
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold text-green-800 mb-3 flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5" />
-                      Recovery Strategy
-                    </h3>
-                    <p className="text-green-700 text-sm leading-relaxed">{phaseContent.phase2.recovery}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Phase 3: Daily Walking */}
-              <div className="bg-card rounded-lg shadow-lg overflow-hidden">
-                <div className="bg-accent text-accent-foreground p-6">
-                  <h2 className="text-2xl font-bold">Phase 3: {phaseContent.phase3.title}</h2>
-                </div>
-                <div className="p-8">
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-foreground mb-3">The Rule</h3>
-                    <p className="text-muted-foreground leading-relaxed font-medium">{phaseContent.phase3.rule}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-3">Why Walking?</h3>
-                    <p className="text-muted-foreground leading-relaxed">{phaseContent.phase3.why}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Results Expectations Section */}
-                  <div className="mt-12">
-                    <div className="rounded-lg shadow-soft overflow-hidden">
-                      {/* Header Section */}
-                      <div className="bg-gray-900 text-white p-6">
-                        <h2 className="text-2xl font-bold">WHAT KIND OF RESULTS CAN YOU EXPECT?</h2>
-                      </div>
-                      
-                      {/* Content Section */}
-                      <div className="bg-gray-100 p-8">
-                        <div className="flex items-start gap-6">
-                          {/* Large Bracket */}
-                          <div className="text-6xl font-thin text-gray-800 leading-none mt-2">
-                            &#123;
-                          </div>
-                          
-                          {/* Main Content */}
-                          <div className="flex-1">
-                            <p className="text-lg text-gray-800 mb-4">
-                              You can realistically aim for about <strong>1 kg per week</strong> if you're consistent and fairly aggressive.
-                              That's roughly <strong>12 kg in 3 months (90 days)</strong> — a massive change.
-                            </p>
-                          </div>
-                        </div>
-                        
-                        <div className="mt-6 space-y-6">
-                          <div>
-                            <p className="text-lg text-gray-800 mb-3">If you start off overweight or obese, you may lose even more, especially if you:</p>
-                            <ul className="list-disc list-inside space-y-2 ml-4 text-gray-700">
-                              <li>Walk daily</li>
-                              <li>Maintain a ~1000 calorie deficit (≈ 120–130 g fat burned per day)</li>
-                            </ul>
-                          </div>
-                          
-                          <div>
-                            <h3 className="text-lg font-semibold text-gray-800 mb-3">Extra boosts:</h3>
-                            <div className="bg-white p-4 rounded-lg space-y-2">
-                              <p className="text-gray-700"><strong>First 3-day fast:</strong> Expect extra loss from water weight.</p>
-                              <p className="text-gray-700"><strong>Post-fast jumpstart:</strong> Eating 500–1200 calories for a few days can accelerate results.</p>
-                            </div>
-                          </div>
-                          
-                          <div>
-                            <h3 className="text-lg font-semibold text-gray-800 mb-3">Sustainable daily intake:</h3>
-                            <div className="bg-white p-4 rounded-lg space-y-2">
-                              <p className="text-gray-700">Most people settle around <strong>1500 calories</strong> for steady loss.</p>
-                              <p className="text-gray-700">Occasional higher days (1800–2000) are fine if balanced with walking.</p>
-                            </div>
-                          </div>
-                        </div>
-                         </div>
-                       </div>
-                   </div>
           </div>
         </main>
 
