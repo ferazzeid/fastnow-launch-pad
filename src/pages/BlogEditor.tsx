@@ -15,6 +15,7 @@ import { databaseBlogService } from '@/services/DatabaseBlogService';
 import ReactMarkdown from 'react-markdown';
 import BlogFeaturedImageUpload from '@/components/admin/BlogFeaturedImageUpload';
 import { useAuth } from '@/hooks/useAuth';
+import MDEditor from '@uiw/react-md-editor';
 
 const BlogEditor = () => {
   const { id } = useParams<{ id: string }>();
@@ -258,15 +259,17 @@ const BlogEditor = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="content">Content (Markdown)</Label>
-                      <Textarea
-                        id="content"
-                        value={post.content}
-                        onChange={(e) => setPost(prev => ({ ...prev, content: e.target.value }))}
-                        placeholder="Write your post content in Markdown..."
-                        rows={20}
-                        className="font-mono"
-                      />
+                      <Label htmlFor="content">Content</Label>
+                      <div className="mt-2" data-color-mode="light">
+                        <MDEditor
+                          value={post.content}
+                          onChange={(value) => setPost(prev => ({ ...prev, content: value || '' }))}
+                          height={500}
+                          preview="edit"
+                          hideToolbar={false}
+                          visibleDragbar={false}
+                        />
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
