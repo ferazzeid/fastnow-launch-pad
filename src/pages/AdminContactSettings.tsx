@@ -1,39 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { useAuth } from '@/hooks/useAuth';
 import UnifiedEmailSettings from '@/components/admin/UnifiedEmailSettings';
 
 const AdminContactSettings = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, isAdmin, isLoading } = useAuth();
 
-  useEffect(() => {
-    // Check authentication - use same key as other admin pages
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    if (authStatus !== 'true') {
-      navigate('/admin');
-      return;
+  React.useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      if (!isAdmin) {
+        const timeout = setTimeout(() => {
+          if (!isAdmin) {
+            navigate('/admin');
+          }
+        }, 1000);
+        
+        return () => clearTimeout(timeout);
+      }
     }
-    setIsAuthenticated(true);
-    setIsLoading(false);
-  }, [navigate]);
-
-  const handleBack = () => {
-    navigate('/admin');
-  };
+  }, [user, isAdmin, isLoading, navigate]);
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div>Loading...</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
       </div>
     );
   }
 
-  if (!isAuthenticated) {
+  if (!user || !isAdmin) {
     return null;
   }
 
