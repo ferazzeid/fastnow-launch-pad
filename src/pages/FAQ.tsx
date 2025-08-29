@@ -6,6 +6,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { pageContentService } from '@/services/PageContentService';
+import SEOHead from '@/components/SEOHead';
+import LazyImage from '@/components/LazyImage';
 
 interface FAQ {
   id: string;
@@ -122,6 +124,7 @@ const FAQ = () => {
   const faqStructuredData = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "name": "FastNow Frequently Asked Questions",
     "mainEntity": faqs.map(faq => ({
       "@type": "Question",
       "name": faq.question,
@@ -132,53 +135,66 @@ const FAQ = () => {
     }))
   };
 
+  const breadcrumbs = [
+    { name: "Home", url: "/" },
+    { name: "FAQ", url: "/faq" }
+  ];
+
   return (
     <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>{pageContent.metaTitle}</title>
-        <meta name="description" content={pageContent.metaDescription} />
-        <meta name="keywords" content="FastNow FAQ, fasting questions, fasting app help, FastNow support" />
-        <script type="application/ld+json">
-          {JSON.stringify(faqStructuredData)}
-        </script>
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: pageContent.metaTitle,
+          description: pageContent.metaDescription,
+          keywords: "FastNow FAQ, fasting questions, intermittent fasting help, weight loss support, fasting app questions",
+          image: pageContent.featuredImage || '/lovable-uploads/faq-social-image.jpg',
+          type: 'website',
+          url: 'https://fastnow.app/faq'
+        }}
+        breadcrumbs={breadcrumbs}
+        structuredData={[faqStructuredData]}
+      />
 
       <Header />
-      <main className="flex-1 bg-black text-white">
+      <main className="flex-1 bg-black text-white" role="main">
         {/* Featured Image */}
         {pageContent.featuredImage && (
-          <div className="w-full h-64 md:h-80 lg:h-96 relative overflow-hidden">
-            <img 
+          <section className="w-full h-64 md:h-80 lg:h-96 relative overflow-hidden">
+            <LazyImage
               src={pageContent.featuredImage} 
-              alt="FAQ Featured" 
+              alt="Frequently Asked Questions about FastNow fasting protocol and app" 
               className="w-full h-full object-cover"
+              priority={true}
             />
-            <div className="absolute inset-0 bg-black/40"></div>
-          </div>
+            <div className="absolute inset-0 bg-black/40" aria-hidden="true"></div>
+          </section>
         )}
         
         <div className="container max-w-4xl mx-auto py-8">
           {/* Header */}
-          <div className="text-center mb-8">
+          <header className="text-center mb-8">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Q&A
             </h1>
             <p className="text-xl text-white/80">
               {pageContent.description}
             </p>
-          </div>
+          </header>
 
           {/* FAQ Content */}
-          <div className="space-y-4">
+          <section className="space-y-4" role="region" aria-label="Frequently Asked Questions">
             {faqs.map((faq, index) => (
               <Card key={faq.id} className="overflow-hidden border-l-4 border-l-primary/30 bg-white/5 hover:bg-white/10 border-white/10 transition-colors">
                 <button
                   onClick={() => toggleItem(faq.id)}
                   className="w-full p-6 text-left hover:bg-white/10 transition-colors"
+                  aria-expanded={openItems.has(faq.id)}
+                  aria-controls={`faq-content-${faq.id}`}
+                  id={`faq-button-${faq.id}`}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-sm font-semibold text-white">
+                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-sm font-semibold text-white" aria-hidden="true">
                         {index + 1}
                       </div>
                       <h3 className="text-lg font-semibold text-white pr-4">
@@ -186,23 +202,28 @@ const FAQ = () => {
                       </h3>
                     </div>
                     {openItems.has(faq.id) ? (
-                      <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
+                      <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" aria-hidden="true" />
                     ) : (
-                      <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
+                      <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" aria-hidden="true" />
                     )}
                   </div>
                 </button>
                 {openItems.has(faq.id) && (
-                  <CardContent className="pt-4 pb-6 border-t border-white/10">
+                  <CardContent 
+                    className="pt-4 pb-6 border-t border-white/10"
+                    id={`faq-content-${faq.id}`}
+                    role="region"
+                    aria-labelledby={`faq-button-${faq.id}`}
+                  >
                     <div className="ml-11">
                       {faq.image_url && (
-                        <div className={`mb-4 ${faq.image_alignment === 'right' ? 'float-right ml-4' : 'float-left mr-4'} max-w-xs sm:max-w-sm`}>
-                          <img 
+                        <figure className={`mb-4 ${faq.image_alignment === 'right' ? 'float-right ml-4' : 'float-left mr-4'} max-w-xs sm:max-w-sm`}>
+                          <LazyImage
                             src={faq.image_url} 
                             alt={`Illustration for ${faq.question}`}
                             className="w-full h-auto rounded-lg shadow-md border border-white/20"
                           />
-                        </div>
+                        </figure>
                       )}
                       <div className="prose prose-sm max-w-none text-white/80">
                         {faq.answer.split('\n').map((paragraph, index) => (
@@ -269,7 +290,7 @@ const FAQ = () => {
                 </CardContent>
               )}
             </Card>
-          </div>
+          </section>
         </div>
       </main>
       <Footer />

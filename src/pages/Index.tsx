@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Clock, Utensils, Activity } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
 import { pageContentService } from '@/services/PageContentService';
 import { BackgroundImageService } from '@/services/BackgroundImageService';
@@ -18,6 +17,8 @@ import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
 import { CeramicPlate } from '@/components/CeramicPlate';
 import { HomepagePhaseCard } from '@/components/HomepagePhaseCard';
+import SEOHead from '@/components/SEOHead';
+import LazyImage from '@/components/LazyImage';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -334,22 +335,51 @@ const Index = () => {
 
   return (
     <PageLayout>
-      <Helmet>
-        <title>{metaTitle}</title>
-        <meta name="description" content={metaDescription} />
-        <meta property="og:title" content={metaTitle} />
-        <meta property="og:description" content={metaDescription} />
-        <meta name="twitter:title" content={metaTitle} />
-        <meta name="twitter:description" content={metaDescription} />
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: metaTitle,
+          description: metaDescription,
+          keywords: "intermittent fasting, weight loss app, fasting protocol, health transformation, FastNow",
+          image: featuredImageUrl || '/lovable-uploads/social-share-image.jpg',
+          type: 'website',
+          url: 'https://fastnow.app'
+        }}
+        structuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "FastNow",
+            "url": "https://fastnow.app",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://fastnow.app/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "FastNow App",
+            "applicationCategory": "HealthApplication",
+            "description": "Track fasting, manage diet, and follow proven protocols for weight loss",
+            "operatingSystem": ["Web", "iOS", "Android"],
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          }
+        ]}
+      />
       
       {/* Hero Background Image */}
       {(featuredImageUrl || backgroundImageUrl) && (
         <div className="absolute inset-0 w-full h-screen z-0">
-          <img 
+          <LazyImage
             src={featuredImageUrl || backgroundImageUrl} 
-            alt="Hero background" 
+            alt="FastNow fasting protocol hero background showcasing transformation journey" 
             className="w-full h-full object-cover"
+            priority={true}
           />
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
