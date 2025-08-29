@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import ContactSettings from '@/components/admin/ContactSettings';
+import UnifiedEmailSettings from '@/components/admin/UnifiedEmailSettings';
 
 const AdminContactSettings = () => {
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ const AdminContactSettings = () => {
             </p>
           </div>
 
-          <ContactSettings />
+          <UnifiedEmailSettings />
         </div>
       </main>
     </div>

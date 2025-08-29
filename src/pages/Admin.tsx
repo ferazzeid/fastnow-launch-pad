@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, Edit, Image } from "lucide-react";
+import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, Edit, Image, Search, Mail } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { useAuth } from '@/hooks/useAuth';
@@ -135,7 +135,7 @@ const Admin = () => {
               <Link to="/admin/faq">
                 <Button variant="outline" className="w-full justify-start">
                   <BookOpen className="mr-2 h-4 w-4" />
-                  FAQ Page Content
+                  FAQ Page Settings
                 </Button>
               </Link>
             </CardContent>
@@ -236,6 +236,42 @@ const Admin = () => {
                 <Button variant="outline" className="w-full justify-start">
                   <Calendar className="mr-2 h-4 w-4" />
                   Export Timeline Data
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* SEO & Analytics */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Search size={20} />
+                SEO & Analytics
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/seo">
+                <Button variant="outline" className="w-full justify-start">
+                  <Search className="mr-2 h-4 w-4" />
+                  SEO Settings
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Contact & Email Settings */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Mail size={20} />
+                Contact & Email
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/contact">
+                <Button variant="outline" className="w-full justify-start">
+                  <Mail className="mr-2 h-4 w-4" />
+                  Email Configuration
                 </Button>
               </Link>
             </CardContent>
