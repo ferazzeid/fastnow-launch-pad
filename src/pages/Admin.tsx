@@ -13,6 +13,8 @@ const Admin = () => {
   const { user, isAdmin, isLoading } = useAuth();
 
   React.useEffect(() => {
+    console.log('Admin page auth state:', { user: !!user, isAdmin, isLoading });
+    
     // Only redirect if we're sure about the auth state (not loading)
     if (!isLoading) {
       if (!user) {
@@ -20,8 +22,10 @@ const Admin = () => {
         return;
       }
       
-      // If user exists but is not admin, redirect with error message
+      // Only redirect if we have a user AND we've explicitly determined they're not admin
+      // Don't redirect if isAdmin is still null/undefined (admin check in progress)
       if (user && isAdmin === false) {
+        console.log('Redirecting: User authenticated but not admin');
         navigate('/');
         toast.error("Access denied. Admin privileges required.");
         return;
@@ -48,8 +52,8 @@ const Admin = () => {
     );
   }
 
-  // Show loading while auth is being determined OR while admin status is being checked
-  if (isLoading || (user && isAdmin === false)) {
+  // Show loading while auth is being determined OR while admin status is still being checked
+  if (isLoading || (user && isAdmin !== true)) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
