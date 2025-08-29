@@ -280,16 +280,109 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
       <div className="relative z-10 bg-background">
         <main className="flex-1 py-12">
           <div className="container max-w-7xl mx-auto px-4">
-            {/* Protocol Phases with Ceramic Plates */}
-            <div className="mb-16">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-foreground mb-4">The Three Phases</h2>
-                <p className="text-muted-foreground max-w-2xl mx-auto">
-                  A systematic approach to sustainable fat loss through strategic fasting, calorie control, and daily movement.
-                </p>
+            {/* Detailed Protocol Phases */}
+            <div className="space-y-16">
+              {/* Phase 1: Water Fast */}
+              <div className="bg-card rounded-lg shadow-lg overflow-hidden">
+                <div className="bg-primary text-primary-foreground p-6">
+                  <h2 className="text-2xl font-bold">Phase 1: {phaseContent.phase1.title}</h2>
+                  <p className="text-primary-foreground/90 mt-2">Duration: {phaseContent.phase1.duration}</p>
+                </div>
+                <div className="p-8">
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-foreground mb-3">Purpose</h3>
+                    <p className="text-muted-foreground leading-relaxed">{phaseContent.phase1.purpose}</p>
+                  </div>
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-foreground mb-3">Instructions</h3>
+                    <p className="text-muted-foreground leading-relaxed">{phaseContent.phase1.instructions}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">Details</h3>
+                    <div className="text-muted-foreground leading-relaxed">
+                      {formatContent(phaseContent.phase1.details)}
+                    </div>
+                  </div>
+                </div>
               </div>
-              
 
+              {/* Phase 2: Strict Diet */}
+              <div className="bg-card rounded-lg shadow-lg overflow-hidden">
+                <div className="bg-secondary text-secondary-foreground p-6">
+                  <h2 className="text-2xl font-bold">Phase 2: {phaseContent.phase2.title}</h2>
+                  <p className="text-secondary-foreground/90 mt-2">Duration: {phaseContent.phase2.duration}</p>
+                </div>
+                <div className="p-8 space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="bg-muted/50 p-4 rounded-lg">
+                      <h3 className="font-semibold text-foreground mb-2">Calorie Cap</h3>
+                      <p className="text-muted-foreground">{phaseContent.phase2.calorieCap}</p>
+                    </div>
+                    <div className="bg-muted/50 p-4 rounded-lg">
+                      <h3 className="font-semibold text-foreground mb-2">Carb Cap</h3>
+                      <p className="text-muted-foreground">{phaseContent.phase2.carbCap}</p>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">Calorie Deficit</h3>
+                    <p className="text-muted-foreground mb-3">{phaseContent.phase2.deficit}</p>
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                      <h4 className="font-medium text-amber-800 mb-2">Why This Deficit?</h4>
+                      <p className="text-amber-700 text-sm leading-relaxed">{phaseContent.phase2.whyDeficit}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">How to Set Your Calories</h3>
+                    <div className="text-muted-foreground leading-relaxed">
+                      {formatContent(phaseContent.phase2.howToSet)}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">What to Eat</h3>
+                    <div className="text-muted-foreground leading-relaxed">
+                      {formatContent(phaseContent.phase2.whatToEat)}
+                    </div>
+                  </div>
+
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold text-red-800 mb-3 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5" />
+                      Critical: Tracking Everything
+                    </h3>
+                    <div className="text-red-700 text-sm leading-relaxed">
+                      {formatContent(phaseContent.phase2.tracking)}
+                    </div>
+                  </div>
+
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold text-green-800 mb-3 flex items-center gap-2">
+                      <CheckCircle className="w-5 h-5" />
+                      Recovery Strategy
+                    </h3>
+                    <p className="text-green-700 text-sm leading-relaxed">{phaseContent.phase2.recovery}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Phase 3: Daily Walking */}
+              <div className="bg-card rounded-lg shadow-lg overflow-hidden">
+                <div className="bg-accent text-accent-foreground p-6">
+                  <h2 className="text-2xl font-bold">Phase 3: {phaseContent.phase3.title}</h2>
+                </div>
+                <div className="p-8">
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-foreground mb-3">The Rule</h3>
+                    <p className="text-muted-foreground leading-relaxed font-medium">{phaseContent.phase3.rule}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">Why Walking?</h3>
+                    <p className="text-muted-foreground leading-relaxed">{phaseContent.phase3.why}</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Results Expectations Section */}
