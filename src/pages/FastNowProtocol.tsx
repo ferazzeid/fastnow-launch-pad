@@ -29,7 +29,7 @@ const FastNowProtocol = () => {
       readMoreLink: ''
     },
     phase2: {
-      title: 'Strict Simple Diet + Daily Calorie Limit',
+      title: 'Strict Simple Diet',
       duration: '30–60 days minimum.',
       calorieCap: '1500 calories or 2000 if you walk that day 90 minutes',
       carbCap: '≤ 30g net carbs/day.',

@@ -130,7 +130,7 @@ const AdminFastNowProtocol = () => {
       setPhase1Details(settings.protocol_phase1_details || 'Day 1 / Night 1: most people can push through; you\'re mostly burning stored sugar.\n\nDay 2 / Night 2: this is the test. Sleep often goes bad, cravings scream, and you negotiate with yourself. Anyone who has quit a serious habit knows this night. Make it through Night 2 and you\'ve done the real work; this is where the shift happens.\n\n60 hours is my ignite point. Some go to 72. Past 60, everything else becomes child\'s play compared to Night 2.');
       
       // Phase 2
-      setPhase2Title(settings.protocol_phase2_title || 'Strict Simple Diet + Daily Calorie Limit');
+      setPhase2Title(settings.protocol_phase2_title || 'Strict Simple Diet');
       setPhase2Duration(settings.protocol_phase2_duration || '30–60 days minimum.');
       setPhase2CarbCap(settings.protocol_phase2_carb_cap || '≤ 20–30g net carbs/day.');
       setPhase2Deficit(settings.protocol_phase2_deficit || '~1,000 kcal');

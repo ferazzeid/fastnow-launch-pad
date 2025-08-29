@@ -96,7 +96,7 @@ I'd rather put in serious energy at the start, get solid results in the first 2�
       setPhase1Details(settings.protocol_phase1_details || 'Night Zero: The easiest to start a water fast is to start at night after eating and then go to sleep and that\'s the first 10 hours of fasting that you have under your belt and that creates momentum to continue next day.\n\nDay 1 / Night 1: most people can push through; you\'re mostly burning stored sugar.\n\nDay 2 / Night 2: this is the test. Sleep often goes bad, cravings scream, and you negotiate with yourself. Anyone who has quit a serious habit knows this night. Make it through Night 2 and you\'ve done the real work; this is where the shift happens.');
       
       // Phase 2
-      setPhase2Title(settings.protocol_phase2_title || 'Strict Simple Diet + Daily Calorie Limit');
+      setPhase2Title(settings.protocol_phase2_title || 'Strict Simple Diet');
       setPhase2Duration(settings.protocol_phase2_duration || '30–60 days minimum.');
       setPhase2CalorieCap(settings.protocol_phase2_calorie_cap || '1500 calories or 2000 if you walk that day 90 minutes');
       setPhase2CarbCap(settings.protocol_phase2_carb_cap || '≤ 30g net carbs/day.');

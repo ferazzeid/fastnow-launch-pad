@@ -129,7 +129,7 @@ export class SchemaService {
         },
         {
           "@type": "HowToStep",
-          "name": "Phase 2: Strict Simple Diet + Daily Calorie Limit", 
+          "name": "Phase 2: Strict Simple Diet", 
           "text": "Follow a strict calorie deficit diet (1500 calories or 2000 if walking 90 minutes) with ≤30g net carbs/day for 30-60 days minimum. Track every single thing you eat.",
           "image": protocolData.phase2?.image
         },

@@ -538,7 +538,7 @@ const Index = () => {
                   </p>
                 </div>
                 
-                <div className="mt-8">
+                <div className="mt-8 flex gap-4">
                   <Link to="/about-fastnow-app">
                     <Button 
                       className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
@@ -547,6 +547,19 @@ const Index = () => {
                       <ArrowRight className="w-5 h-5" />
                     </Button>
                   </Link>
+                  <a 
+                    href="https://fastnow.app" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    <Button 
+                      variant="outline"
+                      className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                    >
+                      Launch App
+                      <ArrowRight className="w-5 h-5" />
+                    </Button>
+                  </a>
                 </div>
               </div>
 
