@@ -34,8 +34,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="/lovable-uploads/your-favicon.png" type="image/png" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <!-- Favicon will be dynamically loaded by script below -->
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -47,7 +46,7 @@
       "url": "https://fastnow.app",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://fastnow.app/favicon.ico"
+        "url": "https://texnkijwcygodtywgedm.supabase.co/storage/v1/object/public/website-images/favicon.png"
       },
       "sameAs": [],
       "contactPoint": {
@@ -59,15 +58,19 @@
     </script>
     
     <script>
-      // Load custom favicon from admin settings
-      const savedFavicon = localStorage.getItem('fastingApp_faviconUrl');
-      if (savedFavicon) {
-        const linkElement = document.createElement('link');
-        linkElement.rel = 'icon';
-        linkElement.href = savedFavicon;
-        linkElement.type = 'image/png';
-        document.head.appendChild(linkElement);
-      }
+      // Load custom favicon from settings
+      const faviconUrl = 'https://texnkijwcygodtywgedm.supabase.co/storage/v1/object/public/website-images/favicon.png';
+      
+      // Remove any existing favicon links
+      const existingLinks = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
+      existingLinks.forEach(link => link.remove());
+      
+      // Add the custom favicon
+      const linkElement = document.createElement('link');
+      linkElement.rel = 'icon';
+      linkElement.href = faviconUrl;
+      linkElement.type = 'image/png';
+      document.head.appendChild(linkElement);
     </script>
   </head>
 
