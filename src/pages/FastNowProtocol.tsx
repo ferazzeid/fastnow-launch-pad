@@ -5,6 +5,7 @@ import { SchemaService } from '@/services/SchemaService';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
 import FAQSection from '@/components/FAQSection';
+import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 
 const FastNowProtocol = () => {
@@ -260,12 +261,17 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
               
               {/* Launch App Button */}
               <div className="mt-8 pt-6 border-t border-white/20">
-                <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2">
-                  Launch App
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </button>
+                <Button 
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2 hover:shadow-xl hover:scale-105"
+                  asChild
+                >
+                  <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
+                    Launch App
+                    <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </Button>
               </div>
             </div>
           </div>

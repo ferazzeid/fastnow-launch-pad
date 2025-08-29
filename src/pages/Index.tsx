@@ -415,20 +415,17 @@ const Index = () => {
                   </div>
                   
                   <div className="mt-8 pt-6 border-t border-white/20 flex items-center justify-between">
-                    <button 
-                      className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2 hover:opacity-90"
-                      style={{ backgroundColor: launchButtonColor }}
-                      onClick={() => {
-                        if (ctaUrl && ctaUrl !== '#') {
-                          window.open(ctaUrl, '_blank', 'noopener,noreferrer');
-                        }
-                      }}
+                    <Button 
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2 hover:shadow-xl hover:scale-105"
+                      asChild
                     >
-                      {ctaText}
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </button>
+                      <a href={ctaUrl} target="_blank" rel="noopener noreferrer">
+                        {ctaText}
+                        <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    </Button>
                     
                     <SiteInfoTooltip
                       content="After years of struggling with complicated diet plans and fitness programs, I realized that simplicity is key. This protocol combines the most effective elements I've discovered through personal experience and research. It's not about perfection - it's about consistent progress that actually fits into your real life."

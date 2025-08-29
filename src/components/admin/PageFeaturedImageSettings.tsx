@@ -79,13 +79,13 @@ const PageFeaturedImageSettings: React.FC<PageFeaturedImageSettingsProps> = ({
       const filePath = `featured-images/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('site-assets')
+        .from('website-images')
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage
-        .from('site-assets')
+        .from('website-images')
         .getPublicUrl(filePath);
 
       setImageUrl(publicUrl);
