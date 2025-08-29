@@ -73,7 +73,7 @@ const AdminBlog = () => {
   }, [posts, searchTerm, statusFilter]);
 
   const loadPosts = async () => {
-    const allPosts = await databaseBlogService.getAllPosts();
+    const allPosts = await databaseBlogService.getAllPostsForAdmin();
     setPosts(allPosts);
   };
 

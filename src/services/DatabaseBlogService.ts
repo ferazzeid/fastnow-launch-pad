@@ -22,6 +22,25 @@ class DatabaseBlogService {
     }
   }
 
+  async getAllPostsForAdmin(): Promise<BlogPost[]> {
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('updated_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching all blog posts for admin:', error);
+        return [];
+      }
+
+      return data?.map(this.mapDatabaseToBlogPost) || [];
+    } catch (error) {
+      console.error('Error in getAllPostsForAdmin:', error);
+      return [];
+    }
+  }
+
   async getPostBySlug(slug: string): Promise<BlogPost | null> {
     try {
       const { data, error } = await supabase
