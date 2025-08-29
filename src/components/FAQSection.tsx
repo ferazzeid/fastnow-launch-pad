@@ -14,6 +14,7 @@ interface FAQ {
   page_category: string;
   image_url?: string;
   image_alignment?: 'left' | 'right';
+  show_open_by_default?: boolean;
 }
 
 interface FAQSectionProps {
@@ -31,6 +32,14 @@ const FAQSection: React.FC<FAQSectionProps> = ({ category, title, className = ''
   useEffect(() => {
     loadFAQs();
   }, [category]);
+
+  useEffect(() => {
+    // Set items that should be open by default
+    const defaultOpenItems = new Set(
+      faqs.filter(faq => faq.show_open_by_default).map(faq => faq.id)
+    );
+    setOpenItems(defaultOpenItems);
+  }, [faqs]);
 
   const loadFAQs = async () => {
     try {

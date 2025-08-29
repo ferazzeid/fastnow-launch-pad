@@ -23,6 +23,7 @@ interface FAQ {
   page_category: string;
   image_url?: string;
   image_alignment?: 'left' | 'right';
+  show_open_by_default?: boolean;
 }
 
 interface FAQForm {
@@ -33,6 +34,7 @@ interface FAQForm {
   page_category: string;
   image_url?: string;
   image_alignment?: 'left' | 'right';
+  show_open_by_default: boolean;
 }
 
 const AdminFAQ = () => {
@@ -48,7 +50,8 @@ const AdminFAQ = () => {
     is_active: true,
     page_category: 'general',
     image_url: '',
-    image_alignment: 'left'
+    image_alignment: 'left',
+    show_open_by_default: false
   });
   const [loading, setLoading] = useState(true);
 
@@ -119,7 +122,8 @@ const AdminFAQ = () => {
             is_active: formData.is_active,
             page_category: formData.page_category,
             image_url: formData.image_url || null,
-            image_alignment: formData.image_alignment
+            image_alignment: formData.image_alignment,
+            show_open_by_default: formData.show_open_by_default
           })
           .eq('id', editingId);
 
@@ -136,7 +140,8 @@ const AdminFAQ = () => {
             is_active: formData.is_active,
             page_category: formData.page_category,
             image_url: formData.image_url || null,
-            image_alignment: formData.image_alignment
+            image_alignment: formData.image_alignment,
+            show_open_by_default: formData.show_open_by_default
           });
 
         if (error) throw error;
@@ -167,7 +172,8 @@ const AdminFAQ = () => {
       is_active: faq.is_active,
       page_category: faq.page_category,
       image_url: faq.image_url || '',
-      image_alignment: faq.image_alignment || 'left'
+      image_alignment: faq.image_alignment || 'left',
+      show_open_by_default: faq.show_open_by_default || false
     });
     setEditingId(faq.id);
     setShowAddForm(true);
@@ -202,7 +208,8 @@ const AdminFAQ = () => {
       is_active: true,
       page_category: 'general',
       image_url: '',
-      image_alignment: 'left'
+      image_alignment: 'left',
+      show_open_by_default: false
     });
     setEditingId(null);
     setShowAddForm(false);
@@ -292,7 +299,7 @@ const AdminFAQ = () => {
                 onImageChange={(url) => handleInputChange('image_url', url)}
               />
 
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-5 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="display_order">Display Order</Label>
                   <Input
@@ -341,6 +348,20 @@ const AdminFAQ = () => {
                     />
                     <span className="text-sm text-muted-foreground">
                       {formData.is_active ? 'Visible' : 'Hidden'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="show_open_by_default">Open by Default</Label>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="show_open_by_default"
+                      checked={formData.show_open_by_default}
+                      onCheckedChange={(checked) => handleInputChange('show_open_by_default', checked)}
+                    />
+                    <span className="text-sm text-muted-foreground">
+                      {formData.show_open_by_default ? 'Opens automatically' : 'Closed by default'}
                     </span>
                   </div>
                 </div>

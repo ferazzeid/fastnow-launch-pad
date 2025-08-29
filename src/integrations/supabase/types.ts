@@ -498,6 +498,7 @@ export type Database = {
           is_active: boolean
           page_category: string | null
           question: string
+          show_open_by_default: boolean | null
           updated_at: string
         }
         Insert: {
@@ -510,6 +511,7 @@ export type Database = {
           is_active?: boolean
           page_category?: string | null
           question: string
+          show_open_by_default?: boolean | null
           updated_at?: string
         }
         Update: {
@@ -522,6 +524,7 @@ export type Database = {
           is_active?: boolean
           page_category?: string | null
           question?: string
+          show_open_by_default?: boolean | null
           updated_at?: string
         }
         Relationships: []
