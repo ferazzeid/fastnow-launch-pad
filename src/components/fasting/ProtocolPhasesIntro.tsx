@@ -49,7 +49,7 @@ const ProtocolPhasesIntro = () => {
         <div className="hidden md:flex items-center justify-center gap-8">
           {/* Phase 1 */}
           <div className="flex-1 max-w-sm">
-            <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-blue-500 text-center min-h-[280px] flex flex-col">
+            <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900 text-center min-h-[280px] flex flex-col">
               {phaseImages.phase1 && (
                 <div className="mb-6 -m-8 mt-0 mx-0">
                   <img 
@@ -60,10 +60,10 @@ const ProtocolPhasesIntro = () => {
                 </div>
               )}
               <div className="px-8 pb-8 flex flex-col flex-grow">
-                <div className="bg-blue-500/10 p-4 rounded-full inline-flex mb-6 mx-auto">
-                  <Clock className="w-8 h-8 text-blue-600" />
+                <div className="bg-gray-900/10 p-4 rounded-full inline-flex mb-6 mx-auto">
+                  <Clock className="w-8 h-8 text-gray-900" />
                 </div>
-                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">Phase 1</span>
+                <span className="bg-gray-900 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">Phase 1</span>
                 <h3 className="text-xl font-bold text-foreground flex-grow">3-Day Initiation Water Fast</h3>
               </div>
             </div>
@@ -74,7 +74,7 @@ const ProtocolPhasesIntro = () => {
           
           {/* Phase 2 */}
           <div className="flex-1 max-w-sm">
-            <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-orange-500 text-center min-h-[280px] flex flex-col">
+            <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900 text-center min-h-[280px] flex flex-col">
               {phaseImages.phase2 && (
                 <div className="mb-6 -m-8 mt-0 mx-0">
                   <img 
@@ -85,10 +85,10 @@ const ProtocolPhasesIntro = () => {
                 </div>
               )}
               <div className="px-8 pb-8 flex flex-col flex-grow">
-                <div className="bg-orange-500/10 p-4 rounded-full inline-flex mb-6 mx-auto">
-                  <Utensils className="w-8 h-8 text-orange-600" />
+                <div className="bg-gray-900/10 p-4 rounded-full inline-flex mb-6 mx-auto">
+                  <Utensils className="w-8 h-8 text-gray-900" />
                 </div>
-                <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">Phase 2</span>
+                <span className="bg-gray-900 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">Phase 2</span>
                 <h3 className="text-xl font-bold text-foreground flex-grow">Daily Calorie Limit</h3>
               </div>
             </div>
@@ -99,7 +99,7 @@ const ProtocolPhasesIntro = () => {
           
           {/* Phase 3 */}
           <div className="flex-1 max-w-sm">
-            <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-green-500 text-center min-h-[280px] flex flex-col">
+            <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900 text-center min-h-[280px] flex flex-col">
               {phaseImages.phase3 && (
                 <div className="mb-6 -m-8 mt-0 mx-0">
                   <img 
@@ -110,10 +110,10 @@ const ProtocolPhasesIntro = () => {
                 </div>
               )}
               <div className="px-8 pb-8 flex flex-col flex-grow">
-                <div className="bg-green-500/10 p-4 rounded-full inline-flex mb-6 mx-auto">
-                  <Activity className="w-8 h-8 text-green-600" />
+                <div className="bg-gray-900/10 p-4 rounded-full inline-flex mb-6 mx-auto">
+                  <Activity className="w-8 h-8 text-gray-900" />
                 </div>
-                <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">Phase 3</span>
+                <span className="bg-gray-900 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">Phase 3</span>
                 <h3 className="text-xl font-bold text-foreground flex-grow">Daily Walking</h3>
               </div>
             </div>
@@ -123,7 +123,7 @@ const ProtocolPhasesIntro = () => {
         {/* Mobile Layout */}
         <div className="md:hidden space-y-6">
           {/* Phase 1 */}
-          <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-blue-500">
+          <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900">
             {phaseImages.phase1 && (
               <div className="mb-6 -m-6 mt-0 mx-0">
                 <img 
@@ -135,11 +135,11 @@ const ProtocolPhasesIntro = () => {
             )}
             <div className="px-6 pb-6">
               <div className="flex items-center gap-4">
-                <div className="bg-blue-500/10 p-3 rounded-full">
-                  <Clock className="w-6 h-6 text-blue-600" />
+                <div className="bg-gray-900/10 p-3 rounded-full">
+                  <Clock className="w-6 h-6 text-gray-900" />
                 </div>
                 <div>
-                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
+                  <span className="bg-gray-900 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 1</span>
                   <h3 className="text-lg font-bold mt-2 text-foreground">3-Day Initiation Water Fast</h3>
                 </div>
               </div>
@@ -150,7 +150,7 @@ const ProtocolPhasesIntro = () => {
           <div className="text-center text-2xl font-bold text-muted-foreground">+</div>
           
           {/* Phase 2 */}
-          <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-orange-500">
+          <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900">
             {phaseImages.phase2 && (
               <div className="mb-6 -m-6 mt-0 mx-0">
                 <img 
@@ -162,11 +162,11 @@ const ProtocolPhasesIntro = () => {
             )}
             <div className="px-6 pb-6">
               <div className="flex items-center gap-4">
-                <div className="bg-orange-500/10 p-3 rounded-full">
-                  <Utensils className="w-6 h-6 text-orange-600" />
+                <div className="bg-gray-900/10 p-3 rounded-full">
+                  <Utensils className="w-6 h-6 text-gray-900" />
                 </div>
                 <div>
-                  <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
+                  <span className="bg-gray-900 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 2</span>
                   <h3 className="text-lg font-bold mt-2 text-foreground">Daily Calorie Limit</h3>
                 </div>
               </div>
@@ -177,7 +177,7 @@ const ProtocolPhasesIntro = () => {
           <div className="text-center text-2xl font-bold text-muted-foreground">+</div>
           
           {/* Phase 3 */}
-          <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-green-500">
+          <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900">
             {phaseImages.phase3 && (
               <div className="mb-6 -m-6 mt-0 mx-0">
                 <img 
@@ -189,11 +189,11 @@ const ProtocolPhasesIntro = () => {
             )}
             <div className="px-6 pb-6">
               <div className="flex items-center gap-4">
-                <div className="bg-green-500/10 p-3 rounded-full">
-                  <Activity className="w-6 h-6 text-green-600" />
+                <div className="bg-gray-900/10 p-3 rounded-full">
+                  <Activity className="w-6 h-6 text-gray-900" />
                 </div>
                 <div>
-                  <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
+                  <span className="bg-gray-900 text-white px-3 py-1 rounded-full text-sm font-medium">Phase 3</span>
                   <h3 className="text-lg font-bold mt-2 text-foreground">Daily Walking</h3>
                 </div>
               </div>
