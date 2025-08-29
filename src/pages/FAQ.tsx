@@ -12,6 +12,8 @@ interface FAQ {
   question: string;
   answer: string;
   display_order: number;
+  image_url?: string;
+  image_alignment?: 'left' | 'right';
 }
 
 const FAQ = () => {
@@ -79,7 +81,10 @@ const FAQ = () => {
           
           console.log('FAQ: Retry successful, loaded FAQs:', retryData?.length || 0);
           if (retryData && retryData.length > 0) {
-            setFaqs(retryData);
+            setFaqs(retryData.map(item => ({
+              ...item,
+              image_alignment: (item.image_alignment as 'left' | 'right') || 'left'
+            })));
             localStorage.setItem('faq_cache_v1', JSON.stringify(retryData));
           }
         } catch (retryErr) {
@@ -90,7 +95,10 @@ const FAQ = () => {
 
       console.log('FAQ: Successfully loaded FAQs:', data?.length || 0, data);
       if (data && data.length > 0) {
-        setFaqs(data);
+        setFaqs(data.map(item => ({
+          ...item,
+          image_alignment: (item.image_alignment as 'left' | 'right') || 'left'
+        })));
         localStorage.setItem('faq_cache_v1', JSON.stringify(data));
       } else {
         console.log('FAQ: No FAQs found in database');
@@ -186,12 +194,24 @@ const FAQ = () => {
                 </button>
                 {openItems.has(faq.id) && (
                   <CardContent className="pt-4 pb-6 border-t border-white/10">
-                    <div className="ml-11 prose prose-sm max-w-none text-white/80">
-                      {faq.answer.split('\n').map((paragraph, index) => (
-                        <p key={index} className="mb-3 last:mb-0">
-                          {paragraph}
-                        </p>
-                      ))}
+                    <div className="ml-11">
+                      {faq.image_url && (
+                        <div className={`mb-4 ${faq.image_alignment === 'right' ? 'float-right ml-4' : 'float-left mr-4'} max-w-xs sm:max-w-sm`}>
+                          <img 
+                            src={faq.image_url} 
+                            alt={`Illustration for ${faq.question}`}
+                            className="w-full h-auto rounded-lg shadow-md border border-white/20"
+                          />
+                        </div>
+                      )}
+                      <div className="prose prose-sm max-w-none text-white/80">
+                        {faq.answer.split('\n').map((paragraph, index) => (
+                          <p key={index} className="mb-3 last:mb-0">
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
+                      <div className="clear-both"></div>
                     </div>
                   </CardContent>
                 )}

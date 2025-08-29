@@ -12,6 +12,7 @@ import { toast } from '@/components/ui/sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, Edit, Trash2, Save, X, ArrowLeft } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import FAQImageUpload from '@/components/admin/FAQImageUpload';
 
 interface FAQ {
   id: string;
@@ -285,15 +286,11 @@ const AdminFAQ = () => {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="image_url">Image URL (Optional)</Label>
-                <Input
-                  id="image_url"
-                  value={formData.image_url || ''}
-                  onChange={(e) => handleInputChange('image_url', e.target.value)}
-                  placeholder="Enter image URL"
-                />
-              </div>
+              {/* FAQ Image Upload */}
+              <FAQImageUpload
+                currentImageUrl={formData.image_url || ''}
+                onImageChange={(url) => handleInputChange('image_url', url)}
+              />
 
               <div className="grid grid-cols-4 gap-4">
                 <div className="space-y-2">
