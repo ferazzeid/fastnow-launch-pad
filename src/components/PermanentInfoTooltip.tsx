@@ -79,12 +79,17 @@ const PermanentInfoTooltip: React.FC<PermanentInfoTooltipProps> = ({
       />
 
       {/* Container for button and tooltip */}
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-4 relative">
+        {/* Notification badge - positioned outside button */}
+        <div className="absolute -top-1 -left-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center z-20 shadow-lg border-2 border-white">
+          <span className="text-white text-xs font-bold">1</span>
+        </div>
+
         {/* Elegant Pulsating Speech Bubble Button */}
         <button
           ref={buttonRef}
           className={cn(
-            "relative overflow-hidden transition-all duration-300 flex-shrink-0",
+            "relative transition-all duration-300 flex-shrink-0",
             "hover:scale-105",
             sizeClasses[size]
           )}
@@ -95,10 +100,6 @@ const PermanentInfoTooltip: React.FC<PermanentInfoTooltipProps> = ({
           aria-label="Information tooltip"
           disabled // No clicking since it's permanently visible
         >
-          {/* Notification badge */}
-          <div className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center z-10 shadow-lg border-2 border-white">
-            <span className="text-white text-sm font-bold">1</span>
-          </div>
           {/* Outer border with elegant pulsing - medium thickness */}
           <div 
             className="absolute inset-0 border-3 transition-all duration-1000"
