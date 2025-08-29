@@ -11,6 +11,7 @@ import { Mail, Send, Key, Server, Webhook, ExternalLink } from 'lucide-react';
 const UnifiedEmailSettings = () => {
   const [contactEmail, setContactEmail] = useState('');
   const [resendApiKey, setResendApiKey] = useState('');
+  const [brevoApiKey, setBrevoApiKey] = useState('');
   const [testMessage, setTestMessage] = useState('This is a test email from FastNow contact form.');
   
   // SMTP Settings
@@ -23,18 +24,20 @@ const UnifiedEmailSettings = () => {
   // Webhook Settings
   const [webhookUrl, setWebhookUrl] = useState('');
   
-  const [activeTab, setActiveTab] = useState('resend');
+  const [activeTab, setActiveTab] = useState('brevo');
 
   useEffect(() => {
     // Load saved settings
     const savedEmail = localStorage.getItem('fastingApp_contactEmail') || 'fastnowapp@pm.me';
-    const savedApiKey = localStorage.getItem('fastingApp_resendApiKey') || '';
+    const savedResendApiKey = localStorage.getItem('fastingApp_resendApiKey') || '';
+    const savedBrevoApiKey = localStorage.getItem('fastingApp_brevoApiKey') || '';
     const savedSmtpHost = localStorage.getItem('fastingApp_smtpHost') || '';
     const savedSmtpUsername = localStorage.getItem('fastingApp_smtpUsername') || '';
     const savedWebhookUrl = localStorage.getItem('fastingApp_webhookUrl') || '';
     
     setContactEmail(savedEmail);
-    setResendApiKey(savedApiKey);
+    setResendApiKey(savedResendApiKey);
+    setBrevoApiKey(savedBrevoApiKey);
     setSmtpHost(savedSmtpHost);
     setSmtpUsername(savedSmtpUsername);
     setWebhookUrl(savedWebhookUrl);
@@ -43,6 +46,7 @@ const UnifiedEmailSettings = () => {
   const handleSaveSettings = () => {
     localStorage.setItem('fastingApp_contactEmail', contactEmail);
     localStorage.setItem('fastingApp_resendApiKey', resendApiKey);
+    localStorage.setItem('fastingApp_brevoApiKey', brevoApiKey);
     localStorage.setItem('fastingApp_smtpHost', smtpHost);
     localStorage.setItem('fastingApp_smtpUsername', smtpUsername);
     localStorage.setItem('fastingApp_webhookUrl', webhookUrl);
@@ -50,8 +54,9 @@ const UnifiedEmailSettings = () => {
   };
 
   const handleTestEmail = async () => {
-    if (activeTab === 'resend' && !resendApiKey.trim()) {
-      toast.error('Please enter your Resend API key first');
+    if ((activeTab === 'resend' && !resendApiKey.trim()) || 
+        (activeTab === 'brevo' && !brevoApiKey.trim())) {
+      toast.error(`Please enter your ${activeTab === 'resend' ? 'Resend' : 'Brevo'} API key first`);
       return;
     }
 
@@ -66,7 +71,9 @@ const UnifiedEmailSettings = () => {
           email: contactEmail,
           subject: 'Test Email from FastNow',
           message: testMessage,
-          resendApiKey: activeTab === 'resend' ? resendApiKey : undefined
+          provider: activeTab,
+          resendApiKey: activeTab === 'resend' ? resendApiKey : undefined,
+          brevoApiKey: activeTab === 'brevo' ? brevoApiKey : undefined
         }),
       });
 
@@ -148,10 +155,14 @@ const UnifiedEmailSettings = () => {
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="brevo" className="flex items-center gap-2">
+                <Key className="w-4 h-4" />
+                Brevo (Recommended)
+              </TabsTrigger>
               <TabsTrigger value="resend" className="flex items-center gap-2">
                 <Key className="w-4 h-4" />
-                Resend (Recommended)
+                Resend
               </TabsTrigger>
               <TabsTrigger value="smtp" className="flex items-center gap-2">
                 <Server className="w-4 h-4" />
@@ -162,6 +173,32 @@ const UnifiedEmailSettings = () => {
                 Webhook
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="brevo" className="space-y-4 mt-6">
+              <div className="space-y-2">
+                <Label htmlFor="brevoApiKey">Brevo API Key</Label>
+                <Input
+                  id="brevoApiKey"
+                  type="password"
+                  value={brevoApiKey}
+                  onChange={(e) => setBrevoApiKey(e.target.value)}
+                  placeholder="xkeysib-xxxxxxxxxxxxxxxxx"
+                />
+                <div className="text-sm text-muted-foreground space-y-1">
+                  <p>Get your API key from{' '}
+                    <a 
+                      href="https://app.brevo.com/settings/keys/api" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center gap-1"
+                    >
+                      Brevo API Keys <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </p>
+                  <p>Make sure to verify your sender domain in Brevo settings</p>
+                </div>
+              </div>
+            </TabsContent>
 
             <TabsContent value="resend" className="space-y-4 mt-6">
               <div className="space-y-2">
@@ -285,7 +322,7 @@ const UnifiedEmailSettings = () => {
                 <Mail className="w-4 h-4" />
                 Save Settings
               </Button>
-              {activeTab === 'resend' && (
+              {(activeTab === 'resend' || activeTab === 'brevo') && (
                 <Button 
                   variant="outline" 
                   onClick={handleTestEmail}
@@ -308,7 +345,17 @@ const UnifiedEmailSettings = () => {
         <CardContent className="space-y-4">
           <div className="text-sm text-muted-foreground space-y-3">
             <div>
-              <h4 className="font-medium text-foreground mb-2">Resend (Recommended)</h4>
+              <h4 className="font-medium text-foreground mb-2">Brevo (Recommended)</h4>
+              <ol className="list-decimal list-inside space-y-1 pl-2">
+                <li>Sign up for a free account at brevo.com</li>
+                <li>Verify your email domain in the Brevo dashboard</li>
+                <li>Create an API key and enter it above</li>
+                <li>Test the integration using the "Send Test Email" button</li>
+              </ol>
+            </div>
+
+            <div>
+              <h4 className="font-medium text-foreground mb-2">Resend</h4>
               <ol className="list-decimal list-inside space-y-1 pl-2">
                 <li>Sign up for a free account at resend.com</li>
                 <li>Verify your email domain in the Resend dashboard</li>

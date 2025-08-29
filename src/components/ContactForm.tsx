@@ -38,6 +38,11 @@ const ContactForm = () => {
       // Get contact settings from localStorage
       const contactEmail = localStorage.getItem('fastingApp_contactEmail') || 'fastnowapp@pm.me';
       const resendApiKey = localStorage.getItem('fastingApp_resendApiKey');
+      const brevoApiKey = localStorage.getItem('fastingApp_brevoApiKey');
+      
+      // Determine which provider to use
+      const provider = brevoApiKey ? 'brevo' : 'resend';
+      const apiKey = brevoApiKey || resendApiKey;
 
       // Prepare email content
       const emailContent = `
@@ -52,20 +57,21 @@ ${formData.message}
 Sent via Fast Now App Contact Form
       `.trim();
 
-      if (resendApiKey) {
-        // Send via Resend API through our edge function
+      if (apiKey) {
+        // Send via API through our edge function
         const response = await fetch('https://texnkijwcygodtywgedm.supabase.co/functions/v1/send-contact-email', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${resendApiKey}`,
           },
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
             subject: formData.subject || 'Contact Form Submission',
             message: formData.message,
-            resendApiKey: resendApiKey
+            provider: provider,
+            resendApiKey: provider === 'resend' ? apiKey : undefined,
+            brevoApiKey: provider === 'brevo' ? apiKey : undefined
           }),
         });
 
