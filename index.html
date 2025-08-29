@@ -58,19 +58,58 @@
     </script>
     
     <script>
-      // Load custom favicon from settings
-      const faviconUrl = 'https://texnkijwcygodtywgedm.supabase.co/storage/v1/object/public/website-images/favicon.png';
+      // Load custom favicon from database settings
+      async function loadFavicon() {
+        try {
+          // Try to load from database first
+          const response = await fetch('https://texnkijwcygodtywgedm.supabase.co/rest/v1/site_settings?setting_key=eq.site_favicon&select=setting_value', {
+            headers: {
+              'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRleG5raWp3Y3lnb2R0eXdnZWRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMxODQ3MDAsImV4cCI6MjA2ODc2MDcwMH0.xiOD9aVsKZCadtKiwPGnFQONjLQlaqk-ASUdLDZHNqI',
+              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRleG5raWp3Y3lnb2R0eXdnZWRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMxODQ3MDAsImV4cCI6MjA2ODc2MDcwMH0.xiOD9aVsKZCadtKiwPGnFQONjLQlaqk-ASUdLDZHNqI'
+            }
+          });
+          
+          const data = await response.json();
+          let faviconUrl = '';
+          
+          if (data && data.length > 0 && data[0].setting_value) {
+            faviconUrl = data[0].setting_value;
+          }
+          
+          // Fallback to localStorage if no database setting
+          if (!faviconUrl) {
+            faviconUrl = localStorage.getItem('fastingApp_faviconUrl') || '';
+          }
+          
+          // Default fallback
+          if (!faviconUrl) {
+            faviconUrl = 'https://texnkijwcygodtywgedm.supabase.co/storage/v1/object/public/website-images/favicon.png';
+          }
+          
+          // Remove any existing favicon links
+          const existingLinks = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
+          existingLinks.forEach(link => link.remove());
+          
+          // Add the custom favicon
+          const linkElement = document.createElement('link');
+          linkElement.rel = 'icon';
+          linkElement.href = faviconUrl;
+          linkElement.type = 'image/png';
+          document.head.appendChild(linkElement);
+          
+        } catch (error) {
+          console.log('Error loading favicon, using default:', error);
+          // Fallback to default
+          const linkElement = document.createElement('link');
+          linkElement.rel = 'icon';
+          linkElement.href = 'https://texnkijwcygodtywgedm.supabase.co/storage/v1/object/public/website-images/favicon.png';
+          linkElement.type = 'image/png';
+          document.head.appendChild(linkElement);
+        }
+      }
       
-      // Remove any existing favicon links
-      const existingLinks = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
-      existingLinks.forEach(link => link.remove());
-      
-      // Add the custom favicon
-      const linkElement = document.createElement('link');
-      linkElement.rel = 'icon';
-      linkElement.href = faviconUrl;
-      linkElement.type = 'image/png';
-      document.head.appendChild(linkElement);
+      // Load favicon when page loads
+      loadFavicon();
     </script>
   </head>
 
