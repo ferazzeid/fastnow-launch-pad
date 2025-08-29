@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -35,6 +36,7 @@ interface FAQForm {
 
 const AdminFAQ = () => {
   const navigate = useNavigate();
+  const { user, isAdmin, isLoading } = useAuth();
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -50,8 +52,25 @@ const AdminFAQ = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadFAQs();
-  }, []);
+    if (!isLoading) {
+      if (!user) {
+        navigate('/admin/login');
+        return;
+      }
+      
+      if (!isAdmin) {
+        const timeout = setTimeout(() => {
+          if (!isAdmin) {
+            navigate('/admin');
+          }
+        }, 1000);
+        
+        return () => clearTimeout(timeout);
+      }
+      
+      loadFAQs();
+    }
+  }, [user, isAdmin, isLoading, navigate]);
 
   const loadFAQs = async () => {
     try {
@@ -133,6 +152,13 @@ const AdminFAQ = () => {
   };
 
   const handleEdit = (faq: FAQ) => {
+    console.log('Edit button clicked for FAQ:', faq.id);
+    
+    if (!user || !isAdmin) {
+      toast.error('You must be logged in as an admin to edit FAQs');
+      return;
+    }
+    
     setFormData({
       question: faq.question,
       answer: faq.answer,
@@ -144,6 +170,8 @@ const AdminFAQ = () => {
     });
     setEditingId(faq.id);
     setShowAddForm(true);
+    
+    console.log('Edit form should now be visible');
   };
 
   const handleDelete = async (id: string) => {
@@ -179,12 +207,19 @@ const AdminFAQ = () => {
     setShowAddForm(false);
   };
 
-  if (loading) {
+  if (isLoading || loading) {
     return (
-      <div className="container py-8">
-        <p className="text-center">Loading...</p>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
       </div>
     );
+  }
+
+  if (!user || !isAdmin) {
+    return null;
   }
 
   return (
