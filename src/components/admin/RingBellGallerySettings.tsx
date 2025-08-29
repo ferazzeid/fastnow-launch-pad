@@ -11,16 +11,57 @@ import { toast } from 'sonner';
 import { Trash2, Upload, Eye, EyeOff } from 'lucide-react';
 import { ringBellGalleryService, RingBellGalleryItem } from '@/services/RingBellGalleryService';
 import { ImageUploadService } from '@/services/ImageUploadService';
+import { supabase } from '@/integrations/supabase/client';
 
 const RingBellGallerySettings = () => {
   const [items, setItems] = useState<RingBellGalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState('1');
+  const [sectionEnabled, setSectionEnabled] = useState(true);
 
   useEffect(() => {
     loadItems();
+    loadSectionSettings();
   }, []);
+
+  const loadSectionSettings = async () => {
+    try {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('setting_value')
+        .eq('setting_key', 'ring_bell_gallery_enabled')
+        .maybeSingle();
+
+      if (data?.setting_value) {
+        const value = typeof data.setting_value === 'string' 
+          ? JSON.parse(data.setting_value) 
+          : data.setting_value;
+        setSectionEnabled(Boolean(value));
+      }
+    } catch (error) {
+      console.error('Error loading section settings:', error);
+    }
+  };
+
+  const saveSectionSettings = async (enabled: boolean) => {
+    try {
+      const { error } = await supabase
+        .from('site_settings')
+        .upsert({
+          setting_key: 'ring_bell_gallery_enabled',
+          setting_value: JSON.stringify(enabled)
+        });
+
+      if (error) throw error;
+      
+      setSectionEnabled(enabled);
+      toast.success(`Ring Bell Gallery ${enabled ? 'enabled' : 'disabled'}`);
+    } catch (error) {
+      console.error('Error saving section settings:', error);
+      toast.error('Failed to update section settings');
+    }
+  };
 
   const loadItems = async () => {
     try {
@@ -156,14 +197,30 @@ const RingBellGallerySettings = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">Ring Bell Gallery Settings</h2>
-          <p className="text-muted-foreground">
-            Manage the interactive 3x3 gallery for "Does This Ring a Bell?" section
+      {/* Section Activation Toggle */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Section Settings</CardTitle>
+          <CardDescription>
+            Control whether the Ring Bell Gallery section appears on the website
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="section-enabled"
+              checked={sectionEnabled}
+              onCheckedChange={saveSectionSettings}
+            />
+            <Label htmlFor="section-enabled" className="text-sm font-medium">
+              {sectionEnabled ? 'Section Enabled' : 'Section Disabled'}
+            </Label>
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            When disabled, the entire Ring Bell Gallery section will be hidden from the website
           </p>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-9">

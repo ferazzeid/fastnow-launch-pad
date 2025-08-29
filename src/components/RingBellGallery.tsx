@@ -1,24 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { ringBellGalleryService, RingBellGalleryItem } from '@/services/RingBellGalleryService';
+import { supabase } from '@/integrations/supabase/client';
 
 const RingBellGallery = () => {
   const [items, setItems] = useState<RingBellGalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sectionEnabled, setSectionEnabled] = useState(false);
 
   useEffect(() => {
-    const loadItems = async () => {
+    const loadData = async () => {
       try {
-        const data = await ringBellGalleryService.getAllItems();
-        setItems(data);
+        // Check if section is enabled
+        const { data: settingData } = await supabase
+          .from('site_settings')
+          .select('setting_value')
+          .eq('setting_key', 'ring_bell_gallery_enabled')
+          .maybeSingle();
+
+        let enabled = true; // Default to enabled if no setting found
+        if (settingData?.setting_value !== null && settingData?.setting_value !== undefined) {
+          const value = typeof settingData.setting_value === 'string' 
+            ? JSON.parse(settingData.setting_value) 
+            : settingData.setting_value;
+          enabled = Boolean(value);
+        }
+
+        setSectionEnabled(enabled);
+
+        // Only load items if section is enabled
+        if (enabled) {
+          const itemsData = await ringBellGalleryService.getAllItems();
+          setItems(itemsData);
+        }
       } catch (error) {
-        console.error('Error loading ring bell gallery items:', error);
+        console.error('Error loading ring bell gallery:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    loadItems();
+    loadData();
   }, []);
+
+  // Don't render anything if section is disabled
+  if (!sectionEnabled && !loading) {
+    return null;
+  }
 
   // Create array of 9 positions with items or placeholders
   const galleryItems = Array.from({ length: 9 }, (_, index) => {
