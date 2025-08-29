@@ -14,6 +14,7 @@ import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { ImageUploadService } from '@/services/ImageUploadService';
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { pageContentService } from '@/services/PageContentService';
+import AboutAppPhoneMockupSettings from '@/components/admin/AboutAppPhoneMockupSettings';
 
 const UnifiedAboutAppEditor = () => {
   // SEO Settings
@@ -238,11 +239,12 @@ const UnifiedAboutAppEditor = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="seo" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="seo">SEO Settings</TabsTrigger>
           <TabsTrigger value="hero">Hero Content</TabsTrigger>
           <TabsTrigger value="features">Feature Screenshots</TabsTrigger>
           <TabsTrigger value="images">Featured Image</TabsTrigger>
+          <TabsTrigger value="phone">Phone Mockup</TabsTrigger>
         </TabsList>
 
         <TabsContent value="seo">
@@ -490,6 +492,10 @@ const UnifiedAboutAppEditor = () => {
                </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="phone">
+          <AboutAppPhoneMockupSettings />
         </TabsContent>
 
       </Tabs>
