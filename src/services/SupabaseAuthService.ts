@@ -54,23 +54,20 @@ export class SupabaseAuthService {
     }
   }
 
-  // Check if user has admin role
+  // Check if user has admin role using the unified admin function
   static async hasAdminRole(userId?: string) {
     try {
       const { data, error } = await supabase
-        .rpc('has_role', { 
-          _user_id: userId || (await this.getCurrentSession())?.user?.id,
-          _role: 'admin' 
-        });
+        .rpc('is_current_user_admin' as any);
 
       if (error) {
-        console.error('Role check error:', error);
+        console.error('Admin check error:', error);
         return false;
       }
 
-      return data || false;
+      return Boolean(data);
     } catch (error) {
-      console.error('Role check exception:', error);
+      console.error('Admin check exception:', error);
       return false;
     }
   }

@@ -41,7 +41,7 @@ export const useAuth = () => {
                 isAdmin: adminStatus,
                 userEmail: session.user.email
               });
-              setIsAdmin(adminStatus);
+              setIsAdmin(Boolean(adminStatus));
             })
             .catch(error => {
               console.error('useAuth: Admin check error:', error);
@@ -77,7 +77,7 @@ export const useAuth = () => {
           SupabaseAuthService.hasAdminRole(session.user.id)
             .then(adminStatus => {
               console.log('useAuth: Admin status updated', adminStatus);
-              setIsAdmin(adminStatus);
+              setIsAdmin(Boolean(adminStatus));
             })
             .catch(error => {
               console.error('useAuth: Admin check error in listener:', error);
