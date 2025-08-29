@@ -635,7 +635,60 @@ const Index = () => {
           </div>
         </section>
 
-
+        {/* Personal Touch Section - Speech Bubble Explanation */}
+        <section className="relative z-10 py-16 bg-gradient-to-b from-white to-gray-50">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900">
+                Adding a Human Touch
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Throughout this site, you'll notice little speech bubbles like the one below. Here's why I added them.
+              </p>
+            </div>
+            
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+              {/* Left Column - Interactive Demo */}
+              <div className="flex justify-center lg:justify-end">
+                <div className="relative">
+                  <div className="text-center mb-4">
+                    <p className="text-sm text-gray-500 mb-2">Try clicking the bubble below</p>
+                  </div>
+                  <SiteInfoTooltip 
+                    content="This is exactly how the speech bubbles work throughout the site. Each one contains a personal note, experience, or perspective that I hope makes the information more relatable and human."
+                    size="lg"
+                    className="mx-auto"
+                  />
+                </div>
+              </div>
+              
+              {/* Right Column - Speech Bubble Explanation */}
+              <div className="relative">
+                <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-8 relative">
+                  {/* Speech bubble tail */}
+                  <div className="absolute -left-4 top-8 w-0 h-0 border-t-[16px] border-t-transparent border-r-[20px] border-r-white border-b-[16px] border-b-transparent"></div>
+                  <div className="absolute -left-[18px] top-8 w-0 h-0 border-t-[16px] border-t-transparent border-r-[20px] border-r-gray-200 border-b-[16px] border-b-transparent"></div>
+                  
+                  <div className="space-y-4 text-gray-700">
+                    <p className="text-lg leading-relaxed">
+                      It's important to me to attach personal flair to the application and throughout the information that I'm sharing here. I'm trying to integrate these little bubbles where I specifically leave a personal note, a personal experience, or some kind of personal perspective on a particular topic.
+                    </p>
+                    
+                    <p className="text-lg leading-relaxed">
+                      I think it's quite dry - even though I try to make it not as dry - every time you get to deal with a lot of theory and nutrition/weight loss topics, it's nice to have a real personal touch from a real human being who has actually gone through this process before.
+                    </p>
+                    
+                    <div className="mt-6 p-4 bg-primary/5 rounded-lg border-l-4 border-primary">
+                      <p className="text-sm text-gray-600 italic">
+                        Look out for these bubbles as you explore the site - each one contains something personal I wanted to share with you.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
       </main>
     </PageLayout>
