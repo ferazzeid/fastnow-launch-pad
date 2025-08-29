@@ -6,7 +6,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { pageContentService } from '@/services/PageContentService';
 import { BackgroundImageService } from '@/services/BackgroundImageService';
 import { supabase } from '@/integrations/supabase/client';
-import SiteInfoTooltip from '@/components/SiteInfoTooltip';
+import PermanentInfoTooltip from '@/components/PermanentInfoTooltip';
 import ImageSlideshow from '@/components/ImageSlideshow';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { BlogPost } from '@/types/blog';
@@ -427,7 +427,7 @@ const Index = () => {
                       </a>
                     </Button>
                     
-                    <SiteInfoTooltip
+                    <PermanentInfoTooltip
                       content="After years of struggling with complicated diet plans and fitness programs, I realized that simplicity is key. This protocol combines the most effective elements I've discovered through personal experience and research. It's not about perfection - it's about consistent progress that actually fits into your real life."
                       size="md"
                     />
@@ -691,43 +691,19 @@ const Index = () => {
                 Adding a Human Touch
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Throughout this site, you'll notice little speech bubbles like the one below. Here's why I added them.
+                Throughout this site, you'll notice little speech bubbles that add a personal perspective to the content.
               </p>
             </div>
             
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-              {/* Left Column - Interactive Demo */}
-              <div className="flex justify-center lg:justify-end">
-                <div className="relative">
-                  <div className="text-center mb-4">
-                    <p className="text-base text-gray-500 mb-2">Try clicking the bubble below</p>
-                  </div>
-                  <div className="scale-150 transform">
-                    <SiteInfoTooltip 
-                      content="This is exactly how the speech bubbles work throughout the site. Each one contains a personal note, experience, or perspective that I hope makes the information more relatable and human."
-                      size="lg"
-                      className="mx-auto"
-                    />
-                  </div>
-                </div>
-              </div>
-              
-              {/* Right Column - Speech Bubble Explanation */}
+            <div className="flex justify-center">
               <div className="relative">
-                <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-200 p-12 relative">
-                  {/* Speech bubble tail - better aligned */}
-                  <div className="absolute -left-5 top-12 w-0 h-0 border-t-[20px] border-t-transparent border-r-[24px] border-r-white border-b-[20px] border-b-transparent"></div>
-                  <div className="absolute -left-[22px] top-12 w-0 h-0 border-t-[20px] border-t-transparent border-r-[24px] border-r-gray-200 border-b-[20px] border-b-transparent"></div>
-                  
-                  <div className="space-y-6 text-gray-700">
-                    <p className="text-xl leading-relaxed">
-                      It's important to me to attach personal flair to the application and throughout the information that I'm sharing here. I'm trying to integrate these little bubbles where I specifically leave a personal note, a personal experience, or some kind of personal perspective on a particular topic.
-                    </p>
-                    
-                    <p className="text-xl leading-relaxed">
-                      I think it's quite dry - even though I try to make it not as dry - every time you get to deal with a lot of theory and nutrition/weight loss topics, it's nice to have a real personal touch from a real human being who has actually gone through this process before.
-                    </p>
-                  </div>
+                <div className="scale-150 transform">
+                  <PermanentInfoTooltip 
+                    content="It's important to me to attach personal flair to the application and throughout the information that I'm sharing here. I'm trying to integrate these little bubbles where I specifically leave a personal note, a personal experience, or some kind of personal perspective on a particular topic. I think it's quite dry - even though I try to make it not as dry - every time you get to deal with a lot of theory and nutrition/weight loss topics, it's nice to have a real personal touch from a real human being who has actually gone through this process before."
+                    size="lg"
+                    className="mx-auto"
+                    position="bottom-right"
+                  />
                 </div>
               </div>
             </div>
