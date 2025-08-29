@@ -13,7 +13,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-const MainNavigation = () => {
+interface MainNavigationProps {
+  transparent?: boolean;
+}
+
+const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) => {
   const { isAdmin } = useAuth();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +41,13 @@ const MainNavigation = () => {
   const handleLinkClick = () => setIsOpen(false);
 
   const getNavLinkStyle = (isActive: boolean) => {
+    if (transparent) {
+      return cn(
+        "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200",
+        "text-white border border-white/30 hover:border-white/50 hover:bg-white/10",
+        isActive && "bg-white/20 border-white/50"
+      );
+    }
     return cn(
       "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200",
       "text-gray-900 border border-gray-300 hover:border-gray-400 hover:bg-gray-50",
@@ -73,7 +84,12 @@ const MainNavigation = () => {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="p-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+            className={cn(
+              "p-2 hover:bg-gray-100",
+              transparent 
+                ? "text-white hover:text-white hover:bg-white/10" 
+                : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+            )}
           >
             <Menu size={24} />
           </Button>

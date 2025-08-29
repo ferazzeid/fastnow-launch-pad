@@ -6,7 +6,11 @@ import GlobalSchema from '../GlobalSchema';
 import { pageContentService } from '@/services/PageContentService';
 import { supabase } from '@/integrations/supabase/client';
 
-const Header = () => {
+interface HeaderProps {
+  transparent?: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ transparent = false }) => {
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
   const [logoSize, setLogoSize] = React.useState<number>(32);
   const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
@@ -103,7 +107,11 @@ const Header = () => {
   return (
     <>
       <GlobalSchema />
-      <header className="sticky top-0 left-0 right-0 py-4 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <header className={`sticky top-0 left-0 right-0 py-4 z-50 ${
+        transparent 
+          ? 'bg-transparent border-transparent' 
+          : 'bg-white border-b border-gray-200 shadow-sm'
+      }`}>
       <div className="container flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           {logoUrl && (
@@ -114,9 +122,9 @@ const Header = () => {
               className="rounded-full"
             />
           )}
-          <span className="text-2xl font-bold text-gray-900">FastNow</span>
+          <span className={`text-2xl font-bold ${transparent ? 'text-white' : 'text-gray-900'}`}>FastNow</span>
         </Link>
-        <MainNavigation />
+        <MainNavigation transparent={transparent} />
       </div>
     </header>
     </>
