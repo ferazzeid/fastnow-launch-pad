@@ -1,74 +1,91 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import LoginForm from '@/components/admin/LoginForm';
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
+import { useAuth } from '@/hooks/useAuth';
 import { toast } from "@/components/ui/sonner";
 
 const AdminLoginPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user, isAdmin, session } = useAuth();
+  
   const [email, setEmail] = useState(() => localStorage.getItem('admin_email') || '');
-  const [password, setPassword] = useState(() => localStorage.getItem('admin_password') || '');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(() => localStorage.getItem('admin_remember') === 'true');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Check if already authenticated and redirect
   useEffect(() => {
-    // Check if already authenticated
-    const checkAuth = async () => {
-      const session = await SupabaseAuthService.getCurrentSession();
-      if (session?.user) {
-        const isAdmin = await SupabaseAuthService.hasAdminRole(session.user.id);
-        if (isAdmin) {
-          navigate('/admin');
-        }
+    const checkExistingAuth = async () => {
+      if (session && user && isAdmin === true) {
+        console.log('AdminLogin: Already authenticated as admin, redirecting');
+        const from = (location.state as any)?.from?.pathname || '/admin';
+        navigate(from, { replace: true });
       }
     };
-    checkAuth();
-  }, [navigate]);
+
+    // Only check if we have a definitive admin status (not loading)
+    if (isAdmin !== null) {
+      checkExistingAuth();
+    }
+  }, [user, isAdmin, session, navigate, location]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    
+
     try {
-      console.log('Starting login process...', { email });
+      console.log('AdminLogin: Starting login process for:', email);
       
-      // Save login data if remember me is checked
+      // Save email if remember me is checked (NEVER save passwords)
       if (rememberMe) {
         localStorage.setItem('admin_email', email);
-        localStorage.setItem('admin_password', password);
         localStorage.setItem('admin_remember', 'true');
       } else {
         localStorage.removeItem('admin_email');
-        localStorage.removeItem('admin_password');
         localStorage.removeItem('admin_remember');
       }
 
-      console.log('Calling SupabaseAuthService.signIn...');
       const result = await SupabaseAuthService.signIn(email, password);
-      console.log('Login result:', { success: result.success, hasUser: !!result.user, error: result.error });
+      console.log('AdminLogin: Login result:', { success: result.success, hasSession: !!result.session });
       
-      if (result.success && result.user) {
-        console.log('Checking admin role for user:', result.user.id);
-        const isAdmin = await SupabaseAuthService.hasAdminRole(result.user.id);
-        console.log('Admin check result:', isAdmin);
-        
-        if (isAdmin) {
-          console.log('Admin confirmed, navigating to /admin');
-          toast.success("Login successful!");
-          navigate('/admin');
-        } else {
-          console.log('User is not admin, signing out');
-          toast.error("Access denied. Admin privileges required.");
-          await SupabaseAuthService.signOut();
-        }
-      } else {
-        console.log('Login failed:', result.error);
-        toast.error(result.error || "Authentication failed");
+      if (!result.success || !result.session) {
+        console.error('AdminLogin: Login failed:', result.error);
+        toast.error(result.error || 'Login failed');
+        return;
       }
+
+      console.log('AdminLogin: Login successful, checking admin status...');
+      
+      // Wait a moment for the auth state to propagate properly
+      setTimeout(async () => {
+        try {
+          const isAdminUser = await SupabaseAuthService.hasAdminRole();
+          console.log('AdminLogin: Admin check result:', isAdminUser);
+          
+          if (!isAdminUser) {
+            console.log('AdminLogin: User is not admin, signing out');
+            await SupabaseAuthService.signOut();
+            toast.error('Access denied. Admin privileges required.');
+            return;
+          }
+
+          console.log('AdminLogin: Admin access confirmed, redirecting');
+          toast.success('Welcome back, admin!');
+          
+          const from = (location.state as any)?.from?.pathname || '/admin';
+          navigate(from, { replace: true });
+        } catch (adminCheckError) {
+          console.error('AdminLogin: Admin check failed:', adminCheckError);
+          toast.error('Failed to verify admin status. Please try again.');
+        }
+      }, 200); // Increased delay to ensure auth state propagates
+
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error("An unexpected error occurred: " + (error instanceof Error ? error.message : String(error)));
+      console.error('AdminLogin: Login exception:', error);
+      toast.error('An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -80,34 +97,53 @@ const AdminLoginPage = () => {
       return;
     }
 
-    setIsLoading(true);
     try {
+      console.log('AdminLogin: Sending password reset for:', email);
       const result = await SupabaseAuthService.resetPassword(email);
+      
       if (result.success) {
-        toast.success("Password reset email sent! Check your inbox and spam folder. The link will expire in 1 hour.");
+        toast.success('Password reset email sent! Check your inbox.');
       } else {
-        toast.error(result.error || "Failed to send reset email");
+        console.error('AdminLogin: Password reset failed:', result.error);
+        toast.error(result.error || 'Failed to send reset email');
       }
     } catch (error) {
-      console.error('Password reset error:', error);
-      toast.error("An unexpected error occurred");
-    } finally {
-      setIsLoading(false);
+      console.error('AdminLogin: Password reset exception:', error);
+      toast.error('An unexpected error occurred');
     }
   };
 
+  // Show loading if we're still determining auth state
+  if (isAdmin === null) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto"></div>
+          <p className="mt-2 text-muted-foreground">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <LoginForm
-      username={email}
-      setUsername={setEmail}
-      password={password}
-      setPassword={setPassword}
-      handleLogin={handleLogin}
-      handleForgotPassword={handleForgotPassword}
-      rememberMe={rememberMe}
-      setRememberMe={setRememberMe}
-      isLoading={isLoading}
-    />
+    <>
+      <Helmet>
+        <title>Admin Login | FastNow</title>
+        <meta name="description" content="Secure admin login portal for FastNow administration panel." />
+      </Helmet>
+      
+      <LoginForm
+        username={email}
+        setUsername={setEmail}
+        password={password}
+        setPassword={setPassword}
+        handleLogin={handleLogin}
+        handleForgotPassword={handleForgotPassword}
+        rememberMe={rememberMe}
+        setRememberMe={setRememberMe}
+        isLoading={isLoading}
+      />
+    </>
   );
 };
 

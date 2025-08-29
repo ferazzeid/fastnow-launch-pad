@@ -1,104 +1,150 @@
 import { useState, useEffect } from 'react';
+import { User, Session } from '@supabase/supabase-js';
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { supabase } from '@/integrations/supabase/client';
 
 export const useAuth = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(null);
+
+  const refreshSession = async () => {
+    console.log('useAuth: Attempting session refresh...');
+    try {
+      const { data: { session: newSession }, error } = await supabase.auth.refreshSession();
+      
+      if (error) {
+        console.error('useAuth: Session refresh failed:', error);
+        // Clear invalid session
+        await supabase.auth.signOut();
+        return false;
+      }
+      
+      if (newSession) {
+        console.log('useAuth: Session refreshed successfully');
+        setSession(newSession);
+        setUser(newSession.user);
+        
+        // Recheck admin status
+        const adminStatus = await SupabaseAuthService.hasAdminRole();
+        setIsAdmin(adminStatus);
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      console.error('useAuth: Session refresh error:', error);
+      return false;
+    }
+  };
 
   useEffect(() => {
-    console.log('useAuth: Starting auth check');
+    console.log('useAuth: Initializing authentication...');
     
-    // 5-second timeout to prevent indefinite loading (extended for production)
-    const loadingTimeout = setTimeout(() => {
-      console.log('useAuth: Timeout reached, stopping loading state');
-      setIsLoading(false);
-    }, 5000);
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, newSession) => {
+      console.log('useAuth: Auth state changed', event, !!newSession);
+      
+      if (event === 'TOKEN_REFRESHED' && newSession) {
+        console.log('useAuth: Token refreshed automatically');
+        setSession(newSession);
+        setUser(newSession.user);
+        return;
+      }
+      
+      if (newSession?.user) {
+        console.log('useAuth: Setting new session from auth change');
+        setSession(newSession);
+        setUser(newSession.user);
+        setIsLoading(false);
+        
+        // Check admin status for new session
+        setTimeout(async () => {
+          try {
+            const adminStatus = await SupabaseAuthService.hasAdminRole();
+            console.log('useAuth: Admin status from auth change:', adminStatus);
+            setIsAdmin(adminStatus);
+          } catch (error) {
+            console.error('useAuth: Admin check failed in listener:', error);
+            setIsAdmin(false);
+          }
+        }, 0);
+      } else {
+        console.log('useAuth: Clearing session from auth change');
+        setSession(null);
+        setUser(null);
+        setIsAdmin(null);
+        setIsLoading(false);
+      }
+    });
 
-    const checkAuth = async () => {
+    // THEN check for existing session
+    const initializeAuth = async () => {
       try {
-        console.log('useAuth: Starting session check...');
-        const session = await SupabaseAuthService.getCurrentSession();
-        console.log('useAuth: Session check complete', {
-          hasSession: !!session,
-          hasUser: !!session?.user,
-          userEmail: session?.user?.email,
-          sessionValid: !!session?.access_token
+        console.log('useAuth: Checking for existing session...');
+        const { data: { session: existingSession }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('useAuth: Initial session check failed:', error);
+          setIsLoading(false);
+          return;
+        }
+        
+        console.log('useAuth: Initial session result:', {
+          hasSession: !!existingSession,
+          hasUser: !!existingSession?.user,
+          userEmail: existingSession?.user?.email,
+          expiresAt: existingSession?.expires_at
         });
         
-        if (session?.user) {
-          setUser(session.user);
-          setIsLoading(false);
-          clearTimeout(loadingTimeout);
+        if (existingSession) {
+          // Check if session is expired
+          const isExpired = existingSession.expires_at && existingSession.expires_at <= Date.now() / 1000;
+          console.log('useAuth: Session expired?', isExpired);
           
-          console.log('useAuth: Starting admin role check for user:', session.user.email);
-          // Check admin role in background without blocking UI
-          SupabaseAuthService.hasAdminRole(session.user.id)
-            .then(adminStatus => {
-              console.log('useAuth: Admin status check complete', {
-                userId: session.user.id,
-                isAdmin: adminStatus,
-                userEmail: session.user.email
-              });
-              setIsAdmin(Boolean(adminStatus));
-            })
-            .catch(error => {
-              console.error('useAuth: Admin check error:', error);
-              setIsAdmin(false);
-            });
+          if (isExpired) {
+            console.log('useAuth: Session expired, attempting refresh...');
+            const refreshed = await refreshSession();
+            if (!refreshed) {
+              console.log('useAuth: Session refresh failed, clearing state');
+              setSession(null);
+              setUser(null);
+              setIsAdmin(null);
+            }
+          } else {
+            console.log('useAuth: Session valid, setting state');
+            setSession(existingSession);
+            setUser(existingSession.user);
+            
+            // Check admin status
+            setTimeout(async () => {
+              try {
+                const adminStatus = await SupabaseAuthService.hasAdminRole();
+                console.log('useAuth: Initial admin check result:', adminStatus);
+                setIsAdmin(adminStatus);
+              } catch (error) {
+                console.error('useAuth: Initial admin check failed:', error);
+                setIsAdmin(false);
+              }
+            }, 0);
+          }
         } else {
-          console.log('useAuth: No session or user found');
-          setUser(null);
-          setIsAdmin(false);
-          setIsLoading(false);
-          clearTimeout(loadingTimeout);
+          console.log('useAuth: No existing session found');
         }
       } catch (error) {
-        console.error('useAuth: Auth check error:', error);
-        setUser(null);
-        setIsAdmin(false);
+        console.error('useAuth: Auth initialization error:', error);
+      } finally {
         setIsLoading(false);
-        clearTimeout(loadingTimeout);
       }
     };
-
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('useAuth: Auth state changed', event, !!session?.user);
-        
-        if (session?.user) {
-          setUser(session.user);
-          setIsLoading(false);
-          clearTimeout(loadingTimeout);
-          
-          // Check admin role in background
-          SupabaseAuthService.hasAdminRole(session.user.id)
-            .then(adminStatus => {
-              console.log('useAuth: Admin status updated', adminStatus);
-              setIsAdmin(Boolean(adminStatus));
-            })
-            .catch(error => {
-              console.error('useAuth: Admin check error in listener:', error);
-              setIsAdmin(false);
-            });
-        } else {
-          setUser(null);
-          setIsAdmin(false);
-          setIsLoading(false);
-          clearTimeout(loadingTimeout);
-        }
-      }
-    );
-
-    checkAuth();
+    
+    initializeAuth();
 
     return () => {
       subscription.unsubscribe();
-      clearTimeout(loadingTimeout);
     };
   }, []);
 
-  return { user, isAdmin, isLoading };
+  return { user, session, isAdmin, isLoading, refreshSession };
 };
