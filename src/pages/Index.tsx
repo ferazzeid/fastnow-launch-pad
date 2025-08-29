@@ -523,16 +523,6 @@ const Index = () => {
                 </div>
               </div>
 
-              {/* Ceramic Plate - right side on desktop, top on mobile */}
-              <div className="lg:col-span-3 flex justify-center order-0 lg:order-3 mb-8 lg:mb-0">
-                <CeramicPlate size="md" className="scale-75 sm:scale-90 lg:scale-100">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-800 mb-2">90</div>
-                    <div className="text-sm text-gray-600 uppercase tracking-wider">Days</div>
-                    <div className="text-xs text-gray-500 mt-1">Protocol</div>
-                  </div>
-                </CeramicPlate>
-              </div>
             </div>
           </div>
         </section>
@@ -618,7 +608,7 @@ const Index = () => {
         {/* Third Section - Why This Is Working */}
         <section className="relative z-10 py-16 bg-white">
           <div className="container max-w-6xl mx-auto px-4">
-            <div className="text-left max-w-4xl">
+            <div className="text-center max-w-6xl mx-auto">
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
                 Why This Is Working
               </h2>
@@ -703,34 +693,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* How to Motivate Yourself Section */}
-        <section className="relative z-10 py-16 bg-gray-50">
-          <div className="container max-w-6xl mx-auto px-4">
-            <div className="text-left max-w-4xl">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900">
-                How to Motivate Yourself
-              </h2>
-              
-              <div className="text-lg md:text-xl text-gray-700 mb-8">
-                <p>
-                  Real change often happens when several powerful factors line up — a health scare, a big event, or a surge of momentum in life. These rare "alignment moments" make action feel urgent and achievable. Spot them, act fast, and learn to reframe and crystallize what's already there.
-                </p>
-              </div>
-              
-              <div className="mt-8">
-                <Button 
-                  className="text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
-                  style={{ backgroundColor: launchButtonColor }}
-                  disabled
-                >
-                  Read More
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-                <p className="text-sm text-gray-500 mt-2">Link coming soon</p>
-              </div>
-            </div>
-          </div>
-        </section>
 
 
       </main>
