@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { Music, Youtube, Instagram, Twitter, Facebook, Linkedin, MessageCircle, Tv, MapPin, MessageSquare } from 'lucide-react';
+import TikTokIcon from '@/components/icons/TikTokIcon';
 
 interface SocialMediaLink {
   id: string;
@@ -12,7 +13,7 @@ interface SocialMediaLink {
 }
 
 const iconMap: Record<string, React.ComponentType<any>> = {
-  Music,
+  TikTokIcon,
   Youtube,
   Instagram,
   Twitter,
@@ -25,7 +26,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 };
 
 const SOCIAL_PLATFORMS = [
-  { key: 'tiktok', name: 'TikTok', icon: 'Music', color: '#000000' },
+  { key: 'tiktok', name: 'TikTok', icon: 'TikTokIcon', color: '#000000' },
   { key: 'youtube', name: 'YouTube', icon: 'Youtube', color: '#FF0000' },
   { key: 'instagram', name: 'Instagram', icon: 'Instagram', color: '#E4405F' },
   { key: 'twitter', name: 'X (Twitter)', icon: 'Twitter', color: '#000000' },
@@ -93,7 +94,7 @@ const SocialMediaLinks = () => {
     <div className="flex items-center gap-4">
       {activeLinks.map((link) => {
         const platform = SOCIAL_PLATFORMS.find(p => p.key === link.platform);
-        const IconComponent = iconMap[link.icon] || Music;
+        const IconComponent = iconMap[link.icon] || TikTokIcon;
         
         return (
           <a

@@ -19,7 +19,7 @@ interface SocialMediaLink {
 }
 
 const SOCIAL_PLATFORMS = [
-  { key: 'tiktok', name: 'TikTok', icon: 'Music', color: '#000000' },
+  { key: 'tiktok', name: 'TikTok', icon: 'TikTokIcon', color: '#000000' },
   { key: 'youtube', name: 'YouTube', icon: 'Youtube', color: '#FF0000' },
   { key: 'instagram', name: 'Instagram', icon: 'Instagram', color: '#E4405F' },
   { key: 'twitter', name: 'X (Twitter)', icon: 'Twitter', color: '#000000' },
@@ -61,7 +61,7 @@ const SocialMediaSettings = () => {
             platform: 'tiktok',
             url: '',
             isActive: false,
-            icon: 'Music',
+            icon: 'TikTokIcon',
             displayName: 'TikTok'
           }
         ]);
