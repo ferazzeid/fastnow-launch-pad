@@ -1029,6 +1029,7 @@ export type Database = {
           created_at: string
           featured_image_url: string | null
           id: string
+          is_indexed: boolean | null
           is_published: boolean
           meta_description: string | null
           meta_title: string | null
@@ -1044,6 +1045,7 @@ export type Database = {
           created_at?: string
           featured_image_url?: string | null
           id?: string
+          is_indexed?: boolean | null
           is_published?: boolean
           meta_description?: string | null
           meta_title?: string | null
@@ -1059,6 +1061,7 @@ export type Database = {
           created_at?: string
           featured_image_url?: string | null
           id?: string
+          is_indexed?: boolean | null
           is_published?: boolean
           meta_description?: string | null
           meta_title?: string | null
