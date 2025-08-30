@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/sonner';
 import { Download, RefreshCw } from 'lucide-react';
 import { sitemapService } from '@/services/SitemapService';
+import { publicSitemapService } from '@/services/PublicSitemapService';
 import { useAuth } from '@/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 
@@ -25,30 +26,48 @@ const AdminSitemapGenerator = () => {
 
   const generateSitemap = async () => {
     setIsGenerating(true);
-    console.log('AdminSitemapGenerator: Starting sitemap generation...');
-    
-    // Log current authentication state
-    console.log('AdminSitemapGenerator: Current auth state:', {
-      hasUser: !!user,
-      userEmail: user?.email,
-      isAdmin,
-      isLoading
-    });
+    console.log('AdminSitemapGenerator: Starting comprehensive sitemap generation...');
     
     try {
-      const content = await sitemapService.generateSitemap();
-      console.log('AdminSitemapGenerator: Sitemap generated successfully, content length:', content.length);
-      console.log('AdminSitemapGenerator: Sitemap preview:', content.substring(0, 200) + '...');
+      console.log('AdminSitemapGenerator: Attempting public sitemap service...');
+      let content = await publicSitemapService.generateSitemap();
       
+      console.log('AdminSitemapGenerator: Public sitemap generated successfully, content length:', content.length);
       setSitemapContent(content);
       
       // Store in localStorage for access
       localStorage.setItem('generated_sitemap', content);
       
       toast.success("Sitemap generated successfully! Copy the content below and update your sitemap.xml file.");
-    } catch (error) {
-      console.error('AdminSitemapGenerator: Error generating sitemap:', error);
-      toast.error(`Failed to generate sitemap: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      
+    } catch (publicError) {
+      console.error('AdminSitemapGenerator: Public service failed, trying original service...', publicError);
+      
+      try {
+        console.log('AdminSitemapGenerator: Attempting original sitemap service...');
+        const content = await sitemapService.generateSitemap();
+        
+        console.log('AdminSitemapGenerator: Original sitemap generated successfully, content length:', content.length);
+        setSitemapContent(content);
+        localStorage.setItem('generated_sitemap', content);
+        
+        toast.success("Sitemap generated successfully using fallback method!");
+        
+      } catch (originalError) {
+        console.error('AdminSitemapGenerator: Both services failed, using static fallback...', originalError);
+        
+        try {
+          const staticContent = publicSitemapService.generateStaticSitemap();
+          setSitemapContent(staticContent);
+          localStorage.setItem('generated_sitemap', staticContent);
+          
+          toast.success("Static sitemap generated as fallback. Some blog posts may be missing - please check your database connection.");
+          
+        } catch (staticError) {
+          console.error('AdminSitemapGenerator: All methods failed:', staticError);
+          toast.error(`All sitemap generation methods failed. Check console for details.`);
+        }
+      }
     } finally {
       setIsGenerating(false);
     }
