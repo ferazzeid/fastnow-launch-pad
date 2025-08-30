@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { toast } from '@/components/ui/sonner';
+import { toast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, Edit, Trash2, Save, X, ArrowLeft } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -89,12 +89,16 @@ const AdminFAQ = () => {
         ...item,
         image_alignment: (item.image_alignment as 'left' | 'right') || 'left'
       })));
-    } catch (error) {
-      console.error('Error loading FAQs:', error);
-      toast.error('Failed to load FAQs');
-    } finally {
-      setLoading(false);
-    }
+      } catch (error) {
+        console.error('Error loading FAQs:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load FAQs",
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
+      }
   };
 
   const handleInputChange = (field: keyof FAQForm, value: string | number | boolean) => {
@@ -106,7 +110,11 @@ const AdminFAQ = () => {
 
   const handleSave = async () => {
     if (!formData.question.trim() || !formData.answer.trim()) {
-      toast.error('Please fill in all required fields');
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -128,7 +136,10 @@ const AdminFAQ = () => {
           .eq('id', editingId);
 
         if (error) throw error;
-        toast.success('FAQ updated successfully');
+        toast({
+          title: "Success",
+          description: "FAQ updated successfully",
+        });
       } else {
         // Create new FAQ
         const { error } = await supabase
@@ -145,7 +156,10 @@ const AdminFAQ = () => {
           });
 
         if (error) throw error;
-        toast.success('FAQ created successfully');
+        toast({
+          title: "Success",
+          description: "FAQ created successfully",
+        });
       }
 
       // Reset form and reload data
@@ -153,17 +167,28 @@ const AdminFAQ = () => {
       loadFAQs();
     } catch (error) {
       console.error('Error saving FAQ:', error);
-      toast.error('Failed to save FAQ');
+      toast({
+        title: "Error",
+        description: "Failed to save FAQ",
+        variant: "destructive",
+      });
     }
   };
 
   const handleEdit = (faq: FAQ) => {
-    console.log('Edit button clicked for FAQ:', faq.id);
+    console.log('🔧 FAQ Edit button clicked for:', faq.id, faq.question);
     
     if (!user || !isAdmin) {
-      toast.error('You must be logged in as an admin to edit FAQs');
+      console.log('❌ User not authenticated or not admin:', { user: !!user, isAdmin });
+      toast({
+        title: "Access Denied",
+        description: "You must be logged in as an admin to edit FAQs",
+        variant: "destructive",
+      });
       return;
     }
+    
+    console.log('✅ Setting form data for edit:', faq);
     
     setFormData({
       question: faq.question,
@@ -175,10 +200,14 @@ const AdminFAQ = () => {
       image_alignment: faq.image_alignment || 'left',
       show_open_by_default: faq.show_open_by_default || false
     });
+    
     setEditingId(faq.id);
     setShowAddForm(true);
     
-    console.log('Edit form should now be visible');
+    console.log('✅ Edit form state updated - should be visible now');
+    
+    // Scroll to top to show the form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id: string) => {
@@ -192,11 +221,18 @@ const AdminFAQ = () => {
 
       if (error) throw error;
 
-      toast.success('FAQ deleted successfully');
+      toast({
+        title: "Success",
+        description: "FAQ deleted successfully",
+      });
       loadFAQs();
     } catch (error) {
       console.error('Error deleting FAQ:', error);
-      toast.error('Failed to delete FAQ');
+      toast({
+        title: "Error", 
+        description: "Failed to delete FAQ",
+        variant: "destructive",
+      });
     }
   };
 
