@@ -31,15 +31,39 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fastnow.app/privacy</loc>
-    <lastmod>2024-01-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <loc>https://fastnow.app/blog/why-total-immersion-is-key-to-fasting-success</loc>
+    <lastmod>2024-08-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://fastnow.app/terms</loc>
-    <lastmod>2024-01-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <loc>https://fastnow.app/blog/the-right-motivators-what-pushes-you-through-difficult-fasting-moments</loc>
+    <lastmod>2024-08-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fastnow.app/blog/the-mysterious-overnight-breakthrough-understanding-non-linear-weight-loss</loc>
+    <lastmod>2024-08-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fastnow.app/blog/the-fat-burning-switch-why-transitioning-from-carbs-to-fat-is-everything</loc>
+    <lastmod>2024-08-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fastnow.app/blog/my-first-three-months-of-weight-loss-full-story</loc>
+    <lastmod>2024-08-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fastnow.app/blog/why-you-might-want-to-avoid-the-scale-at-the-start-of-a-calorie-restricted-plan</loc>
+    <lastmod>2024-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
