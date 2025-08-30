@@ -541,7 +541,7 @@ const Index = () => {
                 <div className="mt-8 flex gap-4">
                   <Link to="/about-fastnow-app">
                     <Button 
-                      className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
                     >
                       Read More
                       <ArrowRight className="w-5 h-5" />
@@ -554,7 +554,7 @@ const Index = () => {
                   >
                     <Button 
                       variant="outline"
-                      className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                      className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-4 py-2 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
                     >
                       Launch App
                       <ArrowRight className="w-5 h-5" />
@@ -665,7 +665,7 @@ const Index = () => {
               <div className="mt-8 mb-12 flex justify-center">
                 <Link to="/fast-now-protocol">
                   <Button 
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
                   >
                     Read More
                     <ArrowRight className="w-5 h-5" />
