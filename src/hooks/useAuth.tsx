@@ -118,17 +118,14 @@ export const useAuth = () => {
             setUser(existingSession.user);
             
             // Check admin status
-            setTimeout(async () => {
-              try {
-                const adminStatus = await SupabaseAuthService.hasAdminRole();
-                console.log('useAuth: Initial admin check result:', adminStatus);
-                setIsAdmin(adminStatus);
-              } catch (error) {
-                console.error('useAuth: Initial admin check failed:', error);
-                // If admin check fails, still allow access but assume not admin
-                setIsAdmin(false);
-              }
-            }, 100);
+            try {
+              const adminStatus = await SupabaseAuthService.hasAdminRole();
+              console.log('useAuth: Initial admin check result:', adminStatus);
+              setIsAdmin(adminStatus);
+            } catch (error) {
+              console.error('useAuth: Initial admin check failed:', error);
+              setIsAdmin(false);
+            }
           }
         } else {
           console.log('useAuth: No existing session found');
