@@ -15,6 +15,7 @@ export interface BlogPost {
   publishedAt: string;
   metaDescription?: string;
   metaKeywords?: string;
+  showAuthorBox?: boolean;
 }
 
 export interface BlogCategory {

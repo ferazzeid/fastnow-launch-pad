@@ -53,7 +53,8 @@ const BlogEditor = () => {
     updatedAt: '',
     publishedAt: '',
     metaDescription: '',
-    metaKeywords: ''
+    metaKeywords: '',
+    showAuthorBox: true
   });
 
   const [newCategory, setNewCategory] = useState('');
@@ -365,36 +366,53 @@ const BlogEditor = () => {
                   onImageChange={(imageUrl) => setPost(prev => ({ ...prev, featuredImage: imageUrl }))}
                 />
 
-                <div>
-                  <Label htmlFor="author">Author</Label>
-                  <Input
-                    id="author"
-                    value={post.author}
-                    onChange={(e) => setPost(prev => ({ ...prev, author: e.target.value }))}
-                    placeholder="Author name"
-                  />
-                </div>
+            <div className="space-y-6">
+              <div>
+                <Label htmlFor="author">Author</Label>
+                <Input
+                  id="author"
+                  value={post.author}
+                  onChange={(e) => setPost(prev => ({ ...prev, author: e.target.value }))}
+                  placeholder="Author name"
+                />
+              </div>
 
-                <div>
-                  <Label htmlFor="metaDescription">Meta Description</Label>
-                  <Textarea
-                    id="metaDescription"
-                    value={post.metaDescription}
-                    onChange={(e) => setPost(prev => ({ ...prev, metaDescription: e.target.value }))}
-                    placeholder="SEO meta description..."
-                    rows={3}
-                  />
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Show Author Box</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Display author information at the end of this blog post
+                  </p>
                 </div>
+                <input
+                  type="checkbox"
+                  checked={post.showAuthorBox ?? true}
+                  onChange={(e) => setPost(prev => ({ ...prev, showAuthorBox: e.target.checked }))}
+                  className="rounded border-border"
+                />
+              </div>
 
-                <div>
-                  <Label htmlFor="metaKeywords">Meta Keywords</Label>
-                  <Input
-                    id="metaKeywords"
-                    value={post.metaKeywords}
-                    onChange={(e) => setPost(prev => ({ ...prev, metaKeywords: e.target.value }))}
-                    placeholder="keyword1, keyword2, keyword3"
-                  />
-                </div>
+              <div>
+                <Label htmlFor="metaDescription">Meta Description</Label>
+                <Textarea
+                  id="metaDescription"
+                  value={post.metaDescription}
+                  onChange={(e) => setPost(prev => ({ ...prev, metaDescription: e.target.value }))}
+                  placeholder="SEO meta description..."
+                  rows={3}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="metaKeywords">Meta Keywords</Label>
+                <Input
+                  id="metaKeywords"
+                  value={post.metaKeywords}
+                  onChange={(e) => setPost(prev => ({ ...prev, metaKeywords: e.target.value }))}
+                  placeholder="keyword1, keyword2, keyword3"
+                />
+              </div>
+            </div>
               </CardContent>
             </Card>
           </TabsContent>

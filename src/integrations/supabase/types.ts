@@ -185,6 +185,7 @@ export type Database = {
           meta_description: string | null
           meta_keywords: string | null
           published_at: string | null
+          show_author_box: boolean
           slug: string
           status: string
           tags: string[] | null
@@ -202,6 +203,7 @@ export type Database = {
           meta_description?: string | null
           meta_keywords?: string | null
           published_at?: string | null
+          show_author_box?: boolean
           slug: string
           status?: string
           tags?: string[] | null
@@ -219,6 +221,7 @@ export type Database = {
           meta_description?: string | null
           meta_keywords?: string | null
           published_at?: string | null
+          show_author_box?: boolean
           slug?: string
           status?: string
           tags?: string[] | null

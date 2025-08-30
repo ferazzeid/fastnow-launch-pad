@@ -1,52 +1,86 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Navigate, useNavigate } from 'react-router-dom';
-import { Tag, ArrowLeft, Edit } from 'lucide-react';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import { Helmet } from 'react-helmet-async';
+import { Edit, Tag } from 'lucide-react';
 import { BlogPost as BlogPostType } from '@/types/blog';
 import { databaseBlogService } from '@/services/DatabaseBlogService';
+import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'sonner';
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from '@/hooks/useAuth';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import { AuthorBox } from '@/components/AuthorBox';
+import { SiteSettingsService } from '@/services/SiteSettingsService';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { isAdmin } = useAuth();
+  
   const [post, setPost] = useState<BlogPostType | null>(null);
   const [loading, setLoading] = useState(true);
   const [relatedPosts, setRelatedPosts] = useState<BlogPostType[]>([]);
-  const { isAdmin } = useAuth();
+  const [authorProfile, setAuthorProfile] = useState<any>(null);
+  const [authorBoxSettings, setAuthorBoxSettings] = useState<any>(null);
 
   useEffect(() => {
-
-    if (!slug) return;
-    
-    const loadPost = async () => {
-      const foundPost = await databaseBlogService.getPostBySlug(slug);
-      setPost(foundPost);
+    const fetchPost = async () => {
+      if (!slug) return;
       
-      if (foundPost) {
-        // Load related posts (excluding current post)
-        const allPosts = await databaseBlogService.getAllPosts();
-        const related = allPosts
-          .filter(p => p.id !== foundPost.id && p.status === 'published')
-          .slice(0, 3);
-        setRelatedPosts(related);
+      try {
+        const [fetchedPost, allPosts, profile, settings] = await Promise.all([
+          databaseBlogService.getPostBySlug(slug),
+          databaseBlogService.getAllPosts(),
+          SiteSettingsService.getSetting('author_profile'),
+          SiteSettingsService.getSetting('author_box_settings')
+        ]);
+        
+        if (fetchedPost && fetchedPost.status === 'published') {
+          setPost(fetchedPost);
+          
+          // Find related posts (same categories, excluding current post)
+          const related = allPosts
+            .filter(p => 
+              p.id !== fetchedPost.id && 
+              p.categories.some(cat => fetchedPost.categories.includes(cat))
+            )
+            .slice(0, 3);
+          
+          setRelatedPosts(related);
+          setAuthorProfile(profile);
+          setAuthorBoxSettings(settings);
+        }
+      } catch (error) {
+        console.error('Error fetching post:', error);
+        toast.error('Failed to load blog post');
+      } finally {
+        setLoading(false);
       }
-      
-      setLoading(false);
     };
 
-    loadPost();
+    fetchPost();
   }, [slug]);
 
   const handleEdit = () => {
-    if (post && isAdmin) {
+    if (isAdmin && post) {
       navigate(`/admin/blog/edit/${post.id}`);
     }
+  };
+
+  // AuthorBox component that loads and displays author information
+  const AuthorBoxContainer = () => {
+    if (!authorProfile || !authorBoxSettings?.enabled) {
+      return null;
+    }
+
+    return (
+      <div className="mt-16 pt-8 border-t border-gray-200 max-w-4xl mx-auto">
+        <AuthorBox author={authorProfile} />
+      </div>
+    );
   };
 
   if (loading) {
@@ -146,9 +180,6 @@ const BlogPost = () => {
             <Header transparent />
           </div>
 
-          {/* Back to Blog Button - REMOVED */}
-
-
           {/* Hero Content */}
           <div className="absolute inset-0 flex items-end justify-center z-30">
             <div className="container pb-16 text-center text-white">
@@ -184,7 +215,6 @@ const BlogPost = () => {
           <Header />
           <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-16">
             <div className="container">
-
               <h1 className="text-4xl md:text-5xl font-bold mb-6">{post.title}</h1>
               
               {post.author && (
@@ -231,6 +261,11 @@ const BlogPost = () => {
               Edit
             </Button>
           </div>
+        )}
+
+        {/* Author Box */}
+        {post.showAuthorBox && (
+          <AuthorBoxContainer />
         )}
 
         {/* Tags */}

@@ -158,7 +158,8 @@ class DatabaseBlogService {
       updatedAt: data.updated_at,
       publishedAt: data.published_at || data.created_at,
       metaDescription: data.meta_description,
-      metaKeywords: data.meta_keywords
+      metaKeywords: data.meta_keywords,
+      showAuthorBox: data.show_author_box ?? true
     };
   }
 
@@ -176,6 +177,7 @@ class DatabaseBlogService {
       status: post.status || 'draft',
       meta_description: post.metaDescription || null,
       meta_keywords: post.metaKeywords || null,
+      show_author_box: post.showAuthorBox ?? true,
       published_at: post.status === 'published' ? new Date().toISOString() : null,
       updated_at: new Date().toISOString()
     };
@@ -186,7 +188,8 @@ class DatabaseBlogService {
         title: post.title,
         status: post.status,
         categoriesLength: post.categories?.length,
-        tagsLength: post.tags?.length
+        tagsLength: post.tags?.length,
+        showAuthorBox: post.showAuthorBox
       },
       mapped: {
         id: dbPost.id,
@@ -194,6 +197,7 @@ class DatabaseBlogService {
         status: dbPost.status,
         categoriesLength: dbPost.categories?.length,
         tagsLength: dbPost.tags?.length,
+        show_author_box: dbPost.show_author_box,
         hasPublishedAt: !!dbPost.published_at
       }
     });
