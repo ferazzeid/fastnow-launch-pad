@@ -4,7 +4,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
-import ContactForm from '@/components/ContactForm';
+
 import { pageContentService } from '@/services/PageContentService';
 
 const ContentPage = () => {
@@ -323,7 +323,14 @@ We may update these Terms at any time. Continued use after changes means you acc
                   </p>
                 )}
               </div>
-              <ContactForm />
+              <div className="text-center py-8">
+                <p className="text-muted-foreground mb-4">
+                  For questions, support, or feedback, please reach out to us:
+                </p>
+                <p className="text-lg font-medium">
+                  sociallyfamous@gmail.com
+                </p>
+              </div>
             </div>
           ) : (
             <article className="legal-document max-w-none">

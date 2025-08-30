@@ -252,23 +252,6 @@ const Admin = () => {
             </CardContent>
           </Card>
 
-          {/* Contact & Email Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Mail size={20} />
-                Contact & Email
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link to="/admin/contact">
-                <Button variant="outline" className="w-full justify-start">
-                  <Mail className="mr-2 h-4 w-4" />
-                  Email Configuration
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
         </div>
       </main>
     </div>

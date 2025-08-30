@@ -38,7 +38,7 @@ import AdminUnifiedAboutApp from "./pages/AdminUnifiedAboutApp";
 import AdminStaticContentEditor from "./pages/AdminStaticContentEditor";
 import AdminRingBellGallery from "./pages/AdminRingBellGallery";
 import AdminSitemapGenerator from "./pages/AdminSitemapGenerator";
-import AdminContactSettings from "./pages/AdminContactSettings";
+
 import AdminAuthorProfile from "./pages/AdminAuthorProfile";
 import AdminSEOAnalytics from "./pages/AdminSEOAnalytics";
 
@@ -76,7 +76,7 @@ const AppRoutes = () => {
       <Route path="/admin/about-app" element={<AdminAboutAppEditor />} />
       <Route path="/admin/about-app-unified" element={<AdminUnifiedAboutApp />} />
       <Route path="/admin/static-content" element={<AdminStaticContentEditor />} />
-      <Route path="/admin/contact" element={<AdminContactSettings />} />
+      
       <Route path="/admin/blog" element={<AdminBlog />} />
       <Route path="/admin/blog/new" element={<BlogEditor />} />
       <Route path="/admin/blog/edit/:id" element={<BlogEditor />} />
