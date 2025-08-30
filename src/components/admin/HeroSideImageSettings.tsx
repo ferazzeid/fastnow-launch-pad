@@ -15,6 +15,7 @@ const HeroSideImageSettings: React.FC<HeroSideImageSettingsProps> = ({ onSetting
   const [isUploading, setIsUploading] = useState(false);
   const [sideImageUrl, setSideImageUrl] = useState<string>('');
   const [imageAlignment, setImageAlignment] = useState<'top' | 'center' | 'bottom'>('center');
+  const [imageWidth, setImageWidth] = useState<number>(25);
 
   useEffect(() => {
     loadSettings();
@@ -27,10 +28,12 @@ const HeroSideImageSettings: React.FC<HeroSideImageSettingsProps> = ({ onSetting
         const imageSettings = settings as {
           sideImageUrl?: string;
           imageAlignment?: 'top' | 'center' | 'bottom';
+          imageWidth?: number;
         };
         
         setSideImageUrl(imageSettings.sideImageUrl || '');
         setImageAlignment(imageSettings.imageAlignment || 'center');
+        setImageWidth(imageSettings.imageWidth || 25);
       }
     } catch (error) {
       console.error('Error loading hero side image settings:', error);
@@ -64,7 +67,7 @@ const HeroSideImageSettings: React.FC<HeroSideImageSettingsProps> = ({ onSetting
       );
 
       setSideImageUrl(result.url);
-      await saveSettings(result.url, imageAlignment);
+      await saveSettings(result.url, imageAlignment, imageWidth);
       
       toast.success('Hero side image uploaded successfully');
       onSettingsChange?.();
@@ -76,11 +79,12 @@ const HeroSideImageSettings: React.FC<HeroSideImageSettingsProps> = ({ onSetting
     }
   };
 
-  const saveSettings = async (imageUrl?: string, alignment?: 'top' | 'center' | 'bottom') => {
+  const saveSettings = async (imageUrl?: string, alignment?: 'top' | 'center' | 'bottom', width?: number) => {
     try {
       const settings = {
         sideImageUrl: imageUrl || sideImageUrl,
         imageAlignment: alignment || imageAlignment,
+        imageWidth: width || imageWidth,
       };
 
       const success = await SiteSettingsService.setSetting('hero_side_image_settings', settings);
@@ -109,7 +113,7 @@ const HeroSideImageSettings: React.FC<HeroSideImageSettingsProps> = ({ onSetting
   const handleRemoveImage = async () => {
     try {
       setSideImageUrl('');
-      await saveSettings('', imageAlignment);
+      await saveSettings('', imageAlignment, imageWidth);
       toast.success('Hero side image removed');
       onSettingsChange?.();
     } catch (error) {
@@ -167,6 +171,26 @@ const HeroSideImageSettings: React.FC<HeroSideImageSettingsProps> = ({ onSetting
           )}
         </div>
 
+        {/* Image Size Control */}
+        <div className="space-y-2">
+          <Label htmlFor="image-width">Image Width</Label>
+          <div className="flex items-center space-x-3">
+            <Input
+              id="image-width"
+              type="range"
+              min="15"
+              max="50"
+              value={imageWidth}
+              onChange={(e) => setImageWidth(Number(e.target.value))}
+              className="flex-1"
+            />
+            <span className="text-sm font-medium w-12">{imageWidth}%</span>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Adjust the width percentage of the image relative to the hero section (15% - 50%).
+          </p>
+        </div>
+
         {/* Image Alignment */}
         <div className="space-y-2">
           <Label htmlFor="image-alignment">Image Vertical Alignment</Label>
@@ -185,21 +209,26 @@ const HeroSideImageSettings: React.FC<HeroSideImageSettingsProps> = ({ onSetting
           </p>
         </div>
 
-        {/* Live Preview Info */}
-        <div className="space-y-2">
+          <div className="space-y-2">
           <Label>Layout Preview</Label>
           <div className="border rounded-lg p-4 bg-gray-50">
             <div className="flex gap-4">
-              <div className="flex-1 bg-blue-100 p-3 rounded text-center text-sm">
-                Hero Content (75%)
+              <div 
+                className="bg-blue-100 p-3 rounded text-center text-sm"
+                style={{ width: `${100 - imageWidth}%` }}
+              >
+                Hero Content ({100 - imageWidth}%)
               </div>
-              <div className="w-1/4 bg-green-100 p-3 rounded text-center text-sm">
-                Side Image (25%)
+              <div 
+                className="bg-green-100 p-3 rounded text-center text-sm"
+                style={{ width: `${imageWidth}%` }}
+              >
+                Side Image ({imageWidth}%)
               </div>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">
-            The image will appear on the right side, taking up 25% of the hero section width.
+            The image will appear on the right side, taking up {imageWidth}% of the hero section width.
           </p>
         </div>
 
