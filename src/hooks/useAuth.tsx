@@ -74,7 +74,7 @@ export const useAuth = () => {
         console.log('useAuth: Clearing session from auth change');
         setSession(null);
         setUser(null);
-        setIsAdmin(null);
+        setIsAdmin(false); // Set to false instead of null to prevent loading loops
         setIsLoading(false);
       }
     });
@@ -110,7 +110,7 @@ export const useAuth = () => {
               console.log('useAuth: Session refresh failed, clearing state');
               setSession(null);
               setUser(null);
-              setIsAdmin(null);
+              setIsAdmin(false); // Set to false instead of null
             }
           } else {
             console.log('useAuth: Session valid, setting state');
@@ -132,6 +132,8 @@ export const useAuth = () => {
           }
         } else {
           console.log('useAuth: No existing session found');
+          // Immediately set isAdmin to false when no session exists
+          setIsAdmin(false);
         }
       } catch (error) {
         console.error('useAuth: Auth initialization error:', error);
