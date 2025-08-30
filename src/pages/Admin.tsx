@@ -234,6 +234,24 @@ const Admin = () => {
             </CardContent>
           </Card>
 
+          {/* SEO & Analytics */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Search size={20} />
+                SEO & Analytics
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/seo-analytics">
+                <Button variant="outline" className="w-full justify-start">
+                  <Search className="mr-2 h-4 w-4" />
+                  SEO & Analytics Settings
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
           {/* Contact & Email Settings */}
           <Card>
             <CardHeader>

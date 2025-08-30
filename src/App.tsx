@@ -42,6 +42,7 @@ import AdminRingBellGallery from "./pages/AdminRingBellGallery";
 import AdminSitemapGenerator from "./pages/AdminSitemapGenerator";
 import AdminContactSettings from "./pages/AdminContactSettings";
 import AdminAuthorProfile from "./pages/AdminAuthorProfile";
+import AdminSEOAnalytics from "./pages/AdminSEOAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -89,6 +90,7 @@ const AppRoutes = () => {
       <Route path="/admin/fasting-timeline/export" element={<AdminFastingTimelineExport />} />
       <Route path="/admin/ring-bell-gallery" element={<AdminRingBellGallery />} />
       <Route path="/admin/sitemap" element={<AdminSitemapGenerator />} />
+      <Route path="/admin/seo-analytics" element={<AdminSEOAnalytics />} />
       
       {/* Content pages */}
       <Route path="/privacy" element={<ContentPage />} />

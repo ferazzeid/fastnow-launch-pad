@@ -545,45 +545,6 @@ const AdminGeneral = () => {
             </CardContent>
           </Card>
 
-          {/* SEO & Analytics Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle>SEO & Analytics</CardTitle>
-              <CardDescription>
-                Basic SEO and analytics settings for your website
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="googleAnalyticsId">Google Analytics ID</Label>
-                <Input
-                  id="googleAnalyticsId"
-                  value={settings.googleAnalyticsId}
-                  onChange={(e) => handleInputChange('googleAnalyticsId', e.target.value)}
-                  placeholder="G-XXXXXXXXXX or UA-XXXXXXXX-X"
-                />
-                <p className="text-sm text-muted-foreground mt-1">
-                  Enter your Google Analytics Measurement ID to enable tracking on all pages.
-                </p>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="defaultIndexable">Default Page Indexing</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Make all pages indexable by search engines by default. You can override this on individual pages.
-                  </p>
-                </div>
-                <Switch
-                  id="defaultIndexable"
-                  checked={settings.defaultIndexable}
-                  onCheckedChange={(checked) => handleInputChange('defaultIndexable', checked)}
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-
           {/* Design Customization */}
           <Card>
             <CardHeader>

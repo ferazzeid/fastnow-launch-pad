@@ -261,34 +261,6 @@ const SocialMediaSettings = () => {
             {isLoading ? 'Saving...' : 'Save Social Media Settings'}
           </Button>
         </div>
-
-        {/* Preview */}
-        <div className="bg-muted/30 rounded-lg p-4">
-          <h4 className="text-sm font-medium mb-3">Preview</h4>
-          <p className="text-xs text-muted-foreground mb-3">
-            Active social media links will appear like this in your footer:
-          </p>
-          <div className="flex gap-3">
-            {socialLinks
-              .filter(link => link.isActive && validateUrl(link.url, link.platform))
-              .map((link) => {
-                const platform = SOCIAL_PLATFORMS.find(p => p.key === link.platform);
-                return (
-                  <div
-                    key={link.id}
-                    className="w-8 h-8 rounded flex items-center justify-center text-white text-sm font-semibold cursor-pointer hover:opacity-80 transition-opacity"
-                    style={{ backgroundColor: platform?.color || '#666' }}
-                    title={`Visit our ${link.displayName}`}
-                  >
-                    {platform?.name.charAt(0)}
-                  </div>
-                );
-              })}
-            {socialLinks.filter(link => link.isActive && validateUrl(link.url, link.platform)).length === 0 && (
-              <p className="text-xs text-muted-foreground">No active social media links</p>
-            )}
-          </div>
-        </div>
       </CardContent>
     </Card>
   );

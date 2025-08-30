@@ -241,48 +241,6 @@ const BlogTypographySettings = () => {
           </div>
         </div>
 
-        {/* Preview Text */}
-        <div className="border rounded-lg p-4 bg-background">
-          <h4 className="text-sm font-medium mb-3 text-muted-foreground">Preview</h4>
-          <div style={{
-            fontFamily: settings.fontFamily,
-            fontSize: `${settings.baseFontSize}px`,
-            lineHeight: settings.lineHeight,
-            letterSpacing: `${settings.letterSpacing}px`
-          }}>
-            <h1 style={{
-              fontFamily: settings.headingFontFamily,
-              fontSize: `${settings.h1FontSize}px`,
-              marginBottom: `${settings.paragraphSpacing}px`,
-              fontWeight: 'bold'
-            }}>
-              Main Blog Title
-            </h1>
-            <h2 style={{
-              fontFamily: settings.headingFontFamily,
-              fontSize: `${settings.h2FontSize}px`,
-              marginBottom: `${settings.paragraphSpacing}px`,
-              fontWeight: '600'
-            }}>
-              Section Heading
-            </h2>
-            <p style={{ marginBottom: `${settings.paragraphSpacing}px` }}>
-              This is sample paragraph text to show how your blog content will look with the selected typography settings. You can see the font family, size, line height, and spacing applied.
-            </p>
-            <h3 style={{
-              fontFamily: settings.headingFontFamily,
-              fontSize: `${settings.h3FontSize}px`,
-              marginBottom: `${settings.paragraphSpacing}px`,
-              fontWeight: '600'
-            }}>
-              Subsection Heading
-            </h3>
-            <p style={{ marginBottom: `${settings.paragraphSpacing}px` }}>
-              Another paragraph to demonstrate the typography settings. The changes are applied in real-time as you adjust the settings above.
-            </p>
-          </div>
-        </div>
-
         {/* Actions */}
         <div className="flex justify-between pt-4 border-t">
           <Button variant="outline" onClick={resetToDefaults}>
