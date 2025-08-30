@@ -378,31 +378,30 @@ const Index = () => {
         ]}
       />
       
-      {/* Hero Background Image - Use PageFeaturedImage component */}
-      <PageFeaturedImage 
-        pageKey="home"
-        className="absolute inset-0 w-full h-screen z-0"
-        showDarkBackground={false}
-      />
-      
-      {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/40 z-10"></div>
-      
-      {/* Background 3D Element if available */}
-      {customElementsImages.background3d && (
-        <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
-          <img 
-            src={customElementsImages.background3d} 
-            alt="3D Background" 
-            className="w-full h-full object-cover opacity-25"
-          />
-        </div>
-      )}
-      
       <main className="flex-1 relative">
         {/* Hero Section */}
-        <section className="relative z-10 min-h-screen flex items-center justify-start">
-          <div className="container max-w-6xl mx-auto px-4">
+        <section className="relative min-h-screen flex items-center justify-start">
+          {/* Hero Background Image - Fixed position so it doesn't affect layout */}
+          <PageFeaturedImage 
+            pageKey="home"
+            className="absolute inset-0 w-full h-full z-0"
+            showDarkBackground={false}
+          />
+          
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/40 z-10"></div>
+          
+          {/* Background 3D Element if available */}
+          {customElementsImages.background3d && (
+            <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
+              <img 
+                src={customElementsImages.background3d} 
+                alt="3D Background" 
+                className="w-full h-full object-cover opacity-25"
+              />
+            </div>
+          )}
+          <div className="container max-w-6xl mx-auto px-4 relative z-20">
             <div className={`flex gap-8 lg:gap-12 items-center ${sideImageUrl ? 'justify-between' : 'justify-center'}`}>
               {/* Content Section - Takes dynamic width based on image setting */}
               <div 

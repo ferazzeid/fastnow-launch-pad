@@ -12,6 +12,7 @@ import { pageContentService, PageContent } from '@/services/PageContentService';
 import HeroSideImageSettings from './HeroSideImageSettings';
 import Slide2ImageSettings from './Slide2ImageSettings';
 import SlideshowAdminSettings from './SlideshowAdminSettings';
+import HomepageFeaturedImageSettings from './HomepageFeaturedImageSettings';
 import PageFeaturedImageSettings from './PageFeaturedImageSettings';
 
 const UnifiedHomepageEditor = () => {
@@ -199,6 +200,7 @@ const UnifiedHomepageEditor = () => {
 
         <TabsContent value="images">
           <div className="space-y-6">
+            <HomepageFeaturedImageSettings />
             <PageFeaturedImageSettings pageKey="home" title="Homepage Featured Image" />
             <HeroSideImageSettings />
             <Slide2ImageSettings />
