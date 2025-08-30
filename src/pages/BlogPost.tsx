@@ -150,19 +150,6 @@ const BlogPost = () => {
 
           {/* Back to Blog Button - REMOVED */}
 
-          {/* Edit Button for Admins */}
-          {isAdmin && (
-            <div className="absolute top-24 right-4 lg:right-8 z-40">
-              <Button 
-                onClick={handleEdit} 
-                variant="secondary"
-                className="bg-white/90 text-gray-900 hover:bg-white border-0 backdrop-blur-sm shadow-lg"
-              >
-                <Edit className="w-4 h-4 mr-2" />
-                Edit Post
-              </Button>
-            </div>
-          )}
 
           {/* Hero Content */}
           <div className="absolute inset-0 flex items-end justify-center z-30">
@@ -199,19 +186,6 @@ const BlogPost = () => {
           <Header />
           <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-16">
             <div className="container">
-              {/* Edit Button for Admins */}
-              {isAdmin && (
-                <div className="flex justify-end mb-8">
-                  <Button 
-                    onClick={handleEdit} 
-                    variant="secondary"
-                    className="bg-white/90 text-gray-900 hover:bg-white border-0"
-                  >
-                    <Edit className="w-4 h-4 mr-2" />
-                    Edit Post
-                  </Button>
-                </div>
-              )}
 
               <h1 className="text-4xl md:text-5xl font-bold mb-6">{post.title}</h1>
               
@@ -245,6 +219,21 @@ const BlogPost = () => {
         <div className="prose prose-lg max-w-none prose-headings:text-mint-600 prose-a:text-accent-green prose-a:no-underline hover:prose-a:underline mx-auto max-w-4xl blog-content">
           <ReactMarkdown>{post.content}</ReactMarkdown>
         </div>
+
+        {/* Edit Button for Admins - Bottom Left */}
+        {isAdmin && (
+          <div className="max-w-4xl mx-auto mt-8">
+            <Button 
+              onClick={handleEdit} 
+              variant="ghost"
+              size="sm"
+              className="text-gray-400 hover:text-gray-600 text-sm"
+            >
+              <Edit className="w-4 h-4 mr-2" />
+              Edit
+            </Button>
+          </div>
+        )}
 
         {/* Tags */}
         {post.tags.length > 0 && (
