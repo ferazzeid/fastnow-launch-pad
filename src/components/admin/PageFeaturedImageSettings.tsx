@@ -76,10 +76,6 @@ const PageFeaturedImageSettings: React.FC<PageFeaturedImageSettingsProps> = ({
     }
   };
 
-  const handleUrlChange = (url: string) => {
-    setImageUrl(url);
-  };
-
   const saveFeaturedImage = async () => {
     setIsSaving(true);
     try {
@@ -161,18 +157,6 @@ const PageFeaturedImageSettings: React.FC<PageFeaturedImageSettingsProps> = ({
               <div className="text-sm text-muted-foreground">Uploading...</div>
             )}
           </div>
-        </div>
-
-        {/* URL Input */}
-        <div>
-          <Label htmlFor={`featured-url-${pageKey}`}>Or Enter Image URL</Label>
-          <Input
-            id={`featured-url-${pageKey}`}
-            value={imageUrl}
-            onChange={(e) => handleUrlChange(e.target.value)}
-            placeholder="https://example.com/image.jpg"
-            className="mt-1"
-          />
         </div>
 
         {/* Save Button */}
