@@ -9,10 +9,16 @@ import { useAuth } from '@/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 
 const AdminSitemapGenerator = () => {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, isLoading } = useAuth();
   const [sitemapContent, setSitemapContent] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
 
+  // Show loading while auth is being checked
+  if (isLoading) {
+    return <div className="container py-8">Loading...</div>;
+  }
+
+  // Only redirect if we're sure about the auth state (not loading)
   if (!user || !isAdmin) {
     return <Navigate to="/admin/login" replace />;
   }
