@@ -8,29 +8,29 @@
 @layer base {
   :root {
     /* Black and white base colors */
-    --background-primary: #ffffff;
-    --background-secondary: #f8f9fa;
-    --background-tertiary: #f1f3f4;
-    --surface-primary: #ffffff;
-    --surface-secondary: #f8f9fa;
+    --background-primary: 0 0% 100%;
+    --background-secondary: 210 17% 98%;
+    --background-tertiary: 214 32% 95%;
+    --surface-primary: 0 0% 100%;
+    --surface-secondary: 210 17% 98%;
     
     /* Text colors */
-    --text-primary: #1a1a1a;
-    --text-secondary: #4a4a4a;
-    --text-tertiary: #6b7280;
-    --text-inverse: #ffffff;
+    --text-primary: 0 0% 10%;
+    --text-secondary: 0 0% 29%;
+    --text-tertiary: 220 9% 42%;
+    --text-inverse: 0 0% 100%;
     
     /* Gray scale */
-    --gray-50: #f9fafb;
-    --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-300: #d1d5db;
-    --gray-400: #9ca3af;
-    --gray-500: #6b7280;
-    --gray-600: #4b5563;
-    --gray-700: #374151;
-    --gray-800: #1f2937;
-    --gray-900: #111827;
+    --gray-50: 210 20% 98%;
+    --gray-100: 220 14% 96%;
+    --gray-200: 220 13% 91%;
+    --gray-300: 216 12% 84%;
+    --gray-400: 218 11% 65%;
+    --gray-500: 220 9% 46%;
+    --gray-600: 215 14% 34%;
+    --gray-700: 217 19% 27%;
+    --gray-800: 215 28% 17%;
+    --gray-900: 222 84% 5%;
     
     /* Dynamic accent colors - will be overridden by admin settings */
     --accent-green-light: 140 35% 65%;
@@ -38,11 +38,11 @@
     --accent-green-dark: 140 20% 35%;
     
     /* Launch button color - customizable */
-    --launch-button-color: #10B981;
+    --launch-button-color: 158 64% 52%;
     
     /* Borders */
-    --border-primary: #e5e7eb;
-    --border-secondary: #d1d5db;
+    --border-primary: 220 13% 91%;
+    --border-secondary: 216 12% 84%;
     
     /* Shadows - minimal, only for timer */
     --shadow-timer-light: #ffffff;
