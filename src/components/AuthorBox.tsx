@@ -48,11 +48,11 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({ author, className = '' }) 
   ].filter(link => link.url && link.url.trim() !== '');
 
   return (
-    <Card className={`p-6 bg-gradient-to-r from-background to-muted/20 border-l-4 border-l-primary ${className}`}>
-      <div className="flex items-start space-x-4">
-        <Avatar className="w-16 h-16 ring-2 ring-primary/20">
+    <Card className={`p-8 bg-gradient-to-r from-background to-muted/20 ${className}`}>
+      <div className="flex items-start space-x-6">
+        <Avatar className="w-24 h-24 ring-2 ring-primary/20">
           <AvatarImage src={author.photo_url} alt={author.name} />
-          <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+          <AvatarFallback className="bg-primary/10 text-primary font-semibold text-lg">
             {getInitials(author.name)}
           </AvatarFallback>
         </Avatar>
