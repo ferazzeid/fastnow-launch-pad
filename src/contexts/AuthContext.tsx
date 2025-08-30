@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('AuthProvider: Initializing authentication...');
     
     // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, newSession) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, newSession) => {
       console.log('AuthProvider: Auth state changed', event, !!newSession);
       
       if (event === 'TOKEN_REFRESHED' && newSession) {
@@ -66,18 +66,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         console.log('AuthProvider: Setting new session from auth change');
         setSession(newSession);
         setUser(newSession.user);
+        setIsLoading(false);
         
-        // Check admin status for new session without setTimeout
-        try {
-          const adminStatus = await SupabaseAuthService.hasAdminRole();
-          console.log('AuthProvider: Admin status from auth change:', adminStatus);
-          setIsAdmin(adminStatus);
-        } catch (error) {
-          console.error('AuthProvider: Admin check failed in listener:', error);
-          setIsAdmin(false);
-        } finally {
-          setIsLoading(false);
-        }
+        // Defer admin check to prevent deadlock
+        setTimeout(() => {
+          SupabaseAuthService.hasAdminRole()
+            .then(adminStatus => {
+              console.log('AuthProvider: Admin status from auth change:', adminStatus);
+              setIsAdmin(adminStatus);
+            })
+            .catch(error => {
+              console.error('AuthProvider: Admin check failed in listener:', error);
+              setIsAdmin(false);
+            });
+        }, 0);
       } else {
         console.log('AuthProvider: Clearing session from auth change');
         setSession(null);
