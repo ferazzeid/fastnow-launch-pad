@@ -73,20 +73,6 @@ const AdminPagesNew = () => {
       hasEditor: true
     },
     {
-      title: 'About Me',
-      description: 'Edit the personal/creator page',
-      route: '/admin/about-me',
-      liveUrl: '/about-me',
-      hasEditor: true
-    },
-    {
-      title: 'FAQ',
-      description: 'Manage frequently asked questions',
-      route: '/admin/faq',
-      liveUrl: '/faq',
-      hasEditor: true
-    },
-    {
       title: 'Privacy Policy',
       description: 'Edit the privacy policy page',
       route: '/admin/privacy',

@@ -16,8 +16,6 @@ import Admin from "./pages/Admin";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminResetPassword from "./pages/AdminResetPassword";
 import AdminGeneral from "./pages/AdminGeneral";
-import AdminFAQEditor from "./pages/AdminFAQEditor";
-import FAQ from "./pages/FAQ";
 import AdminFAQ from "./pages/AdminFAQ";
 import ContentPage from "./pages/ContentPage";
 import UserManagement from "./pages/UserManagement";
@@ -30,7 +28,6 @@ import FastingTimelineBlog from "./pages/FastingTimelineBlog";
 import FastingTimelinePost from "./pages/FastingTimelinePost";
 import FastNowProtocol from "./pages/FastNowProtocol";
 import AboutFastNowApp from "./pages/AboutFastNowApp";
-import AboutMe from "./pages/AboutMe";
 import AdminFastingTimeline from "./pages/AdminFastingTimeline";
 import AdminFastingTimelineExport from "./pages/AdminFastingTimelineExport";
 import AdminUnifiedHomepage from "./pages/AdminUnifiedHomepage";
@@ -59,10 +56,8 @@ const AppRoutes = () => {
       <Route path="/blog/:slug" element={<BlogPost />} />
       
       {/* FastNow Protocol */}
-      <Route path="/fast-now-protocol" element={<FastNowProtocol />} />
+      <Route path="/fastnow-protocol" element={<FastNowProtocol />} />
       <Route path="/about-fastnow-app" element={<AboutFastNowApp />} />
-      <Route path="/about-me" element={<AboutMe />} />
-      <Route path="/faq" element={<FAQ />} />
       
       {/* Fasting Timeline routes */}
       <Route path="/fasting-timeline" element={<FastingTimelineBlog />} />

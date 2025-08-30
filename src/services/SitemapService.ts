@@ -32,13 +32,10 @@ class SitemapService {
       { url: '/', lastmod: '2024-01-01', changefreq: 'weekly', priority: '1.0' },
       { url: '/fastnow-protocol', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       { url: '/about-fastnow-app', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
-      { url: '/about-me', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.6' },
-      { url: '/faq', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.7' },
       { url: '/blog', lastmod: '2024-01-01', changefreq: 'weekly', priority: '0.8' },
       { url: '/fasting-timeline', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       { url: '/privacy', lastmod: '2024-01-01', changefreq: 'yearly', priority: '0.4' },
       { url: '/terms', lastmod: '2024-01-01', changefreq: 'yearly', priority: '0.4' },
-      { url: '/contact', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.5' },
     ];
 
     const blogPostUrls = blogPosts.map(post => ({
