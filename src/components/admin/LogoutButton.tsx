@@ -1,16 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { AuthService } from '@/services/AuthService';
+import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { toast } from '@/components/ui/sonner';
 
 const LogoutButton = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    AuthService.clearSession();
-    toast.success('Logged out successfully');
-    navigate('/admin/login');
+  const handleLogout = async () => {
+    const success = await SupabaseAuthService.signOut();
+    if (success) {
+      toast.success('Logged out successfully');
+      navigate('/admin/login');
+    } else {
+      toast.error('Error signing out');
+    }
   };
 
   return (

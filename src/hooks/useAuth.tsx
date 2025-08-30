@@ -69,7 +69,7 @@ export const useAuth = () => {
             console.error('useAuth: Admin check failed in listener:', error);
             setIsAdmin(false);
           }
-        }, 0);
+        }, 100);
       } else {
         console.log('useAuth: Clearing session from auth change');
         setSession(null);
@@ -125,9 +125,10 @@ export const useAuth = () => {
                 setIsAdmin(adminStatus);
               } catch (error) {
                 console.error('useAuth: Initial admin check failed:', error);
+                // If admin check fails, still allow access but assume not admin
                 setIsAdmin(false);
               }
-            }, 0);
+            }, 100);
           }
         } else {
           console.log('useAuth: No existing session found');
