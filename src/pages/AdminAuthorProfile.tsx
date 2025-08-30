@@ -1,6 +1,4 @@
 import React from 'react';
-import MainNavigation from '@/components/MainNavigation';
-import Footer from '@/components/layout/Footer';
 import { AuthorProfileSettings } from '@/components/admin/AuthorProfileSettings';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
@@ -20,9 +18,7 @@ const AdminAuthorProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <MainNavigation />
-      
+    <div className="min-h-screen bg-background">      
       <main className="container py-8">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-8">
@@ -43,8 +39,6 @@ const AdminAuthorProfile = () => {
           <AuthorProfileSettings />
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 };

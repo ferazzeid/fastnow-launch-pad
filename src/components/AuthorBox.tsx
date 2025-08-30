@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ExternalLink, Globe, Twitter, Linkedin } from 'lucide-react';
 
 interface AuthorProfile {
@@ -11,6 +10,10 @@ interface AuthorProfile {
     website?: string;
     twitter?: string;
     linkedin?: string;
+  };
+  custom_link?: {
+    text: string;
+    url: string;
   };
 }
 
@@ -48,17 +51,27 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({ author, className = '' }) 
   ].filter(link => link.url && link.url.trim() !== '');
 
   return (
-    <Card className={`p-8 bg-gradient-to-r from-background to-muted/20 ${className}`}>
+    <Card className={`p-6 bg-gradient-to-r from-background to-muted/20 ${className}`}>
       <div className="flex items-start space-x-6">
-        <Avatar className="w-24 h-24 ring-2 ring-primary/20">
-          <AvatarImage src={author.photo_url} alt={author.name} />
-          <AvatarFallback className="bg-primary/10 text-primary font-semibold text-lg">
-            {getInitials(author.name)}
-          </AvatarFallback>
-        </Avatar>
+        {/* Square image container */}
+        <div className="w-24 h-24 flex-shrink-0">
+          <div className="w-full h-full rounded-lg overflow-hidden bg-muted">
+            {author.photo_url ? (
+              <img 
+                src={author.photo_url} 
+                alt={author.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-lg">
+                {getInitials(author.name)}
+              </div>
+            )}
+          </div>
+        </div>
         
         <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold text-foreground">
               About {author.name}
             </h3>
@@ -83,9 +96,22 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({ author, className = '' }) 
             )}
           </div>
           
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed mb-3">
             {author.bio}
           </p>
+
+          {/* Custom link */}
+          {author.custom_link && author.custom_link.text && author.custom_link.url && (
+            <a
+              href={author.custom_link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-primary hover:text-primary/80 transition-colors duration-200 font-medium"
+            >
+              {author.custom_link.text}
+              <ExternalLink className="w-4 h-4 ml-1" />
+            </a>
+          )}
         </div>
       </div>
     </Card>

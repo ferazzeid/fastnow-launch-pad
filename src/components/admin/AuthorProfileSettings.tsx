@@ -20,6 +20,10 @@ interface AuthorProfile {
     twitter: string;
     linkedin: string;
   };
+  custom_link: {
+    text: string;
+    url: string;
+  };
 }
 
 interface AuthorBoxSettings {
@@ -40,6 +44,10 @@ export const AuthorProfileSettings: React.FC<AuthorProfileSettingsProps> = ({ on
       website: '',
       twitter: '',
       linkedin: ''
+    },
+    custom_link: {
+      text: '',
+      url: ''
     }
   });
   
@@ -63,7 +71,12 @@ export const AuthorProfileSettings: React.FC<AuthorProfileSettingsProps> = ({ on
       ]);
 
       if (profileData) {
-        setProfile(profileData as unknown as AuthorProfile);
+        const loadedProfile = profileData as unknown as AuthorProfile;
+        // Ensure backward compatibility for existing profiles without custom_link
+        setProfile({
+          ...loadedProfile,
+          custom_link: loadedProfile.custom_link || { text: '', url: '' }
+        });
       }
 
       if (settingsData) {
@@ -265,6 +278,44 @@ export const AuthorProfileSettings: React.FC<AuthorProfileSettingsProps> = ({ on
                     social_links: { ...prev.social_links, linkedin: e.target.value }
                   }))}
                   placeholder="https://linkedin.com/in/username"
+                />
+              </div>
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* Custom Link */}
+          <div className="space-y-4">
+            <Label className="text-base font-medium">Custom Link</Label>
+            <p className="text-sm text-muted-foreground">
+              Add a flexible link that will appear in the author box (e.g., weight loss journey, portfolio, etc.)
+            </p>
+            
+            <div className="space-y-3">
+              <div className="space-y-2">
+                <Label htmlFor="custom-link-text">Link Text</Label>
+                <Input
+                  id="custom-link-text"
+                  value={profile.custom_link.text}
+                  onChange={(e) => setProfile(prev => ({
+                    ...prev,
+                    custom_link: { ...prev.custom_link, text: e.target.value }
+                  }))}
+                  placeholder="Read my weight loss journey"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="custom-link-url">Link URL</Label>
+                <Input
+                  id="custom-link-url"
+                  value={profile.custom_link.url}
+                  onChange={(e) => setProfile(prev => ({
+                    ...prev,
+                    custom_link: { ...prev.custom_link, url: e.target.value }
+                  }))}
+                  placeholder="https://example.com/my-journey"
                 />
               </div>
             </div>
