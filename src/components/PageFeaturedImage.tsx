@@ -74,6 +74,31 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
           }
         }
 
+        // Try to load from site_settings with homepage_featured_image key
+        const { data: homeImageData, error: homeImageError } = await supabase
+          .from('site_settings')
+          .select('setting_value')
+          .eq('setting_key', 'homepage_featured_image')
+          .single();
+
+        if (!homeImageError && homeImageData?.setting_value) {
+          const imageUrl = typeof homeImageData.setting_value === 'string' 
+            ? JSON.parse(homeImageData.setting_value || '""') 
+            : String(homeImageData.setting_value || '');
+          if (imageUrl) {
+            const url = imageUrl as string;
+            setImageUrl(url);
+            imageCache[pageKey] = url;
+            try {
+              const saved = localStorage.getItem('fastingApp_pageImages');
+              const map = saved ? JSON.parse(saved) : {};
+              map[pageKey] = url;
+              localStorage.setItem('fastingApp_pageImages', JSON.stringify(map));
+            } catch {}
+            return;
+          }
+        }
+
         // Try the mapped database key for other pages
         const databaseKey = databaseKeyMap[pageKey];
         if (databaseKey) {
@@ -126,13 +151,17 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
       }
 
       // Fallback to localStorage for backward compatibility
-      const savedImages = localStorage.getItem('fastingApp_pageImages');
-      if (savedImages) {
-        const pageImages = JSON.parse(savedImages);
-        if (pageImages[pageKey]) {
-          setImageUrl(pageImages[pageKey]);
-          imageCache[pageKey] = pageImages[pageKey];
+      try {
+        const savedImages = localStorage.getItem('fastingApp_pageImages');
+        if (savedImages) {
+          const pageImages = JSON.parse(savedImages);
+          if (pageImages[pageKey]) {
+            setImageUrl(pageImages[pageKey]);
+            imageCache[pageKey] = pageImages[pageKey];
+          }
         }
+      } catch (error) {
+        console.error('Error loading from localStorage:', error);
       }
       
       setIsLoading(false);

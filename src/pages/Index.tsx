@@ -20,6 +20,7 @@ import { CeramicPlate } from '@/components/CeramicPlate';
 import { HomepagePhaseCard } from '@/components/HomepagePhaseCard';
 import SEOHead from '@/components/SEOHead';
 import LazyImage from '@/components/LazyImage';
+import PageFeaturedImage from '@/components/PageFeaturedImage';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -247,24 +248,21 @@ const Index = () => {
     loadContent();
     loadHeroSideImage();
 
-    // Load active background image
-    const loadBackgroundImage = async () => {
-      try {
-        const activeImage = await BackgroundImageService.getActiveImage();
-        if (activeImage) {
-          setBackgroundImageUrl(activeImage.image_url);
-        } else {
-          // Set a default background image when no active image is found
-          setBackgroundImageUrl('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
-        }
-      } catch (error) {
-        console.error('Error loading background image:', error);
-        // Set default background image if loading fails
-        setBackgroundImageUrl('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+  // Load active background image (simplified - no Unsplash fallbacks)
+  const loadBackgroundImage = async () => {
+    try {
+      const activeImage = await BackgroundImageService.getActiveImage();
+      if (activeImage) {
+        setBackgroundImageUrl(activeImage.image_url);
       }
-    };
+      // No fallback - let the component handle empty state gracefully
+    } catch (error) {
+      console.error('Error loading background image:', error);
+      // No fallback - let the component handle empty state gracefully
+    }
+  };
 
-    loadBackgroundImage();
+  loadBackgroundImage();
 
     try {
       
@@ -380,18 +378,15 @@ const Index = () => {
         ]}
       />
       
-      {/* Hero Background Image */}
-      {(featuredImageUrl || backgroundImageUrl) && (
-        <div className="absolute inset-0 w-full h-screen z-0">
-          <LazyImage
-            src={featuredImageUrl || backgroundImageUrl} 
-            alt="FastNow fasting protocol hero background showcasing transformation journey" 
-            className="w-full h-full object-cover"
-            priority={true}
-          />
-          <div className="absolute inset-0 bg-black/40"></div>
-        </div>
-      )}
+      {/* Hero Background Image - Use PageFeaturedImage component */}
+      <PageFeaturedImage 
+        pageKey="home"
+        className="absolute inset-0 w-full h-screen z-0"
+        showDarkBackground={false}
+      />
+      
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40 z-10"></div>
       
       {/* Background 3D Element if available */}
       {customElementsImages.background3d && (
