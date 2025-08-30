@@ -35,6 +35,8 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
 
   useEffect(() => {
     const loadFeaturedImage = async () => {
+      console.log('🖼️ PageFeaturedImage: Loading image for pageKey:', pageKey);
+      
       try {
         const { supabase } = await import('@/integrations/supabase/client');
         
@@ -51,6 +53,7 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
 
         // For about-fastnow-app, check the aboutAppContent object
         if (pageKey === 'about-fastnow-app') {
+          console.log('🖼️ Checking aboutAppContent for about-fastnow-app...');
           const { data, error } = await supabase
             .from('site_settings')
             .select('setting_value')
@@ -61,6 +64,7 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
             const content = data.setting_value;
             if (content && typeof content === 'object' && 'featuredImage' in content && content.featuredImage) {
               const url = content.featuredImage as string;
+              console.log('🖼️ Found image in aboutAppContent:', url);
               setImageUrl(url);
               imageCache[pageKey] = url;
               try {
@@ -74,39 +78,50 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
           }
         }
 
-        // Try to load from site_settings with homepage_featured_image key
-        const { data: homeImageData, error: homeImageError } = await supabase
-          .from('site_settings')
-          .select('setting_value')
-          .eq('setting_key', 'homepage_featured_image')
-          .single();
+        // For homepage, try to load from site_settings with homepage_featured_image key
+        if (pageKey === 'home') {
+          console.log('🖼️ Checking homepage_featured_image in site_settings...');
+          const { data: homeImageData, error: homeImageError } = await supabase
+            .from('site_settings')
+            .select('setting_value')
+            .eq('setting_key', 'homepage_featured_image')
+            .single();
 
-        if (!homeImageError && homeImageData?.setting_value) {
-          const imageUrl = typeof homeImageData.setting_value === 'string' 
-            ? JSON.parse(homeImageData.setting_value || '""') 
-            : String(homeImageData.setting_value || '');
-          if (imageUrl) {
-            const url = imageUrl as string;
-            setImageUrl(url);
-            imageCache[pageKey] = url;
-            try {
-              const saved = localStorage.getItem('fastingApp_pageImages');
-              const map = saved ? JSON.parse(saved) : {};
-              map[pageKey] = url;
-              localStorage.setItem('fastingApp_pageImages', JSON.stringify(map));
-            } catch {}
-            return;
+          console.log('🖼️ Homepage image query result:', { homeImageData, homeImageError });
+
+          if (!homeImageError && homeImageData?.setting_value) {
+            const imageUrl = typeof homeImageData.setting_value === 'string' 
+              ? JSON.parse(homeImageData.setting_value || '""') 
+              : String(homeImageData.setting_value || '');
+            if (imageUrl) {
+              const url = imageUrl as string;
+              console.log('🖼️ Found homepage featured image in site_settings:', url);
+              setImageUrl(url);
+              imageCache[pageKey] = url;
+              try {
+                const saved = localStorage.getItem('fastingApp_pageImages');
+                const map = saved ? JSON.parse(saved) : {};
+                map[pageKey] = url;
+                localStorage.setItem('fastingApp_pageImages', JSON.stringify(map));
+              } catch {}
+              return;
+            }
+          } else {
+            console.log('🖼️ No homepage_featured_image found in site_settings');
           }
         }
 
         // Try the mapped database key for other pages
         const databaseKey = databaseKeyMap[pageKey];
         if (databaseKey) {
+          console.log('🖼️ Trying database key:', databaseKey);
           const { data, error } = await supabase
             .from('site_settings')
             .select('setting_value')
             .eq('setting_key', databaseKey)
             .single();
+
+          console.log('🖼️ Database key query result:', { data, error, databaseKey });
 
           if (!error && data?.setting_value) {
             const imageUrl = typeof data.setting_value === 'string' 
@@ -114,6 +129,7 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
               : String(data.setting_value || '');
             if (imageUrl) {
               const url = imageUrl as string;
+              console.log('🖼️ Found image with database key:', databaseKey, url);
               setImageUrl(url);
               imageCache[pageKey] = url;
               try {
@@ -128,14 +144,18 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
         }
 
         // Try the page_content table as fallback
+        console.log('🖼️ Trying page_content table as fallback...');
         const { data: pageData, error: pageError } = await supabase
           .from('page_content')
           .select('featured_image_url')
           .eq('page_key', pageKey)
           .single();
 
+        console.log('🖼️ Page content query result:', { pageData, pageError });
+
         if (!pageError && pageData?.featured_image_url) {
           const url = pageData.featured_image_url as string;
+          console.log('🖼️ Found image in page_content:', url);
           setImageUrl(url);
           imageCache[pageKey] = url;
           try {
@@ -147,23 +167,26 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
           return;
         }
       } catch (error) {
-        console.error('Error loading featured image for', pageKey, ':', error);
+        console.error('🖼️ Error loading featured image for', pageKey, ':', error);
       }
 
       // Fallback to localStorage for backward compatibility
+      console.log('🖼️ Trying localStorage fallback...');
       try {
         const savedImages = localStorage.getItem('fastingApp_pageImages');
         if (savedImages) {
           const pageImages = JSON.parse(savedImages);
           if (pageImages[pageKey]) {
+            console.log('🖼️ Found image in localStorage:', pageImages[pageKey]);
             setImageUrl(pageImages[pageKey]);
             imageCache[pageKey] = pageImages[pageKey];
           }
         }
       } catch (error) {
-        console.error('Error loading from localStorage:', error);
+        console.error('🖼️ Error loading from localStorage:', error);
       }
       
+      console.log('🖼️ Final imageUrl for', pageKey, ':', imageUrl);
       setIsLoading(false);
     };
 
