@@ -27,7 +27,10 @@ class PublicSitemapService {
         throw new Error(`Database error: ${error.message}`);
       }
 
-      console.log('PublicSitemapService: Blog posts fetched:', { count: blogPosts?.length || 0 });
+      console.log('PublicSitemapService: Blog posts fetched:', { 
+        count: blogPosts?.length || 0,
+        posts: blogPosts?.map(p => ({ slug: p.slug })) || []
+      });
 
     const staticPages = [
       { url: '/', lastmod: '2024-01-01', changefreq: 'weekly', priority: '1.0' },
@@ -46,9 +49,11 @@ class PublicSitemapService {
         priority: '0.7'
       }));
 
+      console.log('PublicSitemapService: Generated blog URLs:', blogPostUrls.map(u => u.url));
+
       const allUrls = [...staticPages, ...blogPostUrls];
 
-      console.log('PublicSitemapService: Generating XML with', allUrls.length, 'URLs');
+      console.log('PublicSitemapService: Generating XML with', allUrls.length, 'URLs (', staticPages.length, 'static +', blogPostUrls.length, 'blog posts)');
       return this.generateXMLSitemap(allUrls);
     } catch (error) {
       console.error('PublicSitemapService: Error in generateSitemap:', error);
@@ -88,13 +93,13 @@ class PublicSitemapService {
       { url: '/fasting-timeline', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       { url: '/privacy', lastmod: '2024-01-01', changefreq: 'yearly', priority: '0.4' },
       { url: '/terms', lastmod: '2024-01-01', changefreq: 'yearly', priority: '0.4' },
-      // Add known blog post URLs as fallback
-      { url: '/blog/intermittent-fasting-beginners-guide', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/fasting-weight-loss-tips', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/24-hour-fast-benefits', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/fasting-mistakes-avoid', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/autophagy-fasting-guide', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/extended-fasting-safety', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.7' },
+      // Add actual published blog post URLs
+      { url: '/blog/why-total-immersion-is-key-to-fasting-success', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/blog/the-right-motivators-what-pushes-you-through-difficult-fasting-moments', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/blog/the-mysterious-overnight-breakthrough-understanding-non-linear-weight-loss', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/blog/the-fat-burning-switch-why-transitioning-from-carbs-to-fat-is-everything', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/blog/my-first-three-months-of-weight-loss-full-story', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/blog/why-you-might-want-to-avoid-the-scale-at-the-start-of-a-calorie-restricted-plan', lastmod: '2024-08-14', changefreq: 'monthly', priority: '0.7' },
     ];
 
     return this.generateXMLSitemap(staticUrls);

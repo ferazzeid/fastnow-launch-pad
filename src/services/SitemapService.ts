@@ -25,8 +25,35 @@ class SitemapService {
     }
     
     console.log('SitemapService: Fetching blog posts...');
-    const blogPosts = await databaseBlogService.getAllPosts();
-    console.log('SitemapService: Blog posts fetched:', { count: blogPosts.length });
+    
+    // Fetch published blog posts directly from Supabase
+    let blogPosts: any[] = [];
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('slug, updated_at, published_at, created_at, title')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false });
+
+      if (error) {
+        console.error('SitemapService: Error fetching blog posts:', error);
+        // Fallback to service method
+        blogPosts = await databaseBlogService.getAllPosts();
+      } else {
+        blogPosts = data || [];
+      }
+    } catch (error) {
+      console.error('SitemapService: Exception fetching blog posts:', error);
+      // Final fallback to service method
+      try {
+        blogPosts = await databaseBlogService.getAllPosts();
+      } catch (serviceError) {
+        console.error('SitemapService: Service fallback also failed:', serviceError);
+        blogPosts = [];
+      }
+    }
+    
+    console.log('SitemapService: Blog posts fetched:', { count: blogPosts.length, posts: blogPosts.map(p => p.slug) });
     
     const staticPages = [
       { url: '/', lastmod: '2024-01-01', changefreq: 'weekly', priority: '1.0' },
@@ -40,12 +67,15 @@ class SitemapService {
 
     const blogPostUrls = blogPosts.map(post => ({
       url: `/blog/${post.slug}`,
-      lastmod: this.formatDate(post.updatedAt || post.publishedAt || post.createdAt),
+      lastmod: this.formatDate(post.updated_at || post.updatedAt || post.published_at || post.publishedAt || post.created_at || post.createdAt),
       changefreq: 'monthly',
       priority: '0.7'
     }));
 
+    console.log('SitemapService: Generated blog URLs:', blogPostUrls.map(u => u.url));
+
     const allUrls = [...staticPages, ...blogPostUrls];
+    console.log('SitemapService: Total URLs in sitemap:', allUrls.length);
 
     return this.generateXMLSitemap(allUrls);
   }
