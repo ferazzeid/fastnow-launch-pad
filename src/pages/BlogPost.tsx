@@ -10,19 +10,17 @@ import { BlogPost as BlogPostType } from '@/types/blog';
 import { databaseBlogService } from '@/services/DatabaseBlogService';
 import ReactMarkdown from 'react-markdown';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useAuth } from '@/hooks/useAuth';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<BlogPostType | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [relatedPosts, setRelatedPosts] = useState<BlogPostType[]>([]);
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
-    // Check if user is authenticated as admin
-    const authStatus = localStorage.getItem('fastingApp_auth');
-    setIsAdmin(authStatus === 'true');
 
     if (!slug) return;
     

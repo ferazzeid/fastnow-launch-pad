@@ -262,7 +262,8 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
               {/* Launch App Button */}
               <div className="mt-8 pt-6 border-t border-white/20">
                 <Button 
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2 hover:shadow-xl hover:scale-105"
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
                   asChild
                 >
                   <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
