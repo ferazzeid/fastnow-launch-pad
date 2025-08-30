@@ -58,6 +58,7 @@ const Index = () => {
   // Hero side image settings
   const [sideImageUrl, setSideImageUrl] = useState<string>('');
   const [sideImageAlignment, setSideImageAlignment] = useState<'top' | 'center' | 'bottom'>('center');
+  const [sideImageWidth, setSideImageWidth] = useState<number>(25);
   
   // Content for slides 2, 3, and 4
   const [slide2Title, setSlide2Title] = useState<string>('This Isn\'t for Fitness Models');
@@ -227,10 +228,12 @@ const Index = () => {
           const imageSettings = settings as {
             sideImageUrl?: string;
             imageAlignment?: 'top' | 'center' | 'bottom';
+            imageWidth?: number;
           };
           
           setSideImageUrl(imageSettings.sideImageUrl || '');
           setSideImageAlignment(imageSettings.imageAlignment || 'center');
+          setSideImageWidth(imageSettings.imageWidth || 25);
         }
       } catch (error) {
         console.error('Error loading hero side image settings:', error);
@@ -401,9 +404,15 @@ const Index = () => {
         {/* Hero Section */}
         <section className="relative z-10 min-h-screen flex items-center justify-start">
           <div className="container max-w-6xl mx-auto px-4">
-            <div className={`grid gap-8 lg:gap-12 items-center ${sideImageUrl ? 'lg:grid-cols-4' : 'lg:grid-cols-2'}`}>
-              {/* Content Section - Takes 75% when image is present, otherwise 50% */}
-              <div className={`text-left ${sideImageUrl ? 'lg:col-span-3' : 'lg:col-span-1'}`}>
+            <div className={`flex gap-8 lg:gap-12 items-center ${sideImageUrl ? 'justify-between' : 'justify-center'}`}>
+              {/* Content Section - Takes dynamic width based on image setting */}
+              <div 
+                className="text-left flex-1"
+                style={{ 
+                  width: sideImageUrl ? `${100 - sideImageWidth}%` : '100%',
+                  maxWidth: sideImageUrl ? `${100 - sideImageWidth}%` : '100%'
+                }}
+              >
                 <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
                   <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
                     {heroTitle}
@@ -436,9 +445,15 @@ const Index = () => {
                 </div>
               </div>
               
-              {/* Side Image - Takes 25% when present */}
+              {/* Side Image - Takes dynamic width based on setting */}
               {sideImageUrl ? (
-                <div className="hidden lg:block lg:col-span-1">
+                <div 
+                  className="hidden lg:block flex-shrink-0" 
+                  style={{ 
+                    width: `${sideImageWidth}%`,
+                    maxWidth: `${sideImageWidth}%`
+                  }}
+                >
                   <div className={`h-full flex min-h-[70vh] ${
                     sideImageAlignment === 'top' ? 'items-start' : 
                     sideImageAlignment === 'bottom' ? 'items-end' : 
