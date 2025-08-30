@@ -1,10 +1,32 @@
 import { databaseBlogService } from './DatabaseBlogService';
+import { supabase } from '@/integrations/supabase/client';
 
 class SitemapService {
   private baseUrl = 'https://fastnow.app';
 
   async generateSitemap(): Promise<string> {
+    console.log('SitemapService: Starting sitemap generation...');
+    
+    // Check authentication status before making database calls
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    console.log('SitemapService: Current session:', {
+      hasSession: !!session,
+      hasUser: !!session?.user,
+      userEmail: session?.user?.email,
+      sessionError: sessionError?.message
+    });
+    
+    // Test admin status
+    try {
+      const { data: adminStatus, error: adminError } = await supabase.rpc('is_current_user_admin' as any);
+      console.log('SitemapService: Admin check result:', { adminStatus, adminError });
+    } catch (error) {
+      console.error('SitemapService: Admin check failed:', error);
+    }
+    
+    console.log('SitemapService: Fetching blog posts...');
     const blogPosts = await databaseBlogService.getAllPosts();
+    console.log('SitemapService: Blog posts fetched:', { count: blogPosts.length });
     
     const staticPages = [
       { url: '/', lastmod: '2024-01-01', changefreq: 'weekly', priority: '1.0' },

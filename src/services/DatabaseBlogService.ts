@@ -4,20 +4,41 @@ import { BlogPost } from "@/types/blog";
 class DatabaseBlogService {
   async getAllPosts(): Promise<BlogPost[]> {
     try {
+      console.log('DatabaseBlogService: Starting getAllPosts...');
+      
+      // Check current session before making the query
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      console.log('DatabaseBlogService: Current session status:', {
+        hasSession: !!session,
+        hasUser: !!session?.user,
+        userEmail: session?.user?.email,
+        sessionError: sessionError?.message,
+        accessToken: session?.access_token ? 'present' : 'missing'
+      });
+      
       const { data, error } = await supabase
         .from('blog_posts')
         .select('*')
         .eq('status', 'published')
         .order('published_at', { ascending: false });
 
+      console.log('DatabaseBlogService: Query result:', {
+        hasData: !!data,
+        dataLength: data?.length || 0,
+        error: error?.message || 'none',
+        errorDetails: error
+      });
+
       if (error) {
-        console.error('Error fetching blog posts:', error);
+        console.error('DatabaseBlogService: Error fetching blog posts:', error);
         return [];
       }
 
-      return data?.map(this.mapDatabaseToBlogPost) || [];
+      const mappedPosts = data?.map(this.mapDatabaseToBlogPost) || [];
+      console.log('DatabaseBlogService: Mapped posts count:', mappedPosts.length);
+      return mappedPosts;
     } catch (error) {
-      console.error('Error in getAllPosts:', error);
+      console.error('DatabaseBlogService: Error in getAllPosts:', error);
       return [];
     }
   }
