@@ -59,7 +59,6 @@ class SitemapService {
       { url: '/', lastmod: '2024-01-01', changefreq: 'weekly', priority: '1.0' },
       { url: '/fastnow-protocol', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       { url: '/about-fastnow-app', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
-      { url: '/fasting-timeline', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
     ];
 
     const blogPostUrls = blogPosts.map(post => ({

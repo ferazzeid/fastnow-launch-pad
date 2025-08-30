@@ -132,6 +132,7 @@ const FastingTimelinePost = () => {
       <Helmet>
         <title>{post.title} - Fasting Timeline - FastNow.app</title>
         <meta name="description" content={post.excerpt} />
+        <meta name="robots" content="noindex, nofollow" />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
         {post.featuredImage && <meta property="og:image" content={post.featuredImage} />}

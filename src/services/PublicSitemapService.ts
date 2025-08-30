@@ -36,7 +36,6 @@ class PublicSitemapService {
       { url: '/', lastmod: '2024-01-01', changefreq: 'weekly', priority: '1.0' },
       { url: '/fastnow-protocol', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       { url: '/about-fastnow-app', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
-      { url: '/fasting-timeline', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
     ];
 
       const blogPostUrls = (blogPosts || []).map(post => ({
@@ -86,7 +85,6 @@ class PublicSitemapService {
       { url: '/', lastmod: '2024-01-01', changefreq: 'weekly', priority: '1.0' },
       { url: '/fastnow-protocol', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       { url: '/about-fastnow-app', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
-      { url: '/fasting-timeline', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       // Blog posts with clean URLs
       { url: '/why-total-immersion-is-key-to-fasting-success', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
       { url: '/the-right-motivators-what-pushes-you-through-difficult-fasting-moments', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },

@@ -96,6 +96,7 @@ const FastingTimeline = () => {
       <Helmet>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       
       <div className="container mx-auto py-16 px-4 max-w-5xl bg-white">
