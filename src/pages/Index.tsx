@@ -402,72 +402,46 @@ const Index = () => {
             </div>
           )}
           <div className="container max-w-6xl mx-auto px-4 relative z-20">
-            <div className={`flex gap-8 lg:gap-12 items-center ${sideImageUrl ? 'justify-between' : 'justify-center'}`}>
-              {/* Content Section - Takes dynamic width based on image setting */}
-              <div 
-                className="text-left flex-1"
-                style={{ 
-                  width: sideImageUrl ? `${100 - sideImageWidth}%` : '100%',
-                  maxWidth: sideImageUrl ? `${100 - sideImageWidth}%` : '100%'
-                }}
-              >
-                <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
-                  <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
-                    {heroTitle}
-                  </h1>
-                  
-                  <div className="text-lg md:text-xl text-white/80 mb-8 max-w-lg">
-                    <p className="drop-shadow-md">
-                      {heroDescription}
-                    </p>
+            <div className="text-left max-w-3xl">
+              <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
+                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
+                  {renderHeroTitle()}
+                </h1>
+                
+                {heroSubtitle && (
+                  <p className="text-lg md:text-xl text-white/90 mb-6 drop-shadow-md">
+                    {heroSubtitle}
+                  </p>
+                )}
+                
+                {heroDescription && (
+                  <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
+                    {heroDescription.split('\n\n').map((paragraph, index) => (
+                      <p key={index}>
+                        {paragraph}
+                      </p>
+                    ))}
                   </div>
+                )}
+                
+                {/* Launch App Button */}
+                <div className="mt-8 pt-6 border-t border-white/20 flex items-center justify-between">
+                  <Button 
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 inline-flex items-center gap-2 hover:shadow-xl hover:scale-105"
+                    asChild
+                  >
+                    <a href={ctaUrl} target="_blank" rel="noopener noreferrer">
+                      {ctaText}
+                      <ArrowRight size={20} />
+                    </a>
+                  </Button>
                   
-                  <div className="mt-8 pt-6 border-t border-white/20 flex items-center justify-between">
-                    <Button 
-                      className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 lg:px-8 py-2.5 lg:py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 flex items-center gap-2 hover:shadow-xl hover:scale-105"
-                      asChild
-                    >
-                      <a href={ctaUrl} target="_blank" rel="noopener noreferrer">
-                        {ctaText}
-                        <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </a>
-                    </Button>
-                    
-                    <SiteInfoTooltip
-                      content="After years of struggling with complicated diet plans and fitness programs, I realized that simplicity is key. This protocol combines the most effective elements I've discovered through personal experience and research. It's not about perfection - it's about consistent progress that actually fits into your real life."
-                      size="md"
-                    />
-                  </div>
+                  <SiteInfoTooltip
+                    content="After years of struggling with complicated diet plans and fitness programs, I realized that simplicity is key. This protocol combines the most effective elements I've discovered through personal experience and research. It's not about perfection - it's about consistent progress that actually fits into your real life."
+                    size="md"
+                  />
                 </div>
               </div>
-              
-              {/* Side Image - Takes dynamic width based on setting */}
-              {sideImageUrl ? (
-                <div 
-                  className="hidden lg:block flex-shrink-0" 
-                  style={{ 
-                    width: `${sideImageWidth}%`,
-                    maxWidth: `${sideImageWidth}%`
-                  }}
-                >
-                  <div className={`h-full flex min-h-[70vh] ${
-                    sideImageAlignment === 'top' ? 'items-start' : 
-                    sideImageAlignment === 'bottom' ? 'items-end' : 
-                    'items-center'
-                  }`}>
-                    <img 
-                      src={sideImageUrl}
-                      alt="Hero side image"
-                      className="w-full h-auto max-h-[80vh] object-cover rounded-lg shadow-2xl"
-                    />
-                  </div>
-                </div>
-              ) : (
-                /* Empty space for visual balance when no image */
-                <div className="hidden lg:block"></div>
-              )}
             </div>
           </div>
         </section>
