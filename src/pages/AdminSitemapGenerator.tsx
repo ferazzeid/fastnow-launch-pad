@@ -19,8 +19,13 @@ const AdminSitemapGenerator = () => {
 
   const generateSitemap = async () => {
     setIsGenerating(true);
+    console.log('Starting sitemap generation...');
+    
     try {
       const content = await sitemapService.generateSitemap();
+      console.log('Sitemap generated successfully, content length:', content.length);
+      console.log('Sitemap preview:', content.substring(0, 200) + '...');
+      
       setSitemapContent(content);
       
       // Store in localStorage for access
@@ -29,7 +34,7 @@ const AdminSitemapGenerator = () => {
       toast.success("Sitemap generated successfully! Copy the content below and update your sitemap.xml file.");
     } catch (error) {
       console.error('Error generating sitemap:', error);
-      toast.error("Failed to generate sitemap. Please try again.");
+      toast.error(`Failed to generate sitemap: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsGenerating(false);
     }
