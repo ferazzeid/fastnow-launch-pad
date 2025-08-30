@@ -9,6 +9,7 @@ import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { SecurityHeaders } from "./components/SecurityHeaders";
 import { SiteSettingsService } from "@/services/SiteSettingsService";
 import { useEffect, useState } from "react";
+import { AuthProvider } from '@/contexts/AuthContext';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
@@ -119,14 +120,16 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
-        <TooltipProvider>
-          <SecurityHeaders />
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
-        </TooltipProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            <SecurityHeaders />
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </TooltipProvider>
+        </AuthProvider>
       </HelmetProvider>
     </QueryClientProvider>
   );
