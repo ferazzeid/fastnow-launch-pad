@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/components/ui/sonner';
 import { Download, RefreshCw } from 'lucide-react';
 import { sitemapService } from '@/services/SitemapService';
 import { useAuth } from '@/hooks/useAuth';
@@ -26,17 +26,10 @@ const AdminSitemapGenerator = () => {
       // Store in localStorage for access
       localStorage.setItem('generated_sitemap', content);
       
-      toast({
-        title: "Sitemap Generated",
-        description: "The sitemap has been generated successfully. Copy the content below and update your sitemap.xml file.",
-      });
+      toast.success("Sitemap generated successfully! Copy the content below and update your sitemap.xml file.");
     } catch (error) {
       console.error('Error generating sitemap:', error);
-      toast({
-        title: "Error",
-        description: "Failed to generate sitemap. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to generate sitemap. Please try again.");
     } finally {
       setIsGenerating(false);
     }
@@ -55,10 +48,7 @@ const AdminSitemapGenerator = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    toast({
-      title: "Download Started",
-      description: "Sitemap.xml has been downloaded.",
-    });
+    toast.success("Sitemap.xml has been downloaded.");
   };
 
   return (
