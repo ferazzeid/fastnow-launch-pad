@@ -12,6 +12,7 @@ import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { ImageUploadService } from '@/services/ImageUploadService';
 import { pageContentService } from '@/services/PageContentService';
 import BlogTypographySettings from '@/components/admin/BlogTypographySettings';
+import SocialMediaSettings from '@/components/admin/SocialMediaSettings';
 
 interface GeneralSettings {
   siteName: string;
@@ -636,6 +637,9 @@ const AdminGeneral = () => {
 
           {/* Blog Typography */}
           <BlogTypographySettings />
+
+          {/* Social Media Settings */}
+          <SocialMediaSettings />
 
           {/* Save Button at Bottom */}
           <div className="flex justify-end pt-6">
