@@ -380,16 +380,12 @@ const Index = () => {
       
       <main className="flex-1 relative">
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-start">
-          {/* Hero Background Image - Fixed position so it doesn't affect layout */}
-          <PageFeaturedImage 
-            pageKey="home"
-            className="absolute inset-0 w-full h-full z-0"
-            showDarkBackground={false}
-          />
-          
-          {/* Dark overlay for better text readability */}
-          <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <section className="relative z-10 min-h-[85vh] flex items-start pt-16 md:pt-24 justify-start">
+          {/* Hero Background Image */}
+          <div className="absolute inset-0 w-full h-screen z-0">
+            <PageFeaturedImage pageKey="home" className="w-full h-full object-cover" showDarkBackground={true} />
+            <div className="absolute inset-0 bg-black/40"></div>
+          </div>
           
           {/* Background 3D Element if available */}
           {customElementsImages.background3d && (
