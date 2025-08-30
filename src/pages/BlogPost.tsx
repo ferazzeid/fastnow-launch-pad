@@ -242,7 +242,7 @@ const BlogPost = () => {
       {/* Article Content */}
       <article className="container py-16">
         {/* Post Content */}
-        <div className="prose prose-lg max-w-none prose-headings:text-mint-600 prose-a:text-accent-green prose-a:no-underline hover:prose-a:underline mx-auto max-w-4xl">
+        <div className="prose prose-lg max-w-none prose-headings:text-mint-600 prose-a:text-accent-green prose-a:no-underline hover:prose-a:underline mx-auto max-w-4xl blog-content">
           <ReactMarkdown>{post.content}</ReactMarkdown>
         </div>
 

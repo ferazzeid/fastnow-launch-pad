@@ -11,6 +11,13 @@ if (migrationService.isMigrationNeeded()) {
   migrationService.runCompleteMigration().catch(console.error);
 }
 
+// Load and apply design colors on app startup  
+import { SiteSettingsService } from './services/SiteSettingsService';
+import { BlogTypographyService } from './services/BlogTypographyService';
+
+SiteSettingsService.loadAndApplyDesignColors();
+BlogTypographyService.applyTypographyToBlogContent();
+
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <HelmetProvider>

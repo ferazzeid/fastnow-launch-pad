@@ -16,6 +16,7 @@ import ReactMarkdown from 'react-markdown';
 import BlogFeaturedImageUpload from '@/components/admin/BlogFeaturedImageUpload';
 import { useAuth } from '@/hooks/useAuth';
 import MDEditor from '@uiw/react-md-editor';
+import MarkdownFormattingHelper from '@/components/admin/MarkdownFormattingHelper';
 
 const BlogEditor = () => {
   const { id } = useParams<{ id: string }>();
@@ -265,7 +266,12 @@ const BlogEditor = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="content">Content</Label>
+                      <div className="flex justify-between items-center mb-2">
+                        <Label htmlFor="content">Content</Label>
+                        <MarkdownFormattingHelper 
+                          onFormattedContentChange={(content) => setPost(prev => ({ ...prev, content }))}
+                        />
+                      </div>
                       <div className="mt-2" data-color-mode="light">
                         <MDEditor
                           value={post.content}

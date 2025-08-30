@@ -11,6 +11,7 @@ import { toast } from "@/components/ui/sonner";
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { ImageUploadService } from '@/services/ImageUploadService';
 import { pageContentService } from '@/services/PageContentService';
+import BlogTypographySettings from '@/components/admin/BlogTypographySettings';
 
 interface GeneralSettings {
   siteName: string;
@@ -633,6 +634,8 @@ const AdminGeneral = () => {
             </CardContent>
           </Card>
 
+          {/* Blog Typography */}
+          <BlogTypographySettings />
 
           {/* Save Button at Bottom */}
           <div className="flex justify-end pt-6">
