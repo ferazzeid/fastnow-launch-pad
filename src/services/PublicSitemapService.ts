@@ -36,12 +36,11 @@ class PublicSitemapService {
       { url: '/', lastmod: '2024-01-01', changefreq: 'weekly', priority: '1.0' },
       { url: '/fastnow-protocol', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       { url: '/about-fastnow-app', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
-      { url: '/blog', lastmod: '2024-01-01', changefreq: 'weekly', priority: '0.8' },
       { url: '/fasting-timeline', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
     ];
 
       const blogPostUrls = (blogPosts || []).map(post => ({
-        url: `/blog/${post.slug}`,
+        url: `/${post.slug}`,
         lastmod: this.formatDate(post.updated_at || post.published_at || post.created_at),
         changefreq: 'monthly',
         priority: '0.7'
@@ -88,13 +87,13 @@ class PublicSitemapService {
       { url: '/fastnow-protocol', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       { url: '/about-fastnow-app', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
       { url: '/fasting-timeline', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
-      // Add actual published blog post URLs
-      { url: '/blog/why-total-immersion-is-key-to-fasting-success', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/the-right-motivators-what-pushes-you-through-difficult-fasting-moments', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/the-mysterious-overnight-breakthrough-understanding-non-linear-weight-loss', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/the-fat-burning-switch-why-transitioning-from-carbs-to-fat-is-everything', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/my-first-three-months-of-weight-loss-full-story', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
-      { url: '/blog/why-you-might-want-to-avoid-the-scale-at-the-start-of-a-calorie-restricted-plan', lastmod: '2024-08-14', changefreq: 'monthly', priority: '0.7' },
+      // Blog posts with clean URLs
+      { url: '/why-total-immersion-is-key-to-fasting-success', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/the-right-motivators-what-pushes-you-through-difficult-fasting-moments', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/the-mysterious-overnight-breakthrough-understanding-non-linear-weight-loss', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/the-fat-burning-switch-why-transitioning-from-carbs-to-fat-is-everything', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/my-first-three-months-of-weight-loss-full-story', lastmod: '2024-08-30', changefreq: 'monthly', priority: '0.7' },
+      { url: '/why-you-might-want-to-avoid-the-scale-at-the-start-of-a-calorie-restricted-plan', lastmod: '2024-08-14', changefreq: 'monthly', priority: '0.7' },
     ];
 
     return this.generateXMLSitemap(staticUrls);
