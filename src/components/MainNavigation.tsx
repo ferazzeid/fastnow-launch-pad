@@ -25,7 +25,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
   // Static navigation links - no database calls needed
   const navigationLinks = [
     { path: '/', title: 'Home' },
-    { path: '/fast-now-protocol', title: 'The Protocol' },
+    { path: '/fastnow-protocol', title: 'The Protocol' },
     { path: '/about-fastnow-app', title: 'About App' },
     { path: '/blog', title: 'Blog' }
   ];

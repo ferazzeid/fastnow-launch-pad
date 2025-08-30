@@ -253,10 +253,14 @@ const Index = () => {
         const activeImage = await BackgroundImageService.getActiveImage();
         if (activeImage) {
           setBackgroundImageUrl(activeImage.image_url);
+        } else {
+          // Set a default background image when no active image is found
+          setBackgroundImageUrl('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
         }
       } catch (error) {
         console.error('Error loading background image:', error);
-        // Keep default image if loading fails
+        // Set default background image if loading fails
+        setBackgroundImageUrl('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
       }
     };
 

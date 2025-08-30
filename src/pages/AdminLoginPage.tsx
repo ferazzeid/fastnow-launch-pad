@@ -81,7 +81,7 @@ const AdminLoginPage = () => {
           console.error('AdminLogin: Admin check failed:', adminCheckError);
           toast.error('Failed to verify admin status. Please try again.');
         }
-      }, 200); // Increased delay to ensure auth state propagates
+      }, 500); // Increased delay to ensure auth state propagates properly
 
     } catch (error) {
       console.error('AdminLogin: Login exception:', error);
@@ -118,8 +118,9 @@ const AdminLoginPage = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto"></div>
+          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="mt-2 text-muted-foreground">Checking authentication...</p>
+          <p className="mt-2 text-xs text-muted-foreground">This should only take a moment...</p>
         </div>
       </div>
     );
