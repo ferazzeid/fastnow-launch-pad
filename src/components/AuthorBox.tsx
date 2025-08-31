@@ -52,10 +52,10 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({ author, className = '' }) 
 
   return (
     <Card className={`p-6 bg-gradient-to-r from-background to-muted/20 ${className}`}>
-      <div className="flex items-start space-x-6">
-        {/* Square image container */}
-        <div className="w-24 h-24 flex-shrink-0">
-          <div className="w-full h-full rounded-lg overflow-hidden bg-muted">
+      <div className="flex items-start space-x-4 md:space-x-6">
+        {/* Square image container - responsive sizing */}
+        <div className="w-16 h-16 md:w-24 md:h-24 flex-shrink-0">
+          <div className="w-full h-full rounded-bl-lg rounded-tl-lg rounded-br-lg overflow-hidden bg-muted">
             {author.photo_url ? (
               <img 
                 src={author.photo_url} 
@@ -63,7 +63,7 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({ author, className = '' }) 
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-lg">
+              <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm md:text-lg">
                 {getInitials(author.name)}
               </div>
             )}
