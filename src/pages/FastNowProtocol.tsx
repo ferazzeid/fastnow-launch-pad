@@ -6,6 +6,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
 import FAQSection from '@/components/FAQSection';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { supabase } from '@/integrations/supabase/client';
 
 const FastNowProtocol = () => {
@@ -280,7 +281,7 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
       {/* Three Phases Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
               The Three Phases
             </h2>
@@ -289,9 +290,9 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
             </p>
           </div>
 
-          {/* Three Phase Cards - Full Content */}
+          {/* Simplified Phase Cards */}
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Phase 1 - Complete Content */}
+            {/* Phase 1 - Simplified */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-6">
                 <div className="flex items-center gap-4">
@@ -328,28 +329,45 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                   <h4 className="font-semibold text-gray-900 mb-2">Instructions</h4>
                   <p className="text-gray-600 text-sm">{phaseContent.phase1.instructions}</p>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Details</h4>
-                  <div className="text-gray-600 text-sm leading-relaxed space-y-3">
-                    {formatContent(phaseContent.phase1.details)}
-                  </div>
+                
+                <div className="pt-4 flex justify-center">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="w-full">
+                        Learn More
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>Phase 1: {phaseContent.phase1.title}</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Detailed Timeline</h4>
+                          <div className="text-gray-600 text-sm leading-relaxed space-y-3">
+                            {formatContent(phaseContent.phase1.details)}
+                          </div>
+                        </div>
+                        {phaseContent.phase1.readMoreLink && (
+                          <div className="pt-4 border-t border-gray-200">
+                            <a 
+                              href={phaseContent.phase1.readMoreLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                            >
+                              Read More â†’
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
-                {phaseContent.phase1.readMoreLink && (
-                  <div className="pt-4 border-t border-gray-200">
-                    <a 
-                      href={phaseContent.phase1.readMoreLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-700 hover:text-gray-900 text-sm font-medium"
-                    >
-                      Read More â†’
-                    </a>
-                  </div>
-                )}
               </div>
             </div>
 
-            {/* Phase 2 - Complete Content */}
+            {/* Phase 2 - Simplified */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-6">
                 <div className="flex items-center gap-4">
@@ -378,68 +396,92 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
                   <h4 className="font-semibold text-gray-900 mb-2">Duration</h4>
                   <p className="text-gray-600">{phaseContent.phase2.duration}</p>
                 </div>
-                
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-red-50 p-3 rounded-lg border border-red-100">
-                    <h5 className="font-medium text-red-800 text-sm mb-1">Calorie Cap</h5>
-                    <p className="text-red-700 text-xs">{phaseContent.phase2.calorieCap}</p>
-                  </div>
-                  <div className="bg-orange-50 p-3 rounded-lg border border-orange-100">
-                    <h5 className="font-medium text-orange-800 text-sm mb-1">Carb Cap</h5>
-                    <p className="text-orange-700 text-xs">{phaseContent.phase2.carbCap}</p>
-                  </div>
-                </div>
-                
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Deficit Goal</h4>
-                  <p className="text-gray-600 text-sm">{phaseContent.phase2.deficit}</p>
+                  <h4 className="font-semibold text-gray-900 mb-2">Purpose</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">Create sustainable calorie deficit for fat loss</p>
                 </div>
-                
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Why This Deficit?</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase2.whyDeficit}</p>
+                  <h4 className="font-semibold text-gray-900 mb-2">Instructions</h4>
+                  <p className="text-gray-600 text-sm">Follow strict calorie and carb limits with simple foods</p>
                 </div>
                 
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">How to Set Calories</h4>
-                  <div className="text-gray-600 text-sm leading-relaxed space-y-2">
-                    {formatContent(phaseContent.phase2.howToSet)}
-                  </div>
+                <div className="pt-4 flex justify-center">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="w-full">
+                        Learn More
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>Phase 2: {phaseContent.phase2.title}</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-6">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="bg-red-50 p-3 rounded-lg border border-red-100">
+                            <h5 className="font-medium text-red-800 text-sm mb-1">Calorie Cap</h5>
+                            <p className="text-red-700 text-xs">{phaseContent.phase2.calorieCap}</p>
+                          </div>
+                          <div className="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                            <h5 className="font-medium text-orange-800 text-sm mb-1">Carb Cap</h5>
+                            <p className="text-orange-700 text-xs">{phaseContent.phase2.carbCap}</p>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Deficit Goal</h4>
+                          <p className="text-gray-600 text-sm">{phaseContent.phase2.deficit}</p>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Why This Deficit?</h4>
+                          <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase2.whyDeficit}</p>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">How to Set Calories</h4>
+                          <div className="text-gray-600 text-sm leading-relaxed space-y-2">
+                            {formatContent(phaseContent.phase2.howToSet)}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">What to Eat</h4>
+                          <div className="text-gray-600 text-sm leading-relaxed space-y-2">
+                            {formatContent(phaseContent.phase2.whatToEat)}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Tracking</h4>
+                          <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase2.tracking}</p>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Recovery</h4>
+                          <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase2.recovery}</p>
+                        </div>
+                        
+                        {phaseContent.phase2.readMoreLink && (
+                          <div className="pt-4 border-t border-gray-200">
+                            <a 
+                              href={phaseContent.phase2.readMoreLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                            >
+                              Read More â†’
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
-                
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">What to Eat</h4>
-                  <div className="text-gray-600 text-sm leading-relaxed space-y-2">
-                    {formatContent(phaseContent.phase2.whatToEat)}
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Tracking</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase2.tracking}</p>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Recovery</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase2.recovery}</p>
-                </div>
-                
-                {phaseContent.phase2.readMoreLink && (
-                  <div className="pt-4 border-t border-gray-200">
-                    <a 
-                      href={phaseContent.phase2.readMoreLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-700 hover:text-gray-900 text-sm font-medium"
-                    >
-                      Read More â†’
-                    </a>
-                  </div>
-                )}
               </div>
             </div>
 
-            {/* Phase 3 - Complete Content */}
+            {/* Phase 3 - Simplified */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-6">
                 <div className="flex items-center gap-4">
@@ -465,25 +507,54 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
               
               <div className="p-6 space-y-4">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Rule</h4>
-                  <p className="text-gray-600 font-medium">{phaseContent.phase3.rule}</p>
+                  <h4 className="font-semibold text-gray-900 mb-2">Duration</h4>
+                  <p className="text-gray-600">Ongoing</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Why</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase3.why}</p>
+                  <h4 className="font-semibold text-gray-900 mb-2">Purpose</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">Burn calories, improve mood and energy, maintain consistency</p>
                 </div>
-                {phaseContent.phase3.readMoreLink && (
-                  <div className="pt-4 border-t border-gray-200">
-                    <a 
-                      href={phaseContent.phase3.readMoreLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-700 hover:text-gray-900 text-sm font-medium"
-                    >
-                      Read More â†’
-                    </a>
-                  </div>
-                )}
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Instructions</h4>
+                  <p className="text-gray-600 text-sm">{phaseContent.phase3.rule}</p>
+                </div>
+                
+                <div className="pt-4 flex justify-center">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="w-full">
+                        Learn More
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>Phase 3: {phaseContent.phase3.title}</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">The Rule</h4>
+                          <p className="text-gray-600 font-medium">{phaseContent.phase3.rule}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Why This Works</h4>
+                          <p className="text-gray-600 text-sm leading-relaxed">{phaseContent.phase3.why}</p>
+                        </div>
+                        {phaseContent.phase3.readMoreLink && (
+                          <div className="pt-4 border-t border-gray-200">
+                            <a 
+                              href={phaseContent.phase3.readMoreLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                            >
+                              Read More â†’
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </div>
             </div>
           </div>
