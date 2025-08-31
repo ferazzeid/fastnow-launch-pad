@@ -1072,6 +1072,51 @@ export type Database = {
         }
         Relationships: []
       }
+      page_seo_settings: {
+        Row: {
+          created_at: string
+          id: string
+          is_dynamic: boolean
+          is_indexed: boolean
+          meta_description: string | null
+          meta_title: string | null
+          page_description: string | null
+          page_path: string
+          page_title: string
+          page_type: string
+          robots_directive: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_dynamic?: boolean
+          is_indexed?: boolean
+          meta_description?: string | null
+          meta_title?: string | null
+          page_description?: string | null
+          page_path: string
+          page_title: string
+          page_type?: string
+          robots_directive?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_dynamic?: boolean
+          is_indexed?: boolean
+          meta_description?: string | null
+          meta_title?: string | null
+          page_description?: string | null
+          page_path?: string
+          page_title?: string
+          page_type?: string
+          robots_directive?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       payment_provider_configs: {
         Row: {
           config_data: Json
@@ -1710,6 +1755,15 @@ export type Database = {
           image_url: string
           record_count: number
           table_name: string
+        }[]
+      }
+      get_page_seo_settings: {
+        Args: { page_path_param: string }
+        Returns: {
+          is_indexed: boolean
+          meta_description: string
+          meta_title: string
+          robots_directive: string
         }[]
       }
       get_payment_provider_for_platform: {
