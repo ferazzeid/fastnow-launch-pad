@@ -228,7 +228,7 @@ const PageIndexingTable: React.FC<PageIndexingTableProps> = ({ pages, onRefresh 
                       </Badge>
                     </td>
                     <td className="p-4">
-                      <Badge variant={page.is_indexed ? "default" : "secondary"}>
+                      <Badge variant={page.is_indexed ? "default" : "destructive"} className={page.is_indexed ? "" : "bg-red-600 text-white hover:bg-red-700"}>
                         {page.is_indexed ? "Indexed" : "No Index"}
                       </Badge>
                     </td>

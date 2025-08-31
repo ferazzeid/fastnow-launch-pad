@@ -14,13 +14,11 @@ import SiteSEOSettings from '@/components/admin/SiteSEOSettings';
 
 interface SEOAnalyticsSettings {
   googleAnalyticsId: string;
-  defaultIndexable: boolean;
 }
 
 const AdminSEOAnalytics = () => {
   const [settings, setSettings] = useState<SEOAnalyticsSettings>({
     googleAnalyticsId: '',
-    defaultIndexable: true,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [pageSettings, setPageSettings] = useState<PageSEOSetting[]>([]);
@@ -34,7 +32,6 @@ const AdminSEOAnalytics = () => {
         const generalSettings = JSON.parse(savedSettings);
         setSettings({
           googleAnalyticsId: generalSettings.googleAnalyticsId || '',
-          defaultIndexable: generalSettings.defaultIndexable ?? true,
         });
       } catch (error) {
         console.error('Error loading SEO analytics settings:', error);
@@ -58,7 +55,7 @@ const AdminSEOAnalytics = () => {
     }
   };
 
-  const handleInputChange = (field: keyof SEOAnalyticsSettings, value: string | boolean) => {
+  const handleInputChange = (field: keyof SEOAnalyticsSettings, value: string) => {
     setSettings(prev => ({
       ...prev,
       [field]: value
@@ -79,7 +76,6 @@ const AdminSEOAnalytics = () => {
       const updatedSettings = {
         ...generalSettings,
         googleAnalyticsId: settings.googleAnalyticsId,
-        defaultIndexable: settings.defaultIndexable,
       };
       
       localStorage.setItem('fastingApp_generalSettings', JSON.stringify(updatedSettings));
@@ -159,33 +155,6 @@ const AdminSEOAnalytics = () => {
                 </CardContent>
               </Card>
 
-              {/* SEO Settings */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Globe size={20} />
-                    General SEO Settings
-                  </CardTitle>
-                  <CardDescription>
-                    Configure basic search engine optimization settings
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <Label htmlFor="defaultIndexable">Default Page Indexing</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Make all pages indexable by search engines by default. You can override this on individual pages.
-                      </p>
-                    </div>
-                    <Switch
-                      id="defaultIndexable"
-                      checked={settings.defaultIndexable}
-                      onCheckedChange={(checked) => handleInputChange('defaultIndexable', checked)}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
 
               {/* Sitemap */}
               <Card>
