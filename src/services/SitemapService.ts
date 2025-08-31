@@ -24,6 +24,47 @@ class SitemapService {
       console.error('SitemapService: Admin check failed:', error);
     }
     
+    // Fetch all page SEO settings to check indexing status
+    console.log('SitemapService: Fetching page SEO settings from database...');
+    let allPageSettings: any[] = [];
+    try {
+      const { data: pagesData, error: pagesError } = await supabase
+        .from('page_seo_settings')
+        .select('page_path, updated_at, is_indexed');
+
+      if (pagesError) {
+        console.error('SitemapService: Error fetching page settings:', pagesError);
+      } else {
+        allPageSettings = pagesData || [];
+      }
+    } catch (error) {
+      console.error('SitemapService: Exception fetching page settings:', error);
+    }
+
+    // Create static pages based on database settings with fallback
+    const staticPages: Array<{ url: string; lastmod: string; changefreq: string; priority: string }> = [];
+    
+    const defaultPages = [
+      { path: '/', priority: '1.0', changefreq: 'weekly' },
+      { path: '/fastnow-protocol', priority: '0.8', changefreq: 'monthly' },
+      { path: '/about-fastnow-app', priority: '0.8', changefreq: 'monthly' },
+    ];
+
+    for (const page of defaultPages) {
+      const pageSettings = allPageSettings.find(p => p.page_path === page.path);
+      // Include if no specific setting OR if explicitly indexed
+      if (!pageSettings || pageSettings.is_indexed) {
+        staticPages.push({
+          url: page.path,
+          lastmod: pageSettings ? this.formatDate(pageSettings.updated_at) : '2024-01-01',
+          changefreq: page.changefreq,
+          priority: page.priority
+        });
+      }
+    }
+
+    console.log('SitemapService: Static pages after filtering:', staticPages.map(p => p.url));
+    
     console.log('SitemapService: Fetching blog posts...');
     
     // Fetch published blog posts directly from Supabase
@@ -54,21 +95,26 @@ class SitemapService {
     }
     
     console.log('SitemapService: Blog posts fetched:', { count: blogPosts.length, posts: blogPosts.map(p => p.slug) });
+
+    // Filter blog posts based on indexing settings
+    const blogPostUrls: Array<{ url: string; lastmod: string; changefreq: string; priority: string }> = [];
     
-    const staticPages = [
-      { url: '/', lastmod: '2024-01-01', changefreq: 'weekly', priority: '1.0' },
-      { url: '/fastnow-protocol', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
-      { url: '/about-fastnow-app', lastmod: '2024-01-01', changefreq: 'monthly', priority: '0.8' },
-    ];
+    for (const post of blogPosts) {
+      const blogPagePath = `/${post.slug}`;
+      const pageSettings = allPageSettings.find(p => p.page_path === blogPagePath);
+      
+      // Include if no specific setting (default to indexed for published posts) OR if explicitly indexed
+      if (!pageSettings || pageSettings.is_indexed) {
+        blogPostUrls.push({
+          url: blogPagePath,
+          lastmod: this.formatDate(post.updated_at || post.updatedAt || post.published_at || post.publishedAt || post.created_at || post.createdAt),
+          changefreq: 'monthly',
+          priority: '0.7'
+        });
+      }
+    }
 
-    const blogPostUrls = blogPosts.map(post => ({
-      url: `/${post.slug}`,
-      lastmod: this.formatDate(post.updated_at || post.updatedAt || post.published_at || post.publishedAt || post.created_at || post.createdAt),
-      changefreq: 'monthly',
-      priority: '0.7'
-    }));
-
-    console.log('SitemapService: Generated blog URLs:', blogPostUrls.map(u => u.url));
+    console.log('SitemapService: Generated blog URLs after indexing filter:', blogPostUrls.map(u => u.url));
 
     const allUrls = [...staticPages, ...blogPostUrls];
     console.log('SitemapService: Total URLs in sitemap:', allUrls.length);
