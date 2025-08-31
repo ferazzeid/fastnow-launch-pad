@@ -14,6 +14,8 @@ export interface Motivator {
   is_published: boolean;
   is_active: boolean;
   show_in_animations: boolean;
+  gender?: string;
+  is_system_goal?: boolean;
   created_at: string;
   updated_at: string;
 }

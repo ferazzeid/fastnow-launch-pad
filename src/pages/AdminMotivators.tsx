@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, EyeOff } from 'lucide-react';
+import { Edit, Eye, EyeOff, Lock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -20,7 +20,6 @@ const AdminMotivators: React.FC = () => {
   const [motivators, setMotivators] = useState<Motivator[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingMotivator, setEditingMotivator] = useState<Motivator | null>(null);
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -36,7 +35,6 @@ const AdminMotivators: React.FC = () => {
     meta_description: '',
     is_published: true,
     is_active: true,
-    show_in_animations: true,
   });
 
   useEffect(() => {
@@ -46,10 +44,12 @@ const AdminMotivators: React.FC = () => {
   const fetchMotivators = async () => {
     try {
       const data = await MotivatorService.getAllMotivatorsForAdmin();
-      setMotivators(data);
+      // Filter to only show system goals
+      const systemGoals = data.filter(m => m.is_system_goal === true);
+      setMotivators(systemGoals);
     } catch (error) {
-      console.error('Error fetching motivators:', error);
-      toast.error('Failed to load motivators');
+      console.error('Error fetching system goals:', error);
+      toast.error('Failed to load system goals');
     } finally {
       setLoading(false);
     }
@@ -67,15 +67,9 @@ const AdminMotivators: React.FC = () => {
       meta_description: '',
       is_published: true,
       is_active: true,
-      show_in_animations: true,
     });
     setImageFile(null);
     setEditingMotivator(null);
-  };
-
-  const handleCreate = () => {
-    resetForm();
-    setIsCreateDialogOpen(true);
   };
 
   const handleEdit = (motivator: Motivator) => {
@@ -90,7 +84,6 @@ const AdminMotivators: React.FC = () => {
       meta_description: motivator.meta_description || '',
       is_published: motivator.is_published,
       is_active: motivator.is_active,
-      show_in_animations: motivator.show_in_animations,
     });
     setEditingMotivator(motivator);
     setImageFile(null);
@@ -154,30 +147,15 @@ const AdminMotivators: React.FC = () => {
 
       if (editingMotivator) {
         await MotivatorService.updateMotivator(editingMotivator.id, motivatorData);
-        toast.success('Motivator updated successfully');
+        toast.success('Goal updated successfully');
         setIsEditDialogOpen(false);
-      } else {
-        await MotivatorService.createMotivator(motivatorData);
-        toast.success('Motivator created successfully');
-        setIsCreateDialogOpen(false);
       }
 
       resetForm();
       fetchMotivators();
     } catch (error) {
-      console.error('Error saving motivator:', error);
-      toast.error('Failed to save motivator');
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    try {
-      await MotivatorService.deleteMotivator(id);
-      toast.success('Motivator deleted successfully');
-      fetchMotivators();
-    } catch (error) {
-      console.error('Error deleting motivator:', error);
-      toast.error('Failed to delete motivator');
+      console.error('Error saving goal:', error);
+      toast.error('Failed to save goal');
     }
   };
 
@@ -186,12 +164,18 @@ const AdminMotivators: React.FC = () => {
       await MotivatorService.updateMotivator(motivator.id, {
         [field]: !motivator[field]
       });
-      toast.success(`Motivator ${field === 'is_active' ? 'activation' : 'publication'} status updated`);
+      toast.success(`Goal ${field === 'is_active' ? 'activation' : 'publication'} status updated`);
       fetchMotivators();
     } catch (error) {
       console.error(`Error updating ${field}:`, error);
       toast.error(`Failed to update ${field === 'is_active' ? 'activation' : 'publication'} status`);
     }
+  };
+
+  const groupMotivatorsByGender = (motivators: Motivator[]) => {
+    const maleGoals = motivators.filter(m => m.gender === 'male');
+    const femaleGoals = motivators.filter(m => m.gender === 'female');
+    return { maleGoals, femaleGoals };
   };
 
   const DialogForm = () => (
@@ -321,14 +305,6 @@ const AdminMotivators: React.FC = () => {
             <Label htmlFor="is_active">Active</Label>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="show_in_animations"
-              checked={formData.show_in_animations}
-              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, show_in_animations: checked }))}
-            />
-            <Label htmlFor="show_in_animations">Show in animations</Label>
-          </div>
         </div>
       </div>
 
@@ -337,7 +313,6 @@ const AdminMotivators: React.FC = () => {
           type="button"
           variant="outline"
           onClick={() => {
-            setIsCreateDialogOpen(false);
             setIsEditDialogOpen(false);
             resetForm();
           }}
@@ -345,7 +320,7 @@ const AdminMotivators: React.FC = () => {
           Cancel
         </Button>
         <Button type="submit" disabled={uploading}>
-          {uploading ? 'Uploading...' : editingMotivator ? 'Update' : 'Create'}
+          {uploading ? 'Uploading...' : 'Update Goal'}
         </Button>
       </div>
     </form>
@@ -366,136 +341,206 @@ const AdminMotivators: React.FC = () => {
     );
   }
 
+  const { maleGoals, femaleGoals } = groupMotivatorsByGender(motivators);
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Manage Motivators</h1>
-          <p className="text-muted-foreground mt-2">Create and manage motivational content</p>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-foreground">Fundamental Goals</h1>
+        <p className="text-muted-foreground mt-2">Manage the 16 core goals for destination pages</p>
+        <div className="flex gap-4 mt-4">
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            <span className="text-sm text-muted-foreground">
+              {maleGoals.length} Male Goals • {femaleGoals.length} Female Goals
+            </span>
+          </div>
         </div>
-        
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={handleCreate}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Motivator
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Create New Motivator</DialogTitle>
-            </DialogHeader>
-            <DialogForm />
-          </DialogContent>
-        </Dialog>
       </div>
 
-      <div className="grid gap-6">
+      <div className="space-y-8">
         {motivators.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-muted-foreground">No motivators found. Create your first motivator!</p>
+              <p className="text-muted-foreground">No system goals found.</p>
             </CardContent>
           </Card>
         ) : (
-          motivators.map((motivator) => (
-            <Card key={motivator.id}>
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div className="space-y-2">
-                    <CardTitle className="flex items-center gap-2">
-                      {motivator.title}
-                      <div className="flex gap-1">
-                        {motivator.is_published ? (
-                          <Badge variant="default">Published</Badge>
-                        ) : (
-                          <Badge variant="secondary">Draft</Badge>
-                        )}
-                        {motivator.is_active ? (
-                          <Badge variant="outline">Active</Badge>
-                        ) : (
-                          <Badge variant="destructive">Inactive</Badge>
-                        )}
-                      </div>
-                    </CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      /motivators/{motivator.slug}
-                    </p>
-                    {motivator.category && (
-                      <Badge variant="outline">{motivator.category}</Badge>
-                    )}
-                  </div>
-                  
-                  <div className="flex gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => toggleStatus(motivator, 'is_published')}
-                    >
-                      {motivator.is_published ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </Button>
-                    
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleEdit(motivator)}
-                    >
-                      <Edit className="w-4 h-4" />
-                    </Button>
-                    
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Delete Motivator</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Are you sure you want to delete "{motivator.title}"? This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={() => handleDelete(motivator.id)}
-                            className="bg-destructive hover:bg-destructive/90"
-                          >
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
+          <>
+            {/* Male Goals Section */}
+            {maleGoals.length > 0 && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold text-foreground flex items-center gap-2">
+                  Male Goals ({maleGoals.length})
+                  <Badge variant="outline">For Men</Badge>
+                </h2>
+                <div className="grid gap-4">
+                  {maleGoals.map((motivator) => (
+                    <Card key={motivator.id} className="border-l-4 border-l-blue-500">
+                      <CardHeader>
+                        <div className="flex justify-between items-start">
+                          <div className="space-y-2">
+                            <CardTitle className="flex items-center gap-2">
+                              <Lock className="w-4 h-4 text-muted-foreground" />
+                              {motivator.title}
+                              <div className="flex gap-1">
+                                <Badge variant="secondary">Male</Badge>
+                                {motivator.is_published ? (
+                                  <Badge variant="default">Published</Badge>
+                                ) : (
+                                  <Badge variant="secondary">Draft</Badge>
+                                )}
+                                {motivator.is_active ? (
+                                  <Badge variant="outline">Active</Badge>
+                                ) : (
+                                  <Badge variant="destructive">Inactive</Badge>
+                                )}
+                              </div>
+                            </CardTitle>
+                            <p className="text-sm text-muted-foreground">
+                              /motivators/{motivator.slug}
+                            </p>
+                            {motivator.category && (
+                              <Badge variant="outline">{motivator.category}</Badge>
+                            )}
+                          </div>
+                          
+                          <div className="flex gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => toggleStatus(motivator, 'is_published')}
+                            >
+                              {motivator.is_published ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </Button>
+                            
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleEdit(motivator)}
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      
+                      <CardContent>
+                        <div className="flex gap-4">
+                          {motivator.image_url && (
+                            <LazyImage
+                              src={motivator.image_url}
+                              alt={motivator.title}
+                              className="w-24 h-18 object-cover rounded flex-shrink-0"
+                            />
+                          )}
+                          <div className="flex-1">
+                            <p className="text-sm text-muted-foreground line-clamp-3">
+                              {motivator.content.replace(/<[^>]*>/g, '').substring(0, 200)}...
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
-              </CardHeader>
-              
-              <CardContent>
-                <div className="flex gap-4">
-                  {motivator.image_url && (
-                    <LazyImage
-                      src={motivator.image_url}
-                      alt={motivator.title}
-                      className="w-24 h-18 object-cover rounded flex-shrink-0"
-                    />
-                  )}
-                  <div className="flex-1">
-                    <p className="text-sm text-muted-foreground line-clamp-3">
-                      {motivator.content.replace(/<[^>]*>/g, '').substring(0, 200)}...
-                    </p>
-                  </div>
+              </div>
+            )}
+
+            {/* Female Goals Section */}
+            {femaleGoals.length > 0 && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold text-foreground flex items-center gap-2">
+                  Female Goals ({femaleGoals.length})
+                  <Badge variant="outline">For Women</Badge>
+                </h2>
+                <div className="grid gap-4">
+                  {femaleGoals.map((motivator) => (
+                    <Card key={motivator.id} className="border-l-4 border-l-pink-500">
+                      <CardHeader>
+                        <div className="flex justify-between items-start">
+                          <div className="space-y-2">
+                            <CardTitle className="flex items-center gap-2">
+                              <Lock className="w-4 h-4 text-muted-foreground" />
+                              {motivator.title}
+                              <div className="flex gap-1">
+                                <Badge variant="secondary">Female</Badge>
+                                {motivator.is_published ? (
+                                  <Badge variant="default">Published</Badge>
+                                ) : (
+                                  <Badge variant="secondary">Draft</Badge>
+                                )}
+                                {motivator.is_active ? (
+                                  <Badge variant="outline">Active</Badge>
+                                ) : (
+                                  <Badge variant="destructive">Inactive</Badge>
+                                )}
+                              </div>
+                            </CardTitle>
+                            <p className="text-sm text-muted-foreground">
+                              /motivators/{motivator.slug}
+                            </p>
+                            {motivator.category && (
+                              <Badge variant="outline">{motivator.category}</Badge>
+                            )}
+                          </div>
+                          
+                          <div className="flex gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => toggleStatus(motivator, 'is_published')}
+                            >
+                              {motivator.is_published ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </Button>
+                            
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleEdit(motivator)}
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      
+                      <CardContent>
+                        <div className="flex gap-4">
+                          {motivator.image_url && (
+                            <LazyImage
+                              src={motivator.image_url}
+                              alt={motivator.title}
+                              className="w-24 h-18 object-cover rounded flex-shrink-0"
+                            />
+                          )}
+                          <div className="flex-1">
+                            <p className="text-sm text-muted-foreground line-clamp-3">
+                              {motivator.content.replace(/<[^>]*>/g, '').substring(0, 200)}...
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
-              </CardContent>
-            </Card>
-          ))
+              </div>
+            )}
+          </>
         )}
       </div>
 
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Edit Motivator</DialogTitle>
+            <DialogTitle>
+              Edit Goal: {editingMotivator?.title}
+              {editingMotivator?.gender && (
+                <Badge variant="outline" className="ml-2">
+                  {editingMotivator.gender === 'male' ? 'Male' : 'Female'}
+                </Badge>
+              )}
+            </DialogTitle>
           </DialogHeader>
           <DialogForm />
         </DialogContent>
