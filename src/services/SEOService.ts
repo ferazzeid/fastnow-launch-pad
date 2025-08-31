@@ -1,6 +1,7 @@
 import { SchemaService } from './SchemaService';
 import { SiteSettingsService } from './SiteSettingsService';
 import { PageSEOService } from './PageSEOService';
+import { HomepageSEOSyncService } from './HomepageSEOSyncService';
 
 export interface SEOConfig {
   title: string;
@@ -34,15 +35,31 @@ export class SEOService {
   private static defaultImage = '/lovable-uploads/social-share-image.jpg';
   private static siteName = 'FastNow';
 
-  // Initialize base settings
+  // Initialize base SEO settings from site_settings
   static async init() {
     try {
-      const settings = await SiteSettingsService.getAllSettings();
-      if (settings.site_url) this.baseUrl = settings.site_url;
-      if (settings.site_name) this.siteName = settings.site_name;
-      if (settings.default_social_image) this.defaultImage = settings.default_social_image;
+      // Load from site_settings table first
+      const [baseUrl, siteName, defaultImage] = await Promise.all([
+        SiteSettingsService.getSetting('seo_base_url'),
+        SiteSettingsService.getSetting('seo_organization_name'),
+        SiteSettingsService.getSetting('seo_default_image')
+      ]);
+
+      this.baseUrl = String(baseUrl || 'https://fastnow.app');
+      this.siteName = String(siteName || 'FastNow');
+      this.defaultImage = String(defaultImage || 'https://fastnow.app/lovable-uploads/social-share-image.jpg');
+
+      console.log('SEO Service initialized with:', { 
+        baseUrl: this.baseUrl, 
+        siteName: this.siteName,
+        defaultImage: this.defaultImage 
+      });
     } catch (error) {
       console.error('Error initializing SEO service:', error);
+      // Safe fallbacks
+      this.baseUrl = 'https://fastnow.app';
+      this.siteName = 'FastNow';
+      this.defaultImage = 'https://fastnow.app/lovable-uploads/social-share-image.jpg';
     }
   }
 
@@ -56,26 +73,51 @@ export class SEOService {
     const pagePath = url.replace(this.baseUrl, '') || '/';
     const pageSEOSettings = await PageSEOService.getPageSEOByPath(pagePath);
 
-    // Note: For pages with existing content systems (like homepage), 
-    // the specific page data should take precedence over the general SEO settings
-    // The calling component should pass the correct title/description from its content source
+    // Create final config
+    const finalConfig = { ...config };
+
+    // Get page-specific settings from database if available
+    if (pageSEOSettings) {
+      finalConfig.title = pageSEOSettings.meta_title || config.title || this.siteName;
+      finalConfig.description = pageSEOSettings.meta_description || config.description;
+      finalConfig.robots = { ...config.robots };
+      finalConfig.robots.index = config.robots?.index ?? pageSEOSettings.is_indexed !== false;
+      finalConfig.robots.follow = config.robots?.follow ?? pageSEOSettings.is_indexed !== false;
+    }
+
+    // Get site-wide defaults for any missing values
+    if (!finalConfig.title) {
+      const siteTitle = await SiteSettingsService.getSetting('seo_site_title');
+      finalConfig.title = String(siteTitle || this.siteName);
+    }
+    
+    if (!finalConfig.description) {
+      const siteDescription = await SiteSettingsService.getSetting('seo_site_description');
+      finalConfig.description = String(siteDescription || 'Transform your body with our proven protocol');
+    }
+    
+    if (!finalConfig.keywords) {
+      const siteKeywords = await SiteSettingsService.getSetting('seo_site_keywords');
+      finalConfig.keywords = String(siteKeywords || this.generateKeywords(finalConfig.title, finalConfig.description));
+    }
+    
+    if (!finalConfig.author) {
+      const siteAuthor = await SiteSettingsService.getSetting('seo_site_author');
+      finalConfig.author = String(siteAuthor || 'FastNow Team');
+    }
 
     return {
-      ...config,
-      title: config.title || pageSEOSettings?.meta_title || this.truncateTitle(config.title || 'FastNow'),
-      description: config.description || pageSEOSettings?.meta_description || this.truncateDescription(config.description || 'FastNow - Transform Your Health'),
-      keywords: config.keywords || this.generateKeywords(config.title || 'FastNow', config.description || 'Health transformation app'),
+      ...finalConfig,
       image: fullImageUrl,
       url,
       canonical,
-      type: config.type || 'website',
-      author: config.author || this.siteName,
+      type: finalConfig.type || 'website',
       robots: {
-        index: config.robots?.index ?? (pageSEOSettings?.is_indexed !== false),
-        follow: config.robots?.follow ?? (pageSEOSettings?.is_indexed !== false),
-        noarchive: config.robots?.noarchive || false,
-        noimageindex: config.robots?.noimageindex || false,
-        nosnippet: config.robots?.nosnippet || false,
+        index: finalConfig.robots?.index ?? true,
+        follow: finalConfig.robots?.follow ?? true,
+        noarchive: finalConfig.robots?.noarchive || false,
+        noimageindex: finalConfig.robots?.noimageindex || false,
+        nosnippet: finalConfig.robots?.nosnippet || false,
       }
     };
   }

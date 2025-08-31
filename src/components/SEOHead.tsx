@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { SEOService, SEOConfig, BreadcrumbItem } from '@/services/SEOService';
+import { StructuredDataService } from '@/services/StructuredDataService';
 
 interface SEOHeadProps {
   config: SEOConfig;
@@ -23,6 +24,16 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       try {
         const generatedConfig = await SEOService.generateSEOConfig(config);
         setSeoConfig(generatedConfig);
+        
+        // Inject organization structured data for homepage
+        if (window.location.pathname === '/') {
+          try {
+            const orgSchema = await StructuredDataService.generateOrganizationSchema();
+            StructuredDataService.injectSchema(orgSchema, 'organization-schema');
+          } catch (error) {
+            console.error('Error loading organization schema:', error);
+          }
+        }
       } catch (error) {
         console.error('Error loading SEO config:', error);
         // Fallback to original config

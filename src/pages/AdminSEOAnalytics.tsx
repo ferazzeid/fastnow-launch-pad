@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Save, Globe, BarChart3 } from "lucide-react";
+import { ArrowLeft, Save, Globe, BarChart3, Settings, Building } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import { PageSEOService, PageSEOSetting } from '@/services/PageSEOService';
 import PageIndexingTable from '@/components/admin/PageIndexingTable';
+import SiteSEOSettings from '@/components/admin/SiteSEOSettings';
 
 interface SEOAnalyticsSettings {
   googleAnalyticsId: string;
@@ -112,109 +114,152 @@ const AdminSEOAnalytics = () => {
       </header>
 
       <main className="container py-8">
-        <div className="max-w-4xl mx-auto space-y-6">
-          {/* Google Analytics */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 size={20} />
-                Google Analytics
-              </CardTitle>
-              <CardDescription>
-                Configure Google Analytics tracking for your website
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="googleAnalyticsId">Google Analytics ID</Label>
-                <Input
-                  id="googleAnalyticsId"
-                  value={settings.googleAnalyticsId}
-                  onChange={(e) => handleInputChange('googleAnalyticsId', e.target.value)}
-                  placeholder="G-XXXXXXXXXX or UA-XXXXXXXX-X"
-                />
-                <p className="text-sm text-muted-foreground mt-1">
-                  Enter your Google Analytics Measurement ID to enable tracking on all pages.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="max-w-6xl mx-auto">
+          <Tabs defaultValue="analytics" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="analytics" className="flex items-center gap-2">
+                <BarChart3 size={16} />
+                Analytics & Pages
+              </TabsTrigger>
+              <TabsTrigger value="site-seo" className="flex items-center gap-2">
+                <Globe size={16} />
+                Site SEO Settings
+              </TabsTrigger>
+              <TabsTrigger value="structured-data" className="flex items-center gap-2">
+                <Building size={16} />
+                Structured Data Preview
+              </TabsTrigger>
+            </TabsList>
 
-          {/* SEO Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Globe size={20} />
-                SEO Settings
-              </CardTitle>
-              <CardDescription>
-                Configure search engine optimization settings
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="defaultIndexable">Default Page Indexing</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Make all pages indexable by search engines by default. You can override this on individual pages.
+            <TabsContent value="analytics" className="space-y-6">
+              {/* Google Analytics */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 size={20} />
+                    Google Analytics
+                  </CardTitle>
+                  <CardDescription>
+                    Configure Google Analytics tracking for your website
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label htmlFor="googleAnalyticsId">Google Analytics ID</Label>
+                    <Input
+                      id="googleAnalyticsId"
+                      value={settings.googleAnalyticsId}
+                      onChange={(e) => handleInputChange('googleAnalyticsId', e.target.value)}
+                      placeholder="G-XXXXXXXXXX or UA-XXXXXXXX-X"
+                    />
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Enter your Google Analytics Measurement ID to enable tracking on all pages.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* SEO Settings */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Globe size={20} />
+                    General SEO Settings
+                  </CardTitle>
+                  <CardDescription>
+                    Configure basic search engine optimization settings
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <Label htmlFor="defaultIndexable">Default Page Indexing</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Make all pages indexable by search engines by default. You can override this on individual pages.
+                      </p>
+                    </div>
+                    <Switch
+                      id="defaultIndexable"
+                      checked={settings.defaultIndexable}
+                      onCheckedChange={(checked) => handleInputChange('defaultIndexable', checked)}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sitemap */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Globe size={20} />
+                    Sitemap Generator
+                  </CardTitle>
+                  <CardDescription>
+                    Generate and manage your website's sitemap for search engines
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                      Generate an XML sitemap that includes all your pages and blog posts for better search engine indexing.
+                    </p>
+                    <Link to="/admin/sitemap">
+                      <Button variant="outline" className="w-full justify-start">
+                        <Globe className="mr-2 h-4 w-4" />
+                        Generate Sitemap
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Page Indexing Management */}
+              {isLoadingPages ? (
+                <Card>
+                  <CardContent className="p-8">
+                    <div className="text-center">Loading page settings...</div>
+                  </CardContent>
+                </Card>
+              ) : (
+                <PageIndexingTable 
+                  pages={pageSettings} 
+                  onRefresh={loadPageSettings}
+                />
+              )}
+
+              {/* Save Settings */}
+              <div className="flex justify-end">
+                <Button onClick={handleSave} disabled={isLoading}>
+                  <Save className="mr-2 h-4 w-4" />
+                  {isLoading ? 'Saving...' : 'Save Settings'}
+                </Button>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="site-seo">
+              <SiteSEOSettings />
+            </TabsContent>
+
+            <TabsContent value="structured-data" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Building size={20} />
+                    Structured Data Preview
+                  </CardTitle>
+                  <CardDescription>
+                    Preview how your site's structured data will appear to search engines
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    This section will show a live preview of your site's JSON-LD structured data based on your current settings.
+                    Coming soon...
                   </p>
-                </div>
-                <Switch
-                  id="defaultIndexable"
-                  checked={settings.defaultIndexable}
-                  onCheckedChange={(checked) => handleInputChange('defaultIndexable', checked)}
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Sitemap */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Globe size={20} />
-                Sitemap Generator
-              </CardTitle>
-              <CardDescription>
-                Generate and manage your website's sitemap for search engines
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  Generate an XML sitemap that includes all your pages and blog posts for better search engine indexing.
-                </p>
-                <Link to="/admin/sitemap">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Globe className="mr-2 h-4 w-4" />
-                    Generate Sitemap
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Page Indexing Management */}
-          {isLoadingPages ? (
-            <Card>
-              <CardContent className="p-8">
-                <div className="text-center">Loading page settings...</div>
-              </CardContent>
-            </Card>
-          ) : (
-            <PageIndexingTable 
-              pages={pageSettings} 
-              onRefresh={loadPageSettings}
-            />
-          )}
-
-          {/* Save Settings */}
-          <div className="flex justify-end">
-            <Button onClick={handleSave} disabled={isLoading}>
-              <Save className="mr-2 h-4 w-4" />
-              {isLoading ? 'Saving...' : 'Save Settings'}
-            </Button>
-          </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
     </div>
