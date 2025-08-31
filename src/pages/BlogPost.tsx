@@ -8,7 +8,7 @@ import { databaseBlogService } from '@/services/DatabaseBlogService';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { toast } from 'sonner';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -99,68 +99,55 @@ const BlogPost = () => {
     return <Navigate to="/blog" replace />;
   }
 
+  // Generate structured data for the blog post
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article", 
+    "headline": post.title,
+    "description": post.metaDescription || post.excerpt,
+    "image": post.featuredImage || undefined,
+    "author": {
+      "@type": "Person", 
+      "name": post.author
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FastNow.app",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fastnow.app/favicon.ico"
+      }
+    },
+    "datePublished": post.publishedAt,
+    "dateModified": post.updatedAt,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://fastnow.app/blog/${post.slug}`
+    },
+    "keywords": post.tags.join(", "),
+    "articleSection": post.categories.join(", "),
+    "url": `https://fastnow.app/blog/${post.slug}`
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{post.title} - FastNow.app Blog</title>
-        <meta name="description" content={post.metaDescription || post.excerpt} />
-        {post.metaKeywords && <meta name="keywords" content={post.metaKeywords} />}
-        <link rel="canonical" href={`https://fastnow.app/blog/${post.slug}`} />
-        
-        {/* Open Graph tags */}
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.metaDescription || post.excerpt} />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://fastnow.app/blog/${post.slug}`} />
-        {post.featuredImage && <meta property="og:image" content={post.featuredImage} />}
-        <meta property="og:site_name" content="FastNow.app" />
-        <meta property="article:author" content={post.author} />
-        <meta property="article:published_time" content={post.publishedAt} />
-        <meta property="article:modified_time" content={post.updatedAt} />
-        {post.categories.length > 0 && <meta property="article:section" content={post.categories[0]} />}
-        {post.tags.map(tag => (
-          <meta key={tag} property="article:tag" content={tag} />
-        ))}
-        
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@fastnowapp" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.metaDescription || post.excerpt} />
-        {post.featuredImage && <meta name="twitter:image" content={post.featuredImage} />}
-        
-        {/* JSON-LD Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": post.title,
-            "description": post.metaDescription || post.excerpt,
-            "image": post.featuredImage || undefined,
-            "author": {
-              "@type": "Person",
-              "name": post.author
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "FastNow.app",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://fastnow.app/favicon.ico"
-              }
-            },
-            "datePublished": post.publishedAt,
-            "dateModified": post.updatedAt,
-            "mainEntityOfPage": {
-              "@type": "WebPage",
-              "@id": `https://fastnow.app/blog/${post.slug}`
-            },
-            "keywords": post.tags.join(", "),
-            "articleSection": post.categories.join(", "),
-            "url": `https://fastnow.app/blog/${post.slug}`
-          })}
-        </script>
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: `${post.title} - FastNow.app Blog`,
+          description: post.metaDescription || post.excerpt,
+          keywords: post.metaKeywords,
+          image: post.featuredImage,
+          url: `https://fastnow.app/blog/${post.slug}`,
+          canonical: `https://fastnow.app/blog/${post.slug}`,
+          type: 'article',
+          author: post.author,
+          publishedTime: post.publishedAt,
+          modifiedTime: post.updatedAt,
+          category: post.categories[0],
+          tags: post.tags
+        }}
+        structuredData={[articleSchema]}
+      />
 
       {/* Hero Section with Full Width Featured Image */}
       {post.featuredImage ? (

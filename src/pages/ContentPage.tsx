@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import PageLayout from '@/components/layout/PageLayout';
 
 import { pageContentService } from '@/services/PageContentService';
@@ -286,11 +286,17 @@ We may update these Terms at any time. Continued use after changes means you acc
 
   return (
     <PageLayout>
-      <Helmet>
-        <title>{metaTitle || `${title} | fastnow.app`}</title>
-        {metaDescription && <meta name="description" content={metaDescription} />}
-        <meta name="robots" content={isIndexed ? "index, follow" : "noindex, nofollow"} />
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: metaTitle || `${title} | fastnow.app`,
+          description: metaDescription || '',
+          type: 'website',
+          robots: { 
+            index: isIndexed, 
+            follow: true 
+          }
+        }}
+      />
       
       <main className="flex-1 py-12">
         <div className="container max-w-4xl">

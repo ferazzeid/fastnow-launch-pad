@@ -104,8 +104,9 @@ export class SEOService {
       finalConfig.title = pageSEOSettings.meta_title || config.title;
       finalConfig.description = pageSEOSettings.meta_description || config.description;
       finalConfig.robots = { ...config.robots };
-      finalConfig.robots.index = config.robots?.index ?? pageSEOSettings.is_indexed !== false;
-      finalConfig.robots.follow = config.robots?.follow ?? pageSEOSettings.is_indexed !== false;
+      // Fix: is_indexed controls index, but follow should remain independent
+      finalConfig.robots.index = config.robots?.index ?? (pageSEOSettings.is_indexed ?? true);
+      finalConfig.robots.follow = config.robots?.follow ?? true; // follow is independent of indexing
     }
 
     // Get site-wide defaults ONLY as last resort

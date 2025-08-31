@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import PageLayout from '@/components/layout/PageLayout';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import { BlogPost } from '@/types/blog';
 import { databaseBlogService } from '@/services/DatabaseBlogService';
 
@@ -88,10 +88,13 @@ const Blog = () => {
 
   return (
     <PageLayout>
-      <Helmet>
-        <title>Blog - FastNow.app</title>
-        <meta name="description" content="Read the latest articles about intermittent fasting, health tips, and wellness advice from the FastNow.app team." />
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: 'Blog - FastNow.app',
+          description: 'Read the latest articles about intermittent fasting, health tips, and wellness advice from the FastNow.app team.',
+          type: 'website'
+        }}
+      />
 
       <div className="container py-12">
         {/* Header */}

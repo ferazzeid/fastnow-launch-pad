@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import { SchemaService } from '@/services/SchemaService';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
@@ -127,15 +127,14 @@ const AboutFastNowApp = () => {
 
   return (
     <PageLayout>
-      <Helmet>
-        <title>About App | fastnow.app</title>
-        <meta name="description" content="Learn about the FastNow app - your ultimate companion for intermittent fasting, health tracking, and wellness goals." />
-        {appSchema && (
-          <script type="application/ld+json">
-            {JSON.stringify(appSchema)}
-          </script>
-        )}
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: 'About App | fastnow.app',
+          description: 'Learn about the FastNow app - your ultimate companion for intermittent fasting, health tracking, and wellness goals.',
+          type: 'product'
+        }}
+        structuredData={appSchema ? [appSchema] : []}
+      />
 
       {/* Hero Background Image */}
       <div className="absolute inset-0 w-full h-screen z-0">

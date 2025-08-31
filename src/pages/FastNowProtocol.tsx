@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import { AlertTriangle, CheckCircle, Clock, Utensils, Activity } from 'lucide-react';
 import { SchemaService } from '@/services/SchemaService';
 import PageLayout from '@/components/layout/PageLayout';
@@ -225,15 +225,14 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
 
   return (
     <PageLayout>
-      <Helmet>
-        <title>{pageContent.metaTitle}</title>
-        <meta name="description" content={pageContent.metaDescription} />
-        {howToSchema && (
-          <script type="application/ld+json">
-            {JSON.stringify(howToSchema)}
-          </script>
-        )}
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: pageContent.metaTitle,
+          description: pageContent.metaDescription,
+          type: 'article'
+        }}
+        structuredData={howToSchema ? [howToSchema] : []}
+      />
       
       {/* Hero Background Image */}
       <div className="absolute inset-0 w-full h-screen z-0">
