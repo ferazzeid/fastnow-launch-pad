@@ -3,23 +3,31 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Copy, Scissors, ExternalLink } from 'lucide-react';
 
-const CouponOptInSection = () => {
+interface CouponOptInSectionProps {
+  couponCode?: string;
+  trialDays?: number;
+}
+
+const CouponOptInSection = ({ 
+  couponCode = 'FASTNOW90', 
+  trialDays = 90 
+}: CouponOptInSectionProps) => {
   const [isCopied, setIsCopied] = useState(false);
   const { toast } = useToast();
 
   const handleCopyCode = async () => {
     try {
-      await navigator.clipboard.writeText('FASTNOW90');
+      await navigator.clipboard.writeText(couponCode);
       setIsCopied(true);
       toast({
         title: "Code Copied!",
-        description: "FASTNOW90 has been copied to your clipboard.",
+        description: `${couponCode} has been copied to your clipboard.`,
       });
       setTimeout(() => setIsCopied(false), 2000);
     } catch (error) {
       toast({
         title: "Copy Failed",
-        description: "Please copy the code manually: FASTNOW90",
+        description: `Please copy the code manually: ${couponCode}`,
         variant: "destructive",
       });
     }
@@ -38,7 +46,7 @@ const CouponOptInSection = () => {
           {/* Header */}
           <div className="mb-8">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              90 Days Free Trial
+              {trialDays} Days Free Trial
             </h2>
             <p className="text-lg text-white/90">
               Copy the code, then use it in the app
@@ -64,7 +72,7 @@ const CouponOptInSection = () => {
                   COUPON CODE
                 </div>
                 <div className="text-4xl font-bold text-black font-mono tracking-wider">
-                  FASTNOW90
+                  {couponCode}
                 </div>
               </div>
             </div>

@@ -34,6 +34,11 @@ const UnifiedAboutAppEditor = () => {
   const [savingFeature, setSavingFeature] = useState<string | null>(null);
   const [isUploadingFeatured, setIsUploadingFeatured] = useState(false);
   
+  // Widget Settings
+  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon'>('premium');
+  const [couponCode, setCouponCode] = useState('FASTNOW90');
+  const [couponDays, setCouponDays] = useState(90);
+  
   const [loading, setLoading] = useState(false);
 
   const FEATURE_LABELS = {
@@ -70,6 +75,11 @@ const UnifiedAboutAppEditor = () => {
         setMetaDescription(pageContent.meta_description || 'Discover the FastNow app features for intermittent fasting, food tracking, and health monitoring.');
       }
 
+      // Load widget settings from site settings
+      setWidgetMode(settings.about_app_widget_mode || 'premium');
+      setCouponCode(settings.about_app_coupon_code || 'FASTNOW90');
+      setCouponDays(settings.about_app_coupon_days || 90);
+
       setScreenshots(screenshots);
     } catch (error) {
       console.error('Error loading about app content:', error);
@@ -89,6 +99,11 @@ const UnifiedAboutAppEditor = () => {
       };
       
       await SiteSettingsService.setSetting('aboutAppContent', content);
+
+      // Save widget settings
+      await SiteSettingsService.setSetting('about_app_widget_mode', widgetMode);
+      await SiteSettingsService.setSetting('about_app_coupon_code', couponCode);
+      await SiteSettingsService.setSetting('about_app_coupon_days', couponDays);
 
       // Save SEO content to page content
       await pageContentService.savePageContent({
@@ -239,12 +254,13 @@ const UnifiedAboutAppEditor = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="seo" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="seo">SEO Settings</TabsTrigger>
           <TabsTrigger value="hero">Hero Content</TabsTrigger>
           <TabsTrigger value="features">Feature Screenshots</TabsTrigger>
           <TabsTrigger value="images">Featured Image</TabsTrigger>
           <TabsTrigger value="phone">Phone Mockup</TabsTrigger>
+          <TabsTrigger value="widgets">Widget Settings</TabsTrigger>
         </TabsList>
 
         <TabsContent value="seo">
@@ -496,6 +512,82 @@ const UnifiedAboutAppEditor = () => {
 
         <TabsContent value="phone">
           <AboutAppPhoneMockupSettings />
+        </TabsContent>
+
+        <TabsContent value="widgets">
+          <Card>
+            <CardHeader>
+              <CardTitle>Widget Settings</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <Label className="text-base font-medium">Widget Mode</Label>
+                <p className="text-sm text-muted-foreground mb-3">Choose which widget to display at the bottom of the About App page</p>
+                <div className="flex gap-4">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id="premium"
+                      name="widgetMode"
+                      value="premium"
+                      checked={widgetMode === 'premium'}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon')}
+                      className="form-radio"
+                    />
+                    <Label htmlFor="premium" className="text-sm">Premium Pricing Widget</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id="coupon"
+                      name="widgetMode"
+                      value="coupon"
+                      checked={widgetMode === 'coupon'}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon')}
+                      className="form-radio"
+                    />
+                    <Label htmlFor="coupon" className="text-sm">Coupon Code Widget</Label>
+                  </div>
+                </div>
+              </div>
+
+              {widgetMode === 'coupon' && (
+                <>
+                  <div>
+                    <Label htmlFor="couponCode">Coupon Code</Label>
+                    <Input
+                      id="couponCode"
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                      placeholder="e.g., FASTNOW90"
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="couponDays">Trial Days</Label>
+                    <Input
+                      id="couponDays"
+                      type="number"
+                      value={couponDays}
+                      onChange={(e) => setCouponDays(parseInt(e.target.value) || 0)}
+                      placeholder="e.g., 90"
+                      min="1"
+                      className="mt-1"
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="flex justify-end pt-4 border-t">
+                <Button onClick={saveAllContent} disabled={loading}>
+                  <Save size={16} className="mr-2" />
+                  {loading ? "Saving..." : "Save Widget Settings"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
       </Tabs>

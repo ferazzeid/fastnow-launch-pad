@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Clock, Activity, Utensils, Target } from 'lucide-react';
 import FAQSection from '@/components/FAQSection';
+import CouponOptInSection from '@/components/CouponOptInSection';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
@@ -24,6 +25,11 @@ const AboutFastNowApp = () => {
 
   const [pageContent, setPageContent] = useState<any>(null);
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
+  
+  // Widget settings
+  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon'>('premium');
+  const [couponCode, setCouponCode] = useState('FASTNOW90');
+  const [couponDays, setCouponDays] = useState(90);
   
   const [appSchema, setAppSchema] = useState<any>(null);
 
@@ -90,28 +96,37 @@ const AboutFastNowApp = () => {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const [settings, screenshots, aboutAppPageContent] = await Promise.all([
+        const [settings, screenshots, pageData] = await Promise.all([
           SiteSettingsService.getAllSettings(),
           FeatureScreenshotService.getFeatureScreenshots(),
           pageContentService.getPageContent('about-fastnow-app')
         ]);
         
+        // Load hero content from settings
         if (settings.aboutAppContent) {
-          setContent(settings.aboutAppContent);
+          setContent(prev => ({
+            ...prev,
+            ...settings.aboutAppContent
+          }));
         }
-        
-        
-        setPageContent(aboutAppPageContent);
-        setFeatureScreenshots(screenshots);
 
-        // Generate SoftwareApplication schema
-        const schema = await SchemaService.generateSoftwareApplicationSchema();
+        // Load widget settings
+        setWidgetMode(settings.about_app_widget_mode || 'premium');
+        setCouponCode(settings.about_app_coupon_code || 'FASTNOW90');
+        setCouponDays(settings.about_app_coupon_days || 90);
+        
+        setFeatureScreenshots(screenshots);
+        setPageContent(pageData);
+        
+        // Generate app schema for SEO
+        const schema = SchemaService.generateSoftwareApplicationSchema();
         setAppSchema(schema);
+        
       } catch (error) {
-        console.error('Error loading About App content:', error);
+        console.error('Error loading about app content:', error);
       }
     };
-
+    
     loadContent();
   }, []);
 
@@ -280,58 +295,62 @@ const AboutFastNowApp = () => {
         </div>
 
         {/* Pricing Section: Free vs Premium */}
-        <div className="py-16 bg-gray-50 w-full">
-          <div className="container max-w-5xl mx-auto">
-            <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
-              Free vs Premium — 7‑day trial included
-            </h2>
-            <p className="text-center text-muted-foreground mb-10">
-              Every new account gets full access for 7 days. After the trial, the Food Log locks on Free, while fasting and walking trackers plus Motivators stay available.
-            </p>
+        {widgetMode === 'premium' ? (
+          <div className="py-16 bg-gray-50 w-full">
+            <div className="container max-w-5xl mx-auto">
+              <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
+                Free vs Premium — 7‑day trial included
+              </h2>
+              <p className="text-center text-muted-foreground mb-10">
+                Every new account gets full access for 7 days. After the trial, the Food Log locks on Free, while fasting and walking trackers plus Motivators stay available.
+              </p>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Free Plan */}
-              <div className="bg-card rounded-xl shadow-soft border border-primary/10 p-6 flex flex-col">
-                <div className="flex items-baseline justify-between mb-4">
-                  <h3 className="text-2xl font-semibold">Free</h3>
-                  <span className="text-lg text-muted-foreground">$0</span>
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Free Plan */}
+                <div className="bg-card rounded-xl shadow-soft border border-primary/10 p-6 flex flex-col">
+                  <div className="flex items-baseline justify-between mb-4">
+                    <h3 className="text-2xl font-semibold">Free</h3>
+                    <span className="text-lg text-muted-foreground">$0</span>
+                  </div>
+                  <ul className="space-y-3 text-muted-foreground mb-6 flex-grow">
+                    <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Fasting Timer</li>
+                    <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Walking Tracker</li>
+                    <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Motivators</li>
+                    <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Food Log locked after trial</li>
+                  </ul>
+                  <div className="text-center">
+                    <Button variant="outline" asChild>
+                      <a href="#">Continue Free</a>
+                    </Button>
+                  </div>
                 </div>
-                <ul className="space-y-3 text-muted-foreground mb-6 flex-grow">
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Fasting Timer</li>
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Walking Tracker</li>
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Motivators</li>
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Food Log locked after trial</li>
-                </ul>
-                <div className="text-center">
-                  <Button variant="outline" asChild>
-                    <a href="#">Continue Free</a>
-                  </Button>
+
+                {/* Premium Plan */}
+                <div className="bg-card rounded-xl shadow-soft border border-primary/20 p-6 flex flex-col">
+                  <div className="flex items-baseline justify-between mb-4">
+                    <h3 className="text-2xl font-semibold">Premium</h3>
+                    <span className="text-lg text-foreground">$9/month</span>
+                  </div>
+                  <ul className="space-y-3 text-muted-foreground mb-6 flex-grow">
+                    <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Everything in Free</li>
+                    <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Food Log unlocked after trial</li>
+                  </ul>
+                  <div className="text-center">
+                    <Button asChild>
+                      <a href="#">Start 7‑day trial</a>
+                    </Button>
+                  </div>
                 </div>
               </div>
 
-              {/* Premium Plan */}
-              <div className="bg-card rounded-xl shadow-soft border border-primary/20 p-6 flex flex-col">
-                <div className="flex items-baseline justify-between mb-4">
-                  <h3 className="text-2xl font-semibold">Premium</h3>
-                  <span className="text-lg text-foreground">$9/month</span>
-                </div>
-                <ul className="space-y-3 text-muted-foreground mb-6 flex-grow">
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Everything in Free</li>
-                  <li className="flex items-start gap-2"><span className="w-2 h-2 rounded-full bg-gray-600 mt-2" />Food Log unlocked after trial</li>
-                </ul>
-                <div className="text-center">
-                  <Button asChild>
-                    <a href="#">Start 7‑day trial</a>
-                  </Button>
-                </div>
-              </div>
+              <p className="text-center text-muted-foreground mt-8">
+                Your $9/month helps keep this project alive — and funds new, practical tools for people like us. Thank you for considering Premium.
+              </p>
             </div>
-
-            <p className="text-center text-muted-foreground mt-8">
-              Your $9/month helps keep this project alive — and funds new, practical tools for people like us. Thank you for considering Premium.
-            </p>
           </div>
-        </div>
+        ) : (
+          <CouponOptInSection couponCode={couponCode} trialDays={couponDays} />
+        )}
 
         {/* Install App Pro Tip - Compact Section */}
         <div className="py-12 bg-gray-50 w-full">
