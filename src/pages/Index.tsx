@@ -512,37 +512,6 @@ const Index = () => {
         {/* Slideshow Section - Aren't you tired of this */}
         <ImageSlideshow />
 
-        {/* Personal Touch Section - Speech Bubble Explanation */}
-        <section className="relative z-10 py-16 bg-gray-100">
-          <div className="container max-w-6xl mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-              {/* Left Column - Title and Description */}
-              <div className="flex flex-col justify-start">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900">
-                  Adding a Human Touch
-                </h2>
-                <p className="text-lg text-gray-600 max-w-xl">
-                  Throughout this site, you'll notice little speech bubbles that add personal perspective and real experience to the content.
-                </p>
-              </div>
-              
-              {/* Right Column - Permanent Speech Bubble */}
-              <div className="flex justify-center lg:justify-start lg:pt-8">
-                <div className="relative w-full max-w-md">
-                  <div className="md:scale-125 transform">
-                    <PermanentInfoTooltip 
-                      content="I'm trying to integrate these little bubbles where I leave a personal note or perspective on particular topics. Weight loss theory can be quite dry, so it's nice to have a real personal touch from someone who has actually gone through this process."
-                      size="lg"
-                      className="w-full"
-                      position="bottom-right"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* What About the App Section */}
         <section className="relative z-10 py-16 bg-white">
           <div className="container max-w-6xl mx-auto px-4">
@@ -693,6 +662,37 @@ const Index = () => {
             </div>
           </section>
         )}
+
+        {/* Personal Touch Section - Speech Bubble Explanation */}
+        <section className="relative z-10 py-16 bg-gray-100">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+              {/* Left Column - Title and Description */}
+              <div className="flex flex-col justify-start">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900">
+                  Adding a Human Touch
+                </h2>
+                <p className="text-lg text-gray-600 max-w-xl">
+                  Throughout this site, you'll notice little speech bubbles that add personal perspective and real experience to the content.
+                </p>
+              </div>
+              
+              {/* Right Column - Permanent Speech Bubble */}
+              <div className="flex justify-center lg:justify-start lg:pt-8">
+                <div className="relative w-full max-w-md">
+                  <div className="md:scale-125 transform">
+                    <PermanentInfoTooltip 
+                      content="I'm trying to integrate these little bubbles where I leave a personal note or perspective on particular topics. Weight loss theory can be quite dry, so it's nice to have a real personal touch from someone who has actually gone through this process."
+                      size="lg"
+                      className="w-full"
+                      position="bottom-right"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
       </main>
     </PageLayout>
