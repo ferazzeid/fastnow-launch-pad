@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import { SEOHead } from '@/components/SEOHead';
 import LoginForm from '@/components/admin/LoginForm';
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { useAuth } from '@/hooks/useAuth';
@@ -128,10 +128,14 @@ const AdminLoginPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Admin Login | FastNow</title>
-        <meta name="description" content="Secure admin login portal for FastNow administration panel." />
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: 'Admin Login | FastNow',
+          description: 'Secure admin login portal for FastNow administration panel.',
+          type: 'admin',
+          robots: 'noindex, nofollow'
+        }}
+      />
       
       <LoginForm
         username={email}
