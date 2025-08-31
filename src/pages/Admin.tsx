@@ -149,6 +149,12 @@ const Admin = () => {
                   Privacy, Terms & Contact
                 </Button>
               </Link>
+              <Link to="/admin/calculators">
+                <Button variant="outline" className="w-full justify-start">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Calculator Settings
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 

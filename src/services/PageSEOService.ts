@@ -125,6 +125,7 @@ export class PageSEOService {
       case 'admin': return 'text-red-600 bg-red-50 border-red-200';
       case 'legal': return 'text-purple-600 bg-purple-50 border-purple-200';
       case 'system': return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'tool': return 'text-orange-600 bg-orange-50 border-orange-200';
       default: return 'text-gray-600 bg-gray-50 border-gray-200';
     }
   }
@@ -156,6 +157,7 @@ export class PageSEOService {
       case 'admin': return 'Admin';
       case 'legal': return 'Legal';
       case 'system': return 'System';
+      case 'tool': return 'Tools';
       default: return 'Unknown';
     }
   }
