@@ -69,7 +69,30 @@ export class SEOService {
     const image = config.image || this.defaultImage;
     const fullImageUrl = image.startsWith('http') ? image : `${this.baseUrl}${image}`;
 
-    // Get page-specific SEO settings from new system
+    // For homepage, ALWAYS use the passed config (from Homepage Editor) if available
+    const isHomepage = window.location.pathname === '/';
+    
+    if (isHomepage && config.title && config.description) {
+      // Homepage content takes absolute priority
+      return {
+        ...config,
+        image: fullImageUrl,
+        url,
+        canonical,
+        type: config.type || 'website',
+        keywords: config.keywords || this.generateKeywords(config.title, config.description),
+        author: config.author || 'FastNow Team',
+        robots: {
+          index: config.robots?.index ?? true,
+          follow: config.robots?.follow ?? true,
+          noarchive: config.robots?.noarchive || false,
+          noimageindex: config.robots?.noimageindex || false,
+          nosnippet: config.robots?.nosnippet || false,
+        }
+      };
+    }
+
+    // For other pages, check page-specific SEO settings
     const pagePath = url.replace(this.baseUrl, '') || '/';
     const pageSEOSettings = await PageSEOService.getPageSEOByPath(pagePath);
 
@@ -77,23 +100,23 @@ export class SEOService {
     const finalConfig = { ...config };
 
     // Get page-specific settings from database if available
-    if (pageSEOSettings) {
-      finalConfig.title = pageSEOSettings.meta_title || config.title || this.siteName;
+    if (pageSEOSettings && !isHomepage) {
+      finalConfig.title = pageSEOSettings.meta_title || config.title;
       finalConfig.description = pageSEOSettings.meta_description || config.description;
       finalConfig.robots = { ...config.robots };
       finalConfig.robots.index = config.robots?.index ?? pageSEOSettings.is_indexed !== false;
       finalConfig.robots.follow = config.robots?.follow ?? pageSEOSettings.is_indexed !== false;
     }
 
-    // Get site-wide defaults for any missing values
+    // Get site-wide defaults ONLY as last resort
     if (!finalConfig.title) {
       const siteTitle = await SiteSettingsService.getSetting('seo_site_title');
-      finalConfig.title = String(siteTitle || this.siteName);
+      finalConfig.title = String(siteTitle || 'FastNow');
     }
     
     if (!finalConfig.description) {
       const siteDescription = await SiteSettingsService.getSetting('seo_site_description');
-      finalConfig.description = String(siteDescription || 'Transform your body with our proven protocol');
+      finalConfig.description = String(siteDescription || '');
     }
     
     if (!finalConfig.keywords) {
