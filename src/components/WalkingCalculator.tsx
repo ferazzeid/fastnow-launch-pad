@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Info } from 'lucide-react';
 import { 
   calculateWalkingCalories,
   convertStepsToDistance,
@@ -279,8 +281,8 @@ export const WalkingCalculator: React.FC = () => {
                   {foodEquivalents.map((food, index) => (
                     <Badge 
                       key={index} 
-                      variant="secondary" 
-                      className="justify-between p-3 h-auto"
+                      variant="outline" 
+                      className="justify-between p-3 h-auto bg-white border-border-primary"
                     >
                       <span className="font-medium">{food.name}</span>
                       <span className="text-text-tertiary">{food.amount}</span>
@@ -290,16 +292,6 @@ export const WalkingCalculator: React.FC = () => {
               </div>
             )}
 
-            {/* Motivation Message */}
-            <div className="p-4 bg-background-secondary rounded-lg">
-              <h4 className="font-semibold text-text-primary mb-2">Keep it up! 🚶‍♀️</h4>
-              <p className="text-text-secondary text-sm">
-                {caloriesBurned < 100 && "Every step counts! Try increasing your walking time or pace."}
-                {caloriesBurned >= 100 && caloriesBurned < 200 && "Good start! You're on your way to a healthier lifestyle."}
-                {caloriesBurned >= 200 && caloriesBurned < 300 && "Excellent! You're burning significant calories through walking."}
-                {caloriesBurned >= 300 && "Amazing! You're a walking champion. Keep up the great work!"}
-              </p>
-            </div>
           </CardContent>
         </Card>
       </div>
@@ -312,7 +304,19 @@ export const WalkingCalculator: React.FC = () => {
         <CardContent>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-text-secondary">
             <div>
-              <h5 className="font-semibold text-text-primary mb-2">MET Values Used</h5>
+              <div className="flex items-center gap-2 mb-2">
+                <h5 className="font-semibold text-text-primary">MET Values Used</h5>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="max-w-xs">MET (Metabolic Equivalent of Task) measures exercise intensity. 1 MET = resting metabolic rate. Higher METs = more calories burned.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
               <ul className="space-y-1">
                 <li>Slow (3 km/h): 2.5 MET</li>
                 <li>Normal (5 km/h): 3.5 MET</li>
@@ -327,7 +331,7 @@ export const WalkingCalculator: React.FC = () => {
             <div>
               <h5 className="font-semibold text-text-primary mb-2">Tips</h5>
               <ul className="space-y-1">
-                <li>• Aim for 10,000 steps daily</li>
+                <li>• Aim for 90 minutes of walking daily</li>
                 <li>• Walking uphill burns more calories</li>
                 <li>• Consistency matters more than intensity</li>
               </ul>

@@ -33,16 +33,8 @@ const WALKING_SPEEDS: Record<WalkingPace, number> = {
 
 // Food equivalents with their calorie values
 const FOOD_EQUIVALENTS: FoodEquivalent[] = [
-  { name: 'Small Apple', caloriesPerUnit: 80, unit: 'apple' },
-  { name: 'Banana', caloriesPerUnit: 105, unit: 'banana' },
-  { name: 'Slice of Bread', caloriesPerUnit: 70, unit: 'slice' },
-  { name: 'Cookie', caloriesPerUnit: 50, unit: 'cookie' },
-  { name: 'Cup of Coffee (black)', caloriesPerUnit: 5, unit: 'cup' },
-  { name: 'Glass of Wine', caloriesPerUnit: 125, unit: 'glass' },
-  { name: 'Piece of Pizza', caloriesPerUnit: 285, unit: 'slice' },
-  { name: 'Chocolate Bar', caloriesPerUnit: 220, unit: 'bar' },
-  { name: 'Can of Soda', caloriesPerUnit: 150, unit: 'can' },
-  { name: 'Donut', caloriesPerUnit: 250, unit: 'donut' }
+  { name: 'Hard-boiled Egg', caloriesPerUnit: 70, unit: 'egg' },
+  { name: 'Feta Cheese', caloriesPerUnit: 75, unit: '28g serving' }
 ];
 
 /**
@@ -173,13 +165,13 @@ export function getFoodEquivalents(caloriesBurned: number): Array<{name: string,
  */
 export function getHealthRecommendation(caloriesBurned: number): string {
   if (caloriesBurned < 100) {
-    return 'Try to increase your daily walking to burn more calories for better health benefits.';
+    return 'Great start! Consider adding 20-30 more minutes of walking.';
   } else if (caloriesBurned < 200) {
-    return 'Good start! Aim for at least 150 minutes of moderate activity per week.';
+    return 'Good progress! Try to reach 60-90 minutes of walking daily.';
   } else if (caloriesBurned < 300) {
-    return 'Excellent! You\'re meeting recommended activity levels for cardiovascular health.';
+    return 'Excellent! You\'re meeting recommended daily walking time.';
   } else {
-    return 'Outstanding! You\'re exceeding recommended activity levels. Keep up the great work!';
+    return 'Outstanding! You\'re exceeding the 90-minute daily walking goal.';
   }
 }
 
