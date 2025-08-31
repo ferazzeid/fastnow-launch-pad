@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { SEOHead } from '@/components/SEOHead';
+import SEOHead from '@/components/SEOHead';
 import LoginForm from '@/components/admin/LoginForm';
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { useAuth } from '@/hooks/useAuth';
@@ -132,8 +132,8 @@ const AdminLoginPage = () => {
         config={{
           title: 'Admin Login | FastNow',
           description: 'Secure admin login portal for FastNow administration panel.',
-          type: 'admin',
-          robots: 'noindex, nofollow'
+          type: 'website',
+          robots: { index: false, follow: false }
         }}
       />
       

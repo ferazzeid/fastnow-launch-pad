@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
@@ -268,9 +268,14 @@ const AdminFAQ = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>FAQ Management | Admin</title>
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: 'FAQ Management | Admin',
+          description: 'Manage frequently asked questions',
+          type: 'website',
+          robots: { index: false, follow: false }
+        }}
+      />
 
       <header className="border-b bg-card">
         <div className="container flex justify-between items-center py-4">

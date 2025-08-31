@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import PageLayout from '@/components/layout/PageLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -134,10 +134,14 @@ const AdminNavigationSettings = () => {
 
   return (
     <PageLayout>
-      <Helmet>
-        <title>Navigation Settings - Admin | FastNow</title>
-        <meta name="description" content="Manage navigation menu visibility and order" />
-      </Helmet>
+      <SEOHead 
+        config={{
+          title: 'Navigation Settings - Admin | FastNow',
+          description: 'Manage navigation menu visibility and order',
+          type: 'website', 
+          robots: { index: false, follow: false }
+        }}
+      />
       
       <div className="container py-8">
         <div className="max-w-4xl mx-auto">
