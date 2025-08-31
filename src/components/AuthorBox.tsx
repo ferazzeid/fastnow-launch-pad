@@ -70,7 +70,7 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({ author, className = '' }) 
           </div>
         </div>
         
-        <div className="flex-1 min-w-0 pl-4 md:pl-6 pr-4 md:pr-6 py-3 md:py-4">
+        <div className="flex-1 min-w-0 pl-4 md:pl-6 pr-4 md:pr-6 pt-3 md:pt-4 pb-0">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold text-foreground">
               About {author.name}
