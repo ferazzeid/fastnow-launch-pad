@@ -62,13 +62,18 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
 
   const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => {
     return (
-      <div className={cn("flex gap-4", isMobile ? "flex-col" : "flex-row items-center")}>
+      <div className={cn("flex gap-4", isMobile ? "flex-col space-y-2" : "flex-row items-center")}>
         {navigationLinks.map((link) => (
           <Link 
             key={link.path} 
             to={link.path} 
             onClick={onLinkClick}
-            className={getNavLinkStyle(location.pathname === link.path)}
+            className={cn(
+              isMobile 
+                ? "flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors border border-border hover:bg-accent hover:text-accent-foreground min-h-[48px]"
+                : getNavLinkStyle(location.pathname === link.path),
+              isMobile && location.pathname === link.path && "bg-accent text-accent-foreground"
+            )}
           >
             {link.title}
           </Link>
