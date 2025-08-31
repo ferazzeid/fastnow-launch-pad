@@ -84,7 +84,7 @@ const CouponOptInSection = () => {
 
           {/* Instructions */}
           <p className="mt-6 text-sm text-white/70">
-            Use the coupon code inside the app settings to activate
+            Use the coupon code inside the app Settings / Manage Account
           </p>
         </div>
       </div>
