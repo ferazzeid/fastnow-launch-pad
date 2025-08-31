@@ -7,6 +7,8 @@ import { Switch } from "@/components/ui/switch";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Save, Globe, BarChart3 } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
+import { PageSEOService, PageSEOSetting } from '@/services/PageSEOService';
+import PageIndexingTable from '@/components/admin/PageIndexingTable';
 
 interface SEOAnalyticsSettings {
   googleAnalyticsId: string;
@@ -19,6 +21,8 @@ const AdminSEOAnalytics = () => {
     defaultIndexable: true,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [pageSettings, setPageSettings] = useState<PageSEOSetting[]>([]);
+  const [isLoadingPages, setIsLoadingPages] = useState(false);
 
   useEffect(() => {
     // Load settings from localStorage
@@ -34,7 +38,23 @@ const AdminSEOAnalytics = () => {
         console.error('Error loading SEO analytics settings:', error);
       }
     }
+
+    // Load page SEO settings
+    loadPageSettings();
   }, []);
+
+  const loadPageSettings = async () => {
+    setIsLoadingPages(true);
+    try {
+      const pages = await PageSEOService.getAllPageSettings();
+      setPageSettings(pages);
+    } catch (error) {
+      console.error('Error loading page SEO settings:', error);
+      toast.error('Failed to load page settings');
+    } finally {
+      setIsLoadingPages(false);
+    }
+  };
 
   const handleInputChange = (field: keyof SEOAnalyticsSettings, value: string | boolean) => {
     setSettings(prev => ({
@@ -173,6 +193,20 @@ const AdminSEOAnalytics = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Page Indexing Management */}
+          {isLoadingPages ? (
+            <Card>
+              <CardContent className="p-8">
+                <div className="text-center">Loading page settings...</div>
+              </CardContent>
+            </Card>
+          ) : (
+            <PageIndexingTable 
+              pages={pageSettings} 
+              onRefresh={loadPageSettings}
+            />
+          )}
 
           {/* Save Settings */}
           <div className="flex justify-end">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { SEOService, SEOConfig, BreadcrumbItem } from '@/services/SEOService';
 
@@ -15,7 +15,30 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   structuredData = [],
   children 
 }) => {
-  const seoConfig = SEOService.generateSEOConfig(config);
+  const [seoConfig, setSeoConfig] = useState<SEOConfig | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadSEOConfig = async () => {
+      try {
+        const generatedConfig = await SEOService.generateSEOConfig(config);
+        setSeoConfig(generatedConfig);
+      } catch (error) {
+        console.error('Error loading SEO config:', error);
+        // Fallback to original config
+        setSeoConfig(config);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadSEOConfig();
+  }, [config]);
+
+  if (isLoading || !seoConfig) {
+    return null; // Don't render meta tags until config is loaded
+  }
+
   const robots = SEOService.generateRobots(seoConfig);
 
   // Generate structured data schemas

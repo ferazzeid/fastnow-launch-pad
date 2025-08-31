@@ -1,5 +1,6 @@
 import { SchemaService } from './SchemaService';
 import { SiteSettingsService } from './SiteSettingsService';
+import { PageSEOService } from './PageSEOService';
 
 export interface SEOConfig {
   title: string;
@@ -14,8 +15,13 @@ export interface SEOConfig {
   category?: string;
   tags?: string[];
   canonical?: string;
-  noindex?: boolean;
-  nofollow?: boolean;
+  robots?: {
+    index?: boolean;
+    follow?: boolean;
+    noarchive?: boolean;
+    noimageindex?: boolean;
+    nosnippet?: boolean;
+  };
 }
 
 export interface BreadcrumbItem {
@@ -41,22 +47,33 @@ export class SEOService {
   }
 
   // Generate complete SEO config for a page
-  static generateSEOConfig(config: SEOConfig): SEOConfig {
+  static async generateSEOConfig(config: SEOConfig): Promise<SEOConfig> {
     const url = config.url || window.location.href;
     const canonical = config.canonical || url;
     const image = config.image || this.defaultImage;
     const fullImageUrl = image.startsWith('http') ? image : `${this.baseUrl}${image}`;
 
+    // Get page-specific SEO settings
+    const pagePath = url.replace(this.baseUrl, '') || '/';
+    const pageSEOSettings = await PageSEOService.getPageSEOByPath(pagePath);
+
     return {
       ...config,
-      title: this.truncateTitle(config.title),
-      description: this.truncateDescription(config.description),
+      title: pageSEOSettings?.meta_title || this.truncateTitle(config.title),
+      description: pageSEOSettings?.meta_description || this.truncateDescription(config.description),
       keywords: config.keywords || this.generateKeywords(config.title, config.description),
       image: fullImageUrl,
       url,
       canonical,
       type: config.type || 'website',
       author: config.author || this.siteName,
+      robots: {
+        index: config.robots?.index ?? (pageSEOSettings?.is_indexed !== false),
+        follow: config.robots?.follow ?? (pageSEOSettings?.is_indexed !== false),
+        noarchive: config.robots?.noarchive || false,
+        noimageindex: config.robots?.noimageindex || false,
+        nosnippet: config.robots?.nosnippet || false,
+      }
     };
   }
 
@@ -169,11 +186,21 @@ export class SEOService {
   static generateRobots(config: SEOConfig): string {
     const directives = [];
     
-    if (config.noindex) directives.push('noindex');
-    else directives.push('index');
+    if (config.robots?.index === false) {
+      directives.push('noindex');
+    } else {
+      directives.push('index');
+    }
     
-    if (config.nofollow) directives.push('nofollow');
-    else directives.push('follow');
+    if (config.robots?.follow === false) {
+      directives.push('nofollow');
+    } else {
+      directives.push('follow');
+    }
+    
+    if (config.robots?.noarchive) directives.push('noarchive');
+    if (config.robots?.noimageindex) directives.push('noimageindex');
+    if (config.robots?.nosnippet) directives.push('nosnippet');
     
     directives.push('max-snippet:-1', 'max-image-preview:large', 'max-video-preview:-1');
     
@@ -216,16 +243,22 @@ export class SEOService {
   }
 
   // Generate sitemap URLs
-  static generateSitemapUrls(): string[] {
-    return [
-      '/',
-      '/fastnow-protocol',
-      '/about-fastnow-app', 
-      '/about-me',
-      '/faq',
-      '/blog',
-      '/fasting-timeline'
-    ].map(path => `${this.baseUrl}${path}`);
+  static async generateSitemapUrls(): Promise<string[]> {
+    try {
+      const pageSettings = await PageSEOService.getAllPageSettings();
+      return pageSettings
+        .filter(page => page.is_indexed && page.page_type !== 'admin')
+        .map(page => `${this.baseUrl}${page.page_path}`);
+    } catch (error) {
+      console.error('Error generating sitemap URLs:', error);
+      // Fallback to static list
+      return [
+        '/',
+        '/fastnow-protocol',
+        '/about-fastnow-app', 
+        '/blog'
+      ].map(path => `${this.baseUrl}${path}`);
+    }
   }
 
   // Inject structured data
