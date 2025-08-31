@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, ChevronDown, Calculator } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { SiteSettingsService } from "@/services/SiteSettingsService";
@@ -12,6 +12,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface MainNavigationProps {
   transparent?: boolean;
@@ -60,6 +66,13 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
     return "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2";
   };
 
+  const calculatorLinks = [
+    { path: '/walking-calculator', title: 'Walking Calculator' },
+    { path: '/weight-loss-calculator', title: 'Weight Loss Calculator' }
+  ];
+
+  const isCalculatorPath = calculatorLinks.some(link => location.pathname === link.path);
+
   const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => {
     return (
       <div className={cn("flex gap-4", isMobile ? "flex-col space-y-2" : "flex-row items-center")}>
@@ -78,6 +91,67 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
             {link.title}
           </Link>
         ))}
+        
+        {/* Calculators Dropdown - Desktop */}
+        {!isMobile && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="ghost" 
+                className={cn(
+                  "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-1",
+                  transparent
+                    ? "text-white border border-white/30 hover:border-white/50 hover:bg-white/10"
+                    : "text-gray-900 border border-gray-300 hover:border-gray-400 hover:bg-gray-50",
+                  isCalculatorPath && (transparent ? "bg-white/20 border-white/50" : "bg-gray-100 border-gray-400")
+                )}
+              >
+                <Calculator className="w-4 h-4" />
+                Calculators
+                <ChevronDown className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent 
+              align="start" 
+              className="w-56 bg-background border border-border shadow-lg z-50"
+            >
+              {calculatorLinks.map((link) => (
+                <DropdownMenuItem key={link.path} asChild>
+                  <Link
+                    to={link.path}
+                    className="flex items-center px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
+                  >
+                    <Calculator className="w-4 h-4 mr-2" />
+                    {link.title}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+
+        {/* Calculators Links - Mobile */}
+        {isMobile && (
+          <div className="space-y-2">
+            <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
+              Calculators
+            </div>
+            {calculatorLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={onLinkClick}
+                className={cn(
+                  "flex items-center px-6 py-3 text-base font-medium rounded-lg transition-colors border border-border hover:bg-accent hover:text-accent-foreground min-h-[48px]",
+                  location.pathname === link.path && "bg-accent text-accent-foreground"
+                )}
+              >
+                <Calculator className="w-4 h-4 mr-3" />
+                {link.title}
+              </Link>
+            ))}
+          </div>
+        )}
         
       </div>
     );
