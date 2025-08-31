@@ -40,6 +40,9 @@ import AdminRingBellGallery from "./pages/AdminRingBellGallery";
 import AdminSitemapGenerator from "./pages/AdminSitemapGenerator";
 import AdminCouponManagement from "./pages/AdminCouponManagement";
 import AdminCalculatorSettings from "./pages/AdminCalculatorSettings";
+import Motivators from "./pages/Motivators";
+import MotivatorDetail from "./pages/MotivatorDetail";
+import AdminMotivators from "./pages/AdminMotivators";
 
 import AdminAuthorProfile from "./pages/AdminAuthorProfile";
 import AdminSEOAnalytics from "./pages/AdminSEOAnalytics";
@@ -58,6 +61,10 @@ const AppRoutes = () => {
       {/* Blog routes */}
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPost />} />
+      <Route path="/motivators" element={<Motivators />} />
+      <Route path="/motivators/:slug" element={<MotivatorDetail />} />
+      <Route path="/weight-loss-calculator" element={<WeightLossCalculatorPage />} />
+      <Route path="/walking-calculator" element={<WalkingCalculatorPage />} />
       
       {/* FastNow Protocol */}
       <Route path="/fastnow-protocol" element={<FastNowProtocol />} />
@@ -92,14 +99,14 @@ const AppRoutes = () => {
       <Route path="/admin/ring-bell-gallery" element={<AdminRingBellGallery />} />
       <Route path="/admin/sitemap" element={<AdminSitemapGenerator />} />
       <Route path="/admin/seo-analytics" element={<AdminSEOAnalytics />} />
+      <Route path="/admin/calculator-settings" element={<AdminCalculatorSettings />} />
+      <Route path="/admin/motivators" element={<AdminMotivators />} />
       <Route path="/admin/coupon-management" element={<AdminCouponManagement />} />
       
       {/* Content pages */}
       <Route path="/privacy" element={<ContentPage />} />
       <Route path="/terms" element={<ContentPage />} />
       <Route path="/contact" element={<ContentPage />} />
-      <Route path="/weight-loss-calculator" element={<WeightLossCalculatorPage />} />
-      <Route path="/walking-calculator" element={<WalkingCalculatorPage />} />
       
       {/* Catch-all route */}
       <Route path="*" element={<NotFound />} />

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, Edit, Image, Search, Mail, User, Gift } from "lucide-react";
+import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, Edit, Image, Search, Mail, User, Gift, Star } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { useAuth } from '@/hooks/useAuth';
@@ -118,17 +118,10 @@ const Admin = () => {
                 </Button>
               </Link>
 
-              <Link to="/admin/protocol-unified">
+              <Link to="/admin/motivators">
                 <Button variant="outline" className="w-full justify-start">
-                  <Heart className="mr-2 h-4 w-4" />
-                  Protocol Page
-                </Button>
-              </Link>
-
-              <Link to="/admin/about-app-unified">
-                <Button variant="outline" className="w-full justify-start">
-                  <Users className="mr-2 h-4 w-4" />
-                  About App
+                  <Star className="mr-2 h-4 w-4" />
+                  Motivators
                 </Button>
               </Link>
             </CardContent>

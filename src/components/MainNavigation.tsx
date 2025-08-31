@@ -29,11 +29,15 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   // Static navigation links - no database calls needed
-  const navigationLinks = [
+  const navLinks = [
     { path: '/', title: 'Home' },
     { path: '/fastnow-protocol', title: 'The Protocol' },
     { path: '/about-fastnow-app', title: 'About App' },
-    { path: '/blog', title: 'Blog' }
+    { path: '/motivators', title: 'Motivators' },
+  ];
+
+  const endNavLinks = [
+    { path: '/blog', title: 'Blog' },
   ];
 
   // Simple mobile detection
@@ -76,7 +80,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
   const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => {
     return (
       <div className={cn("flex gap-4", isMobile ? "flex-col space-y-2" : "flex-row items-center")}>
-        {navigationLinks.map((link) => (
+        {navLinks.map((link) => (
           <Link 
             key={link.path} 
             to={link.path} 
@@ -152,6 +156,26 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
             ))}
           </div>
         )}
+
+        {/* End Navigation Links */}
+        {endNavLinks.map((link) => (
+          <Link
+            key={link.path}
+            to={link.path}
+            onClick={onLinkClick}
+            className={cn(
+              isMobile 
+                ? "flex items-center px-6 py-3 text-base font-medium rounded-lg transition-colors border border-border hover:bg-accent hover:text-accent-foreground min-h-[48px]"
+                : "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 border border-transparent hover:border-gray-300",
+              transparent && !isMobile
+                ? "text-white border-white/30 hover:border-white/50 hover:bg-white/10"
+                : !isMobile && "text-gray-900 border-gray-300 hover:border-gray-400 hover:bg-gray-50",
+              location.pathname === link.path && (transparent && !isMobile ? "bg-white/20 border-white/50" : !isMobile ? "bg-gray-100 border-gray-400" : "bg-accent text-accent-foreground")
+            )}
+          >
+            {link.title}
+          </Link>
+        ))}
         
       </div>
     );
