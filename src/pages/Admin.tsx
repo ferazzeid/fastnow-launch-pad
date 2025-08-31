@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, Edit, Image, Search, Mail, User } from "lucide-react";
+import { Settings, Users, FileText, BookOpen, Calendar, Heart, Clock, LogOut, TimerIcon, Edit, Image, Search, Mail, User, Gift } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import { SupabaseAuthService } from '@/services/SupabaseAuthService';
 import { useAuth } from '@/hooks/useAuth';
@@ -247,6 +247,24 @@ const Admin = () => {
                 <Button variant="outline" className="w-full justify-start">
                   <Search className="mr-2 h-4 w-4" />
                   SEO & Analytics Settings
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Marketing & Promotions */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Gift size={20} />
+                Marketing & Promotions
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/admin/coupon-management">
+                <Button variant="outline" className="w-full justify-start">
+                  <Gift className="mr-2 h-4 w-4" />
+                  Coupon Management
                 </Button>
               </Link>
             </CardContent>

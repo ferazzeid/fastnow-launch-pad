@@ -21,6 +21,7 @@ import { HomepagePhaseCard } from '@/components/HomepagePhaseCard';
 import SEOHead from '@/components/SEOHead';
 import LazyImage from '@/components/LazyImage';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
+import CouponOptInSection from '@/components/CouponOptInSection';
 
 // Helper function to get custom UI element image
 const getCustomElementImage = (elementId: string): string | null => {
@@ -689,6 +690,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* Coupon Opt-in Section */}
+        <CouponOptInSection />
 
       </main>
     </PageLayout>

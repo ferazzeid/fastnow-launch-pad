@@ -38,6 +38,7 @@ import AdminUnifiedAboutApp from "./pages/AdminUnifiedAboutApp";
 import AdminStaticContentEditor from "./pages/AdminStaticContentEditor";
 import AdminRingBellGallery from "./pages/AdminRingBellGallery";
 import AdminSitemapGenerator from "./pages/AdminSitemapGenerator";
+import AdminCouponManagement from "./pages/AdminCouponManagement";
 
 import AdminAuthorProfile from "./pages/AdminAuthorProfile";
 import AdminSEOAnalytics from "./pages/AdminSEOAnalytics";
@@ -87,6 +88,7 @@ const AppRoutes = () => {
       <Route path="/admin/ring-bell-gallery" element={<AdminRingBellGallery />} />
       <Route path="/admin/sitemap" element={<AdminSitemapGenerator />} />
       <Route path="/admin/seo-analytics" element={<AdminSEOAnalytics />} />
+      <Route path="/admin/coupon-management" element={<AdminCouponManagement />} />
       
       {/* Content pages */}
       <Route path="/privacy" element={<ContentPage />} />
