@@ -514,6 +514,9 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Coupon Opt-in Section */}
+        <CouponOptInSection />
+
         {/* Latest Blog Posts Section */}
         {latestBlogPosts.length > 0 && (
           <section className="relative z-10 py-16 bg-gray-50">
@@ -690,9 +693,6 @@ const Index = () => {
             </div>
           </div>
         </section>
-
-        {/* Coupon Opt-in Section */}
-        <CouponOptInSection />
 
       </main>
     </PageLayout>
