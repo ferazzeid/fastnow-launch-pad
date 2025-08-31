@@ -70,6 +70,11 @@ const BlogPost = () => {
     }
   };
 
+  const handleRelatedPostClick = () => {
+    // Scroll to top when navigating to related post
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // AuthorBox component that loads and displays author information
   const AuthorBoxContainer = () => {
     if (!authorProfile || !authorBoxSettings?.enabled) {
@@ -255,22 +260,6 @@ const BlogPost = () => {
           <AuthorBoxContainer />
         )}
 
-        {/* Tags */}
-        {post.tags.length > 0 && (
-          <div className="mt-16 pt-8 border-t border-gray-200 max-w-4xl mx-auto">
-            <h3 className="text-lg font-semibold mb-4">Tags</h3>
-            <div className="flex gap-2 flex-wrap">
-              {post.tags.map(tag => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Related Posts Section */}
         {relatedPosts.length > 0 && (
@@ -280,7 +269,7 @@ const BlogPost = () => {
               {relatedPosts.map((relatedPost) => (
                 <Card key={relatedPost.id} className="hover:shadow-lg transition-shadow border-l-4 border-l-accent-green">
                   {relatedPost.featuredImage && (
-                    <Link to={`/blog/${relatedPost.slug}`} className="block">
+                    <Link to={`/blog/${relatedPost.slug}`} className="block" onClick={handleRelatedPostClick}>
                       <div className="aspect-video overflow-hidden rounded-t-lg">
                         <img
                           src={relatedPost.featuredImage}
@@ -295,6 +284,7 @@ const BlogPost = () => {
                       <Link 
                         to={`/blog/${relatedPost.slug}`}
                         className="hover:text-accent-green transition-colors"
+                        onClick={handleRelatedPostClick}
                       >
                         {relatedPost.title}
                       </Link>
@@ -319,6 +309,7 @@ const BlogPost = () => {
                       <Link
                         to={`/blog/${relatedPost.slug}`}
                         className="text-accent-green hover:underline text-sm font-medium"
+                        onClick={handleRelatedPostClick}
                       >
                         Read More
                       </Link>
