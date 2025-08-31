@@ -167,13 +167,8 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
               position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
             )}
           >
-            {/* Header with Author Image - Green background */}
-            <div style={{ backgroundColor: '#dac471' }} className="text-white px-4 py-3 flex items-center gap-3">
-              <img 
-                src={finalAuthorImage} 
-                alt={finalAuthorName}
-                className="w-8 h-8 rounded-full object-cover border-2 border-white/50 grayscale"
-              />
+            {/* Header - Green background */}
+            <div style={{ backgroundColor: '#dac471' }} className="text-white px-4 py-3">
               <h3 className="font-medium text-sm">{finalTitle}</h3>
             </div>
 
