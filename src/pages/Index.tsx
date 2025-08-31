@@ -509,6 +509,9 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Slideshow Section - Aren't you tired of this */}
+        <ImageSlideshow />
+
         {/* Personal Touch Section - Speech Bubble Explanation */}
         <section className="relative z-10 py-16 bg-gray-100">
           <div className="container max-w-6xl mx-auto px-4">
@@ -690,9 +693,6 @@ const Index = () => {
             </div>
           </section>
         )}
-
-        {/* Slideshow Section - Aren't you tired of this */}
-        <ImageSlideshow />
 
       </main>
     </PageLayout>
