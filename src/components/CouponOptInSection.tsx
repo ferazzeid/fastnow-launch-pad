@@ -71,7 +71,7 @@ const CouponOptInSection = () => {
           </div>
 
           {/* Action Button */}
-          <div className="flex justify-start max-w-md mx-auto">
+          <div className="flex justify-center max-w-md mx-auto">
             <Button
               onClick={handleLaunchApp}
               size="lg"
