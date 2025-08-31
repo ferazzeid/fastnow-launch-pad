@@ -42,6 +42,7 @@ import AdminCouponManagement from "./pages/AdminCouponManagement";
 
 import AdminAuthorProfile from "./pages/AdminAuthorProfile";
 import AdminSEOAnalytics from "./pages/AdminSEOAnalytics";
+import WeightLossCalculatorPage from "./pages/WeightLossCalculatorPage";
 
 const queryClient = new QueryClient();
 
@@ -94,6 +95,7 @@ const AppRoutes = () => {
       <Route path="/privacy" element={<ContentPage />} />
       <Route path="/terms" element={<ContentPage />} />
       <Route path="/contact" element={<ContentPage />} />
+      <Route path="/weight-loss-calculator" element={<WeightLossCalculatorPage />} />
       
       {/* Catch-all route */}
       <Route path="*" element={<NotFound />} />
