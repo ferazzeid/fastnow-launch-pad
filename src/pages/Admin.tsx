@@ -118,6 +118,20 @@ const Admin = () => {
                 </Button>
               </Link>
 
+              <Link to="/admin/about-app-unified">
+                <Button variant="outline" className="w-full justify-start">
+                  <User className="mr-2 h-4 w-4" />
+                  About App
+                </Button>
+              </Link>
+
+              <Link to="/admin/protocol-unified">
+                <Button variant="outline" className="w-full justify-start">
+                  <Clock className="mr-2 h-4 w-4" />
+                  Protocol
+                </Button>
+              </Link>
+
               <Link to="/admin/motivators">
                 <Button variant="outline" className="w-full justify-start">
                   <Star className="mr-2 h-4 w-4" />
