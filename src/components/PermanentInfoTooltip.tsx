@@ -79,7 +79,7 @@ const PermanentInfoTooltip: React.FC<PermanentInfoTooltipProps> = ({
       />
 
       {/* Container for button and tooltip */}
-      <div className="flex items-start gap-4 relative">
+      <div className="flex items-start gap-2 sm:gap-4 relative w-full">
         {/* Notification badge - positioned outside button */}
         <div className="absolute -top-1 -left-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center z-20 shadow-lg border-2 border-white">
           <span className="text-white text-xs font-bold">1</span>
@@ -126,8 +126,8 @@ const PermanentInfoTooltip: React.FC<PermanentInfoTooltipProps> = ({
         {/* Permanently Visible Tooltip - now in document flow */}
         <div 
           className={cn(
-            "relative w-80 bg-white rounded-lg shadow-xl overflow-hidden",
-            "animate-fade-in mt-2"
+            "relative w-full max-w-80 bg-white rounded-lg shadow-xl overflow-hidden",
+            "animate-fade-in mt-2 sm:max-w-sm md:max-w-80"
           )}
         >
           {/* Header - Green background */}

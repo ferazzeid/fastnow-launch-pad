@@ -675,12 +675,12 @@ const Index = () => {
               
               {/* Right Column - Permanent Speech Bubble */}
               <div className="flex justify-center lg:justify-start lg:pt-8">
-                <div className="relative">
-                  <div className="scale-125 transform">
+                <div className="relative w-full max-w-md">
+                  <div className="md:scale-125 transform">
                     <PermanentInfoTooltip 
                       content="I'm trying to integrate these little bubbles where I leave a personal note or perspective on particular topics. Weight loss theory can be quite dry, so it's nice to have a real personal touch from someone who has actually gone through this process."
                       size="lg"
-                      className="mx-auto"
+                      className="w-full"
                       position="bottom-right"
                     />
                   </div>
