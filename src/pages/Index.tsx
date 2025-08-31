@@ -441,31 +441,100 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Why Is This Working and Adding a Human Touch Section */}
-        <section className="relative z-10 py-16 bg-gray-50">
+        {/* Third Section - Why This Is Working */}
+        <section className="relative z-10 py-16 bg-white">
           <div className="container max-w-6xl mx-auto px-4">
-            <div className="text-center max-w-4xl mx-auto">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 leading-tight text-gray-900">
-                Why Is This Working and Adding a Human Touch
+            <div className="text-center max-w-6xl mx-auto">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
+                Why This Is Working
               </h2>
+
+              <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
+                {slide3Content.split('\n\n').map((paragraph, index) => (
+                  <p key={index}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
               
-              <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-6">
-                <p>
-                  This isn't just another weight loss program with generic advice. Every recommendation here comes from real experience—the struggles, the setbacks, and what actually worked.
-                </p>
-                <p>
-                  Throughout this site, you'll notice personal notes and insights that add context to the science. Because while the research tells us what works, personal experience tells us how to make it work in real life.
-                </p>
-                <p>
-                  The combination of proven methods and authentic perspective is what makes this approach different. It's not perfect, but it's honest—and that makes all the difference.
+              {/* Read More Button - Centered above graphics */}
+              <div className="mt-8 mb-12 flex justify-center">
+                <Link to="/fast-now-protocol">
+                  <Button 
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
+                  >
+                    Read More
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Three Phases Ceramic Plates */}
+              <div className="mt-8">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-16 max-w-5xl mx-auto">
+                  <HomepagePhaseCard
+                    phaseNumber={1}
+                    title="3-Day Water Fast"
+                    image={phaseImages.phase1}
+                  />
+                  
+                  {/* Plus Sign */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
+                      +
+                    </div>
+                  </div>
+                  
+                  <HomepagePhaseCard
+                    phaseNumber={2}
+                    title="Strict Simple Diet"
+                    image={phaseImages.phase2}
+                  />
+                  
+                  {/* Plus Sign */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
+                      +
+                    </div>
+                  </div>
+                  
+                  <HomepagePhaseCard
+                    phaseNumber={3}
+                    title="Daily Walking"
+                    image={phaseImages.phase3}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Personal Touch Section - Speech Bubble Explanation */}
+        <section className="relative z-10 py-16 bg-gray-100">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+              {/* Left Column - Title and Description */}
+              <div className="flex flex-col justify-start">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900">
+                  Adding a Human Touch
+                </h2>
+                <p className="text-lg text-gray-600 max-w-xl">
+                  Throughout this site, you'll notice little speech bubbles that add personal perspective and real experience to the content.
                 </p>
               </div>
               
-              <div className="flex justify-center">
-                <SiteInfoTooltip
-                  content="I've tried to weave personal experience throughout this site because I believe context matters as much as content. The science is important, but knowing how it feels to actually do this—that's what helps you succeed."
-                  size="lg"
-                />
+              {/* Right Column - Permanent Speech Bubble */}
+              <div className="flex justify-center lg:justify-start lg:pt-8">
+                <div className="relative w-full max-w-md">
+                  <div className="md:scale-125 transform">
+                    <PermanentInfoTooltip 
+                      content="I'm trying to integrate these little bubbles where I leave a personal note or perspective on particular topics. Weight loss theory can be quite dry, so it's nice to have a real personal touch from someone who has actually gone through this process."
+                      size="lg"
+                      className="w-full"
+                      position="bottom-right"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -624,105 +693,6 @@ const Index = () => {
 
         {/* Slideshow Section - Aren't you tired of this */}
         <ImageSlideshow />
-
-        {/* Third Section - Why This Is Working */}
-        <section className="relative z-10 py-16 bg-white">
-          <div className="container max-w-6xl mx-auto px-4">
-            <div className="text-center max-w-6xl mx-auto">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
-                Why This Is Working
-              </h2>
-
-              <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
-                {slide3Content.split('\n\n').map((paragraph, index) => (
-                  <p key={index}>
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-              
-              {/* Read More Button - Centered above graphics */}
-              <div className="mt-8 mb-12 flex justify-center">
-                <Link to="/fast-now-protocol">
-                  <Button 
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
-                  >
-                    Read More
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </Link>
-              </div>
-              
-              {/* Three Phases Ceramic Plates */}
-              <div className="mt-8">
-                <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-16 max-w-5xl mx-auto">
-                  <HomepagePhaseCard
-                    phaseNumber={1}
-                    title="3-Day Water Fast"
-                    image={phaseImages.phase1}
-                  />
-                  
-                  {/* Plus Sign */}
-                  <div className="flex items-center justify-center">
-                    <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
-                      +
-                    </div>
-                  </div>
-                  
-                  <HomepagePhaseCard
-                    phaseNumber={2}
-                    title="Strict Simple Diet"
-                    image={phaseImages.phase2}
-                  />
-                  
-                  {/* Plus Sign */}
-                  <div className="flex items-center justify-center">
-                    <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
-                      +
-                    </div>
-                  </div>
-                  
-                  <HomepagePhaseCard
-                    phaseNumber={3}
-                    title="Daily Walking"
-                    image={phaseImages.phase3}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Personal Touch Section - Speech Bubble Explanation */}
-        <section className="relative z-10 py-16 bg-gray-100">
-          <div className="container max-w-6xl mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-              {/* Left Column - Title and Description */}
-              <div className="flex flex-col justify-start">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900">
-                  Adding a Human Touch
-                </h2>
-                <p className="text-lg text-gray-600 max-w-xl">
-                  Throughout this site, you'll notice little speech bubbles that add personal perspective and real experience to the content.
-                </p>
-              </div>
-              
-              {/* Right Column - Permanent Speech Bubble */}
-              <div className="flex justify-center lg:justify-start lg:pt-8">
-                <div className="relative w-full max-w-md">
-                  <div className="md:scale-125 transform">
-                    <PermanentInfoTooltip 
-                      content="I'm trying to integrate these little bubbles where I leave a personal note or perspective on particular topics. Weight loss theory can be quite dry, so it's nice to have a real personal touch from someone who has actually gone through this process."
-                      size="lg"
-                      className="w-full"
-                      position="bottom-right"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
       </main>
     </PageLayout>
