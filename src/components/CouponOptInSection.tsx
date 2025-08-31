@@ -63,37 +63,15 @@ const CouponOptInSection = () => {
                 <div className="text-xs font-medium text-gray-500 mb-2 tracking-wider">
                   COUPON CODE
                 </div>
-                <div className="text-4xl font-bold text-primary font-mono tracking-wider mb-2">
+                <div className="text-4xl font-bold text-black font-mono tracking-wider">
                   FASTNOW90
-                </div>
-                <div className="text-xs text-gray-500">
-                  Valid until Dec 31, 2024
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-            <Button
-              onClick={handleCopyCode}
-              variant="outline"
-              size="lg"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
-            >
-              {isCopied ? (
-                <>
-                  <Copy className="w-4 h-4 mr-2" />
-                  Copied!
-                </>
-              ) : (
-                <>
-                  <Copy className="w-4 h-4 mr-2" />
-                  Copy Code
-                </>
-              )}
-            </Button>
-            
+          {/* Action Button */}
+          <div className="flex justify-start max-w-md mx-auto">
             <Button
               onClick={handleLaunchApp}
               size="lg"
@@ -104,9 +82,9 @@ const CouponOptInSection = () => {
             </Button>
           </div>
 
-          {/* Fine print */}
+          {/* Instructions */}
           <p className="mt-6 text-sm text-white/70">
-            No credit card required • Cancel anytime
+            Use the coupon code inside the app settings to activate
           </p>
         </div>
       </div>
