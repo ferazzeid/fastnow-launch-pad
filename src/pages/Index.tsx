@@ -441,6 +441,36 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Why Is This Working and Adding a Human Touch Section */}
+        <section className="relative z-10 py-16 bg-gray-50">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="text-center max-w-4xl mx-auto">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 leading-tight text-gray-900">
+                Why Is This Working and Adding a Human Touch
+              </h2>
+              
+              <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-6">
+                <p>
+                  This isn't just another weight loss program with generic advice. Every recommendation here comes from real experience—the struggles, the setbacks, and what actually worked.
+                </p>
+                <p>
+                  Throughout this site, you'll notice personal notes and insights that add context to the science. Because while the research tells us what works, personal experience tells us how to make it work in real life.
+                </p>
+                <p>
+                  The combination of proven methods and authentic perspective is what makes this approach different. It's not perfect, but it's honest—and that makes all the difference.
+                </p>
+              </div>
+              
+              <div className="flex justify-center">
+                <SiteInfoTooltip
+                  content="I've tried to weave personal experience throughout this site because I believe context matters as much as content. The science is important, but knowing how it feels to actually do this—that's what helps you succeed."
+                  size="lg"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* What About the App Section */}
         <section className="relative z-10 py-16 bg-white">
           <div className="container max-w-6xl mx-auto px-4">
