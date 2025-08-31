@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { FileText, Save, Search } from "lucide-react";
 import { pageContentService, PageContent } from '@/services/PageContentService';
+import { HomepageSEOSyncService } from '@/services/HomepageSEOSyncService';
 import HeroSideImageSettings from './HeroSideImageSettings';
 import Slide2ImageSettings from './Slide2ImageSettings';
 import SlideshowAdminSettings from './SlideshowAdminSettings';
@@ -38,8 +39,8 @@ const UnifiedHomepageEditor = () => {
       // Load main homepage content
       const homeContent = await pageContentService.getPageContent('home');
       if (homeContent) {
-        setMetaTitle(homeContent.meta_title || 'FastNow - Intermittent Fasting Protocol');
-        setMetaDescription(homeContent.meta_description || 'Discover an effective intermittent fasting protocol that actually works for fat loss');
+        setMetaTitle(homeContent.meta_title || 'FastNow - Transform Your Health');
+        setMetaDescription(homeContent.meta_description || 'Effective weight loss protocol designed for real people, not fitness models');
         setHeroTitle(homeContent.title || '');
         setHeroDescription(homeContent.content || '');
         setCtaText(homeContent.button_text || 'Launch App');
@@ -56,21 +57,21 @@ const UnifiedHomepageEditor = () => {
   const saveAllContent = async () => {
     setLoading(true);
     try {
-      // Save main homepage content
-      await pageContentService.savePageContent({
-        page_key: 'home',
+      // Use the sync service to save and synchronize SEO settings
+      const success = await HomepageSEOSyncService.updateHomepageContent({
         title: heroTitle,
         content: heroDescription,
         button_text: ctaText,
         button_url: ctaUrl,
         meta_title: metaTitle,
-        meta_description: metaDescription,
-        is_published: true
+        meta_description: metaDescription
       });
 
-
-
-      toast.success('All homepage content saved successfully!');
+      if (success) {
+        toast.success('All homepage content and SEO settings saved successfully!');
+      } else {
+        throw new Error('Failed to save content');
+      }
     } catch (error) {
       console.error('Error saving homepage content:', error);
       toast.error('Failed to save homepage content');
@@ -104,7 +105,7 @@ const UnifiedHomepageEditor = () => {
                   id="meta-title"
                   value={metaTitle}
                   onChange={(e) => setMetaTitle(e.target.value)}
-                  placeholder="FastNow - Intermittent Fasting Protocol"
+                  placeholder="The No-BS Fat Loss Protocol - FastNow"
                   maxLength={60}
                 />
                 <p className="text-sm text-muted-foreground mt-1">
@@ -118,7 +119,7 @@ const UnifiedHomepageEditor = () => {
                   id="meta-description"
                   value={metaDescription}
                   onChange={(e) => setMetaDescription(e.target.value)}
-                  placeholder="Discover an effective intermittent fasting protocol that actually works for fat loss"
+                  placeholder="Transform your body with a concentrated, results-driven weight loss protocol - built for everyday people, not fitness models."
                   maxLength={160}
                   rows={3}
                 />

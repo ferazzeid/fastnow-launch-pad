@@ -129,6 +129,26 @@ export class PageSEOService {
     }
   }
 
+  static async updatePageSEOContent(pagePath: string, updates: {
+    page_title?: string;
+    page_description?: string;
+    meta_title?: string;
+    meta_description?: string;
+  }): Promise<void> {
+    const { error } = await supabase
+      .from('page_seo_settings')
+      .update({
+        ...updates,
+        updated_at: new Date().toISOString()
+      })
+      .eq('page_path', pagePath);
+    
+    if (error) {
+      console.error('Error updating page SEO content:', error);
+      throw error;
+    }
+  }
+
   static getPageTypeLabel(pageType: string): string {
     switch (pageType) {
       case 'content': return 'Content';

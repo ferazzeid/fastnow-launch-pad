@@ -46,22 +46,25 @@ export class SEOService {
     }
   }
 
-  // Generate complete SEO config for a page
   static async generateSEOConfig(config: SEOConfig): Promise<SEOConfig> {
     const url = config.url || window.location.href;
     const canonical = config.canonical || url;
     const image = config.image || this.defaultImage;
     const fullImageUrl = image.startsWith('http') ? image : `${this.baseUrl}${image}`;
 
-    // Get page-specific SEO settings
+    // Get page-specific SEO settings from new system
     const pagePath = url.replace(this.baseUrl, '') || '/';
     const pageSEOSettings = await PageSEOService.getPageSEOByPath(pagePath);
 
+    // Note: For pages with existing content systems (like homepage), 
+    // the specific page data should take precedence over the general SEO settings
+    // The calling component should pass the correct title/description from its content source
+
     return {
       ...config,
-      title: pageSEOSettings?.meta_title || this.truncateTitle(config.title),
-      description: pageSEOSettings?.meta_description || this.truncateDescription(config.description),
-      keywords: config.keywords || this.generateKeywords(config.title, config.description),
+      title: config.title || pageSEOSettings?.meta_title || this.truncateTitle(config.title || 'FastNow'),
+      description: config.description || pageSEOSettings?.meta_description || this.truncateDescription(config.description || 'FastNow - Transform Your Health'),
+      keywords: config.keywords || this.generateKeywords(config.title || 'FastNow', config.description || 'Health transformation app'),
       image: fullImageUrl,
       url,
       canonical,

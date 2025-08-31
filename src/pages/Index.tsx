@@ -265,42 +265,6 @@ const Index = () => {
   loadBackgroundImage();
 
     try {
-      
-      // Hero content
-      const savedHeroTitle = localStorage.getItem('fastingApp_homepageHeroTitle');
-      if (savedHeroTitle && typeof savedHeroTitle === 'string') setHeroTitle(savedHeroTitle);
-      
-      const savedHeroSubtitle = localStorage.getItem('fastingApp_homepageHeroSubtitle');
-      if (savedHeroSubtitle && typeof savedHeroSubtitle === 'string') setHeroSubtitle(savedHeroSubtitle);
-      
-      const savedHeroDescription = localStorage.getItem('fastingApp_homepageHeroDescription');
-      if (savedHeroDescription && typeof savedHeroDescription === 'string') setHeroDescription(savedHeroDescription);
-      
-      const savedCtaText = localStorage.getItem('fastingApp_homepageCtaText');
-      if (savedCtaText && typeof savedCtaText === 'string') setCtaText(savedCtaText);
-      
-      const savedCtaUrl = localStorage.getItem('fastingApp_homepageCtaUrl');
-      if (savedCtaUrl && typeof savedCtaUrl === 'string') setCtaUrl(savedCtaUrl);
-      
-      
-      // CTA content
-      const savedCtaTitle = localStorage.getItem('fastingApp_ctaTitle');
-      if (savedCtaTitle && typeof savedCtaTitle === 'string') setCtaTitle(savedCtaTitle);
-      
-      const savedCtaSubtitle = localStorage.getItem('fastingApp_ctaSubtitle');
-      if (savedCtaSubtitle && typeof savedCtaSubtitle === 'string') setCtaSubtitle(savedCtaSubtitle);
-      
-      // Google Play link
-      const savedGooglePlayLink = localStorage.getItem('fastingApp_googlePlayLink');
-      if (savedGooglePlayLink && typeof savedGooglePlayLink === 'string') setGooglePlayLink(savedGooglePlayLink);
-      
-      // SEO Settings
-      const savedMetaTitle = localStorage.getItem('fastingApp_metaTitle');
-      if (savedMetaTitle && typeof savedMetaTitle === 'string') setMetaTitle(savedMetaTitle);
-      
-      const savedMetaDescription = localStorage.getItem('fastingApp_metaDescription');
-      if (savedMetaDescription && typeof savedMetaDescription === 'string') setMetaDescription(savedMetaDescription);
-      
       // Load custom UI elements
       const defaultDesignSetting = localStorage.getItem('fastingApp_showDefaultDesign');
       if (defaultDesignSetting !== null) {
@@ -345,10 +309,9 @@ const Index = () => {
         config={{
           title: metaTitle,
           description: metaDescription,
-          keywords: "intermittent fasting, weight loss app, fasting protocol, health transformation, FastNow",
-          image: featuredImageUrl || '/lovable-uploads/social-share-image.jpg',
           type: 'website',
-          url: 'https://fastnow.app'
+          url: 'https://fastnow.app',
+          image: featuredImageUrl || '/lovable-uploads/social-share-image.jpg',
         }}
         structuredData={[
           {
