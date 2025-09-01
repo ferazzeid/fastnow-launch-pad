@@ -14,7 +14,7 @@ const Motivators: React.FC = () => {
   useEffect(() => {
     const fetchMotivators = async () => {
       try {
-        const data = await MotivatorService.getUnifiedSystemGoals();
+        const data = await MotivatorService.getAllMotivators();
         setMotivators(data);
       } catch (error) {
         console.error('Error fetching motivators:', error);
