@@ -68,6 +68,34 @@ export class MotivatorService {
     return data || [];
   }
 
+  static async getUnifiedSystemGoals(): Promise<Motivator[]> {
+    try {
+      const { data, error } = await supabase
+        .from('motivators')
+        .select('*')
+        .match({ 
+          is_system_goal: true,
+          is_active: true,
+          is_published: true
+        })
+        .order('title', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching unified system goals:', error);
+        throw error;
+      }
+
+      if (!data || data.length === 0) return [];
+
+      // Simple approach: just take the first 8 system goals
+      return (data as any[]).slice(0, 8) as Motivator[];
+    } catch (error) {
+      console.error('Error in getUnifiedSystemGoals:', error);
+      // Fallback to regular method if this fails
+      return this.getAllMotivators();
+    }
+  }
+
   static async createMotivator(motivator: Omit<Motivator, 'id' | 'created_at' | 'updated_at'>): Promise<Motivator> {
     const { data, error } = await supabase
       .from('motivators')
