@@ -87,8 +87,43 @@ export class MotivatorService {
 
       if (!data || data.length === 0) return [];
 
-      // Simple approach: just take the first 8 system goals
-      return (data as any[]).slice(0, 8) as Motivator[];
+      // Group by title to get unique goal types
+      const goalsByTitle: { [key: string]: Motivator[] } = {};
+      data.forEach((goal: any) => {
+        const baseTitle = goal.title.replace(/-male$|-female$/i, '').trim();
+        if (!goalsByTitle[baseTitle]) {
+          goalsByTitle[baseTitle] = [];
+        }
+        goalsByTitle[baseTitle].push(goal as Motivator);
+      });
+
+      // Get unique goal types and select mix of male/female
+      const uniqueGoals = Object.values(goalsByTitle);
+      const selectedGoals: Motivator[] = [];
+      
+      // Take first 8 unique goal types and alternate male/female when possible
+      for (let i = 0; i < Math.min(8, uniqueGoals.length); i++) {
+        const goalGroup = uniqueGoals[i];
+        if (goalGroup.length > 1) {
+          // Pick male for even indices, female for odd indices
+          const preferMale = i % 2 === 0;
+          const maleGoal = goalGroup.find(g => g.gender === 'male');
+          const femaleGoal = goalGroup.find(g => g.gender === 'female');
+          
+          if (preferMale && maleGoal) {
+            selectedGoals.push(maleGoal);
+          } else if (!preferMale && femaleGoal) {
+            selectedGoals.push(femaleGoal);
+          } else {
+            // Fallback to any available
+            selectedGoals.push(goalGroup[0]);
+          }
+        } else {
+          selectedGoals.push(goalGroup[0]);
+        }
+      }
+
+      return selectedGoals;
     } catch (error) {
       console.error('Error in getUnifiedSystemGoals:', error);
       // Fallback to regular method if this fails

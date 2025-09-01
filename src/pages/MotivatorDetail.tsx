@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Share2 } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import LazyImage from '@/components/LazyImage';
 import PageLayout from '@/components/layout/PageLayout';
 import SEOHead from '@/components/SEOHead';
 import { MotivatorService, Motivator } from '@/services/MotivatorService';
@@ -40,26 +39,6 @@ const MotivatorDetail: React.FC = () => {
 
     fetchMotivator();
   }, [slug]);
-
-  const handleShare = async () => {
-    if (navigator.share && motivator) {
-      try {
-        await navigator.share({
-          title: motivator.title,
-          text: motivator.meta_description || motivator.content.replace(/<[^>]*>/g, '').substring(0, 120),
-          url: window.location.href,
-        });
-      } catch (error) {
-        // Fallback to copying URL
-        navigator.clipboard.writeText(window.location.href);
-        toast.success('Link copied to clipboard!');
-      }
-    } else {
-      // Fallback for browsers that don't support Web Share API
-      navigator.clipboard.writeText(window.location.href);
-      toast.success('Link copied to clipboard!');
-    }
-  };
 
   if (loading) {
     return (
@@ -121,7 +100,7 @@ const MotivatorDetail: React.FC = () => {
       
       <article className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Navigation */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8">
           <Link 
             to="/motivators"
             className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
@@ -129,16 +108,6 @@ const MotivatorDetail: React.FC = () => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Motivators
           </Link>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleShare}
-            className="flex items-center gap-2"
-          >
-            <Share2 className="w-4 h-4" />
-            Share
-          </Button>
         </div>
 
         {/* Header */}
@@ -146,26 +115,7 @@ const MotivatorDetail: React.FC = () => {
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
             {motivator.title}
           </h1>
-          
-          {motivator.category && (
-            <div className="mb-6">
-              <span className="inline-block px-4 py-2 bg-primary/10 text-primary text-sm rounded-full">
-                {motivator.category}
-              </span>
-            </div>
-          )}
         </header>
-
-        {/* Featured Image */}
-        {motivator.image_url && (
-          <div className="mb-8 rounded-lg overflow-hidden">
-            <LazyImage
-              src={motivator.image_url}
-              alt={motivator.title}
-              className="w-full aspect-video object-cover"
-            />
-          </div>
-        )}
 
         {/* Content */}
         <div className="prose prose-lg max-w-none">
