@@ -12,45 +12,75 @@ import { toast } from 'sonner';
 const Motivators: React.FC = () => {
   const [motivators, setMotivators] = useState<Motivator[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   const [userGender, setUserGender] = useState<string | undefined>();
   const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchMotivators = async () => {
-      try {
-        const data = await MotivatorService.getUnifiedSystemGoals();
-        setMotivators(data);
-      } catch (error) {
-        console.error('Error fetching motivators:', error);
-        toast.error('Failed to load motivators');
-      } finally {
+  const fetchMotivators = async (attempt = 1) => {
+    const maxRetries = 3;
+    console.log(`[Motivators] Fetching motivators (attempt ${attempt}/${maxRetries})...`);
+    
+    try {
+      setError(null);
+      const data = await MotivatorService.getUnifiedSystemGoals();
+      console.log(`[Motivators] Successfully fetched ${data.length} motivators:`, data.map(m => m.title));
+      setMotivators(data);
+      setRetryCount(0);
+    } catch (error) {
+      console.error(`[Motivators] Error fetching motivators (attempt ${attempt}):`, error);
+      
+      if (attempt < maxRetries) {
+        console.log(`[Motivators] Retrying in 1 second...`);
+        setRetryCount(attempt);
+        setTimeout(() => fetchMotivators(attempt + 1), 1000);
+      } else {
+        const errorMessage = 'Failed to load motivators after multiple attempts';
+        setError(errorMessage);
+        toast.error(errorMessage);
+      }
+    } finally {
+      if (attempt === 1 || attempt >= maxRetries) {
         setLoading(false);
       }
-    };
+    }
+  };
 
-    fetchMotivators();
+  useEffect(() => {
+    // Add a small delay to ensure auth is initialized
+    const timer = setTimeout(() => {
+      fetchMotivators();
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      if (user) {
+      if (user?.id) {
         try {
-          const { data: profile } = await supabase
+          console.log(`[Motivators] Fetching user profile for gender...`);
+          const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('sex')
             .eq('user_id', user.id)
             .single();
           
+          if (profileError && profileError.code !== 'PGRST116') {
+            throw profileError;
+          }
+          
+          console.log(`[Motivators] User gender: ${profile?.sex || 'unknown'}`);
           setUserGender(profile?.sex);
         } catch (error) {
-          console.error('Error fetching user profile:', error);
+          console.error('[Motivators] Error fetching user profile:', error);
           // Don't show toast for this, as it's optional
         }
       }
     };
 
     fetchUserProfile();
-  }, [user]);
+  }, [user?.id]);
 
   const getImageForUser = (motivator: Motivator, userGender?: string) => {
     // If user gender is known, show appropriate image
@@ -89,6 +119,11 @@ const Motivators: React.FC = () => {
             <div className="animate-pulse space-y-4">
               <div className="h-8 bg-muted rounded w-1/3 mx-auto"></div>
               <div className="h-4 bg-muted rounded w-2/3 mx-auto"></div>
+              {retryCount > 0 && (
+                <p className="text-sm text-muted-foreground">
+                  Retrying... (attempt {retryCount + 1}/3)
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -111,9 +146,32 @@ const Motivators: React.FC = () => {
           </p>
         </div>
 
-        {motivators.length === 0 ? (
-          <div className="text-center py-12">
+        {error ? (
+          <div className="text-center py-12 space-y-4">
+            <p className="text-destructive text-lg">{error}</p>
+            <button 
+              onClick={() => {
+                setLoading(true);
+                setError(null);
+                fetchMotivators();
+              }}
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        ) : motivators.length === 0 ? (
+          <div className="text-center py-12 space-y-4">
             <p className="text-muted-foreground text-lg">No motivators available at the moment.</p>
+            <button 
+              onClick={() => {
+                setLoading(true);
+                fetchMotivators();
+              }}
+              className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
+            >
+              Refresh
+            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
