@@ -48,14 +48,6 @@ export const HomepagePhaseCard: React.FC<HomepagePhaseCardProps> = ({
     <div className={cn("flex flex-col items-center", className)}>
       <CeramicPlate size="md" className="mb-4">
         <div className="flex flex-col items-center justify-center h-full text-center p-4">
-          {/* Phase Image Background */}
-          {image && (
-            <div 
-              className="absolute inset-0 rounded-full bg-cover bg-center opacity-20"
-              style={{ backgroundImage: `url(${image})` }}
-            />
-          )}
-          
           {/* Large Black Icon */}
           <div className="relative z-10 mb-6">
             <Icon className="w-16 h-16 text-black" />
