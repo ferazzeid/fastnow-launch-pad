@@ -17,6 +17,7 @@ import { pageContentService } from '@/services/PageContentService';
 
 const AboutFastNowApp = () => {
   const isMobile = useIsMobile();
+  const [isLoading, setIsLoading] = useState(true);
   const [content, setContent] = useState({
     heroTitle: 'Why the App Matters',
     heroDescription: '',
@@ -124,6 +125,8 @@ const AboutFastNowApp = () => {
         
       } catch (error) {
         console.error('Error loading about app content:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     
@@ -139,6 +142,19 @@ const AboutFastNowApp = () => {
     return pageContent?.button_url || getScreenshotForFeature('fasting-timer');
   };
 
+
+  if (isLoading) {
+    return (
+      <PageLayout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading content...</p>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>
