@@ -70,38 +70,19 @@ export class MotivatorService {
   }
 
   static async getUnifiedSystemGoals(): Promise<Motivator[]> {
-    try {
-      console.log('[MotivatorService] Starting getUnifiedSystemGoals query...');
-      
-      const { data, error } = await supabase
-        .from('motivators')
-        .select('*')
-        .match({ 
-          is_system_goal: true,
-          is_active: true,
-          is_published: true
-        })
-        .is('gender', null) // Only consolidated gender-neutral records
-        .order('title', { ascending: true });
+    const { data, error } = await supabase
+      .from('motivators')
+      .select('*')
+      .eq('is_active', true)
+      .eq('is_published', true)
+      .order('title', { ascending: true });
 
-      console.log('[MotivatorService] Query completed:', { 
-        error: error, 
-        dataLength: data?.length || 0,
-        data: data?.map(m => ({ id: m.id, title: m.title, is_active: m.is_active })) || []
-      });
-
-      if (error) {
-        console.error('[MotivatorService] Database error:', error);
-        throw error;
-      }
-
-      const result = data || [];
-      console.log('[MotivatorService] Returning result:', result.length, 'motivators');
-      return result;
-    } catch (error) {
-      console.error('[MotivatorService] Exception in getUnifiedSystemGoals:', error);
+    if (error) {
+      console.error('[MotivatorService] Database error:', error);
       throw error;
     }
+
+    return data || [];
   }
 
   static async createMotivator(motivator: Omit<Motivator, 'id' | 'created_at' | 'updated_at'>): Promise<Motivator> {

@@ -17,55 +17,23 @@ const Motivators: React.FC = () => {
   const [userGender, setUserGender] = useState<string | undefined>();
   const { user } = useAuth();
 
-  const fetchMotivators = async (attempt = 1) => {
-    const maxRetries = 3;
-    console.log(`[Motivators] Fetching motivators (attempt ${attempt}/${maxRetries})...`);
-    
+  const fetchMotivators = async () => {
     try {
       setError(null);
-      console.log('[Motivators] About to call MotivatorService.getUnifiedSystemGoals()...');
+      setLoading(true);
       const data = await MotivatorService.getUnifiedSystemGoals();
-      console.log('[Motivators] Service response received:', {
-        dataType: typeof data,
-        isArray: Array.isArray(data),
-        length: data?.length,
-        titles: data?.map(m => m?.title) || 'no data'
-      });
-      
-      if (!data || !Array.isArray(data)) {
-        console.error('[Motivators] Invalid data structure received:', data);
-        throw new Error('Invalid data structure received from service');
-      }
-      
-      console.log(`[Motivators] Successfully fetched ${data.length} motivators:`, data.map(m => m.title));
       setMotivators(data);
-      setRetryCount(0);
     } catch (error) {
-      console.error(`[Motivators] Error fetching motivators (attempt ${attempt}):`, error);
-      
-      if (attempt < maxRetries) {
-        console.log(`[Motivators] Retrying in 1 second...`);
-        setRetryCount(attempt);
-        setTimeout(() => fetchMotivators(attempt + 1), 1000);
-      } else {
-        const errorMessage = 'Failed to load motivators after multiple attempts';
-        setError(errorMessage);
-        toast.error(errorMessage);
-      }
+      console.error('[Motivators] Error fetching motivators:', error);
+      setError('Failed to load motivators');
+      toast.error('Failed to load motivators');
     } finally {
-      if (attempt === 1 || attempt >= maxRetries) {
-        setLoading(false);
-      }
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    // Add a small delay to ensure auth is initialized
-    const timer = setTimeout(() => {
-      fetchMotivators();
-    }, 100);
-
-    return () => clearTimeout(timer);
+    fetchMotivators();
   }, []);
 
   useEffect(() => {
@@ -96,18 +64,16 @@ const Motivators: React.FC = () => {
   }, [user?.id]);
 
   const getImageForUser = (motivator: Motivator, userGender?: string) => {
-    // Always use hash-based selection for balanced distribution regardless of user gender
     if (motivator.male_image_url && motivator.female_image_url) {
-      // Use motivator ID to deterministically alternate between male/female images
-      const usesFemaleImage = motivator.id.charCodeAt(0) % 2 === 0;
-      console.log(`[Motivators] Image selection for "${motivator.title}": ${usesFemaleImage ? 'female' : 'male'} (ID hash: ${motivator.id.charCodeAt(0)})`);
-      return usesFemaleImage ? motivator.female_image_url : motivator.male_image_url;
+      // Better hash-based selection for more balanced distribution
+      // Use first two characters of ID for better randomness
+      const hashValue = (motivator.id.charCodeAt(0) + motivator.id.charCodeAt(1)) % 4;
+      const usesMaleImage = hashValue < 2; // 50% chance for male images
+      return usesMaleImage ? motivator.male_image_url : motivator.female_image_url;
     }
     
-    // Fallback to any available image if only one gender is available
-    const fallbackImage = motivator.male_image_url || motivator.female_image_url || motivator.image_url;
-    console.log(`[Motivators] Fallback image for "${motivator.title}": ${fallbackImage ? 'found' : 'none'}`);
-    return fallbackImage;
+    // Fallback to any available image
+    return motivator.male_image_url || motivator.female_image_url || motivator.image_url;
   };
 
   const seoConfig = {
