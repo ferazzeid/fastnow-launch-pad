@@ -96,23 +96,18 @@ const Motivators: React.FC = () => {
   }, [user?.id]);
 
   const getImageForUser = (motivator: Motivator, userGender?: string) => {
-    // If user gender is known, show appropriate image
-    if (userGender === 'female' && motivator.female_image_url) {
-      return motivator.female_image_url;
-    }
-    if (userGender === 'male' && motivator.male_image_url) {
-      return motivator.male_image_url;
-    }
-    
-    // For unknown gender, use hash-based selection for balanced distribution
+    // Always use hash-based selection for balanced distribution regardless of user gender
     if (motivator.male_image_url && motivator.female_image_url) {
       // Use motivator ID to deterministically alternate between male/female images
       const usesFemaleImage = motivator.id.charCodeAt(0) % 2 === 0;
+      console.log(`[Motivators] Image selection for "${motivator.title}": ${usesFemaleImage ? 'female' : 'male'} (ID hash: ${motivator.id.charCodeAt(0)})`);
       return usesFemaleImage ? motivator.female_image_url : motivator.male_image_url;
     }
     
-    // Fallback to any available image
-    return motivator.male_image_url || motivator.female_image_url || motivator.image_url;
+    // Fallback to any available image if only one gender is available
+    const fallbackImage = motivator.male_image_url || motivator.female_image_url || motivator.image_url;
+    console.log(`[Motivators] Fallback image for "${motivator.title}": ${fallbackImage ? 'found' : 'none'}`);
+    return fallbackImage;
   };
 
   const seoConfig = {
