@@ -5,11 +5,15 @@ import LazyImage from '@/components/LazyImage';
 import PageLayout from '@/components/layout/PageLayout';
 import SEOHead from '@/components/SEOHead';
 import { MotivatorService, Motivator } from '@/services/MotivatorService';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 const Motivators: React.FC = () => {
   const [motivators, setMotivators] = useState<Motivator[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userGender, setUserGender] = useState<string | undefined>();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchMotivators = async () => {
@@ -27,14 +31,44 @@ const Motivators: React.FC = () => {
     fetchMotivators();
   }, []);
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (user) {
+        try {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('sex')
+            .eq('user_id', user.id)
+            .single();
+          
+          setUserGender(profile?.sex);
+        } catch (error) {
+          console.error('Error fetching user profile:', error);
+          // Don't show toast for this, as it's optional
+        }
+      }
+    };
+
+    fetchUserProfile();
+  }, [user]);
+
   const getImageForUser = (motivator: Motivator, userGender?: string) => {
+    // If user gender is known, show appropriate image
     if (userGender === 'female' && motivator.female_image_url) {
       return motivator.female_image_url;
     }
     if (userGender === 'male' && motivator.male_image_url) {
       return motivator.male_image_url;
     }
-    // Fallback to male image, then female, then legacy image_url
+    
+    // For unknown gender, use hash-based selection for balanced distribution
+    if (motivator.male_image_url && motivator.female_image_url) {
+      // Use motivator ID to deterministically alternate between male/female images
+      const usesFemaleImage = motivator.id.charCodeAt(0) % 2 === 0;
+      return usesFemaleImage ? motivator.female_image_url : motivator.male_image_url;
+    }
+    
+    // Fallback to any available image
     return motivator.male_image_url || motivator.female_image_url || motivator.image_url;
   };
 
@@ -90,10 +124,10 @@ const Motivators: React.FC = () => {
                 className="group block transition-transform duration-200 hover:scale-105"
               >
                 <Card className="h-full overflow-hidden border-border hover:shadow-lg transition-shadow duration-200">
-                  {getImageForUser(motivator) && (
+                  {getImageForUser(motivator, userGender) && (
                     <div className="aspect-video overflow-hidden">
                       <LazyImage
-                        src={getImageForUser(motivator)}
+                        src={getImageForUser(motivator, userGender)}
                         alt={motivator.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
