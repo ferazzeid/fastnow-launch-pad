@@ -344,11 +344,11 @@ const Index = () => {
       
       <main className="flex-1 relative">
         {/* Hero Section */}
-        <section id="hero" className="relative z-10 min-h-[100vh] flex items-center justify-center">
+        <section className="relative z-10 min-h-[85vh] flex items-start pt-16 md:pt-24 justify-start">
           {/* Hero Background Image */}
-          <div className="absolute inset-0 w-full h-full z-0">
+          <div className="absolute inset-0 w-full h-screen z-0">
             <PageFeaturedImage pageKey="home" className="w-full h-full object-cover" showDarkBackground={true} />
-            <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/50"></div>
+            <div className="absolute inset-0 bg-black/40"></div>
           </div>
           
           {/* Background 3D Element if available */}
@@ -361,67 +361,41 @@ const Index = () => {
               />
             </div>
           )}
-          
-          <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-            <div className="text-center max-w-4xl mx-auto">
-              {/* Modern Glass Card */}
-              <div className="backdrop-blur-xl bg-white/10 rounded-3xl p-8 sm:p-12 lg:p-16 border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:bg-white/15">
-                
-                {/* Hero Title */}
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-6">
-                  <span className="bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent drop-shadow-2xl">
-                    {renderHeroTitle()}
-                  </span>
+          <div className="container max-w-6xl mx-auto px-4 relative z-20">
+            <div className="text-left max-w-3xl">
+              <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
+                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
+                  {renderHeroTitle()}
                 </h1>
                 
-                {/* Hero Subtitle */}
                 {heroSubtitle && (
-                  <p className="text-xl sm:text-2xl lg:text-3xl text-white/95 mb-8 font-light leading-relaxed drop-shadow-lg">
+                  <p className="text-lg md:text-xl text-white/90 mb-6 drop-shadow-md">
                     {heroSubtitle}
                   </p>
                 )}
                 
-                {/* Hero Description */}
                 {heroDescription && (
-                  <div className="text-lg sm:text-xl text-white/90 mb-12 space-y-4 leading-relaxed drop-shadow-md max-w-3xl mx-auto">
+                  <div className="mt-6 text-white/90 space-y-4 drop-shadow-md">
                     {heroDescription.split('\n\n').map((paragraph, index) => (
-                      <p key={index} className="opacity-95">
+                      <p key={index}>
                         {paragraph}
                       </p>
                     ))}
                   </div>
                 )}
                 
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-8">
-                  {/* Launch App Button */}
+                {/* Launch App Button */}
+                <div className="mt-8 pt-6 border-t border-white/20 flex items-center justify-between">
                   <Button 
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-2xl text-lg font-bold shadow-2xl transition-all duration-300 inline-flex items-center gap-3 hover:shadow-primary/25 hover:scale-105 min-w-[200px]"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-semibold shadow-lg transition-all duration-300 inline-flex items-center gap-2 hover:shadow-xl hover:scale-105"
                     asChild
                   >
                     <a href={ctaUrl} target="_blank" rel="noopener noreferrer">
                       {ctaText}
-                      <ArrowRight size={24} />
+                      <ArrowRight size={20} />
                     </a>
                   </Button>
                   
-                  {/* Learn More Button */}
-                  <Button 
-                    variant="outline"
-                    className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-2xl text-lg font-semibold backdrop-blur-sm transition-all duration-300 hover:border-white/50 hover:scale-105 min-w-[200px]"
-                    onClick={() => {
-                      const learnMoreSection = document.getElementById('learn-more');
-                      if (learnMoreSection) {
-                        learnMoreSection.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
-                  >
-                    Learn More
-                  </Button>
-                </div>
-                
-                {/* Tooltip positioned at bottom */}
-                <div className="flex justify-center mt-8">
                   <SiteInfoTooltip
                     content="After years of struggling with complicated diet plans and fitness programs, I realized that simplicity is key. This protocol combines the most effective elements I've discovered through personal experience and research. It's not about perfection - it's about consistent progress that actually fits into your real life."
                     size="md"
@@ -433,7 +407,7 @@ const Index = () => {
         </section>
 
         {/* Second Section - This Isn't for Fitness Models */}
-        <section id="learn-more" className="relative z-10 min-h-screen flex items-center justify-center pb-0 mb-0">
+        <section className="relative z-10 min-h-screen flex items-center justify-center pb-0 mb-0">
           <div className="absolute inset-0 w-full h-full z-0 bg-gray-900"></div>
           
           <div className="container max-w-6xl mx-auto px-4 relative z-10">
