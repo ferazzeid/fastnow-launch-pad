@@ -426,73 +426,42 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Third Section - Why This Is Working */}
-        <section className="relative z-10 py-16 bg-white">
-          <div className="container max-w-6xl mx-auto px-4">
-            <div className="text-center max-w-6xl mx-auto">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
-                Why This Is Working
-              </h2>
+        {/* Fourth Section - New Slide */}
+        {slide4Content && (
+          <section className="relative z-10 py-16 bg-gray-50">
+            <div className="container max-w-6xl mx-auto px-4">
+              <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                {/* Content Side */}
+                <div className="text-left order-1">
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-6 leading-tight text-gray-900">
+                    {slide4Title}
+                  </h2>
+                  
+                  <div className="text-lg text-gray-700 space-y-4">
+                    {slide4Content.split('\n\n').map((paragraph, index) => (
+                      <p key={index}>
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                </div>
 
-              <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
-                {slide3Content.split('\n\n').map((paragraph, index) => (
-                  <p key={index}>
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-              
-              {/* Read More Button - Centered above graphics */}
-              <div className="mt-8 mb-12 flex justify-center">
-                <Link to="/fast-now-protocol">
-                  <Button 
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-semibold shadow-lg transition-colors flex items-center gap-2"
-                  >
-                    Read More
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </Link>
-              </div>
-              
-              {/* Three Phases Ceramic Plates */}
-              <div className="mt-8">
-                <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-16 max-w-5xl mx-auto">
-                  <HomepagePhaseCard
-                    phaseNumber={1}
-                    title="3-Day Water Fast"
-                    image={phaseImages.phase1}
-                  />
-                  
-                  {/* Plus Sign */}
-                  <div className="flex items-center justify-center">
-                    <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
-                      +
+                {/* Image Side */}
+                <div className="order-2 flex justify-center lg:justify-end">
+                  {slide4ImageUrl && (
+                    <div className="max-w-md lg:max-w-lg">
+                      <LazyImage 
+                        src={slide4ImageUrl}
+                        alt={slide4Title}
+                        className="w-full h-auto rounded-lg shadow-2xl"
+                      />
                     </div>
-                  </div>
-                  
-                  <HomepagePhaseCard
-                    phaseNumber={2}
-                    title="Strict Simple Diet"
-                    image={phaseImages.phase2}
-                  />
-                  
-                  {/* Plus Sign */}
-                  <div className="flex items-center justify-center">
-                    <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
-                      +
-                    </div>
-                  </div>
-                  
-                  <HomepagePhaseCard
-                    phaseNumber={3}
-                    title="Daily Walking"
-                    image={phaseImages.phase3}
-                  />
+                  )}
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Slideshow Section - Aren't you tired of this */}
         <ImageSlideshow />

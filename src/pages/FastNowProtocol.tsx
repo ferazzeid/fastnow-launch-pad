@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SEOHead from '@/components/SEOHead';
-import { AlertTriangle, CheckCircle, Clock, Utensils, Activity } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Clock, Utensils, Activity, ArrowRight } from 'lucide-react';
 import { SchemaService } from '@/services/SchemaService';
 import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
@@ -8,6 +8,8 @@ import FAQSection from '@/components/FAQSection';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { supabase } from '@/integrations/supabase/client';
+import { Link } from 'react-router-dom';
+import { HomepagePhaseCard } from '@/components/HomepagePhaseCard';
 
 const FastNowProtocol = () => {
   const [pageContent, setPageContent] = useState({
@@ -50,6 +52,16 @@ const FastNowProtocol = () => {
       image: '',
       readMoreLink: ''
     }
+  });
+
+  // Add slide3Content for the "Why This Is Working" section
+  const [slide3Content, setSlide3Content] = useState<string>('If you\'ve tried losing weight before, you\'ve already heard most of what\'s in this program. That\'s exactly the problem — there\'s too much information.\n\nThis is a stripped-down, 3-step path for a fixed period of time. It\'s the sweet spot between doing just enough and getting the maximum benefit. Simple enough to fit into daily life, structured enough to keep you moving, and powerful enough to deliver results — if you follow through.\n\nThere\'s no magic here. Just logic, math, action, and reaction.');
+  
+  // Phase images state
+  const [phaseImages, setPhaseImages] = useState({
+    phase1: '',
+    phase2: '',
+    phase3: ''
   });
   const [isLoading, setIsLoading] = useState(true);
   const [howToSchema, setHowToSchema] = useState<any>(null);
@@ -137,6 +149,19 @@ const FastNowProtocol = () => {
           readMoreLink: settings.protocol_phase3_read_more_link || ''
         }
       });
+
+      // Set phase images
+      setPhaseImages({
+        phase1: settings.protocol_phase1_intro_image || '',
+        phase2: settings.protocol_phase2_intro_image || '',
+        phase3: settings.protocol_phase3_intro_image || ''
+      });
+
+      // Load slide3Content from database or use default
+      const slide3ContentFromDb = settings.protocol_slide3_content;
+      if (slide3ContentFromDb) {
+        setSlide3Content(slide3ContentFromDb);
+      }
 
       // Generate HowTo schema
       const schema = SchemaService.generateHowToSchema({
@@ -568,6 +593,62 @@ I'd rather put in serious energy at the start, get solid results in the first 2�
                     </DialogContent>
                   </Dialog>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why This Is Working Section */}
+      <section className="relative z-10 py-16 bg-white">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-center max-w-6xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
+              Why This Is Working
+            </h2>
+
+            <div className="text-lg md:text-xl text-gray-700 mb-8 space-y-4">
+              {slide3Content.split('\n\n').map((paragraph, index) => (
+                <p key={index}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            
+            {/* Three Phases Ceramic Plates */}
+            <div className="mt-8">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-16 max-w-5xl mx-auto">
+                <HomepagePhaseCard
+                  phaseNumber={1}
+                  title="3-Day Water Fast"
+                  image={phaseImages.phase1}
+                />
+                
+                {/* Plus Sign */}
+                <div className="flex items-center justify-center">
+                  <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
+                    +
+                  </div>
+                </div>
+                
+                <HomepagePhaseCard
+                  phaseNumber={2}
+                  title="Strict Simple Diet"
+                  image={phaseImages.phase2}
+                />
+                
+                {/* Plus Sign */}
+                <div className="flex items-center justify-center">
+                  <div className="w-8 h-8 flex items-center justify-center text-2xl font-bold text-muted-foreground">
+                    +
+                  </div>
+                </div>
+                
+                <HomepagePhaseCard
+                  phaseNumber={3}
+                  title="Daily Walking"
+                  image={phaseImages.phase3}
+                />
               </div>
             </div>
           </div>
