@@ -27,6 +27,17 @@ const Motivators: React.FC = () => {
     fetchMotivators();
   }, []);
 
+  const getImageForUser = (motivator: Motivator, userGender?: string) => {
+    if (userGender === 'female' && motivator.female_image_url) {
+      return motivator.female_image_url;
+    }
+    if (userGender === 'male' && motivator.male_image_url) {
+      return motivator.male_image_url;
+    }
+    // Fallback to male image, then female, then legacy image_url
+    return motivator.male_image_url || motivator.female_image_url || motivator.image_url;
+  };
+
   const seoConfig = {
     title: 'Motivators - Find Your Fasting Inspiration',
     description: 'Discover powerful motivators and goals to keep you inspired on your fasting journey. Personal stories, tips, and motivation to help you succeed.',
@@ -79,10 +90,10 @@ const Motivators: React.FC = () => {
                 className="group block transition-transform duration-200 hover:scale-105"
               >
                 <Card className="h-full overflow-hidden border-border hover:shadow-lg transition-shadow duration-200">
-                  {motivator.image_url && (
+                  {getImageForUser(motivator) && (
                     <div className="aspect-video overflow-hidden">
                       <LazyImage
-                        src={motivator.image_url}
+                        src={getImageForUser(motivator)}
                         alt={motivator.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
