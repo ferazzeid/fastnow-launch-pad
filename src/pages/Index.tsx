@@ -42,6 +42,7 @@ const getCustomElementImage = (elementId: string): string | null => {
 };
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [logoSize, setLogoSize] = useState<number>(32);
   const [mockupUrl, setMockupUrl] = useState<string | null>(null);
@@ -98,63 +99,7 @@ const Index = () => {
 
   // Load content from database and localStorage
   useEffect(() => {
-    // Load latest blog posts
-    const loadBlogPosts = async () => {
-      try {
-        const allPosts = await databaseBlogService.getAllPosts();
-        const publishedPosts = allPosts.filter(post => post.status === 'published');
-        const sortedPosts = publishedPosts
-          .sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime());
-        setLatestBlogPosts(sortedPosts.slice(0, 3));
-      } catch (error) {
-        console.error('Error loading blog posts:', error);
-      }
-    };
-
-    // Load feature screenshots and about app content
-    const loadFeatureScreenshots = async () => {
-      try {
-        const [screenshots, aboutContent] = await Promise.all([
-          FeatureScreenshotService.getFeatureScreenshots(),
-          pageContentService.getPageContent('about-fastnow-app')
-        ]);
-        setFeatureScreenshots(screenshots);
-        setAboutAppPageContent(aboutContent);
-      } catch (error) {
-        console.error('Error loading feature screenshots:', error);
-      }
-    };
-
-    const loadPhaseImages = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('site_settings')
-          .select('setting_key, setting_value')
-          .in('setting_key', ['protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image']);
-
-        if (error) throw error;
-
-        const settings = data?.reduce((acc, item) => {
-          const value = item.setting_value;
-          try {
-            acc[item.setting_key] = typeof value === 'string' ? JSON.parse(value || '""') : String(value || '');
-          } catch {
-            acc[item.setting_key] = String(value || '');
-          }
-          return acc;
-        }, {} as Record<string, string>) || {};
-
-        setPhaseImages({
-          phase1: settings.protocol_phase1_intro_image || '',
-          phase2: settings.protocol_phase2_intro_image || '',
-          phase3: settings.protocol_phase3_intro_image || ''
-        });
-      } catch (error) {
-        console.error('Error loading phase images:', error);
-      }
-    };
-
-    const loadContent = async () => {
+    const loadAllContent = async () => {
       try {
         // Check if migration has already been done
         const migrationDone = localStorage.getItem('content_migration_completed');
@@ -166,9 +111,65 @@ const Index = () => {
           pageContentService.cleanupLocalStorage();
         }
 
-        // Load homepage content from database
-        const homeContent = await pageContentService.getPageContent('home');
-        
+        // Load all content in parallel
+        const [
+          allPosts,
+          screenshots,
+          aboutContent,
+          phaseImagesData,
+          homeContent,
+          slide2Content,
+          slide3Content,
+          slide4Content,
+          designSettings,
+          siteIdentity,
+          heroSideImageSettings,
+          activeImage
+        ] = await Promise.all([
+          databaseBlogService.getAllPosts(),
+          FeatureScreenshotService.getFeatureScreenshots(),
+          pageContentService.getPageContent('about-fastnow-app'),
+          supabase.from('site_settings').select('setting_key, setting_value').in('setting_key', ['protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image']),
+          pageContentService.getPageContent('home'),
+          pageContentService.getPageContent('home-slide2'),
+          pageContentService.getPageContent('home-slide3'),
+          pageContentService.getPageContent('home-slide4'),
+          pageContentService.getGeneralSetting('design_colors'),
+          pageContentService.getGeneralSetting('site_identity'),
+          SiteSettingsService.getSetting('hero_side_image_settings'),
+          BackgroundImageService.getActiveImage()
+        ]);
+
+        // Process blog posts
+        const publishedPosts = allPosts.filter(post => post.status === 'published');
+        const sortedPosts = publishedPosts
+          .sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime());
+        setLatestBlogPosts(sortedPosts.slice(0, 3));
+
+        // Set feature screenshots and about content
+        setFeatureScreenshots(screenshots);
+        setAboutAppPageContent(aboutContent);
+
+        // Process phase images
+        if (phaseImagesData.data) {
+          const settings = phaseImagesData.data.reduce((acc, item) => {
+            const value = item.setting_value;
+            try {
+              acc[item.setting_key] = typeof value === 'string' ? JSON.parse(value || '""') : String(value || '');
+            } catch {
+              acc[item.setting_key] = String(value || '');
+            }
+            return acc;
+          }, {} as Record<string, string>);
+
+          setPhaseImages({
+            phase1: settings.protocol_phase1_intro_image || '',
+            phase2: settings.protocol_phase2_intro_image || '',
+            phase3: settings.protocol_phase3_intro_image || ''
+          });
+        }
+
+        // Process homepage content
         if (homeContent) {
           setHeroTitle(homeContent.title || 'My Protocol for Fat Loss');
           setHeroSubtitle(homeContent.subtitle || 'Transform your body with our scientifically-backed fasting approach');
@@ -180,54 +181,37 @@ const Index = () => {
           setFeaturedImageUrl(homeContent.featured_image_url || '');
         }
 
-        // Load slide 2 content
-        const slide2Content = await pageContentService.getPageContent('home-slide2');
+        // Process slide content
         if (slide2Content) {
           setSlide2Title(slide2Content.title || 'This Isn\'t for Fitness Models');
           setSlide2Content(slide2Content.content || 'Most weight loss ads feature people in perfect shape, selling programs they "used" to get there. That\'s not this.\n\nThis is for regular people who are tired of being overweight. Maybe you want to walk into a store and buy clothes off the rack. Maybe you\'re tired of airline seats feeling too small. Maybe a blood test woke you up. Or maybe you\'ve simply noticed you blend into the crowd in a way you didn\'t before.\n\nYou don\'t need a six-pack. You just need to turn the ship around.\n\nOver 90 days, this protocol gives you the momentum to move in a better direction—fast. After that, if you want to chase the perfect body, that\'s up to you. But if you want to get back to feeling good in your own skin, this is where you start.');
           setSlide2ImageUrl(slide2Content.featured_image_url || '');
         }
 
-        // Load slide 3 content  
-        const slide3Content = await pageContentService.getPageContent('home-slide3');
         if (slide3Content) {
           setSlide3Title(slide3Content.title || 'Nothing New — And That\'s the Point');
           setSlide3Content(slide3Content.content || 'If you\'ve tried losing weight before, you\'ve already heard most of what\'s in this program. That\'s exactly the problem — there\'s too much information.\n\nThis is a stripped-down, 3-step path for a fixed period of time. It\'s the sweet spot between doing just enough and getting the maximum benefit. Simple enough to fit into daily life, structured enough to keep you moving, and powerful enough to deliver results — if you follow through.\n\nThere\'s no magic here. Just logic, math, action, and reaction.');
           setSlide3ImageUrl(slide3Content.featured_image_url || '');
         }
 
-        // Load slide 4 content  
-        const slide4Content = await pageContentService.getPageContent('home-slide4');
         if (slide4Content) {
           setSlide4Title(slide4Content.title || 'New Slide');
           setSlide4Content(slide4Content.content || '');
           setSlide4ImageUrl(slide4Content.featured_image_url || '');
         }
 
-        // Load launch button color from design settings
-        const designSettings = await pageContentService.getGeneralSetting('design_colors');
+        // Process other settings
         if (designSettings?.setting_value?.launchButton) {
           setLaunchButtonColor(designSettings.setting_value.launchButton);
         }
 
-        // Load site identity settings for logo
-        const siteIdentity = await pageContentService.getGeneralSetting('site_identity');
-        if (siteIdentity?.setting_value) {
-          const { logoUrl: dbLogoUrl } = siteIdentity.setting_value;
-          if (dbLogoUrl) setLogoUrl(dbLogoUrl);
+        if (siteIdentity?.setting_value?.logoUrl) {
+          setLogoUrl(siteIdentity.setting_value.logoUrl);
         }
 
-      } catch (error) {
-        console.error('Error loading content from database:', error);
-      }
-    };
-
-    // Load hero side image settings
-    const loadHeroSideImage = async () => {
-      try {
-        const settings = await SiteSettingsService.getSetting('hero_side_image_settings');
-        if (settings && typeof settings === 'object') {
-          const imageSettings = settings as {
+        // Process hero side image settings
+        if (heroSideImageSettings && typeof heroSideImageSettings === 'object') {
+          const imageSettings = heroSideImageSettings as {
             sideImageUrl?: string;
             imageAlignment?: 'top' | 'center' | 'bottom';
             imageWidth?: number;
@@ -237,33 +221,21 @@ const Index = () => {
           setSideImageAlignment(imageSettings.imageAlignment || 'center');
           setSideImageWidth(imageSettings.imageWidth || 25);
         }
+
+        // Set background image
+        if (activeImage) {
+          setBackgroundImageUrl(activeImage.image_url);
+        }
+
       } catch (error) {
-        console.error('Error loading hero side image settings:', error);
+        console.error('Error loading content:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    // Load database content
-    loadBlogPosts();
-    loadFeatureScreenshots();
-    loadPhaseImages();
-    loadContent();
-    loadHeroSideImage();
+    loadAllContent();
 
-  // Load active background image (simplified - no Unsplash fallbacks)
-  const loadBackgroundImage = async () => {
-    try {
-      const activeImage = await BackgroundImageService.getActiveImage();
-      if (activeImage) {
-        setBackgroundImageUrl(activeImage.image_url);
-      }
-      // No fallback - let the component handle empty state gracefully
-    } catch (error) {
-      console.error('Error loading background image:', error);
-      // No fallback - let the component handle empty state gracefully
-    }
-  };
-
-  loadBackgroundImage();
 
     try {
       // Load custom UI elements
@@ -303,6 +275,19 @@ const Index = () => {
       </span>
     ));
   };
+
+  if (isLoading) {
+    return (
+      <PageLayout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading content...</p>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>
