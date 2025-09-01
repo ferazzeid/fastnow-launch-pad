@@ -143,6 +143,14 @@ export class MotivatorService {
       throw error;
     }
 
+    // Sync to SEO settings
+    try {
+      const { PageSEOService } = await import('./PageSEOService');
+      await PageSEOService.syncMotivatorURLsToSEO();
+    } catch (error) {
+      console.warn('Failed to sync motivator to SEO settings:', error);
+    }
+
     return data;
   }
 
@@ -157,6 +165,16 @@ export class MotivatorService {
     if (error) {
       console.error('Error updating motivator:', error);
       throw error;
+    }
+
+    // Sync to SEO settings if slug or publication status changed
+    if (motivator.slug || motivator.is_published !== undefined || motivator.is_active !== undefined) {
+      try {
+        const { PageSEOService } = await import('./PageSEOService');
+        await PageSEOService.syncMotivatorURLsToSEO();
+      } catch (error) {
+        console.warn('Failed to sync motivator to SEO settings:', error);
+      }
     }
 
     return data;

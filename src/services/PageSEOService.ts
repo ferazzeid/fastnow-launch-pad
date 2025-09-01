@@ -150,6 +150,46 @@ export class PageSEOService {
     }
   }
 
+  // Add motivator URLs to SEO management
+  static async syncMotivatorURLsToSEO(): Promise<void> {
+    try {
+      // Import MotivatorService dynamically to avoid circular dependency
+      const { MotivatorService } = await import('./MotivatorService');
+      const motivators = await MotivatorService.getAllMotivatorsForAdmin();
+      
+      const publishedMotivators = motivators.filter(m => m.is_published && m.is_active);
+      
+      for (const motivator of publishedMotivators) {
+        const pagePath = `/motivators/${motivator.slug}`;
+        
+        // Check if SEO setting already exists
+        const { data: existing } = await supabase
+          .from('page_seo_settings')
+          .select('id')
+          .eq('page_path', pagePath)
+          .single();
+          
+        if (!existing) {
+          // Add new SEO setting
+          await this.addNewPageSetting({
+            page_path: pagePath,
+            page_title: motivator.title,
+            page_description: motivator.content.replace(/<[^>]*>/g, '').substring(0, 160),
+            meta_title: motivator.meta_title || motivator.title,
+            meta_description: motivator.meta_description || motivator.content.replace(/<[^>]*>/g, '').substring(0, 160),
+            page_type: 'content',
+            is_indexed: true,
+            robots_directive: 'index, follow',
+            is_dynamic: false
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error syncing motivator URLs to SEO:', error);
+      throw error;
+    }
+  }
+
   static getPageTypeLabel(pageType: string): string {
     switch (pageType) {
       case 'content': return 'Content';

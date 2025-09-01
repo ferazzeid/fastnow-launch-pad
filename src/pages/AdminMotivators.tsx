@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Edit, Eye, EyeOff, Lock, Users } from 'lucide-react';
+import { Edit, Eye, EyeOff, Lock, Users, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -345,6 +346,19 @@ const AdminMotivators: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Header with Back Button */}
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center space-x-4">
+          <Link 
+            to="/admin"
+            className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Admin
+          </Link>
+        </div>
+      </div>
+      
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground">Fundamental Goals</h1>
         <p className="text-muted-foreground mt-2">Manage the 16 core goals for destination pages</p>
@@ -383,8 +397,8 @@ const AdminMotivators: React.FC = () => {
                             <CardTitle className="flex items-center gap-2">
                               <Lock className="w-4 h-4 text-muted-foreground" />
                               {motivator.title}
-                              <div className="flex gap-1">
-                                <Badge variant="secondary">Male</Badge>
+                               <div className="flex gap-1">
+                                 <Badge variant="default" className="text-white">Male</Badge>
                                 {motivator.is_published ? (
                                   <Badge variant="default">Published</Badge>
                                 ) : (
@@ -463,8 +477,8 @@ const AdminMotivators: React.FC = () => {
                             <CardTitle className="flex items-center gap-2">
                               <Lock className="w-4 h-4 text-muted-foreground" />
                               {motivator.title}
-                              <div className="flex gap-1">
-                                <Badge variant="secondary">Female</Badge>
+                               <div className="flex gap-1">
+                                 <Badge variant="default" className="text-white">Female</Badge>
                                 {motivator.is_published ? (
                                   <Badge variant="default">Published</Badge>
                                 ) : (
