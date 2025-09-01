@@ -79,6 +79,7 @@ export class MotivatorService {
           is_active: true,
           is_published: true
         })
+        .is('gender', null) // Only consolidated gender-neutral records
         .order('title', { ascending: true });
 
       if (error) {
@@ -89,8 +90,7 @@ export class MotivatorService {
       return data || [];
     } catch (error) {
       console.error('Error in getUnifiedSystemGoals:', error);
-      // Fallback to regular method if this fails
-      return this.getAllMotivators();
+      throw error;
     }
   }
 
