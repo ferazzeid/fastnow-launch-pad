@@ -71,6 +71,8 @@ export class MotivatorService {
 
   static async getUnifiedSystemGoals(): Promise<Motivator[]> {
     try {
+      console.log('[MotivatorService] Starting getUnifiedSystemGoals query...');
+      
       const { data, error } = await supabase
         .from('motivators')
         .select('*')
@@ -82,14 +84,22 @@ export class MotivatorService {
         .is('gender', null) // Only consolidated gender-neutral records
         .order('title', { ascending: true });
 
+      console.log('[MotivatorService] Query completed:', { 
+        error: error, 
+        dataLength: data?.length || 0,
+        data: data?.map(m => ({ id: m.id, title: m.title, is_active: m.is_active })) || []
+      });
+
       if (error) {
-        console.error('Error fetching unified system goals:', error);
+        console.error('[MotivatorService] Database error:', error);
         throw error;
       }
 
-      return data || [];
+      const result = data || [];
+      console.log('[MotivatorService] Returning result:', result.length, 'motivators');
+      return result;
     } catch (error) {
-      console.error('Error in getUnifiedSystemGoals:', error);
+      console.error('[MotivatorService] Exception in getUnifiedSystemGoals:', error);
       throw error;
     }
   }

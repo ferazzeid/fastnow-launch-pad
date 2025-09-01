@@ -23,7 +23,20 @@ const Motivators: React.FC = () => {
     
     try {
       setError(null);
+      console.log('[Motivators] About to call MotivatorService.getUnifiedSystemGoals()...');
       const data = await MotivatorService.getUnifiedSystemGoals();
+      console.log('[Motivators] Service response received:', {
+        dataType: typeof data,
+        isArray: Array.isArray(data),
+        length: data?.length,
+        titles: data?.map(m => m?.title) || 'no data'
+      });
+      
+      if (!data || !Array.isArray(data)) {
+        console.error('[Motivators] Invalid data structure received:', data);
+        throw new Error('Invalid data structure received from service');
+      }
+      
       console.log(`[Motivators] Successfully fetched ${data.length} motivators:`, data.map(m => m.title));
       setMotivators(data);
       setRetryCount(0);
