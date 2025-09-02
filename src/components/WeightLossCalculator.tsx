@@ -22,10 +22,10 @@ export const WeightLossCalculator: React.FC = () => {
     height: 175,
     currentWeight: 80,
     dailyCalorieIntake: 2000,
-    activityType: 'steps',
+    activityType: 'walking',
     steps: 8000,
     walkingMinutes: 30,
-    walkingPace: 'moderate'
+    walkingSpeed: 5.0 // km/h - default moderate speed
   });
 
   const [results, setResults] = useState<any>(null);
@@ -108,12 +108,12 @@ export const WeightLossCalculator: React.FC = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="sex" className="text-text-secondary">Sex</Label>
+                <Label className="text-text-secondary">Sex</Label>
                 <Select value={inputs.sex} onValueChange={(value: 'male' | 'female') => updateInput('sex', value)}>
-                  <SelectTrigger className="mt-1">
+                  <SelectTrigger className="mt-1 bg-background z-50">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-background border z-50">
                     <SelectItem value="male">Male</SelectItem>
                     <SelectItem value="female">Female</SelectItem>
                   </SelectContent>
@@ -156,59 +156,33 @@ export const WeightLossCalculator: React.FC = () => {
               />
             </div>
 
-            <div>
-              <Label className="text-text-secondary">Activity Type</Label>
-              <Select value={inputs.activityType} onValueChange={(value: 'steps' | 'walking') => updateInput('activityType', value)}>
-                <SelectTrigger className="mt-1">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="steps">Daily Steps</SelectItem>
-                  <SelectItem value="walking">Walking Minutes</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {inputs.activityType === 'steps' && (
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="steps" className="text-text-secondary">Daily Steps</Label>
+                <Label htmlFor="minutes" className="text-text-secondary">Walking Minutes</Label>
                 <Input
-                  id="steps"
+                  id="minutes"
                   type="number"
-                  value={inputs.steps}
-                  onChange={(e) => updateInput('steps', Number(e.target.value))}
+                  value={inputs.walkingMinutes}
+                  onChange={(e) => updateInput('walkingMinutes', Number(e.target.value))}
                   className="mt-1"
                 />
               </div>
-            )}
-
-            {inputs.activityType === 'walking' && (
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="minutes" className="text-text-secondary">Walking Minutes</Label>
-                  <Input
-                    id="minutes"
-                    type="number"
-                    value={inputs.walkingMinutes}
-                    onChange={(e) => updateInput('walkingMinutes', Number(e.target.value))}
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <Label className="text-text-secondary">Walking Pace</Label>
-                  <Select value={inputs.walkingPace} onValueChange={(value: 'slow' | 'moderate' | 'fast') => updateInput('walkingPace', value)}>
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="slow">Slow (3 km/h)</SelectItem>
-                      <SelectItem value="moderate">Moderate (5 km/h)</SelectItem>
-                      <SelectItem value="fast">Fast (6.5 km/h)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div>
+                <Label className="text-text-secondary">Walking Speed</Label>
+                <Select value={inputs.walkingSpeed?.toString()} onValueChange={(value) => updateInput('walkingSpeed', Number(value))}>
+                  <SelectTrigger className="mt-1 bg-background z-50">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background border z-50">
+                    <SelectItem value="3.0">Slow (3.0 km/h)</SelectItem>
+                    <SelectItem value="4.0">Easy (4.0 km/h)</SelectItem>
+                    <SelectItem value="5.0">Moderate (5.0 km/h)</SelectItem>
+                    <SelectItem value="6.0">Brisk (6.0 km/h)</SelectItem>
+                    <SelectItem value="6.5">Fast (6.5 km/h)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-            )}
+            </div>
           </CardContent>
         </Card>
 

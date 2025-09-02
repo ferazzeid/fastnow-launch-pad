@@ -4,10 +4,10 @@ export interface CalculatorInputs {
   height: number; // cm
   currentWeight: number; // kg
   dailyCalorieIntake: number; // kcal
-  activityType: 'steps' | 'walking';
+  activityType: 'walking';
   steps: number;
   walkingMinutes: number;
-  walkingPace: 'slow' | 'moderate' | 'fast';
+  walkingSpeed: number; // km/h
 }
 
 export interface WeightProjectionPoint {
@@ -29,22 +29,25 @@ export function calculateBMR(age: number, sex: 'male' | 'female', height: number
  * Calculate calories burned from walking activity
  */
 export function calculateWalkingBurn(inputs: CalculatorInputs): number {
-  if (inputs.activityType === 'steps') {
-    // Rough estimation: 0.04 kcal per step per kg body weight
-    return (inputs.steps * 0.04 * inputs.currentWeight) / inputs.currentWeight * 70; // Normalized to 70kg person
+  // Calculate based on walking minutes and speed
+  // METs formula based on walking speed (km/h)
+  let mets: number;
+  
+  if (inputs.walkingSpeed <= 3.2) {
+    mets = 2.9; // Slow pace
+  } else if (inputs.walkingSpeed <= 4.0) {
+    mets = 3.3; // Easy pace
+  } else if (inputs.walkingSpeed <= 5.6) {
+    mets = 3.8; // Moderate pace
+  } else if (inputs.walkingSpeed <= 6.4) {
+    mets = 5.0; // Brisk pace
   } else {
-    // Calculate based on walking minutes and pace
-    const paceMultipliers = {
-      slow: 3.0, // 3 METs
-      moderate: 3.8, // 3.8 METs
-      fast: 5.0 // 5 METs
-    };
-    
-    const mets = paceMultipliers[inputs.walkingPace];
-    // METs formula: kcal/hour = METs × weight(kg) × 1.05
-    const kcalPerHour = mets * inputs.currentWeight * 1.05;
-    return (kcalPerHour * inputs.walkingMinutes) / 60;
+    mets = 6.3; // Fast pace
   }
+  
+  // METs formula: kcal/hour = METs × weight(kg) × 1.05
+  const kcalPerHour = mets * inputs.currentWeight * 1.05;
+  return (kcalPerHour * inputs.walkingMinutes) / 60;
 }
 
 /**
