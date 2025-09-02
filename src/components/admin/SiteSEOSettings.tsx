@@ -26,6 +26,7 @@ interface SiteSEOData {
   socialInstagram: string;
   socialYoutube: string;
   socialLinkedin: string;
+  socialTiktok: string;
   themeColor: string;
   robotsDefault: string;
 }
@@ -48,6 +49,7 @@ const SiteSEOSettings = () => {
     socialInstagram: '',
     socialYoutube: '',
     socialLinkedin: '',
+    socialTiktok: '',
     themeColor: '',
     robotsDefault: '',
   });
@@ -65,7 +67,7 @@ const SiteSEOSettings = () => {
       const [
         siteTitle, siteDescription, siteKeywords, siteAuthor, baseUrl, defaultImage,
         organizationName, organizationDescription, organizationUrl, organizationLogo, organizationEmail,
-        socialFacebook, socialTwitter, socialInstagram, socialYoutube, socialLinkedin,
+        socialFacebook, socialTwitter, socialInstagram, socialYoutube, socialLinkedin, socialTiktok,
         themeColor, robotsDefault
       ] = await Promise.all([
         SiteSettingsService.getSetting('seo_site_title'),
@@ -84,6 +86,7 @@ const SiteSEOSettings = () => {
         SiteSettingsService.getSetting('seo_social_instagram'),
         SiteSettingsService.getSetting('seo_social_youtube'),
         SiteSettingsService.getSetting('seo_social_linkedin'),
+        SiteSettingsService.getSetting('seo_social_tiktok'),
         SiteSettingsService.getSetting('seo_theme_color'),
         SiteSettingsService.getSetting('seo_robots_default')
       ]);
@@ -105,6 +108,7 @@ const SiteSEOSettings = () => {
         socialInstagram: String(socialInstagram || ''),
         socialYoutube: String(socialYoutube || ''),
         socialLinkedin: String(socialLinkedin || ''),
+        socialTiktok: String(socialTiktok || ''),
         themeColor: String(themeColor || '#6366F1'),
         robotsDefault: String(robotsDefault || 'index, follow'),
       });
@@ -143,6 +147,7 @@ const SiteSEOSettings = () => {
         SiteSettingsService.setSetting('seo_social_instagram', settings.socialInstagram),
         SiteSettingsService.setSetting('seo_social_youtube', settings.socialYoutube),
         SiteSettingsService.setSetting('seo_social_linkedin', settings.socialLinkedin),
+        SiteSettingsService.setSetting('seo_social_tiktok', settings.socialTiktok),
         SiteSettingsService.setSetting('seo_theme_color', settings.themeColor),
         SiteSettingsService.setSetting('seo_robots_default', settings.robotsDefault)
       ]);
@@ -367,14 +372,25 @@ const SiteSEOSettings = () => {
             </div>
           </div>
           
-          <div>
-            <Label htmlFor="socialLinkedin">LinkedIn URL</Label>
-            <Input
-              id="socialLinkedin"
-              value={settings.socialLinkedin}
-              onChange={(e) => handleInputChange('socialLinkedin', e.target.value)}
-              placeholder="https://linkedin.com/company/yourcompany"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="socialLinkedin">LinkedIn URL</Label>
+              <Input
+                id="socialLinkedin"
+                value={settings.socialLinkedin}
+                onChange={(e) => handleInputChange('socialLinkedin', e.target.value)}
+                placeholder="https://linkedin.com/company/yourcompany"
+              />
+            </div>
+            <div>
+              <Label htmlFor="socialTiktok">TikTok URL</Label>
+              <Input
+                id="socialTiktok"
+                value={settings.socialTiktok}
+                onChange={(e) => handleInputChange('socialTiktok', e.target.value)}
+                placeholder="https://tiktok.com/@youraccount"
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

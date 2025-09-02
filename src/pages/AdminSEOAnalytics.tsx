@@ -176,6 +176,7 @@ const AdminSEOAnalytics = () => {
                       variant="outline" 
                       className="w-full justify-start"
                       onClick={async () => {
+                        setIsLoading(true);
                         try {
                           await PageSEOService.syncMotivatorURLsToSEO();
                           toast.success('Motivator URLs synced successfully!');
@@ -183,11 +184,14 @@ const AdminSEOAnalytics = () => {
                         } catch (error) {
                           console.error('Error syncing motivator URLs:', error);
                           toast.error('Failed to sync motivator URLs');
+                        } finally {
+                          setIsLoading(false);
                         }
                       }}
+                      disabled={isLoading}
                     >
                       <Settings className="mr-2 h-4 w-4" />
-                      Sync Motivator URLs
+                      {isLoading ? 'Syncing...' : 'Sync Motivator URLs'}
                     </Button>
                   </div>
                 </CardContent>
