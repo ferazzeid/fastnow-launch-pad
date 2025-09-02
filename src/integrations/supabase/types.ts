@@ -1279,6 +1279,7 @@ export type Database = {
           subscription_product_id: string | null
           subscription_status: string | null
           subscription_tier: string | null
+          target_deficit: number | null
           transcription_model: string | null
           trial_ends_at: string | null
           trial_started_at: string | null
@@ -1328,6 +1329,7 @@ export type Database = {
           subscription_product_id?: string | null
           subscription_status?: string | null
           subscription_tier?: string | null
+          target_deficit?: number | null
           transcription_model?: string | null
           trial_ends_at?: string | null
           trial_started_at?: string | null
@@ -1377,6 +1379,7 @@ export type Database = {
           subscription_product_id?: string | null
           subscription_status?: string | null
           subscription_tier?: string | null
+          target_deficit?: number | null
           transcription_model?: string | null
           trial_ends_at?: string | null
           trial_started_at?: string | null
