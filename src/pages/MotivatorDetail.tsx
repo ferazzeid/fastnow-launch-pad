@@ -152,18 +152,6 @@ const MotivatorDetail: React.FC = () => {
                 Start Fasting Protocol
               </Button>
             </Link>
-            {motivator.link_url && (
-              <a 
-                href={motivator.link_url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-block"
-              >
-                <Button variant="outline" size="lg">
-                  Read More
-                </Button>
-              </a>
-            )}
             <Link to="/motivators">
               <Button variant="outline" size="lg">
                 Explore More Motivators
