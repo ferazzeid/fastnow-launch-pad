@@ -77,9 +77,15 @@ export class SystemMotivatorService {
   static async createSystemMotivator(motivator: Omit<SystemMotivator, 'id' | 'created_at' | 'updated_at'>): Promise<SystemMotivator> {
     console.log(`[SystemMotivatorService] Creating system motivator: ${motivator.title}`);
     
+    // Auto-populate link_url based on slug
+    const motivatorWithLink = {
+      ...motivator,
+      link_url: `/motivators/${motivator.slug}`
+    };
+    
     const { data, error } = await supabase
       .from('system_motivators')
-      .insert([motivator])
+      .insert([motivatorWithLink])
       .select()
       .single();
 
@@ -95,9 +101,14 @@ export class SystemMotivatorService {
   static async updateSystemMotivator(id: string, motivator: Partial<SystemMotivator>): Promise<SystemMotivator> {
     console.log(`[SystemMotivatorService] Updating system motivator: ${id}`);
     
+    // Auto-populate link_url if slug is being updated
+    const motivatorWithLink = motivator.slug 
+      ? { ...motivator, link_url: `/motivators/${motivator.slug}` }
+      : motivator;
+    
     const { data, error } = await supabase
       .from('system_motivators')
-      .update(motivator)
+      .update(motivatorWithLink)
       .eq('id', id)
       .select()
       .single();
