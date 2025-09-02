@@ -1522,6 +1522,7 @@ export type Database = {
           female_image_url: string | null
           id: string
           is_active: boolean
+          link_url: string | null
           male_image_url: string | null
           meta_description: string | null
           meta_title: string | null
@@ -1537,6 +1538,7 @@ export type Database = {
           female_image_url?: string | null
           id?: string
           is_active?: boolean
+          link_url?: string | null
           male_image_url?: string | null
           meta_description?: string | null
           meta_title?: string | null
@@ -1552,6 +1554,7 @@ export type Database = {
           female_image_url?: string | null
           id?: string
           is_active?: boolean
+          link_url?: string | null
           male_image_url?: string | null
           meta_description?: string | null
           meta_title?: string | null
