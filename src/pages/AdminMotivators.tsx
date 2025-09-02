@@ -103,6 +103,8 @@ const AdminMotivators: React.FC = () => {
     try {
       const motivatorData = {
         ...formData,
+        // Auto-populate link_url with the motivator's own URL
+        link_url: formData.slug ? `/motivators/${formData.slug}` : '',
       };
 
       if (editingMotivator) {
@@ -175,7 +177,8 @@ const AdminMotivators: React.FC = () => {
           />
           {formData.slug && (
             <p className="text-sm text-muted-foreground mt-1">
-              Will be accessible at: /motivators/{formData.slug}
+              Will be accessible at: /motivators/{formData.slug}<br/>
+              <span className="text-xs opacity-75">Auto-generated "Read More" link will point to this page</span>
             </p>
           )}
         </div>
@@ -202,20 +205,6 @@ const AdminMotivators: React.FC = () => {
             onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
             placeholder="e.g., personal, health, fitness"
           />
-        </div>
-
-        <div>
-          <Label htmlFor="link_url">Link URL (Optional)</Label>
-          <Input
-            id="link_url"
-            type="url"
-            value={formData.link_url}
-            onChange={(e) => setFormData(prev => ({ ...prev, link_url: e.target.value }))}
-            placeholder="https://example.com/more-info"
-          />
-          <p className="text-sm text-muted-foreground mt-1">
-            Optional URL to a detailed story or description on your website
-          </p>
         </div>
 
         <div className="space-y-4">
