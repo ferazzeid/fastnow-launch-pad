@@ -6,6 +6,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import SEOHead from '@/components/SEOHead';
 import { SystemMotivatorService, SystemMotivator } from '@/services/SystemMotivatorService';
 import { toast } from 'sonner';
+import ReactMarkdown from 'react-markdown';
 
 const MotivatorDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -118,11 +119,8 @@ const MotivatorDetail: React.FC = () => {
         </header>
 
         {/* Content */}
-        <div className="prose prose-lg max-w-none">
-          <div 
-            className="text-foreground leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: motivator.content }}
-          />
+        <div className="prose prose-lg prose-headings:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline max-w-none text-foreground">
+          <ReactMarkdown>{motivator.content}</ReactMarkdown>
         </div>
 
         {/* Call to Action */}
