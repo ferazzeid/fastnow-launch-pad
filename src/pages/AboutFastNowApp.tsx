@@ -138,6 +138,11 @@ const AboutFastNowApp = () => {
     return screenshot?.image_url || '';
   };
 
+  const getAltTextForFeature = (featureKey: string): string => {
+    const screenshot = featureScreenshots.find(s => s.feature_key === featureKey);
+    return screenshot?.alt_text || `${features.find(f => f.key === featureKey)?.title || 'Feature'} app screenshot`;
+  };
+
   const getPhoneMockupImage = (): string => {
     return pageContent?.button_url || getScreenshotForFeature('fasting-timer');
   };
@@ -297,7 +302,7 @@ const AboutFastNowApp = () => {
                         <div className="w-48">
                           <FeatureScreenshotMockup 
                             imageUrl={getScreenshotForFeature(feature.key)} 
-                            altText={`${feature.title} app screenshot`}
+                            altText={getAltTextForFeature(feature.key)}
                             featureKey={feature.key}
                           />
                         </div>
