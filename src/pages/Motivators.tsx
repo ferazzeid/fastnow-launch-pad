@@ -172,13 +172,6 @@ const Motivators: React.FC = () => {
                     <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">
                       {motivator.content.replace(/<[^>]*>/g, '').substring(0, 120)}...
                     </p>
-                    {motivator.category && (
-                      <div className="mt-4">
-                        <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                          {motivator.category}
-                        </span>
-                      </div>
-                    )}
                   </CardContent>
                 </Card>
               </Link>

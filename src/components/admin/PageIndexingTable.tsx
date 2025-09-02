@@ -133,6 +133,7 @@ const PageIndexingTable: React.FC<PageIndexingTableProps> = ({ pages, onRefresh 
               <SelectItem value="legal">Legal</SelectItem>
               <SelectItem value="admin">Admin</SelectItem>
               <SelectItem value="system">System</SelectItem>
+              <SelectItem value="motivator">Motivators</SelectItem>
             </SelectContent>
           </Select>
           <Select value={indexFilter} onValueChange={setIndexFilter}>

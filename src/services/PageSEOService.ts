@@ -7,7 +7,7 @@ export interface PageSEOSetting {
   page_description?: string;
   is_indexed: boolean;
   robots_directive: string;
-  page_type: 'content' | 'blog' | 'admin' | 'legal' | 'system';
+  page_type: 'content' | 'blog' | 'admin' | 'legal' | 'system' | 'motivator';
   is_dynamic: boolean;
   meta_title?: string;
   meta_description?: string;
@@ -38,7 +38,7 @@ export class PageSEOService {
     
     return (data || []).map(item => ({
       ...item,
-      page_type: item.page_type as 'content' | 'blog' | 'admin' | 'legal' | 'system'
+      page_type: item.page_type as 'content' | 'blog' | 'admin' | 'legal' | 'system' | 'motivator'
     }));
   }
 
@@ -125,6 +125,7 @@ export class PageSEOService {
       case 'admin': return 'text-red-600 bg-red-50 border-red-200';
       case 'legal': return 'text-purple-600 bg-purple-50 border-purple-200';
       case 'system': return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'motivator': return 'text-purple-600 bg-purple-50 border-purple-200';
       case 'tool': return 'text-orange-600 bg-orange-50 border-orange-200';
       default: return 'text-gray-600 bg-gray-50 border-gray-200';
     }
@@ -153,11 +154,11 @@ export class PageSEOService {
   // Add motivator URLs to SEO management
   static async syncMotivatorURLsToSEO(): Promise<void> {
     try {
-      // Import MotivatorService dynamically to avoid circular dependency
-      const { MotivatorService } = await import('./MotivatorService');
-      const motivators = await MotivatorService.getAllMotivatorsForAdmin();
+      // Import SystemMotivatorService to sync system motivators
+      const { SystemMotivatorService } = await import('./SystemMotivatorService');
+      const motivators = await SystemMotivatorService.getAllSystemMotivatorsForAdmin();
       
-      const publishedMotivators = motivators.filter(m => m.is_published && m.is_active);
+      const publishedMotivators = motivators.filter(m => m.is_active);
       
       for (const motivator of publishedMotivators) {
         const pagePath = `/motivators/${motivator.slug}`;
@@ -177,7 +178,7 @@ export class PageSEOService {
             page_description: motivator.content.replace(/<[^>]*>/g, '').substring(0, 160),
             meta_title: motivator.meta_title || motivator.title,
             meta_description: motivator.meta_description || motivator.content.replace(/<[^>]*>/g, '').substring(0, 160),
-            page_type: 'content',
+            page_type: 'motivator',
             is_indexed: true,
             robots_directive: 'index, follow',
             is_dynamic: false
@@ -198,6 +199,7 @@ export class PageSEOService {
       case 'legal': return 'Legal';
       case 'system': return 'System';
       case 'tool': return 'Tools';
+      case 'motivator': return 'Motivator';
       default: return 'Unknown';
     }
   }
