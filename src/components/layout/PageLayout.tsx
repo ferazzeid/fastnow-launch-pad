@@ -13,9 +13,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   const isHomePage = location.pathname === '/';
   
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-h-screen">
       <Header />
-      <main className={`flex-1 relative ${!isHomePage ? 'pt-24 md:pt-28' : ''}`}>
+      <main className={`${!isHomePage ? 'pt-24 md:pt-28' : ''}`}>
         {children}
       </main>
       <Footer />
