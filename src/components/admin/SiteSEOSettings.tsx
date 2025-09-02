@@ -21,12 +21,6 @@ interface SiteSEOData {
   organizationUrl: string;
   organizationLogo: string;
   organizationEmail: string;
-  socialFacebook: string;
-  socialTwitter: string;
-  socialInstagram: string;
-  socialYoutube: string;
-  socialLinkedin: string;
-  socialTiktok: string;
   themeColor: string;
   robotsDefault: string;
 }
@@ -44,12 +38,6 @@ const SiteSEOSettings = () => {
     organizationUrl: '',
     organizationLogo: '',
     organizationEmail: '',
-    socialFacebook: '',
-    socialTwitter: '',
-    socialInstagram: '',
-    socialYoutube: '',
-    socialLinkedin: '',
-    socialTiktok: '',
     themeColor: '',
     robotsDefault: '',
   });
@@ -67,7 +55,6 @@ const SiteSEOSettings = () => {
       const [
         siteTitle, siteDescription, siteKeywords, siteAuthor, baseUrl, defaultImage,
         organizationName, organizationDescription, organizationUrl, organizationLogo, organizationEmail,
-        socialFacebook, socialTwitter, socialInstagram, socialYoutube, socialLinkedin, socialTiktok,
         themeColor, robotsDefault
       ] = await Promise.all([
         SiteSettingsService.getSetting('seo_site_title'),
@@ -81,12 +68,6 @@ const SiteSEOSettings = () => {
         SiteSettingsService.getSetting('seo_organization_url'),
         SiteSettingsService.getSetting('seo_organization_logo'),
         SiteSettingsService.getSetting('seo_organization_email'),
-        SiteSettingsService.getSetting('seo_social_facebook'),
-        SiteSettingsService.getSetting('seo_social_twitter'),
-        SiteSettingsService.getSetting('seo_social_instagram'),
-        SiteSettingsService.getSetting('seo_social_youtube'),
-        SiteSettingsService.getSetting('seo_social_linkedin'),
-        SiteSettingsService.getSetting('seo_social_tiktok'),
         SiteSettingsService.getSetting('seo_theme_color'),
         SiteSettingsService.getSetting('seo_robots_default')
       ]);
@@ -103,12 +84,6 @@ const SiteSEOSettings = () => {
         organizationUrl: String(organizationUrl || ''),
         organizationLogo: String(organizationLogo || ''),
         organizationEmail: String(organizationEmail || ''),
-        socialFacebook: String(socialFacebook || ''),
-        socialTwitter: String(socialTwitter || ''),
-        socialInstagram: String(socialInstagram || ''),
-        socialYoutube: String(socialYoutube || ''),
-        socialLinkedin: String(socialLinkedin || ''),
-        socialTiktok: String(socialTiktok || ''),
         themeColor: String(themeColor || '#6366F1'),
         robotsDefault: String(robotsDefault || 'index, follow'),
       });
@@ -142,12 +117,6 @@ const SiteSEOSettings = () => {
         SiteSettingsService.setSetting('seo_organization_url', settings.organizationUrl),
         SiteSettingsService.setSetting('seo_organization_logo', settings.organizationLogo),
         SiteSettingsService.setSetting('seo_organization_email', settings.organizationEmail),
-        SiteSettingsService.setSetting('seo_social_facebook', settings.socialFacebook),
-        SiteSettingsService.setSetting('seo_social_twitter', settings.socialTwitter),
-        SiteSettingsService.setSetting('seo_social_instagram', settings.socialInstagram),
-        SiteSettingsService.setSetting('seo_social_youtube', settings.socialYoutube),
-        SiteSettingsService.setSetting('seo_social_linkedin', settings.socialLinkedin),
-        SiteSettingsService.setSetting('seo_social_tiktok', settings.socialTiktok),
         SiteSettingsService.setSetting('seo_theme_color', settings.themeColor),
         SiteSettingsService.setSetting('seo_robots_default', settings.robotsDefault)
       ]);
@@ -318,82 +287,6 @@ const SiteSEOSettings = () => {
         </CardContent>
       </Card>
 
-      {/* Social Media */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Share2 size={20} />
-            Social Media Profiles
-          </CardTitle>
-          <CardDescription>
-            Social media URLs for structured data and social sharing
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="socialFacebook">Facebook URL</Label>
-              <Input
-                id="socialFacebook"
-                value={settings.socialFacebook}
-                onChange={(e) => handleInputChange('socialFacebook', e.target.value)}
-                placeholder="https://facebook.com/yourpage"
-              />
-            </div>
-            <div>
-              <Label htmlFor="socialTwitter">Twitter/X URL</Label>
-              <Input
-                id="socialTwitter"
-                value={settings.socialTwitter}
-                onChange={(e) => handleInputChange('socialTwitter', e.target.value)}
-                placeholder="https://twitter.com/youraccount"
-              />
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="socialInstagram">Instagram URL</Label>
-              <Input
-                id="socialInstagram"
-                value={settings.socialInstagram}
-                onChange={(e) => handleInputChange('socialInstagram', e.target.value)}
-                placeholder="https://instagram.com/youraccount"
-              />
-            </div>
-            <div>
-              <Label htmlFor="socialYoutube">YouTube URL</Label>
-              <Input
-                id="socialYoutube"
-                value={settings.socialYoutube}
-                onChange={(e) => handleInputChange('socialYoutube', e.target.value)}
-                placeholder="https://youtube.com/yourchannel"
-              />
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="socialLinkedin">LinkedIn URL</Label>
-              <Input
-                id="socialLinkedin"
-                value={settings.socialLinkedin}
-                onChange={(e) => handleInputChange('socialLinkedin', e.target.value)}
-                placeholder="https://linkedin.com/company/yourcompany"
-              />
-            </div>
-            <div>
-              <Label htmlFor="socialTiktok">TikTok URL</Label>
-              <Input
-                id="socialTiktok"
-                value={settings.socialTiktok}
-                onChange={(e) => handleInputChange('socialTiktok', e.target.value)}
-                placeholder="https://tiktok.com/@youraccount"
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Technical Settings */}
       <Card>

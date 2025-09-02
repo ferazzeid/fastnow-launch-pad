@@ -28,31 +28,23 @@ export class StructuredDataService {
         orgUrl,
         orgLogo,
         orgEmail,
-        socialFacebook,
-        socialTwitter,
-        socialInstagram,
-        socialYoutube,
-        socialLinkedin
+        socialMediaLinks
       ] = await Promise.all([
         SiteSettingsService.getSetting('seo_organization_name'),
         SiteSettingsService.getSetting('seo_organization_description'),
         SiteSettingsService.getSetting('seo_organization_url'),
         SiteSettingsService.getSetting('seo_organization_logo'),
         SiteSettingsService.getSetting('seo_organization_email'),
-        SiteSettingsService.getSetting('seo_social_facebook'),
-        SiteSettingsService.getSetting('seo_social_twitter'),
-        SiteSettingsService.getSetting('seo_social_instagram'),
-        SiteSettingsService.getSetting('seo_social_youtube'),
-        SiteSettingsService.getSetting('seo_social_linkedin')
+        SiteSettingsService.getSetting('social_media_links')
       ]);
 
-      const sameAs = [
-        socialFacebook,
-        socialTwitter,
-        socialInstagram,
-        socialYoutube,
-        socialLinkedin
-      ].filter(url => url && String(url).trim() !== '').map(url => String(url));
+      // Extract active social media URLs from the unified social media settings
+      let sameAs: string[] = [];
+      if (socialMediaLinks && Array.isArray(socialMediaLinks)) {
+        sameAs = socialMediaLinks
+          .filter((link: any) => link && link.isActive && link.url && String(link.url).trim() !== '')
+          .map((link: any) => String(link.url));
+      }
 
       const schema: OrganizationSchema = {
         "@context": "https://schema.org",
