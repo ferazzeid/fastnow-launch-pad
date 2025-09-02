@@ -27,6 +27,7 @@ const UnifiedAboutAppEditor = () => {
   const [heroDescription, setHeroDescription] = useState('');
   const [featuresTitle, setFeaturesTitle] = useState('');
   const [featuredImage, setFeaturedImage] = useState('');
+  const [featuredImageAlt, setFeaturedImageAlt] = useState('');
   
   // Feature Screenshots
   const [screenshots, setScreenshots] = useState<FeatureScreenshot[]>([]);
@@ -67,6 +68,7 @@ const UnifiedAboutAppEditor = () => {
         setHeroDescription(content.heroDescription || '');
         setFeaturesTitle(content.featuresTitle || 'Discover FastNow Features');
         setFeaturedImage(content.featuredImage || '');
+        setFeaturedImageAlt(content.featuredImageAlt || 'About FastNow App - Why the app matters for your fasting journey');
       }
 
       // Load SEO from page content
@@ -95,7 +97,8 @@ const UnifiedAboutAppEditor = () => {
         heroTitle,
         heroDescription,
         featuresTitle,
-        featuredImage
+        featuredImage,
+        featuredImageAlt
       };
       
       await SiteSettingsService.setSetting('aboutAppContent', content);
@@ -225,7 +228,19 @@ const UnifiedAboutAppEditor = () => {
   const handleTitleChange = (featureKey: string, newTitle: string) => {
     setScreenshots(prev => prev.map(screenshot => 
       screenshot.feature_key === featureKey 
-        ? { ...screenshot, title: newTitle }
+        ? { 
+          ...screenshot, 
+          title: newTitle,
+          alt_text: screenshot.alt_text || `${newTitle} - ${FEATURE_LABELS[featureKey as keyof typeof FEATURE_LABELS]} screenshot showing app interface`
+        }
+        : screenshot
+    ));
+  };
+
+  const handleAltTextChange = (featureKey: string, newAltText: string) => {
+    setScreenshots(prev => prev.map(screenshot => 
+      screenshot.feature_key === featureKey 
+        ? { ...screenshot, alt_text: newAltText }
         : screenshot
     ));
   };
@@ -239,7 +254,8 @@ const UnifiedAboutAppEditor = () => {
       await FeatureScreenshotService.updateFeatureScreenshot(
         featureKey, 
         screenshot.image_url, 
-        screenshot.title
+        screenshot.title,
+        screenshot.alt_text
       );
       
       toast.success(`${screenshot.title} updated successfully`);
@@ -398,6 +414,19 @@ const UnifiedAboutAppEditor = () => {
                       </div>
 
                       <div>
+                        <Label htmlFor={`alt-${screenshot.feature_key}`}>Alt Text</Label>
+                        <Input
+                          id={`alt-${screenshot.feature_key}`}
+                          value={screenshot.alt_text || ''}
+                          onChange={(e) => handleAltTextChange(screenshot.feature_key, e.target.value)}
+                          placeholder={`${screenshot.title || FEATURE_LABELS[screenshot.feature_key as keyof typeof FEATURE_LABELS]} screenshot showing app interface`}
+                        />
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Describe what's shown in the screenshot for accessibility
+                        </p>
+                      </div>
+
+                      <div>
                         <Label htmlFor={`file-${screenshot.feature_key}`}>Screenshot</Label>
                         <div className="flex gap-2">
                           <Input
@@ -432,9 +461,9 @@ const UnifiedAboutAppEditor = () => {
 
                     <div className="flex justify-center">
                       <div className="w-48">
-                        <FeatureScreenshotMockup
+                       <FeatureScreenshotMockup
                           imageUrl={screenshot.image_url}
-                          altText={`${screenshot.title} screenshot`}
+                          altText={screenshot.alt_text || `${screenshot.title} screenshot`}
                         />
                       </div>
                     </div>
@@ -467,12 +496,26 @@ const UnifiedAboutAppEditor = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               {featuredImage ? (
-                <div className="space-y-2">
+                <div className="space-y-4">
                   <img 
                     src={featuredImage} 
-                    alt="Featured" 
+                    alt={featuredImageAlt || 'Featured image'} 
                     className="w-full h-48 object-cover rounded-lg"
                   />
+                  
+                  <div>
+                    <Label htmlFor="featured-alt">Featured Image Alt Text</Label>
+                    <Input
+                      id="featured-alt"
+                      value={featuredImageAlt}
+                      onChange={(e) => setFeaturedImageAlt(e.target.value)}
+                      placeholder="About FastNow App - Why the app matters for your fasting journey"
+                    />
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Describe the featured image for accessibility
+                    </p>
+                  </div>
+                  
                   <Button
                     type="button"
                     variant="outline"
@@ -483,20 +526,35 @@ const UnifiedAboutAppEditor = () => {
                   </Button>
                 </div>
               ) : (
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFeaturedImageUpload}
-                    disabled={isUploadingFeatured}
-                    className="hidden"
-                    id="featured-image"
-                  />
-                  <Label htmlFor="featured-image" className="cursor-pointer">
-                    <div className="text-gray-500">
-                      {isUploadingFeatured ? 'Uploading...' : 'Click to upload featured image'}
-                    </div>
-                  </Label>
+                <div className="space-y-4">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFeaturedImageUpload}
+                      disabled={isUploadingFeatured}
+                      className="hidden"
+                      id="featured-image"
+                    />
+                    <Label htmlFor="featured-image" className="cursor-pointer">
+                      <div className="text-gray-500">
+                        {isUploadingFeatured ? 'Uploading...' : 'Click to upload featured image'}
+                      </div>
+                    </Label>
+                   </div>
+                   
+                   <div>
+                     <Label htmlFor="featured-alt-empty">Featured Image Alt Text (for when image is uploaded)</Label>
+                     <Input
+                       id="featured-alt-empty"
+                       value={featuredImageAlt}
+                       onChange={(e) => setFeaturedImageAlt(e.target.value)}
+                       placeholder="About FastNow App - Why the app matters for your fasting journey"
+                     />
+                     <p className="text-sm text-muted-foreground mt-1">
+                       Set alt text that will be used when you upload an image
+                     </p>
+                   </div>
                  </div>
                )}
                

@@ -5,6 +5,7 @@ export interface FeatureScreenshot {
   feature_key: string;
   image_url: string;
   title: string;
+  alt_text?: string;
   created_at: string;
   updated_at: string;
 }
@@ -39,14 +40,20 @@ export class FeatureScreenshotService {
     return data;
   }
 
-  static async updateFeatureScreenshot(featureKey: string, imageUrl: string, title: string): Promise<void> {
+  static async updateFeatureScreenshot(featureKey: string, imageUrl: string, title: string, altText?: string): Promise<void> {
+    const updateData: any = {
+      image_url: imageUrl,
+      title: title,
+      updated_at: new Date().toISOString()
+    };
+
+    if (altText !== undefined) {
+      updateData.alt_text = altText;
+    }
+
     const { error } = await supabase
       .from('feature_screenshots')
-      .update({
-        image_url: imageUrl,
-        title: title,
-        updated_at: new Date().toISOString()
-      })
+      .update(updateData)
       .eq('feature_key', featureKey);
     
     if (error) {

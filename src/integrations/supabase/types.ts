@@ -759,6 +759,7 @@ export type Database = {
       }
       feature_screenshots: {
         Row: {
+          alt_text: string | null
           created_at: string
           feature_key: string
           id: string
@@ -767,6 +768,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          alt_text?: string | null
           created_at?: string
           feature_key: string
           id?: string
@@ -775,6 +777,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          alt_text?: string | null
           created_at?: string
           feature_key?: string
           id?: string
@@ -1455,6 +1458,7 @@ export type Database = {
       }
       site_settings: {
         Row: {
+          about_app_featured_image_alt: string | null
           created_at: string
           id: string
           protocol_featured_image_alt: string | null
@@ -1466,6 +1470,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          about_app_featured_image_alt?: string | null
           created_at?: string
           id?: string
           protocol_featured_image_alt?: string | null
@@ -1477,6 +1482,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          about_app_featured_image_alt?: string | null
           created_at?: string
           id?: string
           protocol_featured_image_alt?: string | null
