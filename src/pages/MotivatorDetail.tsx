@@ -120,7 +120,22 @@ const MotivatorDetail: React.FC = () => {
 
         {/* Content */}
         <div className="prose prose-lg prose-headings:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline max-w-none text-foreground">
-          <ReactMarkdown>{motivator.content}</ReactMarkdown>
+          <ReactMarkdown 
+            components={{
+              p: ({children}) => <p className="text-foreground mb-4 leading-relaxed">{children}</p>,
+              h1: ({children}) => <h1 className="text-2xl font-bold text-foreground mt-8 mb-4 first:mt-0">{children}</h1>,
+              h2: ({children}) => <h2 className="text-xl font-semibold text-foreground mt-6 mb-3">{children}</h2>,
+              h3: ({children}) => <h3 className="text-lg font-medium text-foreground mt-4 mb-2">{children}</h3>,
+              ul: ({children}) => <ul className="text-foreground mb-4 pl-6 space-y-1 list-disc">{children}</ul>,
+              ol: ({children}) => <ol className="text-foreground mb-4 pl-6 space-y-1 list-decimal">{children}</ol>,
+              li: ({children}) => <li className="text-foreground leading-relaxed">{children}</li>,
+              strong: ({children}) => <strong className="font-semibold text-foreground">{children}</strong>,
+              em: ({children}) => <em className="italic text-foreground">{children}</em>,
+              blockquote: ({children}) => <blockquote className="border-l-4 border-primary pl-4 my-4 text-muted-foreground italic">{children}</blockquote>
+            }}
+          >
+            {motivator.content}
+          </ReactMarkdown>
         </div>
 
         {/* Call to Action */}
