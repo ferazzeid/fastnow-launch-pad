@@ -11,6 +11,7 @@ import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { SystemMotivatorService, SystemMotivator } from '@/services/SystemMotivatorService';
 import { toast } from 'sonner';
+import MDEditor from '@uiw/react-md-editor';
 
 const AdminMotivators: React.FC = () => {
   const [motivators, setMotivators] = useState<SystemMotivator[]>([]);
@@ -38,10 +39,15 @@ const AdminMotivators: React.FC = () => {
 
   const fetchMotivators = async () => {
     try {
+      console.log('[AdminMotivators] Starting to fetch system motivators...');
       const data = await SystemMotivatorService.getAllSystemMotivatorsForAdmin();
+      console.log('[AdminMotivators] Fetched motivators:', data.length);
       setMotivators(data);
+      
+      // Small delay to ensure UI updates properly
+      await new Promise(resolve => setTimeout(resolve, 100));
     } catch (error) {
-      console.error('Error fetching system motivators:', error);
+      console.error('[AdminMotivators] Error fetching system motivators:', error);
       toast.error('Failed to load system motivators');
     } finally {
       setLoading(false);
@@ -173,14 +179,16 @@ const AdminMotivators: React.FC = () => {
 
         <div>
           <Label htmlFor="content">Content *</Label>
-          <Textarea
-            id="content"
-            value={formData.content}
-            onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-            placeholder="Enter motivator content (HTML supported)"
-            rows={6}
-            required
-          />
+          <div className="mt-2" data-color-mode="light">
+            <MDEditor
+              value={formData.content}
+              onChange={(value) => setFormData(prev => ({ ...prev, content: value || '' }))}
+              height={400}
+              preview="edit"
+              hideToolbar={false}
+              visibleDragbar={false}
+            />
+          </div>
         </div>
 
         <div>
