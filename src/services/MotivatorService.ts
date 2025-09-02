@@ -16,13 +16,14 @@ export interface Motivator {
   is_published: boolean;
   is_active: boolean;
   show_in_animations: boolean;
-  is_system_goal?: boolean;
   created_at: string;
   updated_at: string;
 }
 
 export class MotivatorService {
   static async getAllMotivators(): Promise<Motivator[]> {
+    console.log('[MotivatorService] Fetching all user motivators...');
+    
     const { data, error } = await supabase
       .from('motivators')
       .select('*')
@@ -31,10 +32,11 @@ export class MotivatorService {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching motivators:', error);
+      console.error('[MotivatorService] Error fetching motivators:', error);
       throw error;
     }
 
+    console.log(`[MotivatorService] Fetched ${data?.length || 0} user motivators`);
     return data || [];
   }
 
@@ -56,33 +58,41 @@ export class MotivatorService {
   }
 
   static async getAllMotivatorsForAdmin(): Promise<Motivator[]> {
+    console.log('[MotivatorService] Fetching all user motivators for admin...');
+    
     const { data, error } = await supabase
       .from('motivators')
       .select('*')
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching motivators for admin:', error);
+      console.error('[MotivatorService] Error fetching user motivators for admin:', error);
       throw error;
     }
 
+    console.log(`[MotivatorService] Fetched ${data?.length || 0} user motivators for admin`);
     return data || [];
   }
 
   static async getUnifiedSystemGoals(): Promise<Motivator[]> {
-    const { data, error } = await supabase
-      .from('motivators')
-      .select('*')
-      .eq('is_active', true)
-      .eq('is_published', true)
-      .order('title', { ascending: true });
-
-    if (error) {
-      console.error('[MotivatorService] Database error:', error);
-      throw error;
-    }
-
-    return data || [];
+    console.log('[MotivatorService] This method is deprecated. Use SystemMotivatorService.getAllSystemMotivators() instead.');
+    
+    // Import SystemMotivatorService dynamically to avoid circular imports
+    const { SystemMotivatorService } = await import('./SystemMotivatorService');
+    const systemMotivators = await SystemMotivatorService.getAllSystemMotivators();
+    
+    // Convert SystemMotivator to Motivator format for backward compatibility
+    return systemMotivators.map(motivator => ({
+      ...motivator,
+      user_id: 'system', // Placeholder since this is system data
+      is_active: motivator.is_active,
+      is_published: true,
+      is_system_goal: true, // For backward compatibility
+      show_in_animations: true,
+      image_url: motivator.male_image_url || motivator.female_image_url,
+      link_url: null,
+      gender: null
+    }));
   }
 
   static async createMotivator(motivator: Omit<Motivator, 'id' | 'created_at' | 'updated_at'>): Promise<Motivator> {

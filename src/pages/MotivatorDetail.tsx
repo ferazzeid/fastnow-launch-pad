@@ -4,12 +4,12 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import PageLayout from '@/components/layout/PageLayout';
 import SEOHead from '@/components/SEOHead';
-import { MotivatorService, Motivator } from '@/services/MotivatorService';
+import { SystemMotivatorService, SystemMotivator } from '@/services/SystemMotivatorService';
 import { toast } from 'sonner';
 
 const MotivatorDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [motivator, setMotivator] = useState<Motivator | null>(null);
+  const [motivator, setMotivator] = useState<SystemMotivator | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -22,7 +22,7 @@ const MotivatorDetail: React.FC = () => {
       }
 
       try {
-        const data = await MotivatorService.getMotivatorBySlug(slug);
+        const data = await SystemMotivatorService.getSystemMotivatorBySlug(slug);
         if (data) {
           setMotivator(data);
         } else {
@@ -88,7 +88,7 @@ const MotivatorDetail: React.FC = () => {
     keywords: `fasting motivation, ${motivator.category}, intermittent fasting, ${motivator.title}`,
     canonical: `/motivators/${motivator.slug}`,
     type: 'article' as const,
-    image: motivator.image_url,
+    image: motivator.male_image_url || motivator.female_image_url,
     author: 'FastNow Team',
     publishedTime: motivator.created_at,
     modifiedTime: motivator.updated_at,

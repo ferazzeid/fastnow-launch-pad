@@ -9,13 +9,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { MotivatorService, Motivator } from '@/services/MotivatorService';
+import { SystemMotivatorService, SystemMotivator } from '@/services/SystemMotivatorService';
 import { toast } from 'sonner';
 
 const AdminMotivators: React.FC = () => {
-  const [motivators, setMotivators] = useState<Motivator[]>([]);
+  const [motivators, setMotivators] = useState<SystemMotivator[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editingMotivator, setEditingMotivator] = useState<Motivator | null>(null);
+  const [editingMotivator, setEditingMotivator] = useState<SystemMotivator | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -24,14 +24,12 @@ const AdminMotivators: React.FC = () => {
     slug: '',
     content: '',
     category: 'personal',
-    image_url: '',
     male_image_url: '',
     female_image_url: '',
-    link_url: '',
     meta_title: '',
     meta_description: '',
-    is_published: true,
     is_active: true,
+    display_order: 0,
   });
 
   useEffect(() => {
@@ -40,32 +38,29 @@ const AdminMotivators: React.FC = () => {
 
   const fetchMotivators = async () => {
     try {
-      const data = await MotivatorService.getAllMotivatorsForAdmin();
-      const systemGoals = data.filter(m => m.is_system_goal === true);
-      setMotivators(systemGoals);
+      const data = await SystemMotivatorService.getAllSystemMotivatorsForAdmin();
+      setMotivators(data);
     } catch (error) {
-      console.error('Error fetching motivators:', error);
-      toast.error('Failed to load motivators');
+      console.error('Error fetching system motivators:', error);
+      toast.error('Failed to load system motivators');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleEdit = (motivator: Motivator) => {
+  const handleEdit = (motivator: SystemMotivator) => {
     setEditingMotivator(motivator);
     setFormData({
       title: motivator.title,
       slug: motivator.slug,
       content: motivator.content,
       category: motivator.category || 'personal',
-      image_url: motivator.image_url || '',
       male_image_url: motivator.male_image_url || '',
       female_image_url: motivator.female_image_url || '',
-      link_url: motivator.link_url || '',
       meta_title: motivator.meta_title || '',
       meta_description: motivator.meta_description || '',
-      is_published: motivator.is_published,
       is_active: motivator.is_active,
+      display_order: motivator.display_order,
     });
     setIsDialogOpen(true);
   };
@@ -100,25 +95,22 @@ const AdminMotivators: React.FC = () => {
     try {
       const motivatorData = {
         ...formData,
-        user_id: 'system',
-        is_system_goal: true,
-        show_in_animations: true,
       };
 
       if (editingMotivator) {
-        await MotivatorService.updateMotivator(editingMotivator.id, motivatorData);
-        toast.success('Motivator updated successfully');
+        await SystemMotivatorService.updateSystemMotivator(editingMotivator.id, motivatorData);
+        toast.success('System motivator updated successfully');
       } else {
-        await MotivatorService.createMotivator(motivatorData);
-        toast.success('Motivator created successfully');
+        await SystemMotivatorService.createSystemMotivator(motivatorData);
+        toast.success('System motivator created successfully');
       }
 
       setIsDialogOpen(false);
       resetForm();
       fetchMotivators();
     } catch (error) {
-      console.error('Error saving motivator:', error);
-      toast.error('Failed to save motivator');
+      console.error('Error saving system motivator:', error);
+      toast.error('Failed to save system motivator');
     }
   };
 
@@ -128,26 +120,24 @@ const AdminMotivators: React.FC = () => {
       slug: '',
       content: '',
       category: 'personal',
-      image_url: '',
       male_image_url: '',
       female_image_url: '',
-      link_url: '',
       meta_title: '',
       meta_description: '',
-      is_published: true,
       is_active: true,
+      display_order: 0,
     });
     setEditingMotivator(null);
   };
 
-  const toggleStatus = async (id: string, field: 'is_active' | 'is_published', value: boolean) => {
+  const toggleStatus = async (id: string, field: 'is_active', value: boolean) => {
     try {
-      await MotivatorService.updateMotivator(id, { [field]: value });
-      toast.success(`Motivator ${field === 'is_active' ? 'activation' : 'publication'} status updated`);
+      await SystemMotivatorService.updateSystemMotivator(id, { [field]: value });
+      toast.success(`System motivator activation status updated`);
       fetchMotivators();
     } catch (error) {
       console.error(`Error updating ${field}:`, error);
-      toast.error(`Failed to update ${field === 'is_active' ? 'activation' : 'publication'} status`);
+      toast.error(`Failed to update activation status`);
     }
   };
 
@@ -238,12 +228,13 @@ const AdminMotivators: React.FC = () => {
         </div>
 
         <div>
-          <Label htmlFor="link_url">External Link (Optional)</Label>
+          <Label htmlFor="display_order">Display Order</Label>
           <Input
-            id="link_url"
-            value={formData.link_url}
-            onChange={(e) => setFormData(prev => ({ ...prev, link_url: e.target.value }))}
-            placeholder="https://example.com"
+            id="display_order"
+            type="number"
+            value={formData.display_order}
+            onChange={(e) => setFormData(prev => ({ ...prev, display_order: parseInt(e.target.value) || 0 }))}
+            placeholder="0"
           />
         </div>
 
@@ -277,20 +268,11 @@ const AdminMotivators: React.FC = () => {
           
           <div className="flex items-center space-x-2">
             <Switch
-              id="is_published"
-              checked={formData.is_published}
-              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_published: checked }))}
-            />
-            <Label htmlFor="is_published">Published (visible to public)</Label>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Switch
               id="is_active"
               checked={formData.is_active}
               onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_active: checked }))}
             />
-            <Label htmlFor="is_active">Active</Label>
+            <Label htmlFor="is_active">Active (visible to users)</Label>
           </div>
         </div>
       </div>
@@ -355,11 +337,11 @@ const AdminMotivators: React.FC = () => {
       </div>
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Unified Goals</h1>
-        <p className="text-muted-foreground">Manage consolidated motivational goals with dual gender images</p>
+        <h1 className="text-3xl font-bold text-foreground mb-2">System Motivators</h1>
+        <p className="text-muted-foreground">Manage the 8 default system motivators with dual gender images</p>
         <div className="flex items-center gap-2 mt-4">
           <span className="text-sm text-muted-foreground">
-            {motivators.length} Goals Available
+            {motivators.length} System Motivators Available
           </span>
         </div>
       </div>
@@ -371,11 +353,6 @@ const AdminMotivators: React.FC = () => {
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
                   <h3 className="font-medium">{motivator.title}</h3>
-                  {motivator.is_published ? (
-                    <Badge variant="default">Published</Badge>
-                  ) : (
-                    <Badge variant="secondary">Draft</Badge>
-                  )}
                   {motivator.is_active ? (
                     <Badge variant="default">Active</Badge>
                   ) : (
@@ -406,9 +383,9 @@ const AdminMotivators: React.FC = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => toggleStatus(motivator.id, 'is_published', !motivator.is_published)}
+                  onClick={() => toggleStatus(motivator.id, 'is_active', !motivator.is_active)}
                 >
-                  {motivator.is_published ? 'Unpublish' : 'Publish'}
+                  {motivator.is_active ? 'Deactivate' : 'Activate'}
                 </Button>
                 <Button variant="outline" size="sm" onClick={() => handleEdit(motivator)}>
                   Edit
@@ -423,7 +400,7 @@ const AdminMotivators: React.FC = () => {
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {editingMotivator ? 'Edit' : 'Create'} Motivator
+              {editingMotivator ? 'Edit' : 'Create'} System Motivator
             </DialogTitle>
           </DialogHeader>
           <DialogForm />

@@ -4,13 +4,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import LazyImage from '@/components/LazyImage';
 import PageLayout from '@/components/layout/PageLayout';
 import SEOHead from '@/components/SEOHead';
-import { MotivatorService, Motivator } from '@/services/MotivatorService';
+import { SystemMotivatorService, SystemMotivator } from '@/services/SystemMotivatorService';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 const Motivators: React.FC = () => {
-  const [motivators, setMotivators] = useState<Motivator[]>([]);
+  const [motivators, setMotivators] = useState<SystemMotivator[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
@@ -21,7 +21,7 @@ const Motivators: React.FC = () => {
     try {
       setError(null);
       setLoading(true);
-      const data = await MotivatorService.getUnifiedSystemGoals();
+      const data = await SystemMotivatorService.getAllSystemMotivators();
       setMotivators(data);
     } catch (error) {
       console.error('[Motivators] Error fetching motivators:', error);
@@ -63,7 +63,7 @@ const Motivators: React.FC = () => {
     fetchUserProfile();
   }, [user?.id]);
 
-  const getImageForUser = (motivator: Motivator, userGender?: string) => {
+  const getImageForUser = (motivator: SystemMotivator, userGender?: string) => {
     if (motivator.male_image_url && motivator.female_image_url) {
       // Better hash-based selection for more balanced distribution
       // Use first two characters of ID for better randomness
@@ -73,7 +73,7 @@ const Motivators: React.FC = () => {
     }
     
     // Fallback to any available image
-    return motivator.male_image_url || motivator.female_image_url || motivator.image_url;
+    return motivator.male_image_url || motivator.female_image_url;
   };
 
   const seoConfig = {
