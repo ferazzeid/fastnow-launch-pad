@@ -169,11 +169,14 @@ export const WeightLossCalculator: React.FC = () => {
               </div>
               <div>
                 <Label className="text-text-secondary">Walking Speed</Label>
-                <Select value={inputs.walkingSpeed?.toString()} onValueChange={(value) => updateInput('walkingSpeed', Number(value))}>
-                  <SelectTrigger className="mt-1 bg-background z-50">
-                    <SelectValue placeholder="Select walking speed" />
+                <Select 
+                  value={inputs.walkingSpeed?.toString() || "5.0"} 
+                  onValueChange={(value) => updateInput('walkingSpeed', Number(value))}
+                >
+                  <SelectTrigger className="mt-1">
+                    <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-background border z-50">
+                  <SelectContent>
                     <SelectItem value="3.0">Slow (3.0 km/h)</SelectItem>
                     <SelectItem value="4.0">Easy (4.0 km/h)</SelectItem>
                     <SelectItem value="5.0">Moderate (5.0 km/h)</SelectItem>
