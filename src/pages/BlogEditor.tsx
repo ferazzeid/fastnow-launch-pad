@@ -434,7 +434,7 @@ const BlogEditor = () => {
                   )}
                   <h1 className="text-3xl font-bold text-mint-600">{post.title || 'Post Title'}</h1>
                   <p className="text-gray-600">{post.excerpt || 'Post excerpt will appear here...'}</p>
-                  <div className="prose prose-lg max-w-none prose-headings:text-mint-600 prose-a:text-accent-green">
+                  <div className="prose prose-lg max-w-none prose-headings:text-mint-600 prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800">
                     <ReactMarkdown>{post.content || 'Post content will appear here...'}</ReactMarkdown>
                   </div>
                 </article>
