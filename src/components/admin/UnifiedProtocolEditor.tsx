@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { FileText, Save, Search, Clock, Activity, Utensils } from "lucide-react";
 import { supabase } from '@/integrations/supabase/client';
-import PageFeaturedImageSettings from './PageFeaturedImageSettings';
+import ProtocolImageUpload from './ProtocolImageUpload';
 
 const UnifiedProtocolEditor = () => {
   // SEO Settings
@@ -482,9 +482,32 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
 
         <TabsContent value="images">
           <div className="space-y-6">
-            <PageFeaturedImageSettings 
-              pageKey="fast-now-protocol"
+            <ProtocolImageUpload
+              imageKey="protocol_featured_image"
+              altKey="protocol_featured_image_alt"
               title="Protocol Page Featured Image"
+              description="Upload or set a featured image that will appear at the top of the protocol page."
+            />
+            
+            <ProtocolImageUpload
+              imageKey="protocol_phase1_intro_image"
+              altKey="protocol_phase1_image_alt"
+              title="Phase 1 - Water Fast Image"
+              description="Image displayed in the Phase 1 intro section of the protocol."
+            />
+            
+            <ProtocolImageUpload
+              imageKey="protocol_phase2_intro_image"
+              altKey="protocol_phase2_image_alt"
+              title="Phase 2 - Diet Control Image"
+              description="Image displayed in the Phase 2 intro section of the protocol."
+            />
+            
+            <ProtocolImageUpload
+              imageKey="protocol_phase3_intro_image"
+              altKey="protocol_phase3_image_alt"
+              title="Phase 3 - Daily Walking Image"
+              description="Image displayed in the Phase 3 intro section of the protocol."
             />
             
             <div className="flex justify-end pt-4">

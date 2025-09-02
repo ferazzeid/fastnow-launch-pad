@@ -250,7 +250,12 @@ I'd rather put in serious energy at the start, get solid results in the first 2â
       
       {/* Hero Background Image */}
       <div className="absolute inset-0 w-full h-screen z-0">
-        <PageFeaturedImage pageKey="fast-now-protocol" className="w-full h-full object-cover" showDarkBackground={true} />
+        <PageFeaturedImage 
+          pageKey="fast-now-protocol" 
+          className="w-full h-full object-cover" 
+          showDarkBackground={true} 
+          defaultAlt="The FastNow Protocol - Effective fat loss and body transformation program"
+        />
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
       

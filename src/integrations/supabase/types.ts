@@ -1457,6 +1457,10 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          protocol_featured_image_alt: string | null
+          protocol_phase1_image_alt: string | null
+          protocol_phase2_image_alt: string | null
+          protocol_phase3_image_alt: string | null
           setting_key: string
           setting_value: Json | null
           updated_at: string
@@ -1464,6 +1468,10 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          protocol_featured_image_alt?: string | null
+          protocol_phase1_image_alt?: string | null
+          protocol_phase2_image_alt?: string | null
+          protocol_phase3_image_alt?: string | null
           setting_key: string
           setting_value?: Json | null
           updated_at?: string
@@ -1471,6 +1479,10 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          protocol_featured_image_alt?: string | null
+          protocol_phase1_image_alt?: string | null
+          protocol_phase2_image_alt?: string | null
+          protocol_phase3_image_alt?: string | null
           setting_key?: string
           setting_value?: Json | null
           updated_at?: string

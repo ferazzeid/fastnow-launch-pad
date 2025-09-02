@@ -7,12 +7,14 @@ interface PageFeaturedImageProps {
   pageKey: string;
   className?: string;
   showDarkBackground?: boolean;
+  defaultAlt?: string;
 }
 
 const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({ 
   pageKey, 
   className = "w-full h-64 object-cover rounded-lg mb-8",
-  showDarkBackground = true
+  showDarkBackground = true,
+  defaultAlt = "Featured image"
 }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(() => {
     // Initialize from memory cache or localStorage for instant paint
@@ -30,6 +32,7 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
     return null;
   });
   
+  const [imageAlt, setImageAlt] = useState<string>(defaultAlt);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -39,14 +42,14 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
         const { supabase } = await import('@/integrations/supabase/client');
         
         // Map frontend page keys to database keys and handle special cases
-        const databaseKeyMap: Record<string, string> = {
-          'about-me': 'about_me_featured_image',
-          'fast-now-protocol': 'protocol_featured_image',
-          'faq': 'faq_featured_image',
-          'contact': 'contact_featured_image',
-          'privacy-policy': 'privacy_featured_image',
-          'terms-of-service': 'terms_featured_image',
-          'home': 'homepage_featured_image'
+        const databaseKeyMap: Record<string, { imageKey: string; altKey: string }> = {
+          'about-me': { imageKey: 'about_me_featured_image', altKey: 'about_me_featured_image_alt' },
+          'fast-now-protocol': { imageKey: 'protocol_featured_image', altKey: 'protocol_featured_image_alt' },
+          'faq': { imageKey: 'faq_featured_image', altKey: 'faq_featured_image_alt' },
+          'contact': { imageKey: 'contact_featured_image', altKey: 'contact_featured_image_alt' },
+          'privacy-policy': { imageKey: 'privacy_featured_image', altKey: 'privacy_featured_image_alt' },
+          'terms-of-service': { imageKey: 'terms_featured_image', altKey: 'terms_featured_image_alt' },
+          'home': { imageKey: 'homepage_featured_image', altKey: 'homepage_featured_image_alt' }
         };
 
         // For about-fastnow-app, check the aboutAppContent object
@@ -102,21 +105,33 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
         }
 
         // Try the mapped database key for other pages
-        const databaseKey = databaseKeyMap[pageKey];
-        if (databaseKey) {
+        const databaseMapping = databaseKeyMap[pageKey];
+        if (databaseMapping) {
           const { data, error } = await supabase
             .from('site_settings')
-            .select('setting_value')
-            .eq('setting_key', databaseKey)
-            .single();
+            .select('setting_key, setting_value')
+            .in('setting_key', [databaseMapping.imageKey, databaseMapping.altKey]);
 
-          if (!error && data?.setting_value) {
-            const imageUrl = typeof data.setting_value === 'string' 
-              ? JSON.parse(data.setting_value || '""') 
-              : String(data.setting_value || '');
+          if (!error && data) {
+            const settings = data.reduce((acc, item) => {
+              const value = item.setting_value;
+              try {
+                acc[item.setting_key] = typeof value === 'string' 
+                  ? JSON.parse(value || '""') 
+                  : String(value || '');
+              } catch {
+                acc[item.setting_key] = String(value || '');
+              }
+              return acc;
+            }, {} as Record<string, string>);
+
+            const imageUrl = settings[databaseMapping.imageKey];
+            const altText = settings[databaseMapping.altKey];
+
             if (imageUrl) {
               const url = imageUrl as string;
               setImageUrl(url);
+              setImageAlt(altText || defaultAlt);
               imageCache[pageKey] = url;
               try {
                 const saved = localStorage.getItem('fastingApp_pageImages');
@@ -194,7 +209,7 @@ const PageFeaturedImage: React.FC<PageFeaturedImageProps> = ({
       {imageUrl && (
         <img 
           src={imageUrl} 
-          alt="Featured image"
+          alt={imageAlt}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}

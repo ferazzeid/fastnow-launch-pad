@@ -4,9 +4,9 @@ import { supabase } from '@/integrations/supabase/client';
 
 const ProtocolPhasesIntro = () => {
   const [phaseImages, setPhaseImages] = useState({
-    phase1: '',
-    phase2: '',
-    phase3: ''
+    phase1: { url: '', alt: '' },
+    phase2: { url: '', alt: '' },
+    phase3: { url: '', alt: '' }
   });
 
   useEffect(() => {
@@ -18,7 +18,10 @@ const ProtocolPhasesIntro = () => {
       const { data, error } = await supabase
         .from('site_settings')
         .select('setting_key, setting_value')
-        .in('setting_key', ['protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image']);
+        .in('setting_key', [
+          'protocol_phase1_intro_image', 'protocol_phase2_intro_image', 'protocol_phase3_intro_image',
+          'protocol_phase1_image_alt', 'protocol_phase2_image_alt', 'protocol_phase3_image_alt'
+        ]);
 
       if (error) throw error;
 
@@ -33,9 +36,18 @@ const ProtocolPhasesIntro = () => {
       }, {} as Record<string, string>) || {};
 
       setPhaseImages({
-        phase1: settings.protocol_phase1_intro_image || '',
-        phase2: settings.protocol_phase2_intro_image || '',
-        phase3: settings.protocol_phase3_intro_image || ''
+        phase1: {
+          url: settings.protocol_phase1_intro_image || '',
+          alt: settings.protocol_phase1_image_alt || 'Phase 1 - Water Fast'
+        },
+        phase2: {
+          url: settings.protocol_phase2_intro_image || '',
+          alt: settings.protocol_phase2_image_alt || 'Phase 2 - Diet Control'
+        },
+        phase3: {
+          url: settings.protocol_phase3_intro_image || '',
+          alt: settings.protocol_phase3_image_alt || 'Phase 3 - Daily Walking'
+        }
       });
     } catch (error) {
       console.error('Error loading phase images:', error);
@@ -50,11 +62,11 @@ const ProtocolPhasesIntro = () => {
           {/* Phase 1 */}
           <div className="flex-1 max-w-sm">
             <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900 text-center min-h-[280px] flex flex-col">
-              {phaseImages.phase1 && (
+              {phaseImages.phase1.url && (
                 <div className="mb-6 -m-8 mt-0 mx-0">
                   <img 
-                    src={phaseImages.phase1} 
-                    alt="Phase 1 - Water Fast" 
+                    src={phaseImages.phase1.url} 
+                    alt={phaseImages.phase1.alt} 
                     className="w-full h-48 object-cover"
                   />
                 </div>
@@ -75,11 +87,11 @@ const ProtocolPhasesIntro = () => {
           {/* Phase 2 */}
           <div className="flex-1 max-w-sm">
             <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900 text-center min-h-[280px] flex flex-col">
-              {phaseImages.phase2 && (
+              {phaseImages.phase2.url && (
                 <div className="mb-6 -m-8 mt-0 mx-0">
                   <img 
-                    src={phaseImages.phase2} 
-                    alt="Phase 2 - Diet Control" 
+                    src={phaseImages.phase2.url} 
+                    alt={phaseImages.phase2.alt} 
                     className="w-full h-48 object-cover"
                   />
                 </div>
@@ -100,11 +112,11 @@ const ProtocolPhasesIntro = () => {
           {/* Phase 3 */}
           <div className="flex-1 max-w-sm">
             <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900 text-center min-h-[280px] flex flex-col">
-              {phaseImages.phase3 && (
+              {phaseImages.phase3.url && (
                 <div className="mb-6 -m-8 mt-0 mx-0">
                   <img 
-                    src={phaseImages.phase3} 
-                    alt="Phase 3 - Daily Walking" 
+                    src={phaseImages.phase3.url} 
+                    alt={phaseImages.phase3.alt} 
                     className="w-full h-48 object-cover"
                   />
                 </div>
@@ -124,11 +136,11 @@ const ProtocolPhasesIntro = () => {
         <div className="md:hidden space-y-6">
           {/* Phase 1 */}
           <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900">
-            {phaseImages.phase1 && (
+            {phaseImages.phase1.url && (
               <div className="mb-6 -m-6 mt-0 mx-0">
                 <img 
-                  src={phaseImages.phase1} 
-                  alt="Phase 1 - Water Fast" 
+                  src={phaseImages.phase1.url} 
+                  alt={phaseImages.phase1.alt} 
                   className="w-full h-40 object-cover"
                 />
               </div>
@@ -151,11 +163,11 @@ const ProtocolPhasesIntro = () => {
           
           {/* Phase 2 */}
           <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900">
-            {phaseImages.phase2 && (
+            {phaseImages.phase2.url && (
               <div className="mb-6 -m-6 mt-0 mx-0">
                 <img 
-                  src={phaseImages.phase2} 
-                  alt="Phase 2 - Diet Control" 
+                  src={phaseImages.phase2.url} 
+                  alt={phaseImages.phase2.alt} 
                   className="w-full h-40 object-cover"
                 />
               </div>
@@ -178,11 +190,11 @@ const ProtocolPhasesIntro = () => {
           
           {/* Phase 3 */}
           <div className="bg-card rounded-xl shadow-soft overflow-hidden border-l-4 border-gray-900">
-            {phaseImages.phase3 && (
+            {phaseImages.phase3.url && (
               <div className="mb-6 -m-6 mt-0 mx-0">
                 <img 
-                  src={phaseImages.phase3} 
-                  alt="Phase 3 - Daily Walking" 
+                  src={phaseImages.phase3.url} 
+                  alt={phaseImages.phase3.alt} 
                   className="w-full h-40 object-cover"
                 />
               </div>
