@@ -146,16 +146,30 @@ const MotivatorDetail: React.FC = () => {
           <p className="text-muted-foreground mb-4">
             Use this motivation to power your fasting goals and achieve the results you deserve.
           </p>
-          <Link to="/fastnow-protocol">
-            <Button size="lg" className="mr-4">
-              Start Fasting Protocol
-            </Button>
-          </Link>
-          <Link to="/motivators">
-            <Button variant="outline" size="lg">
-              Explore More Motivators
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link to="/fastnow-protocol">
+              <Button size="lg">
+                Start Fasting Protocol
+              </Button>
+            </Link>
+            {motivator.link_url && (
+              <a 
+                href={motivator.link_url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <Button variant="outline" size="lg">
+                  Read More
+                </Button>
+              </a>
+            )}
+            <Link to="/motivators">
+              <Button variant="outline" size="lg">
+                Explore More Motivators
+              </Button>
+            </Link>
+          </div>
         </div>
       </article>
     </PageLayout>

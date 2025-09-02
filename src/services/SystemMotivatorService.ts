@@ -8,6 +8,7 @@ export interface SystemMotivator {
   male_image_url?: string;
   female_image_url?: string;
   slug: string;
+  link_url?: string;
   meta_title?: string;
   meta_description?: string;
   is_active: boolean;

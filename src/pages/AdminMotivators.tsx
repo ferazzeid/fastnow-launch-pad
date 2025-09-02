@@ -27,6 +27,7 @@ const AdminMotivators: React.FC = () => {
     category: 'personal',
     male_image_url: '',
     female_image_url: '',
+    link_url: '',
     meta_title: '',
     meta_description: '',
     is_active: true,
@@ -63,6 +64,7 @@ const AdminMotivators: React.FC = () => {
       category: motivator.category || 'personal',
       male_image_url: motivator.male_image_url || '',
       female_image_url: motivator.female_image_url || '',
+      link_url: motivator.link_url || '',
       meta_title: motivator.meta_title || '',
       meta_description: motivator.meta_description || '',
       is_active: motivator.is_active,
@@ -128,6 +130,7 @@ const AdminMotivators: React.FC = () => {
       category: 'personal',
       male_image_url: '',
       female_image_url: '',
+      link_url: '',
       meta_title: '',
       meta_description: '',
       is_active: true,
@@ -199,6 +202,20 @@ const AdminMotivators: React.FC = () => {
             onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
             placeholder="e.g., personal, health, fitness"
           />
+        </div>
+
+        <div>
+          <Label htmlFor="link_url">Link URL (Optional)</Label>
+          <Input
+            id="link_url"
+            type="url"
+            value={formData.link_url}
+            onChange={(e) => setFormData(prev => ({ ...prev, link_url: e.target.value }))}
+            placeholder="https://example.com/more-info"
+          />
+          <p className="text-sm text-muted-foreground mt-1">
+            Optional URL to a detailed story or description on your website
+          </p>
         </div>
 
         <div className="space-y-4">
@@ -285,7 +302,7 @@ const AdminMotivators: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex justify-end space-x-2">
+      <div className="flex justify-end space-x-2 pt-4">
         <Button
           type="button"
           variant="outline"
@@ -405,7 +422,7 @@ const AdminMotivators: React.FC = () => {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto pb-8">
           <DialogHeader>
             <DialogTitle>
               {editingMotivator ? 'Edit' : 'Create'} System Motivator
