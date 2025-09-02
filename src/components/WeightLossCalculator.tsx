@@ -24,7 +24,7 @@ export const WeightLossCalculator: React.FC = () => {
     dailyCalorieIntake: 2000,
     activityType: 'walking',
     steps: 8000,
-    walkingMinutes: 30,
+    walkingMinutes: 0,
     walkingSpeed: 5.0 // km/h - default moderate speed
   });
 
@@ -171,7 +171,7 @@ export const WeightLossCalculator: React.FC = () => {
                 <Label className="text-text-secondary">Walking Speed</Label>
                 <Select value={inputs.walkingSpeed?.toString()} onValueChange={(value) => updateInput('walkingSpeed', Number(value))}>
                   <SelectTrigger className="mt-1 bg-background z-50">
-                    <SelectValue />
+                    <SelectValue placeholder="Select walking speed" />
                   </SelectTrigger>
                   <SelectContent className="bg-background border z-50">
                     <SelectItem value="3.0">Slow (3.0 km/h)</SelectItem>
