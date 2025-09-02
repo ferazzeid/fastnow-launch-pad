@@ -142,6 +142,17 @@ export class BlogTypographyService {
         line-height: var(--blog-line-height) !important;
         letter-spacing: var(--blog-letter-spacing) !important;
       }
+
+      /* Link styling for all prose content */
+      .prose a, .blog-content a {
+        color: #2563eb !important;
+        text-decoration: underline !important;
+        transition: color 0.2s ease !important;
+      }
+
+      .prose a:hover, .blog-content a:hover {
+        color: #1d4ed8 !important;
+      }
     `;
 
     document.head.appendChild(style);
