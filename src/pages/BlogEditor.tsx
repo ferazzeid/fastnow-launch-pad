@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Save, Eye, ArrowLeft, Plus, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { BlogPost } from '@/types/blog';
@@ -45,6 +46,7 @@ const BlogEditor = () => {
     content: '',
     excerpt: '',
     featuredImage: '',
+    featuredImageAlt: '',
     author: 'FastNow Team',
     categories: [],
     tags: [],
@@ -363,18 +365,25 @@ const BlogEditor = () => {
               <CardContent className="space-y-4">
                 <BlogFeaturedImageUpload
                   currentImageUrl={post.featuredImage}
+                  currentImageAlt={post.featuredImageAlt}
                   onImageChange={(imageUrl) => setPost(prev => ({ ...prev, featuredImage: imageUrl }))}
+                  onAltChange={(alt) => setPost(prev => ({ ...prev, featuredImageAlt: alt }))}
                 />
 
             <div className="space-y-6">
               <div>
                 <Label htmlFor="author">Author</Label>
-                <Input
-                  id="author"
-                  value={post.author}
-                  onChange={(e) => setPost(prev => ({ ...prev, author: e.target.value }))}
-                  placeholder="Author name"
-                />
+                <Select 
+                  value={post.author} 
+                  onValueChange={(value) => setPost(prev => ({ ...prev, author: value }))}
+                >
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Select an author" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="FastNow Team">FastNow Team</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="flex items-center justify-between">
@@ -428,7 +437,7 @@ const BlogEditor = () => {
                   {post.featuredImage && (
                     <img 
                       src={post.featuredImage} 
-                      alt={post.title}
+                      alt={post.featuredImageAlt || post.title || 'Featured image'}
                       className="w-full h-64 object-cover rounded-lg"
                     />
                   )}

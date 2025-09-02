@@ -9,15 +9,20 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface BlogFeaturedImageUploadProps {
   currentImageUrl: string;
+  currentImageAlt?: string;
   onImageChange: (imageUrl: string) => void;
+  onAltChange: (alt: string) => void;
 }
 
 const BlogFeaturedImageUpload: React.FC<BlogFeaturedImageUploadProps> = ({ 
   currentImageUrl, 
-  onImageChange 
+  currentImageAlt = '',
+  onImageChange,
+  onAltChange 
 }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState(currentImageUrl);
+  const [imageAlt, setImageAlt] = useState(currentImageAlt);
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -126,23 +131,28 @@ const BlogFeaturedImageUpload: React.FC<BlogFeaturedImageUploadProps> = ({
         )}
 
         {/* File Upload */}
-        <div>
+        <div className="space-y-2">
           <Label htmlFor="blog-featured-upload">Upload New Image</Label>
-          <div className="flex items-center gap-2 mt-1">
-            <Input
-              id="blog-featured-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleFileUpload}
-              disabled={isUploading}
-              className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/80"
-            />
-            {isUploading && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                Uploading...
+          <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4 hover:border-muted-foreground/50 transition-colors">
+            <div className="flex flex-col items-center gap-3">
+              <Upload className="h-8 w-8 text-muted-foreground" />
+              <div className="text-center">
+                <Input
+                  id="blog-featured-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  disabled={isUploading}
+                  className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/80 cursor-pointer"
+                />
+                {isUploading && (
+                  <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mt-2">
+                    <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    Uploading...
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
 
@@ -157,6 +167,26 @@ const BlogFeaturedImageUpload: React.FC<BlogFeaturedImageUploadProps> = ({
             className="mt-1"
           />
         </div>
+
+        {/* Alt Text Input */}
+        {imageUrl && (
+          <div>
+            <Label htmlFor="blog-featured-alt">Image Alt Text (SEO)</Label>
+            <Input
+              id="blog-featured-alt"
+              value={imageAlt}
+              onChange={(e) => {
+                setImageAlt(e.target.value);
+                onAltChange(e.target.value);
+              }}
+              placeholder="Describe the image for accessibility and SEO"
+              className="mt-1"
+            />
+            <p className="text-sm text-muted-foreground mt-1">
+              Alt text improves SEO and accessibility. Describe what's shown in the image.
+            </p>
+          </div>
+        )}
 
         {/* Image Size Info */}
         {imageUrl && (
