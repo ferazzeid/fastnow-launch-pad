@@ -74,26 +74,6 @@ export class MotivatorService {
     return data || [];
   }
 
-  static async getUnifiedSystemGoals(): Promise<Motivator[]> {
-    console.log('[MotivatorService] This method is deprecated. Use SystemMotivatorService.getAllSystemMotivators() instead.');
-    
-    // Import SystemMotivatorService dynamically to avoid circular imports
-    const { SystemMotivatorService } = await import('./SystemMotivatorService');
-    const systemMotivators = await SystemMotivatorService.getAllSystemMotivators();
-    
-    // Convert SystemMotivator to Motivator format for backward compatibility
-    return systemMotivators.map(motivator => ({
-      ...motivator,
-      user_id: 'system', // Placeholder since this is system data
-      is_active: motivator.is_active,
-      is_published: true,
-      is_system_goal: true, // For backward compatibility
-      show_in_animations: true,
-      image_url: motivator.male_image_url || motivator.female_image_url,
-      link_url: null,
-      gender: null
-    }));
-  }
 
   static async createMotivator(motivator: Omit<Motivator, 'id' | 'created_at' | 'updated_at'>): Promise<Motivator> {
     const { data, error } = await supabase
