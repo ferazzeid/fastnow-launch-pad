@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Clock, Activity, Utensils, Target } from 'lucide-react';
 import FAQSection from '@/components/FAQSection';
 import CouponOptInSection from '@/components/CouponOptInSection';
+import FreeAppSection from '@/components/FreeAppSection';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
@@ -28,7 +29,7 @@ const AboutFastNowApp = () => {
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
   
   // Widget settings
-  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon'>('premium');
+  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon' | 'free'>('premium');
   const [couponCode, setCouponCode] = useState('FASTNOW90');
   const [couponDays, setCouponDays] = useState(90);
   
@@ -369,8 +370,10 @@ const AboutFastNowApp = () => {
               </p>
             </div>
           </div>
-        ) : (
+        ) : widgetMode === 'coupon' ? (
           <CouponOptInSection couponCode={couponCode} trialDays={couponDays} />
+        ) : (
+          <FreeAppSection />
         )}
 
         {/* Install App Pro Tip - Compact Section */}

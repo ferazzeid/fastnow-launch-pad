@@ -36,7 +36,7 @@ const UnifiedAboutAppEditor = () => {
   const [isUploadingFeatured, setIsUploadingFeatured] = useState(false);
   
   // Widget Settings
-  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon'>('premium');
+  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon' | 'free'>('premium');
   const [couponCode, setCouponCode] = useState('FASTNOW90');
   const [couponDays, setCouponDays] = useState(90);
   
@@ -601,10 +601,22 @@ const UnifiedAboutAppEditor = () => {
                       name="widgetMode"
                       value="coupon"
                       checked={widgetMode === 'coupon'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon')}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free')}
                       className="form-radio"
                     />
                     <Label htmlFor="coupon" className="text-sm">Coupon Code Widget</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id="free"
+                      name="widgetMode"
+                      value="free"
+                      checked={widgetMode === 'free'}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free')}
+                      className="form-radio"
+                    />
+                    <Label htmlFor="free" className="text-sm">Free (No Payment Required)</Label>
                   </div>
                 </div>
               </div>
