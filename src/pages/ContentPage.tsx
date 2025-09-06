@@ -4,12 +4,15 @@ import { useParams, useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import SEOHead from '@/components/SEOHead';
 import PageLayout from '@/components/layout/PageLayout';
+import { useTranslation } from 'react-i18next';
 
 import { pageContentService } from '@/services/PageContentService';
+import { MultilingualContentService } from '@/services/MultilingualContentService';
 
 const ContentPage = () => {
   const { pageType: urlPageType } = useParams<{ pageType: string }>();
   const location = useLocation();
+  const { i18n } = useTranslation();
   
   // Extract page type from URL path if not available in params
   const getPageTypeFromPath = () => {
@@ -44,32 +47,55 @@ const ContentPage = () => {
             break;
           case 'contact':
             setTitle('Contact Us');
-            // Don't return early - load content for contact page too
             break;
           default:
             setTitle('fastnow.app');
         }
 
-        // Try to load content from database first
+        // Try to load localized content from database first
         let loadedContent = '';
+        let loadedTitle = '';
+        let loadedMetaTitle = '';
+        let loadedMetaDescription = '';
+        
         try {
-          const pageContent = await pageContentService.getPageContent(pageType || '');
-          if (pageContent) {
-            // Load content and SEO data
-            if (pageContent.content) {
-              loadedContent = pageContent.content;
+          const localizedContent = await MultilingualContentService.getLocalizedPageContent(
+            pageType || '', 
+            i18n.language
+          );
+          
+          if (localizedContent) {
+            if (localizedContent.content) {
+              loadedContent = localizedContent.content;
             }
-            if (pageContent.title) {
-              setTitle(pageContent.title);
+            if (localizedContent.title) {
+              loadedTitle = localizedContent.title;
+              setTitle(localizedContent.title);
             }
-            if (pageContent.meta_title) {
-              setMetaTitle(pageContent.meta_title);
+            if (localizedContent.meta_description) {
+              loadedMetaDescription = localizedContent.meta_description;
+              setMetaDescription(localizedContent.meta_description);
             }
-            if (pageContent.meta_description) {
-              setMetaDescription(pageContent.meta_description);
+          } else {
+            // Fallback to original page content service
+            const pageContent = await pageContentService.getPageContent(pageType || '');
+            if (pageContent) {
+              if (pageContent.content) {
+                loadedContent = pageContent.content;
+              }
+              if (pageContent.title) {
+                loadedTitle = pageContent.title;
+                setTitle(pageContent.title);
+              }
+              if (pageContent.meta_title) {
+                loadedMetaTitle = pageContent.meta_title;
+                setMetaTitle(pageContent.meta_title);
+              }
+              if (pageContent.meta_description) {
+                loadedMetaDescription = pageContent.meta_description;
+                setMetaDescription(pageContent.meta_description);
+              }
             }
-            // Check if there's indexing preference saved (placeholder for future feature)
-            // setIsIndexed(pageContent.is_indexed ?? true);
           }
         } catch (error) {
           console.error('Failed to load content from database:', error);
@@ -87,15 +113,15 @@ const ContentPage = () => {
         if (!loadedContent) {
           if (pageType === 'privacy-policy') {
             loadedContent = getDefaultPrivacyPolicy();
-            if (!metaTitle) setMetaTitle('Privacy Policy - FastNow');
-            if (!metaDescription) setMetaDescription('Read our privacy policy to understand how we protect and handle your personal data.');
+            if (!loadedMetaTitle) setMetaTitle('Privacy Policy - FastNow');
+            if (!loadedMetaDescription) setMetaDescription('Read our privacy policy to understand how we protect and handle your personal data.');
           } else if (pageType === 'terms-of-service') {
             loadedContent = getDefaultTermsOfService();
-            if (!metaTitle) setMetaTitle('Terms of Service - FastNow');
-            if (!metaDescription) setMetaDescription('Read our terms of service and usage policies for the FastNow application.');
+            if (!loadedMetaTitle) setMetaTitle('Terms of Service - FastNow');
+            if (!loadedMetaDescription) setMetaDescription('Read our terms of service and usage policies for the FastNow application.');
           } else if (pageType === 'contact') {
-            if (!metaTitle) setMetaTitle('Contact Us - FastNow');
-            if (!metaDescription) setMetaDescription('Get in touch with us for support, questions, or feedback about FastNow.');
+            if (!loadedMetaTitle) setMetaTitle('Contact Us - FastNow');
+            if (!loadedMetaDescription) setMetaDescription('Get in touch with us for support, questions, or feedback about FastNow.');
           } else {
             loadedContent = 'Content for this page has not been created yet.';
           }
@@ -125,7 +151,7 @@ const ContentPage = () => {
     };
 
     loadContent();
-  }, [pageType]);
+  }, [pageType, i18n.language]);
 
   const getDefaultPrivacyPolicy = () => {
     return `**Last updated:** August 9, 2025

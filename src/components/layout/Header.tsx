@@ -1,10 +1,12 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MainNavigation from '../MainNavigation';
 import GlobalSchema from '../GlobalSchema';
 import { pageContentService } from '@/services/PageContentService';
 import { supabase } from '@/integrations/supabase/client';
+import { useAdminCheck } from '@/hooks/useAdminCheck';
+import AdminTranslateButton from '@/components/admin/AdminTranslateButton';
 
 interface HeaderProps {
   transparent?: boolean;
@@ -14,6 +16,47 @@ const Header: React.FC<HeaderProps> = ({ transparent = false }) => {
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
   const [logoSize, setLogoSize] = React.useState<number>(32);
   const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
+  const { isAdmin } = useAdminCheck();
+  const location = useLocation();
+
+  // Determine page type and key for translation
+  const getPageInfo = () => {
+    const path = location.pathname;
+    
+    if (path.startsWith('/blog/')) {
+      const slug = path.replace('/blog/', '');
+      return { pageType: 'blog_posts' as const, pageKey: slug };
+    }
+    
+    if (path.startsWith('/motivators/')) {
+      const slug = path.replace('/motivators/', '');
+      return { pageType: 'system_motivators' as const, pageKey: slug };
+    }
+    
+    if (path === '/about-fastnow-app') {
+      return { pageType: 'page_content' as const, pageKey: 'about-fastnow-app' };
+    }
+    
+    if (path === '/fastnow-protocol') {
+      return { pageType: 'page_content' as const, pageKey: 'fastnow-protocol' };
+    }
+    
+    if (path === '/privacy' || path === '/privacy-policy') {
+      return { pageType: 'page_content' as const, pageKey: 'privacy-policy' };
+    }
+    
+    if (path === '/terms' || path === '/terms-of-service') {
+      return { pageType: 'page_content' as const, pageKey: 'terms-of-service' };
+    }
+    
+    if (path === '/contact') {
+      return { pageType: 'page_content' as const, pageKey: 'contact' };
+    }
+    
+    return null;
+  };
+
+  const pageInfo = getPageInfo();
 
   // Load logo and favicon from database (with localStorage fallback)
   React.useEffect(() => {
@@ -124,7 +167,23 @@ const Header: React.FC<HeaderProps> = ({ transparent = false }) => {
           )}
           <span className={`text-2xl font-bold ${transparent ? 'text-white' : 'text-gray-900'}`}>FastNow</span>
         </Link>
-        <MainNavigation transparent={transparent} />
+        
+        <div className="flex items-center gap-4">
+          <MainNavigation transparent={transparent} />
+          
+          {/* Admin Translation Button */}
+          {isAdmin && pageInfo && (
+            <AdminTranslateButton
+              pageKey={pageInfo.pageKey}
+              pageType={pageInfo.pageType}
+              className={`${
+                transparent 
+                  ? 'text-white border-white/30 hover:border-white/50 hover:bg-white/10' 
+                  : 'text-gray-900 border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+              }`}
+            />
+          )}
+        </div>
       </div>
     </header>
     </>
