@@ -47,6 +47,7 @@ import AdminMotivators from "./pages/AdminMotivators";
 
 import AdminAuthorProfile from "./pages/AdminAuthorProfile";
 import AdminSEOAnalytics from "./pages/AdminSEOAnalytics";
+import AdminTranslations from "./pages/AdminTranslations";
 import WeightLossCalculatorPage from "./pages/WeightLossCalculatorPage";
 import WalkingCalculatorPage from "./pages/WalkingCalculatorPage";
 
@@ -103,6 +104,7 @@ const AppRoutes = () => {
       <Route path="/admin/calculator-settings" element={<AdminCalculatorSettings />} />
       <Route path="/admin/motivators" element={<AdminMotivators />} />
       <Route path="/admin/coupon-management" element={<AdminCouponManagement />} />
+      <Route path="/admin/translations" element={<AdminTranslations />} />
       
       {/* Content pages */}
       <Route path="/privacy" element={<ContentPage />} />

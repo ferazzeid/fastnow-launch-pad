@@ -77,6 +77,33 @@ export type Database = {
         }
         Relationships: []
       }
+      app_mode_settings: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          setting_key: string
+          setting_value: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          setting_key: string
+          setting_value: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          setting_key?: string
+          setting_value?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       app_motivators: {
         Row: {
           caption: string | null
@@ -1648,6 +1675,33 @@ export type Database = {
         }
         Relationships: []
       }
+      ui_translations: {
+        Row: {
+          created_at: string | null
+          id: string
+          language_code: string
+          translated_text: string
+          translation_key: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          language_code: string
+          translated_text: string
+          translation_key: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          language_code?: string
+          translated_text?: string
+          translation_key?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       usage_analytics: {
         Row: {
           created_at: string
@@ -1962,7 +2016,13 @@ export type Database = {
       }
     }
     Enums: {
-      access_level: "free" | "trial" | "premium" | "admin"
+      access_level:
+        | "free"
+        | "trial"
+        | "premium"
+        | "admin"
+        | "free_full"
+        | "free_food_only"
       app_role: "admin" | "user"
       user_tier: "api_user" | "paid_user" | "granted_user" | "free_user"
     }
@@ -2092,7 +2152,14 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      access_level: ["free", "trial", "premium", "admin"],
+      access_level: [
+        "free",
+        "trial",
+        "premium",
+        "admin",
+        "free_full",
+        "free_food_only",
+      ],
       app_role: ["admin", "user"],
       user_tier: ["api_user", "paid_user", "granted_user", "free_user"],
     },
