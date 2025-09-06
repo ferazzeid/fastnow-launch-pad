@@ -16,6 +16,10 @@ interface Language {
   flag: string;
 }
 
+interface LanguageSwitcherProps {
+  transparent?: boolean;
+}
+
 const languages: Language[] = [
   { code: 'en', name: 'English', nativeName: 'English', flag: '' },
   { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '' },
@@ -23,7 +27,7 @@ const languages: Language[] = [
   { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '' },
 ];
 
-const LanguageSwitcher: React.FC = () => {
+const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ transparent = false }) => {
   const { i18n } = useTranslation();
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
@@ -39,9 +43,17 @@ const LanguageSwitcher: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="flex items-center gap-2">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+            transparent
+              ? "text-white border border-white/30 hover:border-white/50 hover:bg-white/10"
+              : "text-gray-900 border border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+          }`}
+        >
           <Globe className="h-4 w-4" />
-          <span className="hidden md:inline">{currentLanguage.nativeName}</span>
+          <span className="inline">{currentLanguage.nativeName}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">

@@ -81,7 +81,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
 
   const isCalculatorPath = calculatorLinks.some(link => location.pathname === link.path);
 
-  const NavLinks = ({ onLinkClick }: { onLinkClick?: () => void }) => {
+  const NavLinks = ({ onLinkClick, transparent }: { onLinkClick?: () => void; transparent?: boolean }) => {
     return (
       <div className={cn("flex gap-4", isMobile ? "flex-col space-y-2" : "flex-row items-center")}>
         {navLinks.map((link) => (
@@ -182,7 +182,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
         ))}
         
         {/* Language Switcher */}
-        <LanguageSwitcher />
+        <LanguageSwitcher transparent={transparent} />
       </div>
     );
   };
@@ -209,7 +209,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
             <SheetTitle>Navigation</SheetTitle>
           </SheetHeader>
           <div className="mt-6">
-            <NavLinks onLinkClick={handleLinkClick} />
+            <NavLinks onLinkClick={handleLinkClick} transparent={transparent} />
           </div>
         </SheetContent>
       </Sheet>
@@ -218,7 +218,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
 
   return (
     <nav className="flex items-center">
-      <NavLinks />
+      <NavLinks transparent={transparent} />
     </nav>
   );
 };
