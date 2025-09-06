@@ -36,7 +36,7 @@ const UnifiedAboutAppEditor = () => {
   const [isUploadingFeatured, setIsUploadingFeatured] = useState(false);
   
   // Widget Settings
-  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon' | 'free'>('premium');
+  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon' | 'free' | 'free_with_food_log'>('premium');
   const [couponCode, setCouponCode] = useState('FASTNOW90');
   const [couponDays, setCouponDays] = useState(90);
   
@@ -581,7 +581,7 @@ const UnifiedAboutAppEditor = () => {
               <div>
                 <Label className="text-base font-medium">Widget Mode</Label>
                 <p className="text-sm text-muted-foreground mb-3">Choose which widget to display at the bottom of the About App page</p>
-                <div className="flex gap-4">
+                <div className="flex gap-4 flex-wrap">
                   <div className="flex items-center space-x-2">
                     <input
                       type="radio"
@@ -589,7 +589,7 @@ const UnifiedAboutAppEditor = () => {
                       name="widgetMode"
                       value="premium"
                       checked={widgetMode === 'premium'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon')}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free' | 'free_with_food_log')}
                       className="form-radio"
                     />
                     <Label htmlFor="premium" className="text-sm">Premium Pricing Widget</Label>
@@ -601,7 +601,7 @@ const UnifiedAboutAppEditor = () => {
                       name="widgetMode"
                       value="coupon"
                       checked={widgetMode === 'coupon'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free')}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free' | 'free_with_food_log')}
                       className="form-radio"
                     />
                     <Label htmlFor="coupon" className="text-sm">Coupon Code Widget</Label>
@@ -613,10 +613,22 @@ const UnifiedAboutAppEditor = () => {
                       name="widgetMode"
                       value="free"
                       checked={widgetMode === 'free'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free')}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free' | 'free_with_food_log')}
                       className="form-radio"
                     />
                     <Label htmlFor="free" className="text-sm">Free (No Payment Required)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id="free_with_food_log"
+                      name="widgetMode"
+                      value="free_with_food_log"
+                      checked={widgetMode === 'free_with_food_log'}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free' | 'free_with_food_log')}
+                      className="form-radio"
+                    />
+                    <Label htmlFor="free_with_food_log" className="text-sm">Free with Food Log (No AI Features)</Label>
                   </div>
                 </div>
               </div>
