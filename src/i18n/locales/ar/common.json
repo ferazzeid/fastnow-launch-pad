@@ -1,0 +1,54 @@
+{
+  "buttons": {
+    "submit": "إرسال",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "view": "عرض",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "continue": "متابعة",
+    "close": "إغلاق",
+    "open": "فتح",
+    "loading": "جاري التحميل...",
+    "tryFree": "جرب مجاناً",
+    "learnMore": "اعرف المزيد",
+    "getStarted": "ابدأ الآن",
+    "download": "تحميل",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "signup": "إنشاء حساب"
+  },
+  "messages": {
+    "success": "نجح",
+    "error": "خطأ",
+    "warning": "تحذير",
+    "info": "معلومات",
+    "loading": "جاري التحميل...",
+    "noData": "لا توجد بيانات متاحة",
+    "comingSoon": "قريباً"
+  },
+  "time": {
+    "hours": "ساعات",
+    "minutes": "دقائق",
+    "seconds": "ثواني",
+    "days": "أيام",
+    "weeks": "أسابيع",
+    "months": "شهور",
+    "years": "سنوات"
+  },
+  "common": {
+    "and": "و",
+    "or": "أو",
+    "of": "من",
+    "in": "في",
+    "at": "في",
+    "by": "بواسطة",
+    "for": "لـ",
+    "with": "مع",
+    "from": "من",
+    "to": "إلى"
+  }
+}

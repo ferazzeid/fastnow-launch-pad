@@ -1,0 +1,54 @@
+{
+  "buttons": {
+    "submit": "Senden",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "view": "Anzeigen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "continue": "Fortfahren",
+    "close": "Schließen",
+    "open": "Öffnen",
+    "loading": "Wird geladen...",
+    "tryFree": "Kostenlos testen",
+    "learnMore": "Mehr erfahren",
+    "getStarted": "Loslegen",
+    "download": "Herunterladen",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "signup": "Registrieren"
+  },
+  "messages": {
+    "success": "Erfolg",
+    "error": "Fehler",
+    "warning": "Warnung",
+    "info": "Information",
+    "loading": "Wird geladen...",
+    "noData": "Keine Daten verfügbar",
+    "comingSoon": "Demnächst"
+  },
+  "time": {
+    "hours": "Stunden",
+    "minutes": "Minuten",
+    "seconds": "Sekunden",
+    "days": "Tage",
+    "weeks": "Wochen",
+    "months": "Monate",
+    "years": "Jahre"
+  },
+  "common": {
+    "and": "und",
+    "or": "oder",
+    "of": "von",
+    "in": "in",
+    "at": "bei",
+    "by": "von",
+    "for": "für",
+    "with": "mit",
+    "from": "von",
+    "to": "zu"
+  }
+}

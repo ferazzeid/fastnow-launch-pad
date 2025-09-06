@@ -1,0 +1,35 @@
+{
+  "labels": {
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "name": "Имя",
+    "phone": "Телефон",
+    "address": "Адрес",
+    "city": "Город",
+    "country": "Страна",
+    "zipCode": "Почтовый индекс",
+    "message": "Сообщение",
+    "subject": "Тема",
+    "title": "Заголовок",
+    "description": "Описание",
+    "content": "Содержание"
+  },
+  "placeholders": {
+    "enterEmail": "Введите ваш email",
+    "enterPassword": "Введите пароль",
+    "enterName": "Введите ваше имя",
+    "enterMessage": "Введите ваше сообщение",
+    "search": "Поиск...",
+    "selectOption": "Выберите вариант"
+  },
+  "validation": {
+    "required": "Это поле обязательно",
+    "invalidEmail": "Введите корректный email",
+    "passwordTooShort": "Пароль должен содержать минимум 8 символов",
+    "passwordsDoNotMatch": "Пароли не совпадают",
+    "invalidPhone": "Введите корректный номер телефона"
+  }
+}

@@ -5,6 +5,8 @@ import { Menu, ChevronDown, Calculator } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { SiteSettingsService } from "@/services/SiteSettingsService";
+import { useNavigationTranslation } from "@/hooks/useTranslation";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import {
   Sheet,
   SheetContent,
@@ -26,18 +28,20 @@ interface MainNavigationProps {
 const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) => {
   const { isAdmin } = useAuth();
   const location = useLocation();
+  const { t } = useNavigationTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  // Static navigation links - no database calls needed
+  
+  // Navigation links with translations
   const navLinks = [
-    { path: '/', title: 'Home' },
-    { path: '/fastnow-protocol', title: 'The Protocol' },
-    { path: '/about-fastnow-app', title: 'About App' },
-    { path: '/motivators', title: 'Motivators' },
+    { path: '/', title: t('menu.home') },
+    { path: '/fastnow-protocol', title: t('menu.protocol') },
+    { path: '/about-fastnow-app', title: t('menu.about') },
+    { path: '/motivators', title: t('menu.motivators') },
   ];
 
   const endNavLinks = [
-    { path: '/blog', title: 'Blog' },
+    { path: '/blog', title: t('menu.blog') },
   ];
 
   // Simple mobile detection
@@ -71,8 +75,8 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
   };
 
   const calculatorLinks = [
-    { path: '/walking-calculator', title: 'Walking Calculator' },
-    { path: '/weight-loss-calculator', title: 'Weight Loss Calculator' }
+    { path: '/walking-calculator', title: t('menu.walkingCalculator') },
+    { path: '/weight-loss-calculator', title: t('menu.weightLossCalculator') }
   ];
 
   const isCalculatorPath = calculatorLinks.some(link => location.pathname === link.path);
@@ -111,7 +115,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
                 )}
               >
                 <Calculator className="w-4 h-4" />
-                Calculators
+                {t('menu.calculators')}
                 <ChevronDown className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -138,7 +142,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
         {isMobile && (
           <div className="space-y-2">
             <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
-              Calculators
+              {t('menu.calculators')}
             </div>
             {calculatorLinks.map((link) => (
               <Link
@@ -177,6 +181,8 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
           </Link>
         ))}
         
+        {/* Language Switcher */}
+        <LanguageSwitcher />
       </div>
     );
   };

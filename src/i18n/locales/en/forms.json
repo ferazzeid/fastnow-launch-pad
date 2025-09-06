@@ -1,0 +1,35 @@
+{
+  "labels": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "name": "Name",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "zipCode": "ZIP Code",
+    "message": "Message",
+    "subject": "Subject",
+    "title": "Title",
+    "description": "Description",
+    "content": "Content"
+  },
+  "placeholders": {
+    "enterEmail": "Enter your email",
+    "enterPassword": "Enter your password",
+    "enterName": "Enter your name",
+    "enterMessage": "Enter your message",
+    "search": "Search...",
+    "selectOption": "Select an option"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "invalidPhone": "Please enter a valid phone number"
+  }
+}

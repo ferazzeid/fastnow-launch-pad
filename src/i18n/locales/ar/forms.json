@@ -1,0 +1,35 @@
+{
+  "labels": {
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "name": "الاسم",
+    "phone": "الهاتف",
+    "address": "العنوان",
+    "city": "المدينة",
+    "country": "البلد",
+    "zipCode": "الرمز البريدي",
+    "message": "الرسالة",
+    "subject": "الموضوع",
+    "title": "العنوان",
+    "description": "الوصف",
+    "content": "المحتوى"
+  },
+  "placeholders": {
+    "enterEmail": "أدخل بريدك الإلكتروني",
+    "enterPassword": "أدخل كلمة المرور",
+    "enterName": "أدخل اسمك",
+    "enterMessage": "أدخل رسالتك",
+    "search": "بحث...",
+    "selectOption": "اختر خياراً"
+  },
+  "validation": {
+    "required": "هذا الحقل مطلوب",
+    "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+    "passwordTooShort": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
+    "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+    "invalidPhone": "يرجى إدخال رقم هاتف صحيح"
+  }
+}

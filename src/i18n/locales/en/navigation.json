@@ -1,0 +1,23 @@
+{
+  "menu": {
+    "home": "Home",
+    "about": "About App",
+    "protocol": "FastNow Protocol",
+    "timeline": "Fasting Timeline",
+    "blog": "Blog",
+    "motivators": "Motivators",
+    "calculators": "Calculators",
+    "walkingCalculator": "Walking Calculator",
+    "weightLossCalculator": "Weight Loss Calculator",
+    "admin": "Admin",
+    "contact": "Contact",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  },
+  "footer": {
+    "copyright": "© 2024 FastNow. All rights reserved.",
+    "followUs": "Follow Us",
+    "quickLinks": "Quick Links",
+    "legal": "Legal"
+  }
+}

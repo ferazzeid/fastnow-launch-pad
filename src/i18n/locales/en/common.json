@@ -1,0 +1,54 @@
+{
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "continue": "Continue",
+    "close": "Close",
+    "open": "Open",
+    "loading": "Loading...",
+    "tryFree": "Try Free",
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "download": "Download",
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign Up"
+  },
+  "messages": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "loading": "Loading...",
+    "noData": "No data available",
+    "comingSoon": "Coming Soon"
+  },
+  "time": {
+    "hours": "hours",
+    "minutes": "minutes",
+    "seconds": "seconds",
+    "days": "days",
+    "weeks": "weeks",
+    "months": "months",
+    "years": "years"
+  },
+  "common": {
+    "and": "and",
+    "or": "or",
+    "of": "of",
+    "in": "in",
+    "at": "at",
+    "by": "by",
+    "for": "for",
+    "with": "with",
+    "from": "from",
+    "to": "to"
+  }
+}

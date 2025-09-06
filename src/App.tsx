@@ -10,6 +10,7 @@ import { SecurityHeaders } from "./components/SecurityHeaders";
 import { SiteSettingsService } from "@/services/SiteSettingsService";
 import { useEffect, useState } from "react";
 import { AuthProvider } from '@/contexts/AuthContext';
+import '@/i18n';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";

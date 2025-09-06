@@ -1,0 +1,23 @@
+{
+  "menu": {
+    "home": "Главная",
+    "about": "О приложении",
+    "protocol": "Протокол FastNow",
+    "timeline": "График голодания",
+    "blog": "Блог",
+    "motivators": "Мотиваторы",
+    "calculators": "Калькуляторы",
+    "walkingCalculator": "Калькулятор ходьбы",
+    "weightLossCalculator": "Калькулятор потери веса",
+    "admin": "Администрация",
+    "contact": "Контакты",
+    "privacyPolicy": "Политика конфиденциальности",
+    "termsOfService": "Условия использования"
+  },
+  "footer": {
+    "copyright": "© 2024 FastNow. Все права защищены.",
+    "followUs": "Подписывайтесь",
+    "quickLinks": "Быстрые ссылки",
+    "legal": "Правовая информация"
+  }
+}

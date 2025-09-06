@@ -1,0 +1,23 @@
+{
+  "menu": {
+    "home": "الرئيسية",
+    "about": "حول التطبيق",
+    "protocol": "بروتوكول FastNow",
+    "timeline": "جدول الصيام",
+    "blog": "المدونة",
+    "motivators": "المحفزات",
+    "calculators": "الحاسبات",
+    "walkingCalculator": "حاسبة المشي",
+    "weightLossCalculator": "حاسبة فقدان الوزن",
+    "admin": "الإدارة",
+    "contact": "اتصل بنا",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfService": "شروط الخدمة"
+  },
+  "footer": {
+    "copyright": "© 2024 FastNow. جميع الحقوق محفوظة.",
+    "followUs": "تابعنا",
+    "quickLinks": "روابط سريعة",
+    "legal": "قانوني"
+  }
+}

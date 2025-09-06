@@ -1,0 +1,23 @@
+{
+  "menu": {
+    "home": "Startseite",
+    "about": "Über die App",
+    "protocol": "FastNow Protokoll",
+    "timeline": "Fasten-Zeitplan",
+    "blog": "Blog",
+    "motivators": "Motivatoren",
+    "calculators": "Rechner",
+    "walkingCalculator": "Geh-Rechner",
+    "weightLossCalculator": "Gewichtsverlust-Rechner",
+    "admin": "Administration",
+    "contact": "Kontakt",
+    "privacyPolicy": "Datenschutz",
+    "termsOfService": "Nutzungsbedingungen"
+  },
+  "footer": {
+    "copyright": "© 2024 FastNow. Alle Rechte vorbehalten.",
+    "followUs": "Folgen Sie uns",
+    "quickLinks": "Schnelllinks",
+    "legal": "Rechtliches"
+  }
+}
