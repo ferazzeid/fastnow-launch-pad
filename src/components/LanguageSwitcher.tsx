@@ -17,10 +17,10 @@ interface Language {
 }
 
 const languages: Language[] = [
-  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦' },
-  { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺' },
-  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '' },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '' },
+  { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '' },
+  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '' },
 ];
 
 const LanguageSwitcher: React.FC = () => {
@@ -41,7 +41,6 @@ const LanguageSwitcher: React.FC = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="flex items-center gap-2">
           <Globe className="h-4 w-4" />
-          <span className="hidden sm:inline">{currentLanguage.flag}</span>
           <span className="hidden md:inline">{currentLanguage.nativeName}</span>
         </Button>
       </DropdownMenuTrigger>
@@ -55,7 +54,6 @@ const LanguageSwitcher: React.FC = () => {
             }`}
           >
             <div className="flex items-center gap-2">
-              <span>{language.flag}</span>
               <span>{language.nativeName}</span>
             </div>
             {currentLanguage.code === language.code && (

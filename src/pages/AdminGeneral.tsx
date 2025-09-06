@@ -1,18 +1,19 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Save, Settings, Upload, Trash2 } from "lucide-react";
+import { ArrowLeft, Save, Settings, Upload, Trash2, Languages } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { ImageUploadService } from '@/services/ImageUploadService';
 import { pageContentService } from '@/services/PageContentService';
 import BlogTypographySettings from '@/components/admin/BlogTypographySettings';
 import SocialMediaSettings from '@/components/admin/SocialMediaSettings';
+import AdminTranslations from './AdminTranslations';
 
 interface GeneralSettings {
   siteName: string;
@@ -325,290 +326,316 @@ const AdminGeneral = () => {
       </header>
 
       <main className="container py-8">
-        <div className="max-w-4xl mx-auto space-y-6">
-          {/* Site Identity */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Site Identity</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="siteName">Site Name</Label>
-                  <Input
-                    id="siteName"
-                    value={settings.siteName}
-                    onChange={(e) => handleInputChange('siteName', e.target.value)}
-                    placeholder="Your App Name"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="companyName">Company Name</Label>
-                  <Input
-                    id="companyName"
-                    value={settings.companyName}
-                    onChange={(e) => handleInputChange('companyName', e.target.value)}
-                    placeholder="Your Company Name"
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="siteDescription">Site Description</Label>
-                <Input
-                  id="siteDescription"
-                  value={settings.siteDescription}
-                  onChange={(e) => handleInputChange('siteDescription', e.target.value)}
-                  placeholder="Brief description of your app"
-                />
-              </div>
-
-              {/* Logo Upload Section */}
-              <div className="space-y-4 pt-6 border-t">
-                <div>
-                  <Label htmlFor="logo-upload">Site Logo</Label>
-                  <div className="mt-2 space-y-4">
-                    <Input
-                      id="logo-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoUpload}
-                      disabled={uploading}
-                      className="cursor-pointer"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Upload a logo for your site header. Recommended: PNG/JPG, max 5MB.
-                    </p>
-                  </div>
-
-                  {logoFaviconSettings.logoUrl && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <img 
-                            src={logoFaviconSettings.logoUrl} 
-                            alt="Current logo" 
-                            className="h-10 w-auto object-contain"
-                          />
-                          <div>
-                            <p className="text-sm font-medium">Current Logo</p>
-                            <p className="text-xs text-muted-foreground">Used in header and throughout site</p>
-                          </div>
-                        </div>
-                        <Button onClick={removeLogo} variant="outline" size="sm" disabled={uploading}>
-                          <Trash2 size={14} className="mr-1" />
-                          Remove
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Logo Height Setting */}
-                {logoFaviconSettings.logoUrl && (
-                  <div className="grid grid-cols-2 gap-4">
+        <div className="max-w-4xl mx-auto">
+          <Tabs defaultValue="general" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="general">General</TabsTrigger>
+              <TabsTrigger value="design">Design</TabsTrigger>
+              <TabsTrigger value="social">Social Media</TabsTrigger>
+              <TabsTrigger value="translations">
+                <Languages className="w-4 h-4 mr-2" />
+                Translations
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="general" className="space-y-6">
+              {/* Site Identity */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Site Identity</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="logo-height">Logo Height (px)</Label>
+                      <Label htmlFor="siteName">Site Name</Label>
                       <Input
-                        id="logo-height"
-                        type="number"
-                        min="20"
-                        max="100"
-                        value={logoFaviconSettings.logoHeight}
-                        onChange={(e) => setLogoFaviconSettings(prev => ({ 
-                          ...prev, 
-                          logoHeight: parseInt(e.target.value) || 40 
-                        }))}
+                        id="siteName"
+                        value={settings.siteName}
+                        onChange={(e) => handleInputChange('siteName', e.target.value)}
+                        placeholder="Your App Name"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="companyName">Company Name</Label>
+                      <Input
+                        id="companyName"
+                        value={settings.companyName}
+                        onChange={(e) => handleInputChange('companyName', e.target.value)}
+                        placeholder="Your Company Name"
                       />
                     </div>
                   </div>
-                )}
-              </div>
-
-              {/* Favicon Upload Section */}
-              <div className="space-y-4 pt-6 border-t">
-                <div>
-                  <Label htmlFor="favicon-upload">Favicon</Label>
-                  <div className="mt-2 space-y-4">
+                  <div>
+                    <Label htmlFor="siteDescription">Site Description</Label>
                     <Input
-                      id="favicon-upload"
-                      type="file"
-                      accept="image/png,image/jpeg,image/jpg"
-                      onChange={handleFaviconUpload}
-                      disabled={uploading}
-                      className="cursor-pointer"
+                      id="siteDescription"
+                      value={settings.siteDescription}
+                      onChange={(e) => handleInputChange('siteDescription', e.target.value)}
+                      placeholder="Brief description of your app"
                     />
-                    <p className="text-xs text-muted-foreground">
-                      Upload a favicon for your site. Must be PNG/JPG (not .ico), max 2MB.
-                    </p>
                   </div>
 
-                  {logoFaviconSettings.faviconUrl && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <img 
-                            src={logoFaviconSettings.faviconUrl} 
-                            alt="Current favicon" 
-                            className="h-8 w-8 object-contain rounded"
-                          />
-                          <div>
-                            <p className="text-sm font-medium">Current Favicon</p>
-                            <p className="text-xs text-muted-foreground">Used in browser tab and bookmarks</p>
+                  {/* Logo Upload Section */}
+                  <div className="space-y-4 pt-6 border-t">
+                    <div>
+                      <Label htmlFor="logo-upload">Site Logo</Label>
+                      <div className="mt-2 space-y-4">
+                        <Input
+                          id="logo-upload"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleLogoUpload}
+                          disabled={uploading}
+                          className="cursor-pointer"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Upload a logo for your site header. Recommended: PNG/JPG, max 5MB.
+                        </p>
+                      </div>
+
+                      {logoFaviconSettings.logoUrl && (
+                        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <img 
+                                src={logoFaviconSettings.logoUrl} 
+                                alt="Current logo" 
+                                className="h-10 w-auto object-contain"
+                              />
+                              <div>
+                                <p className="text-sm font-medium">Current Logo</p>
+                                <p className="text-xs text-muted-foreground">Used in header and throughout site</p>
+                              </div>
+                            </div>
+                            <Button onClick={removeLogo} variant="outline" size="sm" disabled={uploading}>
+                              <Trash2 size={14} className="mr-1" />
+                              Remove
+                            </Button>
                           </div>
                         </div>
-                        <Button onClick={removeFavicon} variant="outline" size="sm" disabled={uploading}>
-                          <Trash2 size={14} className="mr-1" />
-                          Remove
-                        </Button>
+                      )}
+                    </div>
+
+                    {/* Logo Height Setting */}
+                    {logoFaviconSettings.logoUrl && (
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="logo-height">Logo Height (px)</Label>
+                          <Input
+                            id="logo-height"
+                            type="number"
+                            min="20"
+                            max="100"
+                            value={logoFaviconSettings.logoHeight}
+                            onChange={(e) => setLogoFaviconSettings(prev => ({ 
+                              ...prev, 
+                              logoHeight: parseInt(e.target.value) || 40 
+                            }))}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Favicon Upload Section */}
+                  <div className="space-y-4 pt-6 border-t">
+                    <div>
+                      <Label htmlFor="favicon-upload">Favicon</Label>
+                      <div className="mt-2 space-y-4">
+                        <Input
+                          id="favicon-upload"
+                          type="file"
+                          accept="image/png,image/jpeg,image/jpg"
+                          onChange={handleFaviconUpload}
+                          disabled={uploading}
+                          className="cursor-pointer"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Upload a favicon for your site. Must be PNG/JPG (not .ico), max 2MB.
+                        </p>
+                      </div>
+
+                      {logoFaviconSettings.faviconUrl && (
+                        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <img 
+                                src={logoFaviconSettings.faviconUrl} 
+                                alt="Current favicon" 
+                                className="h-8 w-8 object-contain rounded"
+                              />
+                              <div>
+                                <p className="text-sm font-medium">Current Favicon</p>
+                                <p className="text-xs text-muted-foreground">Used in browser tab and bookmarks</p>
+                              </div>
+                            </div>
+                            <Button onClick={removeFavicon} variant="outline" size="sm" disabled={uploading}>
+                              <Trash2 size={14} className="mr-1" />
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Contact Information */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Contact Information</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="contactEmail">Contact Email</Label>
+                      <Input
+                        id="contactEmail"
+                        type="email"
+                        value={settings.contactEmail}
+                        onChange={(e) => handleInputChange('contactEmail', e.target.value)}
+                        placeholder="support@yourapp.com"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="supportUrl">Support URL</Label>
+                      <Input
+                        id="supportUrl"
+                        value={settings.supportUrl}
+                        onChange={(e) => handleInputChange('supportUrl', e.target.value)}
+                        placeholder="https://yourapp.com/support"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* App Store Links */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>App Store Links</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="appStoreUrl">Apple App Store URL</Label>
+                      <Input
+                        id="appStoreUrl"
+                        value={settings.appStoreUrl}
+                        onChange={(e) => handleInputChange('appStoreUrl', e.target.value)}
+                        placeholder="https://apps.apple.com/..."
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="playStoreUrl">Google Play Store URL</Label>
+                      <Input
+                        id="playStoreUrl"
+                        value={settings.playStoreUrl}
+                        onChange={(e) => handleInputChange('playStoreUrl', e.target.value)}
+                        placeholder="https://play.google.com/store/apps/..."
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Technical Settings */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Technical Settings</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label htmlFor="defaultTimezone">Default Timezone</Label>
+                    <Input
+                      id="defaultTimezone"
+                      value={settings.defaultTimezone}
+                      onChange={(e) => handleInputChange('defaultTimezone', e.target.value)}
+                      placeholder="UTC"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Design Customization */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Design Customization</CardTitle>
+                  <CardDescription>
+                    Customize the appearance and colors of your website
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="primaryColor">Primary Color</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="primaryColor"
+                          type="color"
+                          value={designSettings.primaryColor}
+                          onChange={(e) => setDesignSettings({ ...designSettings, primaryColor: e.target.value })}
+                          className="w-16 h-10"
+                        />
+                        <Input
+                          value={designSettings.primaryColor}
+                          onChange={(e) => setDesignSettings({ ...designSettings, primaryColor: e.target.value })}
+                          placeholder="#10B981"
+                          className="flex-1"
+                        />
                       </div>
                     </div>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Contact Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="contactEmail">Contact Email</Label>
-                  <Input
-                    id="contactEmail"
-                    type="email"
-                    value={settings.contactEmail}
-                    onChange={(e) => handleInputChange('contactEmail', e.target.value)}
-                    placeholder="support@yourapp.com"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="supportUrl">Support URL</Label>
-                  <Input
-                    id="supportUrl"
-                    value={settings.supportUrl}
-                    onChange={(e) => handleInputChange('supportUrl', e.target.value)}
-                    placeholder="https://yourapp.com/support"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* App Store Links */}
-          <Card>
-            <CardHeader>
-              <CardTitle>App Store Links</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="appStoreUrl">Apple App Store URL</Label>
-                  <Input
-                    id="appStoreUrl"
-                    value={settings.appStoreUrl}
-                    onChange={(e) => handleInputChange('appStoreUrl', e.target.value)}
-                    placeholder="https://apps.apple.com/..."
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="playStoreUrl">Google Play Store URL</Label>
-                  <Input
-                    id="playStoreUrl"
-                    value={settings.playStoreUrl}
-                    onChange={(e) => handleInputChange('playStoreUrl', e.target.value)}
-                    placeholder="https://play.google.com/store/apps/..."
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Technical Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Technical Settings</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="defaultTimezone">Default Timezone</Label>
-                <Input
-                  id="defaultTimezone"
-                  value={settings.defaultTimezone}
-                  onChange={(e) => handleInputChange('defaultTimezone', e.target.value)}
-                  placeholder="UTC"
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Design Customization */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Design Customization</CardTitle>
-              <CardDescription>
-                Customize the appearance and colors of your website
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="primaryColor">Primary Color</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="primaryColor"
-                      type="color"
-                      value={designSettings.primaryColor}
-                      onChange={(e) => setDesignSettings({ ...designSettings, primaryColor: e.target.value })}
-                      className="w-16 h-10"
-                    />
-                    <Input
-                      value={designSettings.primaryColor}
-                      onChange={(e) => setDesignSettings({ ...designSettings, primaryColor: e.target.value })}
-                      placeholder="#10B981"
-                      className="flex-1"
-                    />
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="secondaryColor">Secondary Color</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="secondaryColor"
+                          type="color"
+                          value={designSettings.secondaryColor}
+                          onChange={(e) => setDesignSettings({ ...designSettings, secondaryColor: e.target.value })}
+                          className="w-16 h-10"
+                        />
+                        <Input
+                          value={designSettings.secondaryColor}
+                          onChange={(e) => setDesignSettings({ ...designSettings, secondaryColor: e.target.value })}
+                          placeholder="#6B7280"
+                          className="flex-1"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="secondaryColor">Secondary Color</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="secondaryColor"
-                      type="color"
-                      value={designSettings.secondaryColor}
-                      onChange={(e) => setDesignSettings({ ...designSettings, secondaryColor: e.target.value })}
-                      className="w-16 h-10"
-                    />
-                    <Input
-                      value={designSettings.secondaryColor}
-                      onChange={(e) => setDesignSettings({ ...designSettings, secondaryColor: e.target.value })}
-                      placeholder="#6B7280"
-                      className="flex-1"
-                    />
-                  </div>
-                </div>
+                </CardContent>
+              </Card>
+
+              {/* Blog Typography */}
+              <BlogTypographySettings />
+
+              {/* Social Media Settings */}
+              <SocialMediaSettings />
+
+              {/* Save Button at Bottom */}
+              <div className="flex justify-end pt-6">
+                <Button onClick={handleSave} disabled={isLoading} size="lg">
+                  <Save size={16} className="mr-2" />
+                  {isLoading ? "Saving..." : "Save Settings"}
+                </Button>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Blog Typography */}
-          <BlogTypographySettings />
-
-          {/* Social Media Settings */}
-          <SocialMediaSettings />
-
-          {/* Save Button at Bottom */}
-          <div className="flex justify-end pt-6">
-            <Button onClick={handleSave} disabled={isLoading} size="lg">
-              <Save size={16} className="mr-2" />
-              {isLoading ? "Saving..." : "Save Settings"}
-            </Button>
-          </div>
+            </TabsContent>
+            
+            <TabsContent value="design" className="space-y-6">
+              <BlogTypographySettings />
+            </TabsContent>
+            
+            <TabsContent value="social" className="space-y-6">
+              <SocialMediaSettings />
+            </TabsContent>
+            
+            <TabsContent value="translations" className="space-y-6">
+              <AdminTranslations />
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
     </div>
