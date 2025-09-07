@@ -61,9 +61,33 @@ const AdminPagesNew = () => {
     {
       title: 'FastNow Protocol',
       description: 'Edit the protocol documentation page',
-      route: '/admin/edit-protocol',
+      route: '/admin/protocol-unified',
       liveUrl: '/fastnow-protocol',
-      hasEditor: false // TODO: Create editor
+      hasEditor: true
+    },
+    {
+      title: 'Water Fast Protocol',
+      description: 'Edit the water fast protocol page',
+      route: '/admin/page-editor',
+      liveUrl: '/fastnow-protocol/water-fast',
+      hasEditor: true,
+      pageKey: 'water-fast-protocol'
+    },
+    {
+      title: 'Calorie Limitation Protocol',
+      description: 'Edit the calorie limitation protocol page',
+      route: '/admin/page-editor',
+      liveUrl: '/fastnow-protocol/calorie-limitation',
+      hasEditor: true,
+      pageKey: 'calorie-limitation-protocol'
+    },
+    {
+      title: 'Walking Protocol',
+      description: 'Edit the walking protocol page',
+      route: '/admin/page-editor',
+      liveUrl: '/fastnow-protocol/walking',
+      hasEditor: true,
+      pageKey: 'walking-protocol'
     },
     {
       title: 'About FastNow App',
@@ -144,7 +168,7 @@ const AdminPagesNew = () => {
                   <div className="flex gap-2">
                     {page.hasEditor ? (
                       <Button asChild className="flex-1">
-                        <Link to={page.route}>
+                        <Link to={page.pageKey ? `${page.route}?pageKey=${page.pageKey}` : page.route}>
                           Edit Content
                         </Link>
                       </Button>

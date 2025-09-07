@@ -28,6 +28,9 @@ import BlogEditor from "./pages/BlogEditor";
 import FastingTimelineBlog from "./pages/FastingTimelineBlog";
 import FastingTimelinePost from "./pages/FastingTimelinePost";
 import FastNowProtocol from "./pages/FastNowProtocol";
+import WaterFastProtocol from "./pages/WaterFastProtocol";
+import CalorieLimitationProtocol from "./pages/CalorieLimitationProtocol";
+import WalkingProtocol from "./pages/WalkingProtocol";
 import AboutFastNowApp from "./pages/AboutFastNowApp";
 import AdminFastingTimeline from "./pages/AdminFastingTimeline";
 import AdminFastingTimelineExport from "./pages/AdminFastingTimelineExport";
@@ -70,6 +73,9 @@ const AppRoutes = () => {
       
       {/* FastNow Protocol */}
       <Route path="/fastnow-protocol" element={<FastNowProtocol />} />
+      <Route path="/fastnow-protocol/water-fast" element={<WaterFastProtocol />} />
+      <Route path="/fastnow-protocol/calorie-limitation" element={<CalorieLimitationProtocol />} />
+      <Route path="/fastnow-protocol/walking" element={<WalkingProtocol />} />
       <Route path="/about-fastnow-app" element={<AboutFastNowApp />} />
       
       {/* Fasting Timeline routes */}
