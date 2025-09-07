@@ -14,6 +14,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { AuthorBox } from '@/components/AuthorBox';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
+import YouTubeVideo from '@/components/YouTubeVideo';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -229,6 +230,15 @@ const BlogPost = () => {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Video Section */}
+      {post.videoUrl && (
+        <div className="container py-8">
+          <div className="max-w-4xl mx-auto">
+            <YouTubeVideo url={post.videoUrl} title={post.title} />
           </div>
         </div>
       )}

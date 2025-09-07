@@ -47,6 +47,7 @@ const BlogEditor = () => {
     excerpt: '',
     featuredImage: '',
     featuredImageAlt: '',
+    videoUrl: '',
     author: 'FastNow Team',
     categories: [],
     tags: [],
@@ -369,6 +370,19 @@ const BlogEditor = () => {
                   onImageChange={(imageUrl) => setPost(prev => ({ ...prev, featuredImage: imageUrl }))}
                   onAltChange={(alt) => setPost(prev => ({ ...prev, featuredImageAlt: alt }))}
                 />
+
+                <div>
+                  <Label htmlFor="videoUrl">YouTube Video URL</Label>
+                  <Input
+                    id="videoUrl"
+                    value={post.videoUrl}
+                    onChange={(e) => setPost(prev => ({ ...prev, videoUrl: e.target.value }))}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                  />
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Enter a YouTube URL to display a video between the hero image and content
+                  </p>
+                </div>
 
             <div className="space-y-6">
               <div>

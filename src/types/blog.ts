@@ -7,6 +7,7 @@ export interface BlogPost {
   excerpt: string;
   featuredImage?: string;
   featuredImageAlt?: string;
+  videoUrl?: string;
   author: string;
   categories: string[];
   tags: string[];
