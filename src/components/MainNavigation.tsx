@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, ChevronDown, Calculator } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
-import { SiteSettingsService } from "@/services/SiteSettingsService";
 import { useNavigationTranslation } from "@/hooks/useTranslation";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Sheet,
   SheetContent,
@@ -30,7 +29,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
   const location = useLocation();
   const { t } = useNavigationTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
   
   // Navigation links with translations
   const navLinks = [
@@ -44,14 +43,6 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
     { path: '/blog', title: t('menu.blog') },
   ];
 
-  // Simple mobile detection
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const handleLinkClick = () => setIsOpen(false);
 
@@ -169,7 +160,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
             onClick={onLinkClick}
             className={cn(
               isMobile 
-                ? "flex items-center px-6 py-3 text-base font-medium rounded-lg transition-colors border border-border hover:bg-accent hover:text-accent-foreground min-h-[48px]"
+                ? "flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors border border-border hover:bg-accent hover:text-accent-foreground min-h-[48px]"
                 : "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 border border-transparent hover:border-gray-300",
               transparent && !isMobile
                 ? "text-white border-white/30 hover:border-white/50 hover:bg-white/10"
@@ -180,9 +171,6 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
             {link.title}
           </Link>
         ))}
-        
-        {/* Language Switcher */}
-        <LanguageSwitcher transparent={transparent} />
       </div>
     );
   };
@@ -195,21 +183,22 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
             variant="ghost" 
             size="sm" 
             className={cn(
-              "p-2 hover:bg-gray-100",
+              "p-2 min-h-[40px] min-w-[40px]",
               transparent 
-                ? "text-white hover:text-white hover:bg-white/10" 
-                : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                ? "text-white hover:text-white hover:bg-white/10 border border-white/30 hover:border-white/50" 
+                : "text-gray-700 hover:text-gray-900 hover:bg-gray-100 border border-gray-300 hover:border-gray-400"
             )}
+            aria-label="Open navigation menu"
           >
-            <Menu size={24} />
+            <Menu size={20} />
           </Button>
         </SheetTrigger>
-        <SheetContent side="right" className="w-80">
+        <SheetContent side="right" className="w-80 max-w-[90vw]">
           <SheetHeader>
-            <SheetTitle>Navigation</SheetTitle>
+            <SheetTitle className="text-left">Menu</SheetTitle>
           </SheetHeader>
-          <div className="mt-6">
-            <NavLinks onLinkClick={handleLinkClick} transparent={transparent} />
+          <div className="mt-8 space-y-2">
+            <NavLinks onLinkClick={handleLinkClick} transparent={false} />
           </div>
         </SheetContent>
       </Sheet>

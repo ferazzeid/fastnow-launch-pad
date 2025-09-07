@@ -2,11 +2,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import MainNavigation from '../MainNavigation';
+import LanguageSwitcher from '../LanguageSwitcher';
 import GlobalSchema from '../GlobalSchema';
 import { pageContentService } from '@/services/PageContentService';
 import { supabase } from '@/integrations/supabase/client';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
 import AdminTranslateButton from '@/components/admin/AdminTranslateButton';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface HeaderProps {
   transparent?: boolean;
@@ -18,6 +20,7 @@ const Header: React.FC<HeaderProps> = ({ transparent = false }) => {
   const [faviconUrl, setFaviconUrl] = React.useState<string | null>(null);
   const { isAdmin } = useAdminCheck();
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   // Determine page type and key for translation
   const getPageInfo = () => {
@@ -168,8 +171,14 @@ const Header: React.FC<HeaderProps> = ({ transparent = false }) => {
           <span className={`text-2xl font-bold ${transparent ? 'text-white' : 'text-gray-900'}`}>FastNow</span>
         </Link>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          {/* Language Switcher - Always visible on desktop, separate on mobile */}
+          {!isMobile && <LanguageSwitcher transparent={transparent} />}
+          
           <MainNavigation transparent={transparent} />
+          
+          {/* Language Switcher for Mobile - positioned separately */}
+          {isMobile && <LanguageSwitcher transparent={transparent} />}
           
           {/* Admin Translation Button */}
           {isAdmin && pageInfo && (
