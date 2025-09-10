@@ -35,8 +35,6 @@ const UnifiedAboutAppEditor = () => {
   const [savingFeature, setSavingFeature] = useState<string | null>(null);
   const [isUploadingFeatured, setIsUploadingFeatured] = useState(false);
   
-  // Widget Settings - removed coupon options
-  const [widgetMode, setWidgetMode] = useState<'premium' | 'free'>('premium');
   
   const [loading, setLoading] = useState(false);
 
@@ -75,8 +73,6 @@ const UnifiedAboutAppEditor = () => {
         setMetaDescription(pageContent.meta_description || 'Discover the FastNow app features for intermittent fasting, food tracking, and health monitoring.');
       }
 
-      // Load widget settings from site settings - removed coupon options
-      setWidgetMode(settings.about_app_widget_mode || 'premium');
 
       setScreenshots(screenshots);
     } catch (error) {
@@ -99,8 +95,6 @@ const UnifiedAboutAppEditor = () => {
       
       await SiteSettingsService.setSetting('aboutAppContent', content);
 
-      // Save widget settings - removed coupon options
-      await SiteSettingsService.setSetting('about_app_widget_mode', widgetMode);
 
       // Save SEO content to page content
       await pageContentService.savePageContent({
@@ -572,43 +566,6 @@ const UnifiedAboutAppEditor = () => {
               <CardTitle>Widget Settings</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div>
-                <Label className="text-base font-medium">Widget Mode</Label>
-                <p className="text-sm text-muted-foreground mb-3">Choose which widget to display at the bottom of the About App page</p>
-                <div className="flex gap-4 flex-wrap">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      id="premium"
-                      name="widgetMode"
-                      value="premium"
-                      checked={widgetMode === 'premium'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'free')}
-                      className="form-radio"
-                    />
-                    <Label htmlFor="premium" className="text-sm">Premium Pricing Widget</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      id="free"
-                      name="widgetMode"
-                      value="free"
-                      checked={widgetMode === 'free'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'free')}
-                      className="form-radio"
-                    />
-                    <Label htmlFor="free" className="text-sm">Free (No Payment Required)</Label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-end pt-4 border-t">
-                <Button onClick={saveAllContent} disabled={loading}>
-                  <Save size={16} className="mr-2" />
-                  {loading ? "Saving..." : "Save Widget Settings"}
-                </Button>
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
