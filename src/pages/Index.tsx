@@ -96,6 +96,11 @@ const Index = () => {
   const [latestBlogPosts, setLatestBlogPosts] = useState<BlogPost[]>([]);
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
   const [aboutAppPageContent, setAboutAppPageContent] = useState<any>(null);
+  
+  // Coupon widget settings
+  const [showCouponSection, setShowCouponSection] = useState(true);
+  const [couponCode, setCouponCode] = useState('FASTNOW90');
+  const [couponDays, setCouponDays] = useState(90);
 
   // Load content from database and localStorage
   useEffect(() => {
@@ -124,7 +129,10 @@ const Index = () => {
           designSettings,
           siteIdentity,
           heroSideImageSettings,
-          activeImage
+          activeImage,
+          showCoupon,
+          code,
+          days
         ] = await Promise.all([
           databaseBlogService.getAllPosts(),
           FeatureScreenshotService.getFeatureScreenshots(),
@@ -137,7 +145,10 @@ const Index = () => {
           pageContentService.getGeneralSetting('design_colors'),
           pageContentService.getGeneralSetting('site_identity'),
           SiteSettingsService.getSetting('hero_side_image_settings'),
-          BackgroundImageService.getActiveImage()
+          BackgroundImageService.getActiveImage(),
+          SiteSettingsService.getSetting('homepage_show_coupon_section'),
+          SiteSettingsService.getSetting('homepage_coupon_code'),
+          SiteSettingsService.getSetting('homepage_coupon_days')
         ]);
 
         // Process blog posts
@@ -226,6 +237,11 @@ const Index = () => {
         if (activeImage) {
           setBackgroundImageUrl(activeImage.image_url);
         }
+
+        // Process coupon settings
+        setShowCouponSection(showCoupon !== null && showCoupon !== undefined ? Boolean(showCoupon) : true); // default to true
+        setCouponCode(String(code || 'FASTNOW90'));
+        setCouponDays(Number(days) || 90);
 
       } catch (error) {
         console.error('Error loading content:', error);
@@ -571,7 +587,12 @@ const Index = () => {
         </section>
 
         {/* Coupon Opt-in Section */}
-        <CouponOptInSection />
+        {showCouponSection && (
+          <CouponOptInSection 
+            couponCode={couponCode}
+            trialDays={couponDays}
+          />
+        )}
 
         {/* Latest Blog Posts Section */}
         {latestBlogPosts.length > 0 && (

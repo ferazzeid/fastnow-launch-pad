@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { FileText, Save, Search } from "lucide-react";
 import { pageContentService, PageContent } from '@/services/PageContentService';
 import { HomepageSEOSyncService } from '@/services/HomepageSEOSyncService';
+import { SiteSettingsService } from '@/services/SiteSettingsService';
 import HeroSideImageSettings from './HeroSideImageSettings';
 import Slide2ImageSettings from './Slide2ImageSettings';
 import SlideshowAdminSettings from './SlideshowAdminSettings';
@@ -27,7 +28,11 @@ const UnifiedHomepageEditor = () => {
   const [ctaText, setCtaText] = useState('Launch App');
   const [ctaUrl, setCtaUrl] = useState('https://go.fastnow.app');
   
-  
+  // Coupon Widget Settings
+  const [showCouponSection, setShowCouponSection] = useState(true);
+  const [couponCode, setCouponCode] = useState('FASTNOW90');
+  const [couponDays, setCouponDays] = useState(90);
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -47,6 +52,16 @@ const UnifiedHomepageEditor = () => {
         setCtaUrl(homeContent.button_url || 'https://go.fastnow.app');
       }
 
+      // Load coupon widget settings
+      const [showCoupon, code, days] = await Promise.all([
+        SiteSettingsService.getSetting('homepage_show_coupon_section'),
+        SiteSettingsService.getSetting('homepage_coupon_code'),
+        SiteSettingsService.getSetting('homepage_coupon_days')
+      ]);
+
+      setShowCouponSection(showCoupon !== null && showCoupon !== undefined ? Boolean(showCoupon) : true); // default to true
+      setCouponCode(String(code || 'FASTNOW90'));
+      setCouponDays(Number(days) || 90);
 
     } catch (error) {
       console.error('Error loading homepage content:', error);
@@ -67,6 +82,13 @@ const UnifiedHomepageEditor = () => {
         meta_description: metaDescription
       });
 
+      // Save coupon widget settings
+      await Promise.all([
+        SiteSettingsService.setSetting('homepage_show_coupon_section', showCouponSection),
+        SiteSettingsService.setSetting('homepage_coupon_code', couponCode),
+        SiteSettingsService.setSetting('homepage_coupon_days', couponDays)
+      ]);
+
       if (success) {
         toast.success('All homepage content and SEO settings saved successfully!');
       } else {
@@ -83,9 +105,10 @@ const UnifiedHomepageEditor = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="seo" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="seo">SEO Settings</TabsTrigger>
           <TabsTrigger value="hero">Hero Content</TabsTrigger>
+          <TabsTrigger value="widgets">Widgets</TabsTrigger>
           <TabsTrigger value="images">Images & Media</TabsTrigger>
           <TabsTrigger value="save">Save All</TabsTrigger>
         </TabsList>
@@ -197,6 +220,57 @@ const UnifiedHomepageEditor = () => {
           </Card>
         </TabsContent>
 
+        <TabsContent value="widgets">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText size={20} />
+                Coupon Widget Settings
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="show-coupon"
+                  checked={showCouponSection}
+                  onCheckedChange={setShowCouponSection}
+                />
+                <Label htmlFor="show-coupon">
+                  Show coupon section on homepage
+                </Label>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="coupon-code">Coupon Code</Label>
+                  <Input
+                    id="coupon-code"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    placeholder="FASTNOW90"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="coupon-days">Trial Days</Label>
+                  <Input
+                    id="coupon-days"
+                    type="number"
+                    value={couponDays}
+                    onChange={(e) => setCouponDays(parseInt(e.target.value) || 90)}
+                    placeholder="90"
+                    min="1"
+                    max="365"
+                  />
+                </div>
+              </div>
+
+              <p className="text-sm text-muted-foreground">
+                This controls the coupon widget displayed on the homepage. When enabled, visitors can copy the coupon code and launch the app.
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         <TabsContent value="images">
           <div className="space-y-6">
