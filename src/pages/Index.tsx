@@ -98,7 +98,8 @@ const Index = () => {
   const [aboutAppPageContent, setAboutAppPageContent] = useState<any>(null);
   
   // Coupon widget settings
-  const [showCouponSection, setShowCouponSection] = useState(true);
+  // Always show coupon section - no toggle needed
+  const showCouponSection = true;
   const [couponCode, setCouponCode] = useState('FASTNOW90');
   const [couponDays, setCouponDays] = useState(90);
 
@@ -130,9 +131,9 @@ const Index = () => {
           siteIdentity,
           heroSideImageSettings,
           activeImage,
-          showCoupon,
-          code,
-          days
+          // Removed coupon toggle - always show coupon
+          couponCode,
+          couponDays
         ] = await Promise.all([
           databaseBlogService.getAllPosts(),
           FeatureScreenshotService.getFeatureScreenshots(),
@@ -146,7 +147,7 @@ const Index = () => {
           pageContentService.getGeneralSetting('site_identity'),
           SiteSettingsService.getSetting('hero_side_image_settings'),
           BackgroundImageService.getActiveImage(),
-          SiteSettingsService.getSetting('homepage_show_coupon_section'),
+          // Removed coupon toggle setting - always show coupon
           SiteSettingsService.getSetting('homepage_coupon_code'),
           SiteSettingsService.getSetting('homepage_coupon_days')
         ]);
@@ -238,10 +239,9 @@ const Index = () => {
           setBackgroundImageUrl(activeImage.image_url);
         }
 
-        // Process coupon settings
-        setShowCouponSection(showCoupon === null || showCoupon === undefined ? true : Boolean(showCoupon));
-        setCouponCode(String(code || 'FASTNOW90'));
-        setCouponDays(Number(days) || 90);
+        // Process coupon settings - always show coupon, no toggle
+        setCouponCode(String(couponCode || 'FASTNOW90'));
+        setCouponDays(Number(couponDays) || 90);
 
       } catch (error) {
         console.error('Error loading content:', error);

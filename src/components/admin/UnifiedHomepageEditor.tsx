@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import { FileText, Save, Search } from "lucide-react";
 import { pageContentService, PageContent } from '@/services/PageContentService';
 import { HomepageSEOSyncService } from '@/services/HomepageSEOSyncService';
-import { SiteSettingsService } from '@/services/SiteSettingsService';
 import HeroSideImageSettings from './HeroSideImageSettings';
 import Slide2ImageSettings from './Slide2ImageSettings';
 import SlideshowAdminSettings from './SlideshowAdminSettings';
@@ -27,11 +26,6 @@ const UnifiedHomepageEditor = () => {
   const [heroDescription, setHeroDescription] = useState('');
   const [ctaText, setCtaText] = useState('Launch App');
   const [ctaUrl, setCtaUrl] = useState('https://go.fastnow.app');
-  
-  // Coupon Widget Settings
-  const [showCouponSection, setShowCouponSection] = useState(true);
-  const [couponCode, setCouponCode] = useState('FASTNOW90');
-  const [couponDays, setCouponDays] = useState(90);
 
   const [loading, setLoading] = useState(false);
 
@@ -51,29 +45,6 @@ const UnifiedHomepageEditor = () => {
         setCtaText(homeContent.button_text || 'Launch App');
         setCtaUrl(homeContent.button_url || 'https://go.fastnow.app');
       }
-
-      // Load coupon widget settings
-      console.log('=== LOADING COUPON SETTINGS ===');
-      const [showCoupon, code, days] = await Promise.all([
-        SiteSettingsService.getSetting('homepage_show_coupon_section'),
-        SiteSettingsService.getSetting('homepage_coupon_code'),
-        SiteSettingsService.getSetting('homepage_coupon_days')
-      ]);
-
-      console.log('Raw settings loaded:', { showCoupon, code, days });
-      console.log('showCoupon type:', typeof showCoupon, 'showCoupon value:', showCoupon);
-
-      // Handle boolean properly - if the setting doesn't exist, default to true
-      // If it exists and is explicitly false, respect that
-      const finalShowCouponValue = showCoupon === null || showCoupon === undefined ? true : Boolean(showCoupon);
-      console.log('Final showCouponSection value:', finalShowCouponValue);
-      
-      setShowCouponSection(finalShowCouponValue);
-      setCouponCode(String(code || 'FASTNOW90'));
-      setCouponDays(Number(days) || 90);
-      
-      console.log('State set - showCouponSection should be:', finalShowCouponValue);
-
     } catch (error) {
       console.error('Error loading homepage content:', error);
       toast.error('Failed to load homepage content');
@@ -81,13 +52,9 @@ const UnifiedHomepageEditor = () => {
   };
 
   const saveAllContent = async () => {
-    console.log('=== SAVE ALL CONTENT CALLED ===');
-    console.log('showCouponSection value:', showCouponSection, typeof showCouponSection);
-    
     setLoading(true);
     try {
       // Use the sync service to save and synchronize SEO settings
-      console.log('About to call HomepageSEOSyncService...');
       const success = await HomepageSEOSyncService.updateHomepageContent({
         title: heroTitle,
         content: heroDescription,
@@ -96,16 +63,6 @@ const UnifiedHomepageEditor = () => {
         meta_title: metaTitle,
         meta_description: metaDescription
       });
-      console.log('HomepageSEOSyncService result:', success);
-
-      // Save coupon widget settings
-      console.log('About to save coupon settings...');
-      const settingResults = await Promise.all([
-        SiteSettingsService.setSetting('homepage_show_coupon_section', showCouponSection),
-        SiteSettingsService.setSetting('homepage_coupon_code', couponCode),
-        SiteSettingsService.setSetting('homepage_coupon_days', couponDays)
-      ]);
-      console.log('Setting results:', settingResults);
 
       if (success) {
         toast.success('All homepage content and SEO settings saved successfully!');
@@ -123,10 +80,9 @@ const UnifiedHomepageEditor = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="seo" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="seo">SEO Settings</TabsTrigger>
           <TabsTrigger value="hero">Hero Content</TabsTrigger>
-          <TabsTrigger value="widgets">Widgets</TabsTrigger>
           <TabsTrigger value="images">Images & Media</TabsTrigger>
           <TabsTrigger value="save">Save All</TabsTrigger>
         </TabsList>
@@ -136,7 +92,7 @@ const UnifiedHomepageEditor = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Search size={20} />
-                SEO Settings - Homepage
+                SEO & Meta Settings
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -146,11 +102,11 @@ const UnifiedHomepageEditor = () => {
                   id="meta-title"
                   value={metaTitle}
                   onChange={(e) => setMetaTitle(e.target.value)}
-                  placeholder="The No-BS Fat Loss Protocol - FastNow"
+                  placeholder="Page title for search engines"
                   maxLength={60}
                 />
                 <p className="text-sm text-muted-foreground mt-1">
-                  {metaTitle.length}/60 characters - Appears in search results and browser tabs
+                  {metaTitle.length}/60 characters - Appears in browser tabs and search results
                 </p>
               </div>
 
@@ -160,7 +116,7 @@ const UnifiedHomepageEditor = () => {
                   id="meta-description"
                   value={metaDescription}
                   onChange={(e) => setMetaDescription(e.target.value)}
-                  placeholder="Transform your body with a concentrated, results-driven weight loss protocol - built for everyday people, not fitness models."
+                  placeholder="Brief description of your page for search engines"
                   maxLength={160}
                   rows={3}
                 />
@@ -193,134 +149,76 @@ const UnifiedHomepageEditor = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="hero-title">Main Title (H1)</Label>
+                <Label htmlFor="hero-title">Hero Title</Label>
                 <Input
                   id="hero-title"
                   value={heroTitle}
                   onChange={(e) => setHeroTitle(e.target.value)}
-                  placeholder="My Fasting Protocol for Fat Loss"
+                  placeholder="Main headline for your homepage"
                 />
               </div>
 
               <div>
-                <Label htmlFor="hero-description">Description Text</Label>
+                <Label htmlFor="hero-description">Hero Description</Label>
                 <Textarea
                   id="hero-description"
                   value={heroDescription}
                   onChange={(e) => setHeroDescription(e.target.value)}
-                  placeholder="After years of trying and failing with generalized advice..."
+                  placeholder="Compelling description that explains your value proposition"
                   rows={4}
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="cta-text">Launch App Button Text</Label>
-                  <Input
-                    id="cta-text"
-                    value={ctaText}
-                    onChange={(e) => setCtaText(e.target.value)}
-                    placeholder="Launch App"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="cta-url">Launch App Button URL</Label>
-                  <Input
-                    id="cta-url"
-                    value={ctaUrl}
-                    onChange={(e) => setCtaUrl(e.target.value)}
-                    placeholder="https://go.fastnow.app"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="widgets">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText size={20} />
-                Coupon Widget Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="show-coupon"
-                  checked={showCouponSection}
-                  onCheckedChange={(checked) => {
-                    console.log('=== COUPON TOGGLE CHANGED ===');
-                    console.log('Previous value:', showCouponSection);
-                    console.log('New value:', checked);
-                    setShowCouponSection(checked);
-                    console.log('State updated to:', checked);
-                  }}
+              <div>
+                <Label htmlFor="cta-text">Call-to-Action Button Text</Label>
+                <Input
+                  id="cta-text"
+                  value={ctaText}
+                  onChange={(e) => setCtaText(e.target.value)}
+                  placeholder="Launch App"
                 />
-                <Label htmlFor="show-coupon">
-                  Show coupon section on homepage
-                </Label>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="coupon-code">Coupon Code</Label>
-                  <Input
-                    id="coupon-code"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value)}
-                    placeholder="FASTNOW90"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="coupon-days">Trial Days</Label>
-                  <Input
-                    id="coupon-days"
-                    type="number"
-                    value={couponDays}
-                    onChange={(e) => setCouponDays(parseInt(e.target.value) || 90)}
-                    placeholder="90"
-                    min="1"
-                    max="365"
-                  />
-                </div>
+              <div>
+                <Label htmlFor="cta-url">Call-to-Action Button URL</Label>
+                <Input
+                  id="cta-url"
+                  value={ctaUrl}
+                  onChange={(e) => setCtaUrl(e.target.value)}
+                  placeholder="https://go.fastnow.app"
+                />
               </div>
-
-              <p className="text-sm text-muted-foreground">
-                This controls the coupon widget displayed on the homepage. When enabled, visitors can copy the coupon code and launch the app.
-              </p>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="images">
           <div className="space-y-6">
-            <PageFeaturedImageSettings pageKey="home" title="Homepage Featured Image" />
+            <PageFeaturedImageSettings pageKey="home" />
             <HeroSideImageSettings />
             <Slide2ImageSettings />
             <SlideshowAdminSettings />
           </div>
         </TabsContent>
 
-
         <TabsContent value="save">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Save size={20} />
-                Save All Homepage Content
+                Save All Changes
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4">
-                This will save all changes made across all tabs. Make sure you've reviewed your content before saving.
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                Click the button below to save all your homepage content and SEO settings.
               </p>
-              <Button onClick={saveAllContent} className="w-full" disabled={loading} size="lg">
-                <Save size={16} className="mr-2" />
-                {loading ? 'Saving All Content...' : 'Save All Homepage Content'}
+              <Button 
+                onClick={saveAllContent} 
+                disabled={loading}
+                className="w-full"
+              >
+                {loading ? 'Saving...' : 'Save All Changes'}
               </Button>
             </CardContent>
           </Card>
