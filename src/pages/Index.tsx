@@ -17,7 +17,7 @@ import { Tag } from 'lucide-react';
 import { FeatureScreenshotMockup } from '@/components/FeatureScreenshotMockup';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
 import { CeramicPlate } from '@/components/CeramicPlate';
-import { HomepagePhaseCard } from '@/components/HomepagePhaseCard';
+import { CombinedProtocolPhaseCard } from '@/components/CombinedProtocolPhaseCard';
 import SEOHead from '@/components/SEOHead';
 import LazyImage from '@/components/LazyImage';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
@@ -456,47 +456,9 @@ const Index = () => {
                 </div>
               </div>
               
-              {/* Right side - compact three phases */}
-              <div className="lg:col-span-1">
-                <div className="flex flex-col items-center gap-4">
-                  <div className="scale-75">
-                    <HomepagePhaseCard
-                      phaseNumber={1}
-                      title="3-Day Water Fast"
-                      image={phaseImages.phase1}
-                    />
-                  </div>
-                  
-                  {/* Plus Sign */}
-                  <div className="flex items-center justify-center">
-                    <div className="w-6 h-6 flex items-center justify-center text-lg font-bold text-muted-foreground">
-                      +
-                    </div>
-                  </div>
-                  
-                  <div className="scale-75">
-                    <HomepagePhaseCard
-                      phaseNumber={2}
-                      title="Strict Simple Diet"
-                      image={phaseImages.phase2}
-                    />
-                  </div>
-                  
-                  {/* Plus Sign */}
-                  <div className="flex items-center justify-center">
-                    <div className="w-6 h-6 flex items-center justify-center text-lg font-bold text-muted-foreground">
-                      +
-                    </div>
-                  </div>
-                  
-                  <div className="scale-75">
-                    <HomepagePhaseCard
-                      phaseNumber={3}
-                      title="Daily Walking"
-                      image={phaseImages.phase3}
-                    />
-                  </div>
-                </div>
+              {/* Right side - single combined phase card */}
+              <div className="lg:col-span-1 flex justify-center">
+                <CombinedProtocolPhaseCard />
               </div>
             </div>
           </div>
