@@ -31,18 +31,12 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
   
-  // Navigation links with translations
+  // Simplified navigation links
   const navLinks = [
     { path: '/', title: t('menu.home') },
-    { path: '/about-fastnow-app', title: t('menu.about') },
-    { path: '/motivators', title: t('menu.motivators') },
-  ];
-
-  const protocolLinks = [
-    { path: '/fastnow-protocol', title: t('menu.protocolOverview') },
-    { path: '/fastnow-protocol/water-fast', title: t('menu.waterFast') },
+    { path: '/fastnow-protocol/water-fast', title: 'Water Fast' },
     { path: '/fastnow-protocol/calorie-limitation', title: t('menu.calorieLimitation') },
-    { path: '/fastnow-protocol/walking', title: t('menu.walkingProtocol') }
+    { path: '/fastnow-protocol/walking', title: t('menu.walkingProtocol') },
   ];
 
   const endNavLinks = [
@@ -71,14 +65,6 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
     return "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2";
   };
 
-  const calculatorLinks = [
-    { path: '/walking-calculator', title: t('menu.walkingCalculator') },
-    { path: '/weight-loss-calculator', title: t('menu.weightLossCalculator') }
-  ];
-
-  const isCalculatorPath = calculatorLinks.some(link => location.pathname === link.path);
-  const isProtocolPath = protocolLinks.some(link => location.pathname === link.path);
-
   const NavLinks = ({ onLinkClick, transparent }: { onLinkClick?: () => void; transparent?: boolean }) => {
     return (
       <div className={cn("flex gap-4", isMobile ? "flex-col space-y-2" : "flex-row items-center")}>
@@ -97,125 +83,6 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ transparent = false }) 
             {link.title}
           </Link>
         ))}
-        
-        {/* Protocol Dropdown - Desktop */}
-        {!isMobile && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
-                className={cn(
-                  "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-1",
-                  transparent
-                    ? "text-white border border-white/30 hover:border-white/50 hover:bg-white/10"
-                    : "text-gray-900 border border-gray-300 hover:border-gray-400 hover:bg-gray-50",
-                  isProtocolPath && (transparent ? "bg-white/20 border-white/50" : "bg-gray-100 border-gray-400")
-                )}
-              >
-                {t('menu.protocol')}
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent 
-              align="start" 
-              className="w-56 bg-background border border-border shadow-lg z-50"
-            >
-              {protocolLinks.map((link) => (
-                <DropdownMenuItem key={link.path} asChild>
-                  <Link
-                    to={link.path}
-                    className="flex items-center px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
-                  >
-                    {link.title}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
-
-        {/* Protocol Links - Mobile */}
-        {isMobile && (
-          <div className="space-y-2">
-            <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
-              {t('menu.protocol')}
-            </div>
-            {protocolLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={onLinkClick}
-                className={cn(
-                  "flex items-center px-6 py-3 text-base font-medium rounded-lg transition-colors border border-border hover:bg-accent hover:text-accent-foreground min-h-[48px]",
-                  location.pathname === link.path && "bg-accent text-accent-foreground"
-                )}
-              >
-                {link.title}
-              </Link>
-            ))}
-          </div>
-        )}
-        
-        {/* Calculators Dropdown - Desktop */}
-        {!isMobile && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
-                className={cn(
-                  "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 flex items-center gap-1",
-                  transparent
-                    ? "text-white border border-white/30 hover:border-white/50 hover:bg-white/10"
-                    : "text-gray-900 border border-gray-300 hover:border-gray-400 hover:bg-gray-50",
-                  isCalculatorPath && (transparent ? "bg-white/20 border-white/50" : "bg-gray-100 border-gray-400")
-                )}
-              >
-                <Calculator className="w-4 h-4" />
-                {t('menu.calculators')}
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent 
-              align="start" 
-              className="w-56 bg-background border border-border shadow-lg z-50"
-            >
-              {calculatorLinks.map((link) => (
-                <DropdownMenuItem key={link.path} asChild>
-                  <Link
-                    to={link.path}
-                    className="flex items-center px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
-                  >
-                    <Calculator className="w-4 h-4 mr-2" />
-                    {link.title}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
-
-        {/* Calculators Links - Mobile */}
-        {isMobile && (
-          <div className="space-y-2">
-            <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
-              {t('menu.calculators')}
-            </div>
-            {calculatorLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={onLinkClick}
-                className={cn(
-                  "flex items-center px-6 py-3 text-base font-medium rounded-lg transition-colors border border-border hover:bg-accent hover:text-accent-foreground min-h-[48px]",
-                  location.pathname === link.path && "bg-accent text-accent-foreground"
-                )}
-              >
-                <Calculator className="w-4 h-4 mr-3" />
-                {link.title}
-              </Link>
-            ))}
-          </div>
-        )}
 
         {/* End Navigation Links */}
         {endNavLinks.map((link) => (
