@@ -53,17 +53,26 @@ const UnifiedHomepageEditor = () => {
       }
 
       // Load coupon widget settings
+      console.log('=== LOADING COUPON SETTINGS ===');
       const [showCoupon, code, days] = await Promise.all([
         SiteSettingsService.getSetting('homepage_show_coupon_section'),
         SiteSettingsService.getSetting('homepage_coupon_code'),
         SiteSettingsService.getSetting('homepage_coupon_days')
       ]);
 
+      console.log('Raw settings loaded:', { showCoupon, code, days });
+      console.log('showCoupon type:', typeof showCoupon, 'showCoupon value:', showCoupon);
+
       // Handle boolean properly - if the setting doesn't exist, default to true
       // If it exists and is explicitly false, respect that
-      setShowCouponSection(showCoupon === null || showCoupon === undefined ? true : Boolean(showCoupon));
+      const finalShowCouponValue = showCoupon === null || showCoupon === undefined ? true : Boolean(showCoupon);
+      console.log('Final showCouponSection value:', finalShowCouponValue);
+      
+      setShowCouponSection(finalShowCouponValue);
       setCouponCode(String(code || 'FASTNOW90'));
       setCouponDays(Number(days) || 90);
+      
+      console.log('State set - showCouponSection should be:', finalShowCouponValue);
 
     } catch (error) {
       console.error('Error loading homepage content:', error);
@@ -72,9 +81,13 @@ const UnifiedHomepageEditor = () => {
   };
 
   const saveAllContent = async () => {
+    console.log('=== SAVE ALL CONTENT CALLED ===');
+    console.log('showCouponSection value:', showCouponSection, typeof showCouponSection);
+    
     setLoading(true);
     try {
       // Use the sync service to save and synchronize SEO settings
+      console.log('About to call HomepageSEOSyncService...');
       const success = await HomepageSEOSyncService.updateHomepageContent({
         title: heroTitle,
         content: heroDescription,
@@ -83,13 +96,16 @@ const UnifiedHomepageEditor = () => {
         meta_title: metaTitle,
         meta_description: metaDescription
       });
+      console.log('HomepageSEOSyncService result:', success);
 
       // Save coupon widget settings
-      await Promise.all([
+      console.log('About to save coupon settings...');
+      const settingResults = await Promise.all([
         SiteSettingsService.setSetting('homepage_show_coupon_section', showCouponSection),
         SiteSettingsService.setSetting('homepage_coupon_code', couponCode),
         SiteSettingsService.setSetting('homepage_coupon_days', couponDays)
       ]);
+      console.log('Setting results:', settingResults);
 
       if (success) {
         toast.success('All homepage content and SEO settings saved successfully!');
@@ -235,7 +251,13 @@ const UnifiedHomepageEditor = () => {
                 <Switch
                   id="show-coupon"
                   checked={showCouponSection}
-                  onCheckedChange={setShowCouponSection}
+                  onCheckedChange={(checked) => {
+                    console.log('=== COUPON TOGGLE CHANGED ===');
+                    console.log('Previous value:', showCouponSection);
+                    console.log('New value:', checked);
+                    setShowCouponSection(checked);
+                    console.log('State updated to:', checked);
+                  }}
                 />
                 <Label htmlFor="show-coupon">
                   Show coupon section on homepage
