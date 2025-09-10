@@ -13,7 +13,7 @@ import { ImageUploadService } from '@/services/ImageUploadService';
 import { pageContentService } from '@/services/PageContentService';
 import BlogTypographySettings from '@/components/admin/BlogTypographySettings';
 import SocialMediaSettings from '@/components/admin/SocialMediaSettings';
-import AdminTranslations from './AdminTranslations';
+import AdminTranslationsContent from '@/components/admin/AdminTranslationsContent';
 
 interface GeneralSettings {
   siteName: string;
@@ -633,7 +633,7 @@ const AdminGeneral = () => {
             </TabsContent>
             
             <TabsContent value="translations" className="space-y-6">
-              <AdminTranslations />
+              <AdminTranslationsContent />
             </TabsContent>
           </Tabs>
         </div>

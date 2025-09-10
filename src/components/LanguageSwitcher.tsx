@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Globe } from 'lucide-react';
+import { SiteSettingsService } from '@/services/SiteSettingsService';
 
 interface Language {
   code: string;
@@ -29,8 +30,22 @@ const languages: Language[] = [
 
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ transparent = false }) => {
   const { i18n } = useTranslation();
+  const [translationsEnabled, setTranslationsEnabled] = useState(false);
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+
+  useEffect(() => {
+    const checkTranslationStatus = async () => {
+      try {
+        const enabled = await SiteSettingsService.getSetting('translation_system_enabled');
+        setTranslationsEnabled(enabled === true);
+      } catch (error) {
+        console.error('Error checking translation status:', error);
+        setTranslationsEnabled(false);
+      }
+    };
+    checkTranslationStatus();
+  }, []);
 
   const handleLanguageChange = (languageCode: string) => {
     i18n.changeLanguage(languageCode);
@@ -39,6 +54,10 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ transparent = false
     document.documentElement.dir = languageCode === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = languageCode;
   };
+
+  if (!translationsEnabled) {
+    return null;
+  }
 
   return (
     <DropdownMenu>
