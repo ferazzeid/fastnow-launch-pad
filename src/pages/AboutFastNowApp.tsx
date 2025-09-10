@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Clock, Activity, Utensils, Target } from 'lucide-react';
 import FAQSection from '@/components/FAQSection';
-import CouponOptInSection from '@/components/CouponOptInSection';
+
 import FreeAppSection from '@/components/FreeAppSection';
 
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -29,10 +29,8 @@ const AboutFastNowApp = () => {
   const [pageContent, setPageContent] = useState<any>(null);
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
   
-  // Widget settings
-  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon' | 'free'>('premium');
-  const [couponCode, setCouponCode] = useState('FASTNOW90');
-  const [couponDays, setCouponDays] = useState(90);
+  // Widget settings - removed coupon options
+  const [widgetMode, setWidgetMode] = useState<'premium' | 'free'>('premium');
   
   const [appSchema, setAppSchema] = useState<any>(null);
 
@@ -113,10 +111,8 @@ const AboutFastNowApp = () => {
           }));
         }
 
-        // Load widget settings
+        // Load widget settings - removed coupon options
         setWidgetMode(settings.about_app_widget_mode || 'premium');
-        setCouponCode(settings.about_app_coupon_code || 'FASTNOW90');
-        setCouponDays(settings.about_app_coupon_days || 90);
         
         setFeatureScreenshots(screenshots);
         setPageContent(pageData);
@@ -371,8 +367,6 @@ const AboutFastNowApp = () => {
               </p>
             </div>
           </div>
-        ) : widgetMode === 'coupon' ? (
-          <CouponOptInSection couponCode={couponCode} trialDays={couponDays} />
         ) : (
           <FreeAppSection />
         )}

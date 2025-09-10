@@ -35,10 +35,8 @@ const UnifiedAboutAppEditor = () => {
   const [savingFeature, setSavingFeature] = useState<string | null>(null);
   const [isUploadingFeatured, setIsUploadingFeatured] = useState(false);
   
-  // Widget Settings
-  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon' | 'free' | 'free_with_food_log'>('premium');
-  const [couponCode, setCouponCode] = useState('FASTNOW90');
-  const [couponDays, setCouponDays] = useState(90);
+  // Widget Settings - removed coupon options
+  const [widgetMode, setWidgetMode] = useState<'premium' | 'free'>('premium');
   
   const [loading, setLoading] = useState(false);
 
@@ -77,10 +75,8 @@ const UnifiedAboutAppEditor = () => {
         setMetaDescription(pageContent.meta_description || 'Discover the FastNow app features for intermittent fasting, food tracking, and health monitoring.');
       }
 
-      // Load widget settings from site settings
+      // Load widget settings from site settings - removed coupon options
       setWidgetMode(settings.about_app_widget_mode || 'premium');
-      setCouponCode(settings.about_app_coupon_code || 'FASTNOW90');
-      setCouponDays(settings.about_app_coupon_days || 90);
 
       setScreenshots(screenshots);
     } catch (error) {
@@ -103,10 +99,8 @@ const UnifiedAboutAppEditor = () => {
       
       await SiteSettingsService.setSetting('aboutAppContent', content);
 
-      // Save widget settings
+      // Save widget settings - removed coupon options
       await SiteSettingsService.setSetting('about_app_widget_mode', widgetMode);
-      await SiteSettingsService.setSetting('about_app_coupon_code', couponCode);
-      await SiteSettingsService.setSetting('about_app_coupon_days', couponDays);
 
       // Save SEO content to page content
       await pageContentService.savePageContent({
@@ -589,22 +583,10 @@ const UnifiedAboutAppEditor = () => {
                       name="widgetMode"
                       value="premium"
                       checked={widgetMode === 'premium'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free' | 'free_with_food_log')}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'free')}
                       className="form-radio"
                     />
                     <Label htmlFor="premium" className="text-sm">Premium Pricing Widget</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      id="coupon"
-                      name="widgetMode"
-                      value="coupon"
-                      checked={widgetMode === 'coupon'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free' | 'free_with_food_log')}
-                      className="form-radio"
-                    />
-                    <Label htmlFor="coupon" className="text-sm">Coupon Code Widget</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <input
@@ -613,54 +595,13 @@ const UnifiedAboutAppEditor = () => {
                       name="widgetMode"
                       value="free"
                       checked={widgetMode === 'free'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free' | 'free_with_food_log')}
+                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'free')}
                       className="form-radio"
                     />
                     <Label htmlFor="free" className="text-sm">Free (No Payment Required)</Label>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      id="free_with_food_log"
-                      name="widgetMode"
-                      value="free_with_food_log"
-                      checked={widgetMode === 'free_with_food_log'}
-                      onChange={(e) => setWidgetMode(e.target.value as 'premium' | 'coupon' | 'free' | 'free_with_food_log')}
-                      className="form-radio"
-                    />
-                    <Label htmlFor="free_with_food_log" className="text-sm">Free with Food Log (No AI Features)</Label>
-                  </div>
                 </div>
               </div>
-
-              {widgetMode === 'coupon' && (
-                <>
-                  <div>
-                    <Label htmlFor="couponCode">Coupon Code</Label>
-                    <Input
-                      id="couponCode"
-                      type="text"
-                      value={couponCode}
-                      onChange={(e) => setCouponCode(e.target.value)}
-                      placeholder="e.g., FASTNOW90"
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="couponDays">Trial Days</Label>
-                    <Input
-                      id="couponDays"
-                      type="number"
-                      value={couponDays}
-                      onChange={(e) => setCouponDays(parseInt(e.target.value) || 0)}
-                      placeholder="e.g., 90"
-                      min="1"
-                      className="mt-1"
-                    />
-                  </div>
-                </>
-              )}
 
               <div className="flex justify-end pt-4 border-t">
                 <Button onClick={saveAllContent} disabled={loading}>
