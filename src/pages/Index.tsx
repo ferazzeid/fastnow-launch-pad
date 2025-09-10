@@ -239,7 +239,7 @@ const Index = () => {
         }
 
         // Process coupon settings
-        setShowCouponSection(showCoupon !== null && showCoupon !== undefined ? Boolean(showCoupon) : true); // default to true
+        setShowCouponSection(showCoupon === null || showCoupon === undefined ? true : Boolean(showCoupon));
         setCouponCode(String(code || 'FASTNOW90'));
         setCouponDays(Number(days) || 90);
 

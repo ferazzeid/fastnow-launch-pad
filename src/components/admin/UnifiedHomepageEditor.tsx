@@ -59,7 +59,9 @@ const UnifiedHomepageEditor = () => {
         SiteSettingsService.getSetting('homepage_coupon_days')
       ]);
 
-      setShowCouponSection(showCoupon !== null && showCoupon !== undefined ? Boolean(showCoupon) : true); // default to true
+      // Handle boolean properly - if the setting doesn't exist, default to true
+      // If it exists and is explicitly false, respect that
+      setShowCouponSection(showCoupon === null || showCoupon === undefined ? true : Boolean(showCoupon));
       setCouponCode(String(code || 'FASTNOW90'));
       setCouponDays(Number(days) || 90);
 
