@@ -4,7 +4,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import PageFeaturedImage from '@/components/PageFeaturedImage';
 import { pageContentService } from '@/services/PageContentService';
 import { Button } from '@/components/ui/button';
-import { Activity } from 'lucide-react';
+import { ArrowLeft, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const WalkingProtocol = () => {
@@ -93,51 +93,58 @@ const WalkingProtocol = () => {
           className="absolute inset-0 w-full h-full object-cover opacity-20" 
           defaultAlt="Walking Protocol - Daily 90-Minute Walks"
         />
-        <div className="container max-w-6xl mx-auto px-4 relative z-20">
-          <div className="text-left max-w-3xl">
-            <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 border border-white/10">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-white/20 p-3 rounded-full">
-                  <Activity className="w-6 h-6 text-white" />
-                </div>
-                <div className="bg-white/20 rounded-full px-4 py-2 text-white font-medium">
-                  Phase 3
-                </div>
+        <div className="relative z-10 max-w-6xl mx-auto px-4">
+          <div className="mb-6">
+            <Button variant="ghost" asChild className="text-white border-white/30 hover:border-white/50 hover:bg-white/10">
+              <Link to="/fastnow-protocol">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to FastNow Protocol
+              </Link>
+            </Button>
+          </div>
+          
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-white/20 p-3 rounded-full">
+                <Activity className="w-6 h-6 text-white" />
               </div>
-              
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent mb-6 drop-shadow-lg">
-                {pageContent.title}
-              </h1>
-              
-              {pageContent.subtitle && (
-                <p className="text-lg md:text-xl text-white/90 mb-6 drop-shadow-md">
-                  {pageContent.subtitle}
-                </p>
-              )}
-              
-              <div className="mt-8 flex gap-4">
-                <Button 
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 inline-flex items-center gap-2 hover:shadow-xl hover:scale-105"
-                  asChild
-                >
-                  <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
-                    Track Your Walks
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
-                </Button>
-                
-                <Button 
-                  variant="outline"
-                  className="border-white/30 text-white hover:bg-white/10 px-6 py-3"
-                  asChild
-                >
-                  <Link to="/walking-calculator">
-                    Walking Calculator
-                  </Link>
-                </Button>
+              <div className="bg-white/20 rounded-full px-4 py-2 text-white font-medium">
+                Phase 3
               </div>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg">
+              {pageContent.title}
+            </h1>
+            
+            {pageContent.subtitle && (
+              <p className="text-xl text-white/90 mb-8 drop-shadow-md">
+                {pageContent.subtitle}
+              </p>
+            )}
+            
+            <div className="mt-8 flex gap-4">
+              <Button 
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 inline-flex items-center gap-2 hover:shadow-xl hover:scale-105"
+                asChild
+              >
+                <a href="https://go.fastnow.app" target="_blank" rel="noopener noreferrer">
+                  Track Your Walks
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </Button>
+              
+              <Button 
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/10 px-6 py-3"
+                asChild
+              >
+                <Link to="/walking-calculator">
+                  Walking Calculator
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
