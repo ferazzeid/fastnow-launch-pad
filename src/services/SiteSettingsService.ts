@@ -8,7 +8,7 @@ export class SiteSettingsService {
         .from('site_settings')
         .select('setting_value')
         .eq('setting_key', key)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching setting:', error);
