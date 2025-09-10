@@ -22,40 +22,50 @@ const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState<string[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+    
     // Check if user is authenticated as admin
     const authStatus = localStorage.getItem('fastingApp_auth');
     setIsAdmin(authStatus === 'true');
 
     const loadPosts = async () => {
-      const allPosts = await databaseBlogService.getAllPosts();
-      const publishedPosts = allPosts.filter(post => post.status === 'published');
-      setPosts(publishedPosts);
-      
-      // Split posts into "my experience" and others first
-      const experiencePosts = publishedPosts.filter(post => 
-        post.categories.some(cat => cat.toLowerCase().includes('my experience') || cat.toLowerCase().includes('experience'))
-      );
-      const generalPosts = publishedPosts.filter(post => 
-        !post.categories.some(cat => cat.toLowerCase().includes('my experience') || cat.toLowerCase().includes('experience'))
-      );
-      
-      // Get latest 3 "my experience" posts for the featured section
-      const latestExperiencePosts = experiencePosts
-        .sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime())
-        .slice(0, 3);
-      setLatestPosts(latestExperiencePosts);
-      
-      
-      setMyExperiencePosts(experiencePosts);
-      setOtherPosts(generalPosts);
-      setFilteredMyExperiencePosts(experiencePosts);
-      setFilteredOtherPosts(generalPosts);
-      
-      // Extract unique categories from non-experience posts
-      const uniqueCategories = Array.from(new Set(generalPosts.flatMap(post => post.categories)));
-      setCategories(uniqueCategories);
+      try {
+        const allPosts = await databaseBlogService.getAllPosts();
+        const publishedPosts = allPosts.filter(post => post.status === 'published');
+        setPosts(publishedPosts);
+        
+        // Split posts into "my experience" and others first
+        const experiencePosts = publishedPosts.filter(post => 
+          post.categories.some(cat => cat.toLowerCase().includes('my experience') || cat.toLowerCase().includes('experience'))
+        );
+        const generalPosts = publishedPosts.filter(post => 
+          !post.categories.some(cat => cat.toLowerCase().includes('my experience') || cat.toLowerCase().includes('experience'))
+        );
+        
+        // Get latest 3 "my experience" posts for the featured section
+        const latestExperiencePosts = experiencePosts
+          .sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime())
+          .slice(0, 3);
+        setLatestPosts(latestExperiencePosts);
+        
+        
+        setMyExperiencePosts(experiencePosts);
+        setOtherPosts(generalPosts);
+        setFilteredMyExperiencePosts(experiencePosts);
+        setFilteredOtherPosts(generalPosts);
+        
+        // Extract unique categories from non-experience posts
+        const uniqueCategories = Array.from(new Set(generalPosts.flatMap(post => post.categories)));
+        setCategories(uniqueCategories);
+      } catch (error) {
+        console.error('Error loading posts:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     loadPosts();
@@ -139,14 +149,24 @@ const Blog = () => {
           </div>
         </div>
 
-        {/* Posts Grid */}
-        {filteredOtherPosts.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No blog posts found.</p>
+        {/* Loading State */}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading blog posts...</p>
+            </div>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredOtherPosts.map((post) => (
+          <>
+            {/* Posts Grid */}
+            {filteredOtherPosts.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500 text-lg">No blog posts found.</p>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredOtherPosts.map((post) => (
               <Card key={post.id} className="hover:shadow-lg transition-shadow">
                 {post.featuredImage && (
                   <Link to={`/blog/${post.slug}`} className="block">
@@ -207,8 +227,10 @@ const Blog = () => {
                   </div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         {/* My Experience Section - Always shows all "my experience" posts */}

@@ -604,7 +604,7 @@ const Index = () => {
               </div>
               
               <div className="text-center mt-8">
-                <Link to="/blog">
+                <Link to="/blog" onClick={() => window.scrollTo(0, 0)}>
                   <Button variant="outline" className="px-8">
                     View All Posts
                     <ArrowRight className="w-4 h-4 ml-2" />

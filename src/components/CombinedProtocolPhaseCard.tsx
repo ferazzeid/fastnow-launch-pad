@@ -14,7 +14,7 @@ export const CombinedProtocolPhaseCard: React.FC<CombinedProtocolPhaseCardProps>
     <div className={cn("flex flex-col items-center", className)}>
       <CeramicPlate size="lg" className="mb-4">
         <div className="flex items-center justify-center h-full text-center p-4">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col items-center gap-1">
             {/* Phase 1: Water Fast */}
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4 text-black" />
@@ -24,7 +24,7 @@ export const CombinedProtocolPhaseCard: React.FC<CombinedProtocolPhaseCardProps>
             </div>
             
             {/* Plus Sign */}
-            <div className="flex items-center justify-center mx-1">
+            <div className="flex items-center justify-center">
               <div className="w-3 h-3 flex items-center justify-center text-xs font-bold text-muted-foreground">
                 +
               </div>
@@ -39,7 +39,7 @@ export const CombinedProtocolPhaseCard: React.FC<CombinedProtocolPhaseCardProps>
             </div>
             
             {/* Plus Sign */}
-            <div className="flex items-center justify-center mx-1">
+            <div className="flex items-center justify-center">
               <div className="w-3 h-3 flex items-center justify-center text-xs font-bold text-muted-foreground">
                 +
               </div>
