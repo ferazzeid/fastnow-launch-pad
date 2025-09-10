@@ -173,7 +173,7 @@ const AboutFastNowApp = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[85vh] flex items-center justify-center pt-6 md:pt-10">
+      <section className="relative z-10 min-h-[80vh] flex items-center justify-center pt-6 md:pt-10 pb-0">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
             {/* Mobile: Phone first, Desktop: Content first */}
@@ -233,7 +233,7 @@ const AboutFastNowApp = () => {
       </section>
 
       {/* Discover Features Black Stripe */}
-      <div className="relative z-10 bg-gray-900 py-4">
+      <div className="relative z-10 bg-gray-900 py-4 -mt-4">
         <div className="container">
           <h2 className="text-3xl font-bold text-center text-white">
             {content.featuresTitle}
