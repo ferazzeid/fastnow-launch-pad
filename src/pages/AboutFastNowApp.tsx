@@ -11,7 +11,7 @@ import { Clock, Activity, Utensils, Target } from 'lucide-react';
 import FAQSection from '@/components/FAQSection';
 import CouponOptInSection from '@/components/CouponOptInSection';
 import FreeAppSection from '@/components/FreeAppSection';
-import FreeWithFoodLogSection from '@/components/FreeWithFoodLogSection';
+
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteSettingsService } from '@/services/SiteSettingsService';
 import { FeatureScreenshotService, FeatureScreenshot } from '@/services/FeatureScreenshotService';
@@ -30,7 +30,7 @@ const AboutFastNowApp = () => {
   const [featureScreenshots, setFeatureScreenshots] = useState<FeatureScreenshot[]>([]);
   
   // Widget settings
-  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon' | 'free' | 'free_with_food_log'>('premium');
+  const [widgetMode, setWidgetMode] = useState<'premium' | 'coupon' | 'free'>('premium');
   const [couponCode, setCouponCode] = useState('FASTNOW90');
   const [couponDays, setCouponDays] = useState(90);
   
@@ -241,7 +241,7 @@ const AboutFastNowApp = () => {
       </section>
 
       {/* Discover Features Black Stripe */}
-      <div className="relative z-10 bg-gray-900 py-8">
+      <div className="relative z-10 bg-gray-900 py-4">
         <div className="container">
           <h2 className="text-3xl font-bold text-center text-white">
             {content.featuresTitle}
@@ -373,8 +373,6 @@ const AboutFastNowApp = () => {
           </div>
         ) : widgetMode === 'coupon' ? (
           <CouponOptInSection couponCode={couponCode} trialDays={couponDays} />
-        ) : widgetMode === 'free_with_food_log' ? (
-          <FreeWithFoodLogSection />
         ) : (
           <FreeAppSection />
         )}

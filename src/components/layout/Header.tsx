@@ -172,26 +172,10 @@ const Header: React.FC<HeaderProps> = ({ transparent = false }) => {
         </Link>
         
         <div className="flex items-center gap-2">
-          {/* Language Switcher - Always visible on desktop, separate on mobile */}
-          {!isMobile && <LanguageSwitcher transparent={transparent} />}
-          
           <MainNavigation transparent={transparent} />
           
-          {/* Language Switcher for Mobile - positioned separately */}
-          {isMobile && <LanguageSwitcher transparent={transparent} />}
-          
-          {/* Admin Translation Button */}
-          {isAdmin && pageInfo && (
-            <AdminTranslateButton
-              pageKey={pageInfo.pageKey}
-              pageType={pageInfo.pageType}
-              className={`${
-                transparent 
-                  ? 'text-white border-white/30 hover:border-white/50 hover:bg-white/10' 
-                  : 'text-gray-900 border-gray-300 hover:border-gray-400 hover:bg-gray-50'
-              }`}
-            />
-          )}
+          {/* Language Switcher - moved to the far right */}
+          <LanguageSwitcher transparent={transparent} />
         </div>
       </div>
     </header>
